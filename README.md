@@ -138,7 +138,9 @@ ANA MAX is a **free, open-source project** built with passion by a solo develope
 - 🌍 **Keep ANA MAX free** – Support ensures this stays open-source for everyone
 - ❤️ **Fuel independent development** – Your contribution keeps the project alive
 
-*Every donation, no matter how small, makes a huge difference!* 💪
+**PayPal:** Send donations to `oana_alicia347@yahoo.com`
+
+*Every donation, no matter how small, makes a huge difference!* 
 
 ---
 
