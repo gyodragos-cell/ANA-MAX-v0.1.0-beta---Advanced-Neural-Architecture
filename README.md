@@ -20,7 +20,7 @@
 
 ---
 
-## 🎯 What is ANA MAX?
+##  What is ANA MAX?
 
 ANA MAX is a **self‑contained, offline AI‑agent** that runs on Windows and can **control the OS natively**.  It uses:
 - **pywinauto / UIAutomation** for pixel‑perfect UI interaction (no OCR).  
@@ -32,6 +32,25 @@ It is designed to be **fully offline** – no internet calls are required once t
 - Automated UI testing.
 - Personal productivity assistants that can click, type and read windows.
 - Secure, on‑premise AI workflows where data never leaves the machine.
+
+##  Works With Popular AI Tools
+
+ANA MAX integrates seamlessly with:
+- **Qoder** - AI-powered IDE with MCP support
+- **Cursor** - The AI-first code editor
+- **Windsurf** - Agentic IDE for developers
+- **Antigravity** - AI coding assistant
+- **OpenCode** - Built-in MCP bridge
+- **Ollama** - Local LLMs for offline use
+- **Any MCP-compatible client**
+
+## 💡 Similar Projects
+
+If you're interested in AI automation, also check out:
+- **[AdalFlow](https://github.com/SylphAI-Inc/AdalFlow)** - LLM application framework
+- **[Qoder AI](https://qoder.com)** - AI-powered development environment
+- **[Cursor](https://cursor.sh)** - AI-first code editor
+- **[Windsurf](https://windsurf.com)** - Agentic IDE
 
 ## Why Windows only?
 All low‑level interactions (UIA, window handles, DPI‑aware screenshots) rely on the Windows API, which gives us deterministic, fast, and secure control of the desktop.  The current code base has been thoroughly tested on Windows 10/11.
