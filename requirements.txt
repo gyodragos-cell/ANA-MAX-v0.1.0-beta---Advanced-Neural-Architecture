@@ -1,0 +1,28 @@
+﻿# ANA MAX - Python Dependencies
+# Install: pip install -r requirements.txt
+
+# Core MCP Server
+flask>=2.3.0
+requests>=2.31.0
+pydantic>=2.0.0
+
+# Desktop Automation
+pywinauto>=0.6.8
+psutil>=5.9.0
+
+# Web & Browser
+selenium>=4.15.0
+beautifulsoup4>=4.12.0
+
+# Code Intelligence
+watchdog>=3.0.0
+chardet>=5.2.0
+
+# Security Tools
+frida>=16.1.0
+cryptography>=41.0.0
+
+# Utilities
+pyyaml>=6.0
+colorama>=0.4.6
+Pillow>=10.0.0
