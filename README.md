@@ -1,0 +1,2 @@
+# ANA MAX v0.1.0-beta - Advanced Neural Architecture
+Windows AI Agent with 42 MCP Tools  Features: - Desktop UI Automation (Calculator, Notepad, any Windows app) - Code editing, search & intelligence - Web automation & scraping - System monitoring & optimization - Git operations & debugging - Security auditing & network diagnostics - ADB & Frida mobile tools  Trial Version: 42 free tools Pro Version: +5 premium desktop vision tools  Tech Stack: Python, Flask, pywinauto, MCP Protocol
