@@ -65,7 +65,7 @@ ANA MAX is a **free, open-source project** built with passion! If this tool help
 
 - **GitHub Sponsors:** [Support on GitHub](https://github.com/sponsors/gyodragos-cell)
 - **PayPal:** [Donate via PayPal.me/oana_alicia347](https://paypal.me/oana_alicia347)
-- **Buy Me a Coffee:** [Buy Me a Coffee](https://www.buymeacoffee.com/oana_alicia347)
+- **Buy Me a Coffee:** [Buy Me a Coffee](https://www.buymeacoffee.com/gyodragosw)
 
 **Why donate?**
 - 🖥️ Help me get a better PC for development

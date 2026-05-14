@@ -78,7 +78,7 @@ def _build_runtime_agent():
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="ANA MAX - MCP Server cu 35+ tools, AI Desktop Control pentru OpenCode"
+        description="ANA MAX - MCP Server cu 56+ tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
     )
     parser.add_argument("--port", "-p", type=int, default=8765, help="Port MCP server (default: 8765)")
     parser.add_argument("--host", default="127.0.0.1", help="Host MCP server (default: 127.0.0.1)")
@@ -93,7 +93,8 @@ def _print_banner() -> None:
         """
 ====================================================================
      A.N.A. MAX - Arhitectura Neurala Avansata
-     MCP Server | 35+ Tools | AI Desktop Control | OpenCode Ready
+     MCP Server | 56+ Tools | AI Desktop Control | OpenCode Ready
+     AI Core: Context Engine, Memory Cortex, Orchestrator
 ====================================================================
 """.strip()
     )
@@ -252,6 +253,23 @@ def _register_all_tools():
             print(f"  [OK] {tool_instance.get_definition().name} (DESKTOP CONTROL)")
         except Exception as e:
             logging.getLogger(__name__).warning("Desktop tool skipped %s.%s: %s", module_path, class_name, e)
+
+    # AI Core adapters (context_engine, proactive_interrupt, self_evolving,
+    # memory_cortex, orchestrator, context_bridge, window_manager)
+    try:
+        from tools.tool_adapters import ANA_ADAPTER_CLASSES
+        for AdapterClass in ANA_ADAPTER_CLASSES:
+            try:
+                instance = AdapterClass()
+                registry.register(instance)
+                loaded += 1
+                print(f"  [OK] {instance.get_definition().name} (AI CORE)")
+            except Exception as e:
+                logging.getLogger(__name__).warning(
+                    "AI Core adapter skipped %s: %s", AdapterClass.__name__, e
+                )
+    except ImportError as e:
+        logging.getLogger(__name__).warning("tool_adapters.py nu a putut fi incarcat: %s", e)
 
     return loaded
 

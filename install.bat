@@ -47,6 +47,20 @@ if %errorlevel% neq 0 (
 echo OK: Dependencies installed
 echo.
 
+echo [3.5/5] Installing optional OCR dependencies...
+echo Installing mss and pillow (for screenshots and OCR)...
+pip install mss pillow
+if %errorlevel% neq 0 (
+    echo WARNING: Failed to install mss/pillow
+    echo OCR and screenshot features may not work
+) else (
+    echo OK: mss and pillow installed
+)
+echo.
+echo For full OCR support, run (optional):
+echo   pip install paddleocr paddlepaddle
+echo.
+
 echo [4/5] Checking ADB (optional - for Android tools)...
 adb version >nul 2>&1
 if %errorlevel% neq 0 (
@@ -77,6 +91,13 @@ echo   python main.py
 echo.
 echo Then connect your MCP client to:
 echo   http://127.0.0.1:8765
+echo.
+echo Features installed:
+echo   - 51+ MCP Tools (including 9 AI Core tools)
+echo   - Desktop Control (UIA, screenshots, window management)
+echo   - AI Intelligence (context, memory, evolution, orchestration)
+echo   - Security Tools (pentest, MITM, scanning)
+echo   - Mobile Tools (ADB, Frida, APK analysis)
 echo.
 echo For detailed instructions, see: INSTALL_GUIDE.md
 echo.

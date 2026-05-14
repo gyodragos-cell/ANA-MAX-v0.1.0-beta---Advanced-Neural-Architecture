@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANA MAX — Advanced Neural Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0e0f11;
+    --bg2:        #151619;
+    --bg3:        #1c1e22;
+    --border:     rgba(255,255,255,0.08);
+    --border2:    rgba(255,255,255,0.14);
+    --text:       #e8e6e0;
+    --muted:      #7a7870;
+    --purple:     #7f77dd;
+    --purple-dim: rgba(127,119,221,0.15);
+    --teal:       #1d9e75;
+    --teal-dim:   rgba(29,158,117,0.15);
+    --coral:      #d85a30;
+    --amber:      #ba7517;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  header { text-align: center; margin-bottom: 48px; }
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em;
+    color: var(--teal);
+    border: 1px solid rgba(29,158,117,0.35);
+    padding: 4px 14px; border-radius: 20px; margin-bottom: 20px;
+  }
+  header h1 { font-size: clamp(28px,5vw,52px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  header h1 span { color: var(--purple); }
+  header p { margin-top: 12px; color: var(--muted); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
+
+  /* ── STATS ROW ── */
+  .stats {
+    display: flex; gap: 24px; margin-bottom: 44px; flex-wrap: wrap; justify-content: center;
+  }
+  .stat {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 22px; text-align: center;
+  }
+  .stat .num { font-size: 26px; font-weight: 700; color: var(--teal); font-family: 'JetBrains Mono', monospace; }
+  .stat .lbl { font-size: 11px; color: var(--muted); margin-top: 3px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
+  .tab {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    padding: 7px 18px; border-radius: 20px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+  }
+  .tab:hover { border-color: var(--border2); color: var(--text); }
+  .tab.active { background: var(--purple-dim); border-color: rgba(127,119,221,0.4); color: #afa9ec; }
+
+  /* ── DIAGRAM SECTIONS ── */
+  .diagram-section { display: none; width: 100%; max-width: 920px; }
+  .diagram-section.active { display: block; }
+  .diagram-wrap { width: 100%; overflow-x: auto; }
+
+  /* ── SVG NODES ── */
+  .node { cursor: pointer; transition: opacity 0.18s; }
+  .node:hover { opacity: 0.75; }
+
+  text.title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; }
+  text.sub   { font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+
+  .c-purple rect { fill: rgba(127,119,221,0.12); stroke: rgba(127,119,221,0.5); stroke-width: 0.7; }
+  .c-purple text.title { fill: #afa9ec; } .c-purple text.sub { fill: #7f77dd; }
+
+  .c-teal rect { fill: rgba(29,158,117,0.12); stroke: rgba(29,158,117,0.5); stroke-width: 0.7; }
+  .c-teal text.title { fill: #5dcaa5; } .c-teal text.sub { fill: #1d9e75; }
+
+  .c-coral rect { fill: rgba(216,90,48,0.10); stroke: rgba(216,90,48,0.45); stroke-width: 0.7; }
+  .c-coral text.title { fill: #f0997b; } .c-coral text.sub { fill: #d85a30; }
+
+  .c-amber rect { fill: rgba(186,117,23,0.12); stroke: rgba(186,117,23,0.45); stroke-width: 0.7; }
+  .c-amber text.title { fill: #fac775; } .c-amber text.sub { fill: #ba7517; }
+
+  .c-gray rect { fill: rgba(255,255,255,0.04); stroke: rgba(255,255,255,0.12); stroke-width: 0.5; }
+  .c-gray text.title { fill: #b4b2a9; } .c-gray text.sub { fill: #5f5e5a; }
+
+  .c-mono rect { fill: rgba(255,255,255,0.03); stroke: rgba(255,255,255,0.08); stroke-width: 0.5; }
+  .c-mono text { fill: #5f5e5a; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .c-mono text.k { fill: #7f77dd; } .c-mono text.val { fill: #1d9e75; }
+
+  line.arr, path.arr { stroke: rgba(255,255,255,0.18); stroke-width: 1.2; fill: none; }
+  line.arr2, path.arr2 { stroke: rgba(29,158,117,0.4); stroke-width: 1.2; fill: none; stroke-dasharray: 5 4; }
+
+  /* ── INFO PANEL ── */
+  #info-panel {
+    width: 100%; max-width: 920px; margin-top: 28px;
+    border: 1px solid var(--border2); border-radius: 12px;
+    background: var(--bg2); padding: 22px 26px;
+    transition: all 0.22s; min-height: 88px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  #info-panel .icon {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; background: var(--purple-dim);
+    border: 1px solid rgba(127,119,221,0.25);
+  }
+  #info-panel .content h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  #info-panel .content p  { font-size: 13px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; }
+  #info-panel .content code {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1px 6px; font-size: 11px; color: var(--teal);
+  }
+
+  /* ── CONFIG BLOCK ── */
+  .config-block {
+    width: 100%; max-width: 920px; margin-top: 24px;
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .config-block + .config-block { margin-top: 14px; }
+  .config-block .bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 18px; border-bottom: 1px solid var(--border); background: var(--bg3);
+  }
+  .config-block .bar span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+  .copy-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border2);
+    background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+  .config-block pre { padding: 18px 22px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; color: var(--text); overflow-x: auto; }
+  .config-block pre .k { color: #afa9ec; }
+  .config-block pre .s { color: #5dcaa5; }
+  .config-block pre .c { color: var(--muted); }
+
+  /* ── AI CORE CARDS (tab 3) ── */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; width: 100%; max-width: 920px; }
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+  .card.open { border-color: rgba(127,119,221,0.4); }
+  .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .card-icon { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .card-icon.teal   { background: rgba(29,158,117,0.15);  border: 1px solid rgba(29,158,117,0.3); }
+  .card-icon.purple { background: rgba(127,119,221,0.15); border: 1px solid rgba(127,119,221,0.3); }
+  .card-icon.amber  { background: rgba(186,117,23,0.15);  border: 1px solid rgba(186,117,23,0.3); }
+  .card-icon.coral  { background: rgba(216,90,48,0.12);   border: 1px solid rgba(216,90,48,0.3); }
+  .card h3 { font-size: 13px; font-weight: 600; color: var(--text); }
+  .card .file { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .card .tag  { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(29,158,117,0.12); color: var(--teal); border: 1px solid rgba(29,158,117,0.2); margin-left: auto; }
+  .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .card.open .card-body { display: block; }
+  .card-body p  { font-size: 12px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
+  .card-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .card-body li { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; display: flex; gap: 8px; }
+  .card-body li::before { content: '→'; color: var(--teal); flex-shrink: 0; }
+  .card-body code { background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--teal); }
+
+  /* ── FOOTER ── */
+  footer { margin-top: 64px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+  footer a { color: var(--purple); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">v0.1.0-beta · Windows AI Agent</div>
+  <h1>ANA <span>MAX</span></h1>
+  <p>Advanced Neural Architecture · MCP Bridge · 127.0.0.1:8765</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="num">42+</div><div class="lbl">MCP Tools</div></div>
+  <div class="stat"><div class="num">7</div><div class="lbl">AI Core Modules</div></div>
+  <div class="stat"><div class="num">:8765</div><div class="lbl">MCP Port</div></div>
+  <div class="stat"><div class="num">SQLite</div><div class="lbl">Persistent Memory</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('architecture')">arhitectura</button>
+  <button class="tab" onclick="switchTab('connection')">conexiune MCP</button>
+  <button class="tab" onclick="switchTab('aicore')">AI core modules</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — ARHITECTURA COMPLETA
+══════════════════════════════════════════ -->
+<div class="diagram-section active" id="tab-architecture">
+<div class="diagram-wrap">
+<svg width="100%" viewBox="0 0 860 730" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a1t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(29,158,117,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- ROW 0 — Clients -->
+<g class="node c-purple" onclick="showInfo('clients')">
+  <rect x="280" y="18" width="300" height="50" rx="8"/>
+  <text class="title" x="430" y="39" text-anchor="middle" dominant-baseline="central">Claude · Cursor · Windsurf</text>
+  <text class="sub"   x="430" y="57" text-anchor="middle" dominant-baseline="central">MCP clients</text>
+</g>
+<line x1="430" y1="68" x2="430" y2="90" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+
+<!-- ROW 1 — MCP Server -->
+<g class="node c-teal" onclick="showInfo('mcp')">
+  <rect x="200" y="90" width="460" height="54" rx="8"/>
+  <text class="title" x="430" y="112" text-anchor="middle" dominant-baseline="central">main.py · MCP Server :8765</text>
+  <text class="sub"   x="430" y="130" text-anchor="middle" dominant-baseline="central">_register_all_tools() · Flask · JSON-RPC 2.0</text>
+</g>
+<line x1="430" y1="144" x2="430" y2="166" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+
+<!-- ROW 2 — tool_adapters -->
+<g class="node c-teal" onclick="showInfo('adapters')">
+  <rect x="270" y="166" width="320" height="52" rx="8"/>
+  <text class="title" x="430" y="186" text-anchor="middle" dominant-baseline="central">tool_adapters.py  ✦ NOU</text>
+  <text class="sub"   x="430" y="204" text-anchor="middle" dominant-baseline="central">7 wrapper-e → interfata registry</text>
+</g>
+
+<!-- fan arrows adapters → AI Core -->
+<path d="M336 218 L109 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M362 218 L257 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M400 218 L405 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M430 218 L553 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M458 218 L687 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M480 218 L792 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<!-- orchestrator separate arrow -->
+<path d="M380 218 L185 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+
+<!-- ROW 3 — AI Core (6 componente + orchestrator row 4) -->
+
+<!-- context_engine -->
+<g class="node c-teal" onclick="showInfo('context_engine')">
+  <rect x="40" y="268" width="130" height="66" rx="8"/>
+  <text class="title" x="105" y="287" text-anchor="middle" dominant-baseline="central">context</text>
+  <text class="title" x="105" y="303" text-anchor="middle" dominant-baseline="central">engine</text>
+  <text class="sub"   x="105" y="321" text-anchor="middle" dominant-baseline="central">observa · prezice</text>
+</g>
+
+<!-- proactive_interrupt -->
+<g class="node c-teal" onclick="showInfo('proactive')">
+  <rect x="186" y="268" width="130" height="66" rx="8"/>
+  <text class="title" x="251" y="287" text-anchor="middle" dominant-baseline="central">proactive</text>
+  <text class="title" x="251" y="303" text-anchor="middle" dominant-baseline="central">interrupt</text>
+  <text class="sub"   x="251" y="321" text-anchor="middle" dominant-baseline="central">5 detectori</text>
+</g>
+
+<!-- memory_cortex -->
+<g class="node c-purple" onclick="showInfo('memory_cortex')">
+  <rect x="332" y="268" width="130" height="66" rx="8"/>
+  <text class="title" x="397" y="287" text-anchor="middle" dominant-baseline="central">memory</text>
+  <text class="title" x="397" y="303" text-anchor="middle" dominant-baseline="central">cortex</text>
+  <text class="sub"   x="397" y="321" text-anchor="middle" dominant-baseline="central">4 tipuri memorie</text>
+</g>
+
+<!-- self_evolving -->
+<g class="node c-amber" onclick="showInfo('self_evolving')">
+  <rect x="478" y="268" width="130" height="66" rx="8"/>
+  <text class="title" x="543" y="287" text-anchor="middle" dominant-baseline="central">self</text>
+  <text class="title" x="543" y="303" text-anchor="middle" dominant-baseline="central">evolving</text>
+  <text class="sub"   x="543" y="321" text-anchor="middle" dominant-baseline="central">auto-heal · rollback</text>
+</g>
+
+<!-- context_bridge -->
+<g class="node c-purple" onclick="showInfo('context_bridge')">
+  <rect x="624" y="268" width="120" height="66" rx="8"/>
+  <text class="title" x="684" y="287" text-anchor="middle" dominant-baseline="central">context</text>
+  <text class="title" x="684" y="303" text-anchor="middle" dominant-baseline="central">bridge</text>
+  <text class="sub"   x="684" y="321" text-anchor="middle" dominant-baseline="central">sesiuni SQLite</text>
+</g>
+
+<!-- window_manager -->
+<g class="node c-teal" onclick="showInfo('window_manager')">
+  <rect x="756" y="268" width="86" height="66" rx="8"/>
+  <text class="title" x="799" y="287" text-anchor="middle" dominant-baseline="central">window</text>
+  <text class="title" x="799" y="303" text-anchor="middle" dominant-baseline="central">manager</text>
+  <text class="sub"   x="799" y="321" text-anchor="middle" dominant-baseline="central">snap · tile</text>
+</g>
+
+<!-- internal links AI Core → orchestrator -->
+<line x1="105" y1="334" x2="105" y2="356" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M397 334 L397 354 L240 354 L240 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M543 334 L543 358 L260 358 L260 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M684 334 L684 362 L280 362 L280 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<!-- proactive ← context_engine (feedback) -->
+<line x1="186" y1="299" x2="170" y2="299" stroke="rgba(29,158,117,0.4)" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#a1t)"/>
+
+<!-- ROW 4 — Orchestrator -->
+<g class="node c-coral" onclick="showInfo('orchestrator')">
+  <rect x="40" y="370" width="300" height="66" rx="8"/>
+  <text class="title" x="190" y="390" text-anchor="middle" dominant-baseline="central">ana_orchestrator</text>
+  <text class="sub"   x="190" y="408" text-anchor="middle" dominant-baseline="central">VEDE · GANDESTE · PLANIFICA</text>
+  <text class="sub"   x="190" y="424" text-anchor="middle" dominant-baseline="central">EXECUTA · VERIFICA · INVATA</text>
+</g>
+
+<!-- orchestrator → tools -->
+<line x1="190" y1="436" x2="190" y2="462" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+
+<!-- ROW 5 — Tools container -->
+<rect x="40" y="462" width="780" height="148" rx="10" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="6 4"/>
+<text class="sub" x="430" y="480" text-anchor="middle" fill="#5f5e5a">42 MCP tools — tooluri originale din repo</text>
+
+<!-- tools row 1 -->
+<g class="node c-gray" onclick="showInfo('uia')">
+  <rect x="56" y="488" width="148" height="44" rx="6"/>
+  <text class="title" x="130" y="506" text-anchor="middle" dominant-baseline="central">windows_uia_bridge</text>
+  <text class="sub"   x="130" y="522" text-anchor="middle" dominant-baseline="central">click · type · read</text>
+</g>
+<g class="node c-gray" onclick="showInfo('desktop_capture')">
+  <rect x="212" y="488" width="126" height="44" rx="6"/>
+  <text class="title" x="275" y="506" text-anchor="middle" dominant-baseline="central">desktop_capture</text>
+  <text class="sub"   x="275" y="522" text-anchor="middle" dominant-baseline="central">screenshot</text>
+</g>
+<g class="node c-gray" onclick="showInfo('terminal')">
+  <rect x="346" y="488" width="110" height="44" rx="6"/>
+  <text class="title" x="401" y="506" text-anchor="middle" dominant-baseline="central">terminal_tool</text>
+  <text class="sub"   x="401" y="522" text-anchor="middle" dominant-baseline="central">PowerShell</text>
+</g>
+<g class="node c-gray" onclick="showInfo('memory_tool')">
+  <rect x="464" y="488" width="110" height="44" rx="6"/>
+  <text class="title" x="519" y="506" text-anchor="middle" dominant-baseline="central">memory_tool</text>
+  <text class="sub"   x="519" y="522" text-anchor="middle" dominant-baseline="central">key-value SQLite</text>
+</g>
+<g class="node c-gray" onclick="showInfo('more_tools')">
+  <rect x="582" y="488" width="220" height="44" rx="6"/>
+  <text class="title" x="692" y="506" text-anchor="middle" dominant-baseline="central">+ 38 tools</text>
+  <text class="sub"   x="692" y="522" text-anchor="middle" dominant-baseline="central">git · web · qa · adb · frida · ocr...</text>
+</g>
+
+<!-- tools row 2 -->
+<g class="node c-gray" onclick="showInfo('desktop_control')">
+  <rect x="56" y="542" width="132" height="44" rx="6"/>
+  <text class="title" x="122" y="560" text-anchor="middle" dominant-baseline="central">desktop_control</text>
+  <text class="sub"   x="122" y="576" text-anchor="middle" dominant-baseline="central">mouse · keyboard</text>
+</g>
+<g class="node c-gray" onclick="showInfo('ocr')">
+  <rect x="196" y="542" width="104" height="44" rx="6"/>
+  <text class="title" x="248" y="560" text-anchor="middle" dominant-baseline="central">ocr_tool</text>
+  <text class="sub"   x="248" y="576" text-anchor="middle" dominant-baseline="central">PaddleOCR</text>
+</g>
+<g class="node c-gray" onclick="showInfo('insight')">
+  <rect x="308" y="542" width="148" height="44" rx="6"/>
+  <text class="title" x="382" y="560" text-anchor="middle" dominant-baseline="central">windows_insight</text>
+  <text class="sub"   x="382" y="576" text-anchor="middle" dominant-baseline="central">diagnostics avansate</text>
+</g>
+<g class="node c-gray" onclick="showInfo('clipboard')">
+  <rect x="464" y="542" width="148" height="44" rx="6"/>
+  <text class="title" x="538" y="560" text-anchor="middle" dominant-baseline="central">clipboard_manager</text>
+  <text class="sub"   x="538" y="576" text-anchor="middle" dominant-baseline="central">istoric clipboard</text>
+</g>
+<g class="node c-gray" onclick="showInfo('deep_sight')">
+  <rect x="620" y="542" width="182" height="44" rx="6"/>
+  <text class="title" x="711" y="560" text-anchor="middle" dominant-baseline="central">windows_deep_sight</text>
+  <text class="sub"   x="711" y="576" text-anchor="middle" dominant-baseline="central">god view · premium</text>
+</g>
+
+<!-- ROW 6 — SQLite -->
+<line x1="430" y1="610" x2="430" y2="644" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a1t)"/>
+<g class="node c-gray" onclick="showInfo('sqlite')">
+  <rect x="230" y="644" width="400" height="54" rx="8"/>
+  <text class="title" x="430" y="664" text-anchor="middle" dominant-baseline="central">ana_memory.db (SQLite)</text>
+  <text class="sub"   x="430" y="682" text-anchor="middle" dominant-baseline="central">sesiuni · patterns · erori · evolutie · changelog</text>
+</g>
+
+<!-- legenda -->
+<rect x="40" y="712" width="10" height="8" rx="2" fill="rgba(29,158,117,0.5)"/>
+<text class="sub" x="56" y="716" dominant-baseline="central" fill="#5f5e5a">componente noi (AI Core)</text>
+<rect x="240" y="712" width="10" height="8" rx="2" fill="rgba(127,119,221,0.4)"/>
+<text class="sub" x="256" y="716" dominant-baseline="central" fill="#5f5e5a">memorie / orchestrare</text>
+<rect x="430" y="712" width="10" height="8" rx="2" fill="rgba(216,90,48,0.4)"/>
+<text class="sub" x="446" y="716" dominant-baseline="central" fill="#5f5e5a">orchestrator</text>
+<rect x="570" y="712" width="10" height="8" rx="2" fill="rgba(255,255,255,0.08)"/>
+<text class="sub" x="586" y="716" dominant-baseline="central" fill="#5f5e5a">tooluri existente</text>
+</svg>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — CONEXIUNE MCP
+══════════════════════════════════════════ -->
+<div class="diagram-section" id="tab-connection">
+<div class="diagram-wrap">
+<svg width="100%" viewBox="0 0 860 430" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a2t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(29,158,117,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Claude Desktop -->
+<g class="node c-purple" onclick="showInfo('claude_config')">
+  <rect x="30" y="40" width="210" height="60" rx="8"/>
+  <text class="title" x="135" y="62" text-anchor="middle" dominant-baseline="central">Claude Desktop</text>
+  <text class="sub"   x="135" y="80" text-anchor="middle" dominant-baseline="central">claude_desktop_config.json</text>
+</g>
+
+<!-- Cursor / Windsurf -->
+<g class="node c-purple" onclick="showInfo('cursor_config')">
+  <rect x="30" y="126" width="210" height="60" rx="8"/>
+  <text class="title" x="135" y="148" text-anchor="middle" dominant-baseline="central">Cursor / Windsurf</text>
+  <text class="sub"   x="135" y="166" text-anchor="middle" dominant-baseline="central">Settings → MCP → Add URL</text>
+</g>
+
+<!-- arrows to MCP -->
+<path d="M240 70 L310 70 L310 186 L350 186" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
+<path d="M240 156 L310 156 L310 186 L350 186" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
+
+<!-- MCP Server -->
+<g class="node c-teal" onclick="showInfo('mcp_server')">
+  <rect x="350" y="150" width="210" height="72" rx="8"/>
+  <text class="title" x="455" y="174" text-anchor="middle" dominant-baseline="central">MCP Server :8765</text>
+  <text class="sub"   x="455" y="192" text-anchor="middle" dominant-baseline="central">POST /mcp</text>
+  <text class="sub"   x="455" y="208" text-anchor="middle" dominant-baseline="central">JSON-RPC 2.0</text>
+</g>
+<line x1="560" y1="186" x2="620" y2="186" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
+
+<!-- ANA Tools -->
+<g class="node c-coral" onclick="showInfo('ana_tools')">
+  <rect x="620" y="150" width="210" height="72" rx="8"/>
+  <text class="title" x="725" y="172" text-anchor="middle" dominant-baseline="central">ANA MAX Tools</text>
+  <text class="sub"   x="725" y="190" text-anchor="middle" dominant-baseline="central">42+ unelte MCP</text>
+  <text class="sub"   x="725" y="208" text-anchor="middle" dominant-baseline="central">executa pe Windows</text>
+</g>
+
+<!-- result back -->
+<path d="M620 210 L580 210 L580 290 L350 290 L350 280" fill="none" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
+
+<!-- Result JSON -->
+<g class="node c-gray" onclick="showInfo('result_json')">
+  <rect x="130" y="258" width="220" height="52" rx="8"/>
+  <text class="title" x="240" y="278" text-anchor="middle" dominant-baseline="central">Rezultat JSON</text>
+  <text class="sub"   x="240" y="296" text-anchor="middle" dominant-baseline="central">success · data · error</text>
+</g>
+<path d="M350 280 L240 280 L240 310" fill="none" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
+
+<!-- JSON-RPC example -->
+<g class="node c-mono" onclick="showInfo('json_rpc')">
+  <rect x="350" y="330" width="480" height="72" rx="8"/>
+  <text x="370" y="352" dominant-baseline="central">{ <tspan class="k">"method"</tspan>: <tspan class="val">"tools/call"</tspan>,</text>
+  <text x="370" y="370" dominant-baseline="central">  <tspan class="k">"params"</tspan>: { <tspan class="k">"name"</tspan>: <tspan class="val">"windows_uia_bridge"</tspan> }</text>
+  <text x="370" y="388" dominant-baseline="central">}</text>
+</g>
+<text class="sub" x="590" y="322" text-anchor="middle" fill="#5f5e5a">cerere JSON-RPC (exemplu — click pentru detalii)</text>
+</svg>
+</div>
+
+<!-- Config blocks for tab 2 -->
+<div class="config-block">
+  <div class="bar">
+    <span>claude_desktop_config.json — Windows</span>
+    <button class="copy-btn" onclick="copyConfig('claude')">copy</button>
+  </div>
+  <pre id="code-claude"><span class="c">// %APPDATA%\Claude\claude_desktop_config.json</span>
+<span class="c">{</span>
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"ana-max"</span>: {
+      <span class="k">"url"</span>: <span class="s">"http://127.0.0.1:8765/mcp"</span>
+    }
+  }
+<span class="c">}</span></pre>
+</div>
+
+<div class="config-block">
+  <div class="bar">
+    <span>Cursor / Windsurf — Settings → MCP → Add Server</span>
+    <button class="copy-btn" onclick="copyConfig('cursor')">copy</button>
+  </div>
+  <pre id="code-cursor">Server URL:  <span class="s">http://127.0.0.1:8765/mcp</span>
+Name:        <span class="k">ana-max</span>
+Transport:   <span class="s">HTTP (Streamable)</span></pre>
+</div>
+
+<div class="config-block">
+  <div class="bar">
+    <span>Pornire ANA MAX</span>
+    <button class="copy-btn" onclick="copyConfig('start')">copy</button>
+  </div>
+  <pre id="code-start"><span class="c"># in folderul proiectului</span>
+python main.py
+<span class="c"># ANA MCP Bridge running on http://127.0.0.1:8765</span>
+<span class="c"># [OK] ana_context_engine   (AI CORE)</span>
+<span class="c"># [OK] ana_proactive_interrupt (AI CORE)</span>
+<span class="c"># [OK] ana_memory_cortex    (AI CORE)</span>
+<span class="c"># [OK] ana_self_evolving    (AI CORE)</span>
+<span class="c"># [OK] ana_orchestrator     (AI CORE)</span>
+<span class="c"># [OK] ana_context_bridge   (AI CORE)</span>
+<span class="c"># [OK] ana_window_manager   (AI CORE)</span></pre>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — AI CORE MODULES (CARDS)
+══════════════════════════════════════════ -->
+<div class="diagram-section" id="tab-aicore">
+<div class="cards-grid">
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon teal">◎</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>context_engine</h3><span class="tag">NOU</span></div><div class="file">context_engine.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Observa continuu desktop-ul in background si clasifica activitatea utilizatorului in categorii: coding, browsing, office, media etc.</p>
+      <ul>
+        <li>Detecteaza fereastra activa, clipboard, procese, CPU/RAM in timp real</li>
+        <li>Prezice intentii cu scor de confidenta (invata din comportament)</li>
+        <li>Persista patterns in SQLite — confidenta creste cu repetitia</li>
+        <li>Alimenteaza <code>proactive_interrupt</code> cu predictii</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon teal">◉</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>proactive_interrupt</h3><span class="tag">NOU</span></div><div class="file">proactive_interrupt.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>5 detectori activi care recunosc situatii si sugereaza actiuni proactive fara sa fie intrebat.</p>
+      <ul>
+        <li><code>STUCK</code> — blocat 3+ minute pe acelasi task</li>
+        <li><code>SEQUENCE</code> — fluxuri repetitive de actiuni</li>
+        <li><code>CLIPBOARD</code> — intentia din continutul clipboard-ului</li>
+        <li><code>REPEAT</code> — acelasi app deschis des</li>
+        <li><code>CONTEXT_SHIFT</code> — trecere munca → distractie</li>
+        <li>Feedback loop: <code>accepted=true/false</code> ajusteaza confidenta</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon purple">◇</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>memory_cortex</h3><span class="tag">NOU</span></div><div class="file">memory_cortex.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>4 tipuri de memorie persistenta pentru LLM-ul din ANA MAX.</p>
+      <ul>
+        <li><strong>Episodica</strong> — conversatii si context sesiuni</li>
+        <li><strong>Semantica</strong> — fapte stabile injectate in prompt</li>
+        <li><strong>Procedurala</strong> — abordari care au functionat</li>
+        <li><strong>Error Log</strong> — greseli LLM cu prioritate crescatoare</li>
+        <li>Aceeasi greseala de 3x → prioritate 100%, blocare preventiva</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon amber">⟳</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>self_evolving_tool</h3><span class="tag">NOU</span></div><div class="file">self_evolving_tool.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Auto-reparare si auto-imbunatatire a toolurilor in runtime, fara interventie manuala.</p>
+      <ul>
+        <li>Prinde exceptia → trimite cod + eroare la LLM (Mistral local)</li>
+        <li>Valideaza fix-ul in sandbox izolat</li>
+        <li>Backup automat → aplica → daca strica altceva: rollback instant</li>
+        <li>Auto-improve orar: analizeaza fiecare tool si propune optimizari</li>
+        <li>Changelog complet in SQLite</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon coral">◈</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>ana_orchestrator</h3><span class="tag">NOU</span></div><div class="file">ana_orchestrator.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Creierul executor al ANA MAX — transforma un task in limbaj natural intr-o secventa de actiuni concrete.</p>
+      <ul>
+        <li><strong>VEDE</strong> — screenshot + context curent</li>
+        <li><strong>GANDESTE</strong> — analizeaza situatia cu memory_cortex</li>
+        <li><strong>PLANIFICA</strong> — genereaza pasi concreti</li>
+        <li><strong>EXECUTA</strong> — apeleaza toolurile necesare</li>
+        <li><strong>VERIFICA</strong> — screenshot final, confirma rezultatul</li>
+        <li><strong>INVATA</strong> — stocheaza in memory_cortex</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon purple">⊞</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>context_bridge</h3><span class="tag">NOU</span></div><div class="file">context_bridge.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Memoria dintre sesiuni — agentul nu mai incepe de la zero la fiecare restart.</p>
+      <ul>
+        <li><code>restore_session()</code> la pornire — incarca proiect activ, taskuri incomplete, erori nerezolvate, preferinte editor/shell</li>
+        <li><code>save_session()</code> la inchidere — salveaza tot starea curenta</li>
+        <li>Persista in <code>ana_memory.db</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon teal">⊟</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>window_manager</h3><span class="tag">NOU</span></div><div class="file">window_manager.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Control complet al ferestrelor Windows prin MCP — organizare automata a spatiului de lucru.</p>
+      <ul>
+        <li><code>snap</code> — left / right / maximize</li>
+        <li><code>tile</code> — grid 2×1, 2×2 automat</li>
+        <li><code>focus</code> — aduce o fereastra in prim-plan</li>
+        <li><code>list</code> — toate ferestrele deschise</li>
+        <li><code>close</code> — inchide o fereastra</li>
+        <li>Integrat cu context_engine: 5+ ferestre → sugereaza aranjare automata</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- tool_adapters summary card -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-head">
+      <div class="card-icon teal">✦</div>
+      <div><div class="card-h3-wrap" style="display:flex;align-items:center;gap:8px"><h3>tool_adapters</h3><span class="tag">NOU</span></div><div class="file">tools/tool_adapters.py</div></div>
+    </div>
+    <div class="card-body">
+      <p>Puntea dintre componentele AI Core si registry-ul MCP. Fara el, modulele ruleaza izolat si nu sunt vizibile clientilor.</p>
+      <ul>
+        <li>7 clase adapter — cate una per componenta</li>
+        <li>Fiecare expune <code>get_definition()</code> si <code>execute(args)</code></li>
+        <li>Inregistrate automat prin patch in <code>_register_all_tools()</code></li>
+        <li>Rezultat: toate cele 7 module apar in <code>tools/list</code> MCP</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     INFO PANEL (shared)
+══════════════════════════════════════════ -->
+<div id="info-panel">
+  <div class="icon">◈</div>
+  <div class="content">
+    <h3>Click pe orice nod pentru detalii</h3>
+    <p>Diagrama este interactiva — fiecare componenta are o explicatie si informatii de configurare.</p>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank">github.com/gyodragos-cell/ANA-MAX</a>
+    &nbsp;·&nbsp; v0.1.0-beta &nbsp;·&nbsp; Windows AI Agent · 42+ MCP Tools
+  </p>
+</footer>
+
+<script>
+/* ── INFO DATA ── */
+const INFO = {
+  clients: {
+    icon:'◈', title:'Claude · Cursor · Windsurf',
+    text:'Orice client MCP-compatible se conecteaza la ANA MAX. Nu sunt necesare chei API — totul rulează local pe 127.0.0.1. Claude Desktop foloseste <code>claude_desktop_config.json</code>, Cursor foloseste Settings → MCP → Add Server.'
+  },
+  mcp: {
+    icon:'⬡', title:'MCP Server — main.py :8765',
+    text:'Serverul Flask asculta pe <code>http://127.0.0.1:8765/mcp</code>. Primeste cereri JSON-RPC 2.0, le roteaza catre tool-ul corect din registry si returneaza rezultatul. Pornire: <code>python main.py</code>'
+  },
+  adapters: {
+    icon:'✦', title:'tool_adapters.py — NOU',
+    text:'Fisier nou adaugat. Contine 7 clase adapter care expun componentele AI Core (context_engine, proactive_interrupt, self_evolving, memory_cortex, orchestrator, context_bridge, window_manager) prin interfata standard a registry-ului: <code>get_definition()</code> + <code>execute()</code>.'
+  },
+  context_engine: {
+    icon:'◎', title:'context_engine.py',
+    text:'Observa continuu desktop-ul in background: fereastra activa, clipboard, procese, CPU/RAM. Clasifica activitatea in categorii (coding / browsing / office...) si prezice intentii cu scor de confidenta. Invata din comportament prin SQLite — confidenta creste cu repetitia.'
+  },
+  proactive: {
+    icon:'◉', title:'proactive_interrupt.py',
+    text:'5 detectori activi: <code>STUCK</code> (blocat 3+ min), <code>SEQUENCE</code> (fluxuri repetate), <code>CLIPBOARD</code> (intentie clipboard), <code>REPEAT</code> (acelasi app des), <code>CONTEXT_SHIFT</code> (munca → YouTube). Feedback loop: <code>accepted=true/false</code> ajusteaza confidenta.'
+  },
+  memory_cortex: {
+    icon:'◇', title:'memory_cortex.py',
+    text:'4 tipuri de memorie: Episodica (conversatii), Semantica (fapte stabile injectate in prompts), Procedurala (abordari care au functionat), Error Log (greseli LLM cu prioritate crescatoare). Daca LLM-ul repeta aceeasi greseala de 3x, avertismentul ajunge la 100% prioritate.'
+  },
+  self_evolving: {
+    icon:'⟳', title:'self_evolving_tool.py',
+    text:'Auto-repair runtime: prinde exceptia, trimite cod + eroare la LLM (Mistral local), valideaza fix-ul in sandbox, face backup, aplica. Daca fix-ul strica altceva → rollback automat. Auto-improve orar: analizeaza fiecare tool si propune optimizari.'
+  },
+  orchestrator: {
+    icon:'◈', title:'ana_orchestrator.py',
+    text:'Creierul executor. Primeste un task in limbaj natural si il proceseaza in 6 faze: VEDE (screenshot + context), GANDESTE (analiza cu memory_cortex), PLANIFICA (pasi concreti), EXECUTA (apeleaza tooluri), VERIFICA (screenshot final), INVATA (stocheaza in memory_cortex).'
+  },
+  context_bridge: {
+    icon:'⊞', title:'context_bridge.py',
+    text:'Memoria dintre sesiuni. La pornire: <code>restore_session()</code> incarca proiectul activ, taskuri incomplete, erori nerezolvate, preferinte editor/shell. La inchidere: <code>save_session()</code> salveaza tot in SQLite. Agentul nu mai incepe de la zero la restart.'
+  },
+  window_manager: {
+    icon:'⊟', title:'window_manager.py',
+    text:'Control ferestre Windows: <code>snap</code> (left/right/maximize), <code>tile</code> (grid 2x1, 2x2), <code>focus</code> (aduce in prim-plan), <code>list</code> (toate ferestrele), <code>close</code>. Integrat cu context_engine — cand detecteaza 5+ ferestre deschise, sugereaza aranjarea automata.'
+  },
+  uia: {
+    icon:'⊕', title:'windows_uia_bridge',
+    text:'UIAutomation nativa Windows — click, type, read pe orice element UI fara OCR. Deterministic si rapid. Exemplu: <code>{"action":"click","target":"Notepad"}</code>'
+  },
+  desktop_capture: {
+    icon:'⊡', title:'desktop_capture',
+    text:'Screenshot rapid al intregului desktop sau al unei regiuni. Returneaza calea catre fisierul imagine. Folosit de orchestrator in fazele VEDE si VERIFICA.'
+  },
+  terminal: {
+    icon:'>', title:'terminal_tool',
+    text:'Sesiune PowerShell persistenta. Comenzile ruleaza in acelasi context intre apeluri — variabilele si directorul curent se pastreaza.'
+  },
+  memory_tool: {
+    icon:'○', title:'memory_tool',
+    text:'Stocaj simplu key-value in SQLite. Folosit de orchestrator si alte tooluri pentru a persista informatii intre sesiuni.'
+  },
+  more_tools: {
+    icon:'+', title:'38+ tooluri suplimentare',
+    text:'git_tool, network_tool, security_tool, qa_tool, smart_search_tool, debugger_tool, browser_control, adb_tool (Android), frida_automation (reverse engineering), apk_analyzer, web_scraper, code_search, system_optimization si altele.'
+  },
+  desktop_control: {
+    icon:'⊞', title:'desktop_control_tool',
+    text:'Control complet mouse si tastatura. Click, double-click, drag, scroll, type. Complementar cu windows_uia_bridge — pentru situatii unde UIA nu este disponibil (ex: aplicatii Java, jocuri).'
+  },
+  ocr: {
+    icon:'◫', title:'ocr_tool',
+    text:'OCR cu PaddleOCR — citeste text din imagini sau regiuni ale ecranului. Util cand UIAutomation nu poate accesa elementele.'
+  },
+  insight: {
+    icon:'◈', title:'windows_insight_tool',
+    text:'Diagnostice avansate de sistem: procese, handle-uri, memorie, registry. Versiune premium.'
+  },
+  clipboard: {
+    icon:'◱', title:'clipboard_manager',
+    text:'Clipboard cu istoric complet. Salveaza tot ce copiezi, permite cautarea si accesul la clipboard-uri anterioare. Folosit de proactive_interrupt pentru detectorul CLIPBOARD.'
+  },
+  deep_sight: {
+    icon:'◉', title:'windows_deep_sight — God View',
+    text:'Monitorizare avansata sistem in timp real cu streaming SSE pe <code>/mcp/stream</code>. Premium — dezactivat in versiunea publica.'
+  },
+  sqlite: {
+    icon:'◉', title:'ana_memory.db (SQLite)',
+    text:'Baza de date centrala. Stocheaza: sesiuni (context_bridge), patterns invatate (context_engine), erori si fix-uri (memory_cortex), changelog evolutie (self_evolving), todo-uri si memorie generala (memory_tool).'
+  },
+  claude_config: {
+    icon:'⊞', title:'Configurare Claude Desktop',
+    text:'Editeaza <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> pe Windows sau <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> pe Mac. Adauga serverul ANA MAX si reporneste Claude Desktop.'
+  },
+  cursor_config: {
+    icon:'⊡', title:'Configurare Cursor / Windsurf',
+    text:'In Cursor: <code>Ctrl+Shift+P</code> → "MCP: Add Server" → HTTP → URL: <code>http://127.0.0.1:8765/mcp</code>. In Windsurf: Settings → MCP Servers → Add. Numele serverului: <code>ana-max</code>.'
+  },
+  mcp_server: {
+    icon:'⬡', title:'MCP Server Flask :8765',
+    text:'Endpoint principal: <code>POST http://127.0.0.1:8765/mcp</code>. Accepta JSON-RPC 2.0. Metode: <code>tools/list</code> (listeaza toolurile), <code>tools/call</code> (executa un tool), <code>ana.ping</code> (health check).'
+  },
+  ana_tools: {
+    icon:'◈', title:'ANA MAX Tools (42+)',
+    text:'Toate toolurile inregistrate in registry. Fiecare are <code>get_definition()</code> (nume, descriere, parametri JSON Schema) si <code>execute(args)</code>. MCP server le expune automat clientilor conectati.'
+  },
+  result_json: {
+    icon:'✓', title:'Rezultat JSON',
+    text:'Fiecare executie returneaza: <code>{"success": true/false, "data": {...}, "message": "...", "error": "..."}</code>. Clientul AI primeste rezultatul si il poate folosi in pasul urmator al planului.'
+  },
+  json_rpc: {
+    icon:'{}', title:'Format JSON-RPC 2.0',
+    text:'Standard deschis, simplu: <code>{"jsonrpc":"2.0","method":"tools/call","params":{"name":"windows_uia_bridge","arguments":{"action":"click","target":"Notepad"}},"id":1}</code>. Orice client HTTP + JSON poate vorbi cu ANA MAX — nu sunt necesare SDK-uri speciale.'
+  }
+};
+
+function showInfo(key) {
+  const d = INFO[key];
+  if (!d) return;
+  const panel = document.getElementById('info-panel');
+  panel.querySelector('.icon').textContent = d.icon;
+  panel.querySelector('h3').textContent = d.title;
+  panel.querySelector('p').innerHTML = d.text;
+  panel.style.borderColor = 'rgba(127,119,221,0.35)';
+  setTimeout(() => panel.style.borderColor = '', 600);
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.diagram-section').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function toggleCard(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+
+function copyConfig(type) {
+  const el = document.getElementById('code-' + type);
+  const text = el ? el.innerText : '';
+  navigator.clipboard.writeText(text).then(() => {
+    const btns = document.querySelectorAll('.copy-btn');
+    btns.forEach(b => {
+      if (b.getAttribute('onclick').includes(type)) {
+        b.textContent = 'copiat!';
+        setTimeout(() => b.textContent = 'copy', 1600);
+      }
+    });
+  });
+}
+</script>
+</body>
+</html>
