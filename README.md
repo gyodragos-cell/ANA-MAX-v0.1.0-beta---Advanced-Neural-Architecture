@@ -120,6 +120,28 @@ We keep the repo **lean**.  Before opening a pull request:
 
 ---
 
+## 💝 Support This Project
+
+ANA MAX is a **free, open-source project** built with passion by a solo developer! If this tool helps you, consider supporting its development:
+
+<div align="center">
+
+[![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-Support-blue?style=for-the-badge&logo=github)](https://github.com/sponsors/gyodragos-cell)
+[![PayPal](https://img.shields.io/badge/PayPal-Donate-blue?style=for-the-badge&logo=paypal)](https://paypal.me/gyodragos)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Support-yellow?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/gyodragos)
+
+</div>
+
+**Why your support matters:**
+- 🖥️ **Help me upgrade my PC** – Better hardware = faster development = more features
+- 🔧 **Fund new tools** – Your donations enable new capabilities and integrations
+- 🌍 **Keep ANA MAX free** – Support ensures this stays open-source for everyone
+- ❤️ **Fuel independent development** – Your contribution keeps the project alive
+
+*Every donation, no matter how small, makes a huge difference!* 💪
+
+---
+
 ## License & Disclaimer
 ANA MAX is released under the **MIT License**.  It is provided **as‑is** – the author is not liable for any damage caused by automated UI actions.  Use it responsibly and only on machines you own or have permission to control.
 
