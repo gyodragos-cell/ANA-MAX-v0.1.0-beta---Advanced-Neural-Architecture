@@ -1,22 +1,26 @@
-﻿# ANA MAX MCP - Windows AI Agent
+﻿# ANA MAX MCP - Advanced Neural Architecture
 
-Control Windows applications with AI through 47 MCP tools!
+**Windows AI Agent with 42 MCP Tools for Desktop Automation**
+
+Control Windows applications with AI through 42 free MCP tools!
+
+## Quick Start
+
+1. **Install Python 3.9+** from https://python.org
+2. **Clone repository:** `git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git`
+3. **Install dependencies:** `pip install -r requirements.txt`
+4. **Open in VS Code** and run: `ANA MAX: Start MCP Server`
+5. **Use tools:** `ANA MAX: Call Tool`
 
 ## Features
 
-- **47 AI Tools** for desktop automation
+- **42 AI Tools** for desktop automation
 - **UI Automation** - Control Calculator, Notepad, and any Windows app
 - **Code Intelligence** - Edit, search, understand code
 - **Web Automation** - Browser control, scraping
 - **System Monitoring** - Process management, hardware info
 - **Security Tools** - Network diagnostics, pentesting
-
-## Getting Started
-
-1. **Install Python 3.9+** from https://python.org
-2. **Open ANA MAX project** in VS Code
-3. **Run command:** ANA MAX: Start MCP Server
-4. **Start using tools:** ANA MAX: Call Tool
+- **Git Operations** - Full Git integration
 
 ## Requirements
 
@@ -26,14 +30,17 @@ Control Windows applications with AI through 47 MCP tools!
 
 ## Trial vs Pro
 
-### Free (42 tools):
+### ✅ Free (42 tools):
 - Code editing & search
 - Web automation
 - UI Automation (Calculator, Notepad)
 - System monitoring
 - Git operations
+- Browser control
+- Network diagnostics
+- Security auditing
 
-### Pro (5 premium tools - requires license):
+### 🔒 Pro (5 premium tools - requires license):
 - Desktop Capture (AI screenshots)
 - Live Desktop Viewer (real-time streaming)
 - Desktop Control (full automation)
@@ -42,9 +49,14 @@ Control Windows applications with AI through 47 MCP tools!
 
 ## Links
 
-- **GitHub:** https://github.com/YOUR_USERNAME/ana-max
-- **Documentation:** https://github.com/YOUR_USERNAME/ana-max#readme
-- **Issues:** https://github.com/YOUR_USERNAME/ana-max/issues
+- **GitHub:** https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+- **Documentation:** https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme
+- **Issues:** https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues
+
+## Contact
+
+- **Email:** gyodragos@gmail.com
+- **GitHub:** https://github.com/gyodragos-cell
 
 ## License
 
