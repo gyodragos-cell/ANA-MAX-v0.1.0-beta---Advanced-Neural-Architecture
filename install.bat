@@ -57,8 +57,13 @@ if %errorlevel% neq 0 (
     echo OK: mss and pillow installed
 )
 echo.
-echo For full OCR support, run (optional):
-echo   pip install paddleocr paddlepaddle
+echo OPTIONAL DEPENDENCIES:
+echo   OCR (choose one):
+echo     pip install paddleocr paddlepaddle  (recommended, more accurate)
+echo     pip install pytesseract             (requires Tesseract.exe installed)
+echo.
+echo   Voice ^& Notifications:
+echo     pip install pyttsx3 win10toast
 echo.
 
 echo [4/5] Checking ADB (optional - for Android tools)...

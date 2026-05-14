@@ -26,3 +26,16 @@ cryptography>=41.0.0
 pyyaml>=6.0
 colorama>=0.4.6
 Pillow>=10.0.0
+
+# AI Core Tools (NEW - 2026-05-15)
+pywin32>=306          # window_manager, clipboard_manager (Win32 API)
+mss>=9.0.0            # screenshots pentru OCR
+
+# Optional - OCR (uncomment one)
+# paddleocr>=2.7.0    # Recommended (more accurate)
+# paddlepaddle>=2.5.0 # Required by paddleocr
+# pytesseract>=0.3.10 # Alternative (requires Tesseract installed separately)
+
+# Optional - Voice & Notifications (for context_engine)
+# pyttsx3>=2.90       # Text-to-speech (JARVIS voice)
+# win10toast>=0.9     # Windows toast notifications
