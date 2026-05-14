@@ -8,6 +8,10 @@
 
 **See it in action!** 🎬 [Watch Demo Video](demo_ana_max.mp4) (186 MB)
 
+> 📥 **How to watch:** Click the video file above → Click "Download" → Play locally
+> 
+> The demo shows ANA MAX controlling Windows Calculator, automating UI tasks, and using MCP tools in real-time.
+
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010/11-lightgrey.svg)](#quickstart-windows)
