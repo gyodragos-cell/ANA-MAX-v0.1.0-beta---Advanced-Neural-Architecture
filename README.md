@@ -1,6 +1,22 @@
 # ANA MAX – Windows‑only Autonomous Agent
 
-## What is ANA MAX?
+<div align="center">
+
+# 🤖 ANA MAX – Advanced Neural Architecture
+
+### Windows AI Agent with 42 MCP Tools
+
+**See it in action!** 🎬 [Watch Demo Video](demo_ana_max.mp4) (186 MB)
+
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%2010/11-lightgrey.svg)](#quickstart-windows)
+
+</div>
+
+---
+
+## 🎯 What is ANA MAX?
 
 ANA MAX is a **self‑contained, offline AI‑agent** that runs on Windows and can **control the OS natively**.  It uses:
 - **pywinauto / UIAutomation** for pixel‑perfect UI interaction (no OCR).  
@@ -112,4 +128,4 @@ ANA MAX is released under the **MIT License**.  It is provided **as‑is** – t
 
 ---
 
-*Happy hacking!*
+*Happy Coding!*
