@@ -53,3 +53,6 @@ config/keys/
 *.pem
 *.key
 secret*.json
+
+# Video files
+*.mp4
