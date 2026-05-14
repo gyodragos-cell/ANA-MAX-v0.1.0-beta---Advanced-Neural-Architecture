@@ -128,7 +128,7 @@ ANA MAX is a **free, open-source project** built with passion by a solo develope
 
 [![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-Support-blue?style=for-the-badge&logo=github)](https://github.com/sponsors/gyodragos-cell)
 [![PayPal](https://img.shields.io/badge/PayPal-Send_to_oana__alicia347__yahoo.com-blue?style=for-the-badge&logo=paypal)](https://paypal.me/oana_alicia347)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Support-yellow?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/gyodragos)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Support-yellow?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/oana_alicia347)
 
 </div>
 
