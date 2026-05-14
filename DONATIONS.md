@@ -17,7 +17,7 @@ ANA MAX is a **free, open-source Windows AI automation tool** built by a solo de
 
 | Platform | Link | Description |
 |----------|------|-------------|
-| PayPal | [Donate via PayPal](https://paypal.me/gyodragos) | Send to: oana_alicia347@yahoo.com |
+| PayPal | [Send to oana_alicia347@yahoo.com](mailto:oana_alicia347@yahoo.com) | Direct PayPal donation |
 | Buy Me a Coffee | [Buy Me a Coffee](https://www.buymeacoffee.com/gyodragos) | Support with the price of a coffee |
 
 ###  Recurring Support
