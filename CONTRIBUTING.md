@@ -33,3 +33,6 @@ All contributors must follow the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 ### Review Process
 Maintainers will review your PR within 3‑5 business days.  If changes are required, they will be requested in the PR comments.
+
+### Questions?
+If you have any questions, feel free to reach out at **gyodragos@gmail.com** or open an issue on GitHub.

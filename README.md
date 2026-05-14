@@ -105,4 +105,11 @@ ANA MAX is released under the **MIT License**.  It is provided **as‑is** – t
 
 ---
 
+## Contact
+- **Email:** gyodragos@gmail.com
+- **GitHub:** https://github.com/gyodragos-cell
+- **Security Issues:** See [SECURITY.md](SECURITY.md)
+
+---
+
 *Happy hacking!*
