@@ -1,44 +1,44 @@
-﻿{
-    "contributes":  {
-                        "commands":  [
-                                         {
-                                             "command":  "anaMax.startMCP",
-                                             "title":  "ANA MAX: Start MCP Server"
-                                         },
-                                         {
-                                             "command":  "anaMax.callTool",
-                                             "title":  "ANA MAX: Call Tool"
-                                         }
-                                     ]
-                    },
-    "version":  "0.1.0",
-    "displayName":  "ANA MAX - Advanced Neural Architecture",
-    "categories":  [
-                       "AI",
-                       "Other"
-                   ],
-    "keywords":  [
-                     "AI",
-                     "MCP",
-                     "Windows",
-                     "Automation",
-                     "Desktop Control",
-                     "UI Testing"
-                 ],
-    "name":  "advanced-neural-architecture",
-    "activationEvents":  [
-                             "onCommand:anaMax.startMCP",
-                             "onCommand:anaMax.callTool"
-                         ],
-    "description":  "AI-powered Windows automation with 42 MCP tools for desktop control, UI testing, and intelligent code operations",
-    "license":  "MIT",
-    "engines":  {
-                    "vscode":  "^1.80.0"
-                },
-    "publisher":  "ana-max",
-    "repository":  {
-                       "type":  "git",
-                       "url":  "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
-                   },
-    "main":  "./src/extension.js"
+{
+  "name": "advanced-neural-architecture",
+  "displayName": "ANA MAX - Advanced Neural Architecture",
+  "description": "AI-powered Windows automation with 42 MCP tools for desktop control, UI testing, and intelligent code operations",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "AI",
+    "MCP",
+    "Windows",
+    "Automation",
+    "Desktop Control",
+    "UI Testing"
+  ],
+  "license": "MIT",
+  "activationEvents": [
+    "onCommand:anaMax.startMCP",
+    "onCommand:anaMax.callTool"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "anaMax.startMCP",
+        "title": "ANA MAX: Start MCP Server"
+      },
+      {
+        "command": "anaMax.callTool",
+        "title": "ANA MAX: Call Tool"
+      }
+    ]
+  },
+  "publisher": "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad"
 }
