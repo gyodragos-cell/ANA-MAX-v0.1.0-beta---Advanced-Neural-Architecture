@@ -58,6 +58,22 @@ Control Windows applications with AI through 42 free MCP tools!
 - **Email:** gyodragos@gmail.com
 - **GitHub:** https://github.com/gyodragos-cell
 
+## 💝 Support This Project
+
+ANA MAX is a **free, open-source project** built with passion! If this tool helps you, consider supporting its development:
+
+- **GitHub Sponsors:** [Support on GitHub](https://github.com/sponsors/gyodragos-cell) *(coming soon)*
+- **PayPal:** [Donate via PayPal](https://paypal.me/gyodragos) *(coming soon)*
+- **Buy Me a Coffee:** [Buy Me a Coffee](https://www.buymeacoffee.com/gyodragos) *(coming soon)*
+
+**Why donate?**
+- 🖥️ Help me get a better PC for development
+- 🔧 Fund new features and tools
+- 🌍 Keep ANA MAX free for everyone
+- ❤️ Support independent open-source development
+
+*Every contribution, no matter how small, makes a huge difference!*
+
 ## License
 
 MIT
