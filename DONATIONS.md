@@ -59,3 +59,7 @@ Every contribution, no matter how small, makes a huge difference. Whether you do
 ---
 
 *Built with passion by [gyodragos](https://github.com/gyodragos-cell)*
+
+**Contact:**
+- Primary: gyodragos@gmail.com
+- Alternative: oana_alicia347@yahoo.com
