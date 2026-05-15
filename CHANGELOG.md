@@ -1,5 +1,82 @@
 # ANA MAX - Change Log
 
+## v0.1.1-beta (2026-05-15) - License System & Professional Packaging
+
+### 🎯 New Features
+
+#### Professional Packaging
+- ✅ **`pyproject.toml`** created for modern Python packaging
+  - Standard `pip install -e .` support
+  - Proper dependency management with optional extras (ocr, voice, dev)
+  - Entry points: `ana-max` and `ana-max-server` commands
+  - Integrated tooling: pytest, black, ruff, mypy configuration
+
+#### License Management System
+- ✅ **`core/license_manager.py`** - Complete licensing system
+  - Encrypted license storage using Fernet (AES-128)
+  - HMAC-SHA256 signature verification
+  - Machine ID binding for security
+  - Automatic expiration checking
+  - Premium tool access control
+
+#### License Activation Tools
+- ✅ **`activate_license.py`** - Simple license activation script
+  ```bash
+  python activate_license.py --key YOUR_LICENSE_KEY
+  ```
+
+- ✅ **`generate_license.py`** - License generation for distributors
+  ```bash
+  python generate_license.py --email user@example.com --days 30
+  ```
+
+#### Security Validation
+- ✅ Premium tool protection integrated in `main.py`:
+  - `/execute` endpoint checks license before tool execution
+  - `/mcp` tools/call method validates premium access
+  - New `license.status` MCP method for checking license info
+  - `/health` and `/tools` endpoints show license status
+
+#### Test Suite
+- ✅ **`tests/`** directory with comprehensive tests:
+  - `test_license_manager.py` - 12 tests for licensing system
+  - `test_tool_registry.py` - Tests for tool registry and basic tools
+
+#### Documentation
+- ✅ **`docs/LICENSING.md`** - Complete licensing guide
+  - How to activate a Pro license
+  - License types and features
+  - Troubleshooting guide
+  - API reference for developers
+
+### 🔧 Code Modifications
+
+#### main.py Updates
+- Added `check_premium_access()` validation before tool execution
+- Enhanced `_list_tools()` to show license status and premium indicators
+- Updated `/health` endpoint to include license information
+- Updated `/tools` endpoint to show premium/available status
+- Added `license.status` MCP method
+- Integrated license_manager module
+
+### 📦 New Files Added
+```
+ANA_MAX_GitHub_Release/
+├── pyproject.toml           # Professional Python packaging
+├── activate_license.py      # License activation script
+├── generate_license.py      # License generation script
+├── core/
+│   └── license_manager.py   # License management system
+├── tests/
+│   ├── __init__.py
+│   ├── test_license_manager.py
+│   └── test_tool_registry.py
+└── docs/
+    └── LICENSING.md         # Licensing documentation
+```
+
+---
+
 ## v0.1.0-beta (2026-05-14) - Initial GitHub Release
 
 ### 🎯 Release Preparation

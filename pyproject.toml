@@ -1,0 +1,151 @@
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ana-max"
+version = "0.1.0-beta"
+description = "ANA MAX - Advanced Neural Architecture | MCP Server with 47+ tools, AI Desktop Control, and Offline-Capable AI Core"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Dragos Gyodragos", email = "gyodragos-cell@users.noreply.github.com"}
+]
+keywords = [
+    "mcp",
+    "ai-agent",
+    "desktop-automation",
+    "neural-architecture",
+    "opencode",
+    "windows-automation",
+    "code-intelligence",
+    "security-tools"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Systems Administration",
+]
+
+dependencies = [
+    "flask>=2.3.0",
+    "requests>=2.31.0",
+    "pydantic>=2.0.0",
+    "pywinauto>=0.6.8",
+    "psutil>=5.9.0",
+    "selenium>=4.15.0",
+    "beautifulsoup4>=4.12.0",
+    "watchdog>=3.0.0",
+    "chardet>=5.2.0",
+    "frida>=16.1.0",
+    "cryptography>=41.0.0",
+    "pyyaml>=6.0",
+    "colorama>=0.4.6",
+    "Pillow>=10.0.0",
+    "pywin32>=306",
+    "mss>=9.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+ocr = [
+    "paddleocr>=2.7.0",
+    "paddlepaddle>=2.5.0",
+]
+voice = [
+    "pyttsx3>=2.90",
+    "win10toast>=0.9",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.5.0",
+]
+
+[project.scripts]
+ana-max = "main:main"
+ana-max-server = "main:main"
+
+[project.urls]
+Homepage = "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture"
+Repository = "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
+Issues = "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues"
+Documentation = "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "tools*", "plugins*", "config*"]
+exclude = ["tests*", "docs*", "vscode_extension*"]
+
+[tool.setuptools.package-data]
+core = ["*.yaml", "*.json"]
+config = ["*.yaml", "*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "windows_only: marks tests that require Windows OS",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.vscode
+  | __pycache__
+  | build
+  | dist
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+ignore = ["E501", "E731", "B008"]
+src = ["core", "tools", "plugins"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+disallow_untyped_defs = false
+
+[tool.coverage.run]
+source = ["core", "tools", "plugins"]
+omit = ["tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

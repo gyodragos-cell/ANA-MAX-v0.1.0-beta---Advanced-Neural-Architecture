@@ -1,8 +1,8 @@
 {
   "name": "advanced-neural-architecture",
   "displayName": "ANA MAX - Advanced Neural Architecture",
-  "description": "AI-powered Windows automation with 42 MCP tools for desktop control, UI testing, and intelligent code operations",
-  "version": "0.1.0",
+  "description": "AI-powered Windows automation with 42+ MCP tools for desktop control, UI testing, and intelligent code operations. Free with optional Pro license.",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
@@ -20,25 +20,64 @@
     "Windows",
     "Automation",
     "Desktop Control",
-    "UI Testing"
+    "UI Testing",
+    "Free",
+    "Neural Architecture"
   ],
   "license": "MIT",
+  "icon": "icon.png",
   "activationEvents": [
     "onCommand:anaMax.startMCP",
-    "onCommand:anaMax.callTool"
+    "onCommand:anaMax.callTool",
+    "onCommand:anaMax.checkLicense",
+    "onCommand:anaMax.openDocs"
   ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "anaMax.startMCP",
-        "title": "ANA MAX: Start MCP Server"
+        "title": "ANA MAX: Start MCP Server",
+        "icon": "$(play)"
+      },
+      {
+        "command": "anaMax.stopMCP",
+        "title": "ANA MAX: Stop MCP Server",
+        "icon": "$(stop)"
       },
       {
         "command": "anaMax.callTool",
-        "title": "ANA MAX: Call Tool"
+        "title": "ANA MAX: Call Tool",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "anaMax.checkLicense",
+        "title": "ANA MAX: Check License Status",
+        "icon": "$(key)"
+      },
+      {
+        "command": "anaMax.openDocs",
+        "title": "ANA MAX: Open Documentation",
+        "icon": "$(info)"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "ana-max-container",
+          "title": "ANA MAX",
+          "icon": "$(brain)"
+        }
+      ]
+    },
+    "views": {
+      "ana-max-container": [
+        {
+          "id": "ana-max-status",
+          "name": "ANA MAX Status"
+        }
+      ]
+    }
   },
   "publisher": "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad"
 }

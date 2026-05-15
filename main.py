@@ -47,6 +47,7 @@ if str(BASE_DIR) not in sys.path:
 os.chdir(BASE_DIR)
 
 from core.config import config  # noqa: E402
+from core.license_manager import get_license_manager, check_premium_access  # noqa: E402
 
 config.load(str(CONFIG_PATH))
 
@@ -185,7 +186,7 @@ def _register_all_tools():
     
     # AI Desktop Control tools (2026-05-13) - KILLER FEATURE
     # TRIAL VERSION: Premium tools disabled (desktop_capture, live_desktop_viewer, desktop_control, windows_insight)
-    # PRO VERSION: Uncomment to enable all desktop vision tools
+    # PRO VERSION: Uncomment to enable all desktop vision tools (license check will still apply)
     desktop_tools = [
         # ("tools.desktop_capture", "DesktopCaptureTool"),        # PREMIUM - requires license
         # ("tools.live_desktop_viewer", "LiveDesktopViewerTool"), # PREMIUM - requires license
@@ -232,7 +233,7 @@ def _register_all_tools():
     
     # Windows Deep Sight tool (2026-05-13) - PREMIUM FEATURE
     # TRIAL VERSION: Disabled (requires Pro license)
-    # PRO VERSION: Uncomment to enable God View system monitoring
+    # PRO VERSION: Uncomment to enable God View system monitoring (license check will still apply)
     try:
         # tool_class = _load_tool_class("tools.windows_deep_sight", "WindowsDeepSightTool")  # PREMIUM
         # tool_instance = tool_class()
@@ -277,15 +278,27 @@ def _register_all_tools():
 def _list_tools():
     """Afiseaza toate tool-urile disponibile."""
     from tools.base import registry
+    from core.license_manager import get_license_manager
 
     tools = registry.list_tools()
+    license_manager = get_license_manager()
+    license_info = license_manager.get_license_info()
+    
     print(f"\n  Tool-uri ANA MAX ({len(tools)} disponibile):")
     print("  " + "-" * 50)
+    
+    if license_info:
+        print(f"  License: {license_info['type'].upper()} (expires: {license_info['expires']})")
+        print(f"  Days remaining: {license_info['days_remaining']}")
+        print()
+    
     for tool_name in sorted(tools):
         tool = registry.get(tool_name)
         if tool:
             definition = tool.get_definition()
-            print(f"  - {tool_name}: {definition.description[:60]}")
+            is_premium = tool_name in license_manager.PREMIUM_TOOLS
+            suffix = " [PREMIUM]" if is_premium and not license_manager.is_pro() else ""
+            print(f"  - {tool_name}: {definition.description[:50]}{suffix}")
         else:
             print(f"  - {tool_name}")
     print()
@@ -363,28 +376,36 @@ def _start_mcp_server(host: str, port: int):
     @app.route('/health', methods=['GET'])
     def health():
         tools = registry.list_tools()
+        license_manager = get_license_manager()
+        license_info = license_manager.get_license_info()
+        
         return jsonify({
             "status": "online",
             "agent": "A.N.A. MAX",
             "version": "18.0-MAX",
             "tools_count": len(tools),
             "tools": sorted(tools),
+            "license": license_info["type"] if license_info else "free",
             "mcp_ready": True
         })
 
     @app.route('/tools', methods=['GET'])
     def list_tools_endpoint():
         tools = registry.list_tools()
+        license_manager = get_license_manager()
         tool_list = []
         for name in sorted(tools):
             tool = registry.get(name)
             if tool:
                 definition = tool.get_definition()
+                is_premium = name in license_manager.PREMIUM_TOOLS
                 tool_list.append({
                     "name": name,
                     "description": definition.description,
                     "category": definition.category,
-                    "parameters": definition.to_dict().get("parameters", {})
+                    "parameters": definition.to_dict().get("parameters", {}),
+                    "premium": is_premium,
+                    "available": not is_premium or license_manager.is_pro()
                 })
         return jsonify({"tools": tool_list, "count": len(tool_list)})
 
@@ -399,6 +420,16 @@ def _start_mcp_server(host: str, port: int):
 
         if not tool_name:
             return jsonify({"error": "Missing 'tool' field"}), 400
+
+        # Verifica licenta pentru tool-uri premium
+        allowed, message = check_premium_access(tool_name)
+        if not allowed:
+            logging.getLogger(__name__).warning("Premium tool blocked: %s", tool_name)
+            return jsonify({
+                "success": False,
+                "error": message,
+                "license_required": True
+            }), 403
 
         try:
             logging.getLogger(__name__).info(
@@ -484,6 +515,16 @@ def _start_mcp_server(host: str, port: int):
                 if not tool_name:
                     return jsonify({"jsonrpc": "2.0", "id": request_id,
                                     "error": {"code": -32602, "message": "Missing tool name"}}), 400
+
+                # Verifica licenta pentru tool-uri premium
+                allowed, message = check_premium_access(tool_name)
+                if not allowed:
+                    logging.getLogger(__name__).warning("Premium tool blocked via MCP: %s", tool_name)
+                    return jsonify({
+                        "jsonrpc": "2.0",
+                        "id": request_id,
+                        "error": {"code": -32603, "message": message},
+                    }), 403
 
                 logging.getLogger(__name__).info(
                     "HTTP /mcp tools/call start name=%s id=%s args=%s",
@@ -573,6 +614,20 @@ def _start_mcp_server(host: str, port: int):
 
             elif method == "ana.ping":
                 return jsonify({"jsonrpc": "2.0", "id": request_id, "result": "pong"})
+
+            elif method == "license.status":
+                """Returneaza statusul licentei."""
+                license_manager = get_license_manager()
+                license_info = license_manager.get_license_info()
+                return jsonify({
+                    "jsonrpc": "2.0",
+                    "id": request_id,
+                    "result": {
+                        "license": license_info if license_info else {"type": "free"},
+                        "premium_tools_available": license_manager.is_pro(),
+                        "premium_tools": license_manager.PREMIUM_TOOLS,
+                    }
+                })
 
             else:
                 return jsonify({"jsonrpc": "2.0", "id": request_id,
