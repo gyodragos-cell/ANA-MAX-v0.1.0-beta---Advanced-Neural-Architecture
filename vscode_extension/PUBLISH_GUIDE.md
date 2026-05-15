@@ -1,9 +1,12 @@
 # 📦 ANA MAX Extension - Publishing Guide
 
-## Current Status (v0.1.2)
+## Current Status (v0.2.0)
 
 ✅ **Fixed Issues:**
-- Version updated from 0.1.1 to 0.1.2
+- Version updated from 0.1.x to 0.2.0
+- Version updated to 0.2.0 for the free Vision AI release
+- `desktop_capture` is now a FREE Vision AI feature
+- Premium tool count is now 4
 - Added missing `icon.png` (256x256 placeholder - replace with proper icon)
 - Added `homepage` and `bugs` URLs to package.json
 
@@ -60,7 +63,7 @@ vsce ls
 # Create .vsix file
 vsce package
 
-# This will create: advanced-neural-architecture-0.1.2.vsix
+# This will create: advanced-neural-architecture-0.2.0.vsix
 ```
 
 ## Step 6: Publish to Marketplace
@@ -88,7 +91,7 @@ vsce publish -p YOUR_PERSONAL_ACCESS_TOKEN
 ## Step 8: Update and Republish (Future Updates)
 
 ```powershell
-# 1. Update version in package.json (e.g., 0.1.3)
+# 1. Update version in package.json (e.g., 0.2.1)
 # 2. Make your changes
 # 3. Package and publish
 vsce package
@@ -144,4 +147,4 @@ After publishing:
 ---
 
 **Last Updated:** 2026-05-15
-**Current Version:** 0.1.2
+**Current Version:** 0.2.0

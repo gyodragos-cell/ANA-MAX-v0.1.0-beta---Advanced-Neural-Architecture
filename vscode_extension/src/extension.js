@@ -182,7 +182,6 @@ function activate(context) {
                     
                     if (licenseType === 'free') {
                         message += `Upgrade to Pro for premium tools:\n`;
-                        message += `• desktop_capture\n`;
                         message += `• live_desktop_viewer\n`;
                         message += `• desktop_control\n`;
                         message += `• windows_insight\n`;

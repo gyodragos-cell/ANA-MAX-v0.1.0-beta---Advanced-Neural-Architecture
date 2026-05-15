@@ -30,6 +30,13 @@
   ],
   "license": "MIT",
   "icon": "icon.png",
+  "scripts": {
+    "check": "node --check src/extension.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0"
+  },
   "activationEvents": [
     "onCommand:anaMax.startMCP",
     "onCommand:anaMax.callTool",

@@ -1,0 +1,5 @@
+node_modules/**
+.vscode/**
+*.vsix
+package-lock.json
+PUBLISH_GUIDE.md

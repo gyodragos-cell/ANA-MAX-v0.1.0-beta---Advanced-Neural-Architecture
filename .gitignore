@@ -33,6 +33,10 @@ ENV/
 .qoder/
 *.code-workspace
 
+# Node / VS Code extension
+node_modules/
+vscode_extension/node_modules/
+
 # ANA MAX Specific
 memory/*.db
 memory/*.jsonl
