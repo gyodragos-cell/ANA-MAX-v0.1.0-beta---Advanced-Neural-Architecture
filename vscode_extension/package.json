@@ -1,11 +1,15 @@
 {
   "name": "advanced-neural-architecture",
   "displayName": "ANA MAX - Advanced Neural Architecture",
-  "description": "AI-powered Windows automation with 42+ MCP tools for desktop control, UI testing, and intelligent code operations. Free with optional Pro license.",
-  "version": "0.1.1",
+  "description": "AI-powered Windows automation with 51 MCP Tools + 9 AI Core Modules. Free Vision AI with screenshot + OCR. Desktop control, UI testing, and intelligent code operations. Free with optional Pro license.",
+  "version": "0.1.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
+  },
+  "homepage": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme",
+  "bugs": {
+    "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues"
   },
   "engines": {
     "vscode": "^1.80.0"
