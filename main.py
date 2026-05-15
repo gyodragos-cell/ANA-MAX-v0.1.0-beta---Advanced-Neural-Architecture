@@ -185,10 +185,10 @@ def _register_all_tools():
     ]
     
     # AI Desktop Control tools (2026-05-13) - KILLER FEATURE
-    # TRIAL VERSION: Premium tools disabled (desktop_capture, live_desktop_viewer, desktop_control, windows_insight)
-    # PRO VERSION: Uncomment to enable all desktop vision tools (license check will still apply)
+    # FREE VERSION: desktop_capture now FREE (Vision AI + OCR enabled)
+    # PREMIUM: live_desktop_viewer, desktop_control, windows_insight remain premium
     desktop_tools = [
-        # ("tools.desktop_capture", "DesktopCaptureTool"),        # PREMIUM - requires license
+        ("tools.desktop_capture", "DesktopCaptureTool"),          # FREE - Vision AI enabled
         # ("tools.live_desktop_viewer", "LiveDesktopViewerTool"), # PREMIUM - requires license
         # ("tools.desktop_control_tool", "DesktopControlTool"),   # PREMIUM - requires license
         # ("tools.windows_insight_tool", "WindowsInsightTool"),   # PREMIUM - requires license

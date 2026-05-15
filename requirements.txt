@@ -31,9 +31,9 @@ Pillow>=10.0.0
 pywin32>=306          # window_manager, clipboard_manager (Win32 API)
 mss>=9.0.0            # screenshots pentru OCR
 
-# Optional - OCR (uncomment one)
-# paddleocr>=2.7.0    # Recommended (more accurate)
-# paddlepaddle>=2.5.0 # Required by paddleocr
+# OCR - Vision AI (FREE - enabled by default)
+paddleocr>=2.7.0      # Recommended (more accurate)
+paddlepaddle>=2.5.0   # Required by paddleocr
 # pytesseract>=0.3.10 # Alternative (requires Tesseract installed separately)
 
 # Optional - Voice & Notifications (for context_engine)

@@ -1,5 +1,34 @@
 # ANA MAX - Change Log
 
+## v0.2.0-beta (2026-05-15) - Free Vision Features (Screenshot + OCR)
+
+### 🎯 Major Release - Vision AI Now FREE!
+
+#### Free Vision Features
+- ✅ **desktop_capture** moved from Premium to FREE
+- ✅ **OCR enabled** - PaddleOCR now included in requirements.txt
+- ✅ **Vision AI** - AI can now see and read text from screens
+
+#### Tool Count Changes
+- **43 Free Tools** (was 42) - desktop_capture now free
+- **4 Premium Tools** (was 5) - only streaming/control remain premium
+- **9 AI Core Modules** - unchanged
+
+#### Files Modified
+- `main.py` - desktop_capture uncommented and enabled
+- `requirements.txt` - PaddleOCR dependencies uncommented
+- `index.html` - statistics updated (43 Free, 4 Premium)
+- `vscode_extension/package.json` - version 0.2.0, description updated
+- `vscode_extension/README.md` - features and tool counts updated
+
+### 📦 Extension Updates
+- Version bumped to 0.2.0
+- Description updated to highlight Vision AI
+- README updated with new free features
+- New .vsix package: `advanced-neural-architecture-0.2.0.vsix`
+
+---
+
 ## v0.1.1-beta (2026-05-15) - License System & Professional Packaging
 
 ### 🎯 New Features

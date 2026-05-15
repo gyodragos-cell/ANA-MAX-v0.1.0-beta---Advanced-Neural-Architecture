@@ -1,8 +1,8 @@
 ﻿# ANA MAX MCP - Advanced Neural Architecture
 
-**Windows AI Agent with 42 MCP Tools for Desktop Automation**
+**Windows AI Agent with 43+ MCP Tools for Desktop Automation**
 
-Control Windows applications with AI through 42 free MCP tools!
+Control Windows applications with AI through 43+ free MCP tools including Vision AI (screenshot + OCR)!
 
 ## Quick Start
 
@@ -14,7 +14,8 @@ Control Windows applications with AI through 42 free MCP tools!
 
 ## Features
 
-- **42 AI Tools** for desktop automation
+- **43+ AI Tools** for desktop automation
+- **Vision AI** - Screenshot capture + OCR text recognition (FREE)
 - **UI Automation** - Control Calculator, Notepad, and any Windows app
 - **Code Intelligence** - Edit, search, understand code
 - **Web Automation** - Browser control, scraping
@@ -27,10 +28,13 @@ Control Windows applications with AI through 42 free MCP tools!
 - Python 3.9 or higher
 - Windows 10/11
 - Visual C++ Build Tools (for Frida)
+- PaddleOCR (auto-installed with requirements.txt)
 
 ## Trial vs Pro
 
-### ✅ Free (42 tools):
+### ✅ Free (43 tools):
+- **Vision AI** - Screenshot capture (desktop_capture)
+- **OCR** - Text recognition from images (PaddleOCR)
 - Code editing & search
 - Web automation
 - UI Automation (Calculator, Notepad)
@@ -40,8 +44,7 @@ Control Windows applications with AI through 42 free MCP tools!
 - Network diagnostics
 - Security auditing
 
-### 🔒 Pro (5 premium tools - requires license):
-- Desktop Capture (AI screenshots)
+### 🔒 Pro (4 premium tools - requires license):
 - Live Desktop Viewer (real-time streaming)
 - Desktop Control (full automation)
 - Windows Insight (advanced monitoring)
