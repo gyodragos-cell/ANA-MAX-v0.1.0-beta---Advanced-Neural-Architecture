@@ -4,7 +4,7 @@
 
 # 🤖 ANA MAX – Advanced Neural Architecture
 
-### Windows AI Agent with 42 MCP Tools
+### Windows AI Agent with 51 MCP Tools + 9 AI Core Modules
 
 **See it in action!** 🎬 [Watch Demo Video](demo_ana_max.mp4) (186 MB)
 
@@ -26,12 +26,14 @@ ANA MAX is a **self‑contained, offline AI‑agent** that runs on Windows and c
 - **pywinauto / UIAutomation** for pixel‑perfect UI interaction (no OCR).  
 - **MCP (Model Context Protocol)** – a lightweight HTTP‑JSON‑RPC bridge that any AI (OpenCode, Cursor, Claude, Ollama, etc.) can call.
 - **SQLite‑based memory** for persistent learning across sessions.
-- **A set of well‑documented tools** (`windows_uia_bridge`, `desktop_capture`, `security_tool`, …) exposed as `ana_<tool>` via the MCP server.
+- **51 well‑documented tools** (`windows_uia_bridge`, `desktop_capture`, `security_tool`, …) exposed as MCP endpoints.
+- **9 AI Core Modules** for intelligent automation: context engine, memory cortex, self-evolving tools, proactive interrupt detection, and more.
 
 It is designed to be **fully offline** – no internet calls are required once the required model files are downloaded locally (e.g. Mistral‑120B via Ollama).  The agent is ideal for:
 - Automated UI testing.
 - Personal productivity assistants that can click, type and read windows.
 - Secure, on‑premise AI workflows where data never leaves the machine.
+- Intelligent desktop automation with context-aware predictions.
 
 ##  Works With Popular AI Tools
 
@@ -106,6 +108,8 @@ All low‑level interactions (UIA, window handles, DPI‑aware screenshots) rely
 ---
 
 ## Available Tools (Windows‑only)
+
+### Core Tools (42)
 | Tool | Description |
 |------|-------------|
 | `windows_uia_bridge` | Structured UI Automation – find windows by title, click, type, read text. |
@@ -115,9 +119,22 @@ All low‑level interactions (UIA, window handles, DPI‑aware screenshots) rely
 | `task_tool` | Schedule a Python task inside the agent. |
 | `terminal_tool` | Run a command in a persistent PowerShell session. |
 | `qa_tool` | Generate test cases or edge‑cases for a given function. |
-| `windows_deep_sight` | Advanced memory inspection (experimental, not included in the clean release). |
+| ... | + 35 more tools (git, web, browser, mobile, code intelligence) |
 
-> **Tip:** Run `python -m tools.tool_healthcheck` to list all tools that are currently loaded.
+### 🆕 AI Core Modules (9 NEW!)
+| Tool | Description |
+|------|-------------|
+| `context_engine` | Observes desktop activity, classifies behavior, predicts user intentions |
+| `proactive_interrupt` | 5 active detectors (STUCK, SEQUENCE, CLIPBOARD, REPEAT, CONTEXT_SHIFT) |
+| `memory_cortex` | 4-type persistent memory (Episodic, Semantic, Procedural, Error Log) |
+| `self_evolving_tool` | Auto-repair & self-improvement with rollback safety |
+| `ana_orchestrator` | 6-phase task execution: SEE → THINK → PLAN → EXECUTE → VERIFY → LEARN |
+| `context_bridge` | Session persistence – restores context between restarts |
+| `window_manager` | Window management: snap, tile, focus, list, close |
+| `clipboard_manager` | Clipboard intelligence with history & monitoring |
+| `ocr_tool` | OCR on screen/region/file (PaddleOCR/Tesseract support) |
+
+> **Tip:** Run `python main.py --list-tools` to see all 51 loaded tools.
 
 ## Premium Tools (License Required)
 
