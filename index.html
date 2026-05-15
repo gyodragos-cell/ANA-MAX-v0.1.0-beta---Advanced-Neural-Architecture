@@ -10,19 +10,19 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:         #0e0f11;
-    --bg2:        #151619;
-    --bg3:        #1c1e22;
-    --border:     rgba(255,255,255,0.08);
-    --border2:    rgba(255,255,255,0.14);
-    --text:       #e8e6e0;
-    --muted:      #7a7870;
-    --purple:     #7f77dd;
-    --purple-dim: rgba(127,119,221,0.15);
-    --teal:       #1d9e75;
-    --teal-dim:   rgba(29,158,117,0.15);
-    --coral:      #d85a30;
-    --amber:      #ba7517;
+    --bg:         #df7d3cdd;
+    --bg2:        #f49f4a;
+    --bg3:        #ffb469;
+    --border:     rgba(255,220,180,0.07);
+    --border2:    rgba(255,220,180,0.13);
+    --text:       #ede8df;
+    --muted:      #7d7168;
+    --purple:     #c9a96e;
+    --purple-dim: rgba(201,169,110,0.13);
+    --teal:       #a07d5a;
+    --teal-dim:   rgba(160,125,90,0.13);
+    --coral:      #b87060;
+    --amber:      #c49a4a;
   }
 
   body {
@@ -84,27 +84,27 @@
   text.title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; }
   text.sub   { font-family: 'JetBrains Mono', monospace; font-size: 10px; }
 
-  .c-purple rect { fill: rgba(127,119,221,0.12); stroke: rgba(127,119,221,0.5); stroke-width: 0.7; }
-  .c-purple text.title { fill: #afa9ec; } .c-purple text.sub { fill: #7f77dd; }
+  .c-purple rect { fill: rgba(201,169,110,0.10); stroke: rgba(201,169,110,0.40); stroke-width: 0.7; }
+  .c-purple text.title { fill: #dfc28a; } .c-purple text.sub { fill: #a07d5a; }
 
-  .c-teal rect { fill: rgba(29,158,117,0.12); stroke: rgba(29,158,117,0.5); stroke-width: 0.7; }
-  .c-teal text.title { fill: #5dcaa5; } .c-teal text.sub { fill: #1d9e75; }
+  .c-teal rect { fill: rgba(160,125,90,0.10); stroke: rgba(160,125,90,0.42); stroke-width: 0.7; }
+  .c-teal text.title { fill: #c9a87a; } .c-teal text.sub { fill: #8a6848; }
 
-  .c-coral rect { fill: rgba(216,90,48,0.10); stroke: rgba(216,90,48,0.45); stroke-width: 0.7; }
-  .c-coral text.title { fill: #f0997b; } .c-coral text.sub { fill: #d85a30; }
+  .c-coral rect { fill: rgba(184,112,96,0.10); stroke: rgba(184,112,96,0.42); stroke-width: 0.7; }
+  .c-coral text.title { fill: #d49080; } .c-coral text.sub { fill: #b87060; }
 
-  .c-amber rect { fill: rgba(186,117,23,0.12); stroke: rgba(186,117,23,0.45); stroke-width: 0.7; }
-  .c-amber text.title { fill: #fac775; } .c-amber text.sub { fill: #ba7517; }
+  .c-amber rect { fill: rgba(196,154,74,0.10); stroke: rgba(196,154,74,0.42); stroke-width: 0.7; }
+  .c-amber text.title { fill: #deba7a; } .c-amber text.sub { fill: #c49a4a; }
 
-  .c-gray rect { fill: rgba(255,255,255,0.04); stroke: rgba(255,255,255,0.12); stroke-width: 0.5; }
-  .c-gray text.title { fill: #b4b2a9; } .c-gray text.sub { fill: #5f5e5a; }
+  .c-gray rect { fill: rgba(255,220,180,0.03); stroke: rgba(255,220,180,0.09); stroke-width: 0.5; }
+  .c-gray text.title { fill: #9e9488; } .c-gray text.sub { fill: #5a5248; }
 
-  .c-mono rect { fill: rgba(255,255,255,0.03); stroke: rgba(255,255,255,0.08); stroke-width: 0.5; }
-  .c-mono text { fill: #5f5e5a; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .c-mono text.k { fill: #7f77dd; } .c-mono text.val { fill: #1d9e75; }
+  .c-mono rect { fill: rgba(255,220,180,0.02); stroke: rgba(255,220,180,0.07); stroke-width: 0.5; }
+  .c-mono text { fill: #5a5248; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .c-mono text.k { fill: #c9a96e; } .c-mono text.val { fill: #a07d5a; }
 
-  line.arr, path.arr { stroke: rgba(255,255,255,0.18); stroke-width: 1.2; fill: none; }
-  line.arr2, path.arr2 { stroke: rgba(29,158,117,0.4); stroke-width: 1.2; fill: none; stroke-dasharray: 5 4; }
+  line.arr, path.arr { stroke: rgba(255,210,160,0.15); stroke-width: 1.2; fill: none; }
+  line.arr2, path.arr2 { stroke: rgba(160,125,90,0.38); stroke-width: 1.2; fill: none; stroke-dasharray: 5 4; }
 
   /* ── INFO PANEL ── */
   #info-panel {
@@ -118,7 +118,7 @@
     flex-shrink: 0; width: 36px; height: 36px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     font-size: 16px; background: var(--purple-dim);
-    border: 1px solid rgba(127,119,221,0.25);
+    border: 1px solid rgba(201,169,110,0.25);
   }
   #info-panel .content h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   #info-panel .content p  { font-size: 13px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; }
@@ -144,10 +144,10 @@
     padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border2);
     background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s;
   }
-  .copy-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+  .copy-btn:hover { color: var(--text); border-color: rgba(255,210,160,0.25); }
   .config-block pre { padding: 18px 22px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; color: var(--text); overflow-x: auto; }
-  .config-block pre .k { color: #afa9ec; }
-  .config-block pre .s { color: #5dcaa5; }
+  .config-block pre .k { color: #dfc28a; }
+  .config-block pre .s { color: #c9a87a; }
   .config-block pre .c { color: var(--muted); }
 
   /* ── AI CORE CARDS (tab 3) ── */
@@ -157,23 +157,23 @@
     border-radius: 12px; padding: 20px; cursor: pointer; transition: border-color 0.2s, transform 0.15s;
   }
   .card:hover { border-color: var(--border2); transform: translateY(-2px); }
-  .card.open { border-color: rgba(127,119,221,0.4); }
+  .card.open { border-color: rgba(201,169,110,0.38); }
   .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
   .card-icon { width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-  .card-icon.teal   { background: rgba(29,158,117,0.15);  border: 1px solid rgba(29,158,117,0.3); }
-  .card-icon.purple { background: rgba(127,119,221,0.15); border: 1px solid rgba(127,119,221,0.3); }
-  .card-icon.amber  { background: rgba(186,117,23,0.15);  border: 1px solid rgba(186,117,23,0.3); }
-  .card-icon.coral  { background: rgba(216,90,48,0.12);   border: 1px solid rgba(216,90,48,0.3); }
+  .card-icon.teal   { background: rgba(160,125,90,0.14);  border: 1px solid rgba(160,125,90,0.3); }
+  .card-icon.purple { background: rgba(201,169,110,0.13); border: 1px solid rgba(201,169,110,0.3); }
+  .card-icon.amber  { background: rgba(196,154,74,0.13);  border: 1px solid rgba(196,154,74,0.3); }
+  .card-icon.coral  { background: rgba(184,112,96,0.12);  border: 1px solid rgba(184,112,96,0.3); }
   .card h3 { font-size: 13px; font-weight: 600; color: var(--text); }
   .card .file { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .card .tag  { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(29,158,117,0.12); color: var(--teal); border: 1px solid rgba(29,158,117,0.2); margin-left: auto; }
+  .card .tag  { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 10px; background: rgba(160,125,90,0.12); color: var(--teal); border: 1px solid rgba(160,125,90,0.22); margin-left: auto; }
   .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
   .card.open .card-body { display: block; }
   .card-body p  { font-size: 12px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
   .card-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
   .card-body li { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; display: flex; gap: 8px; }
-  .card-body li::before { content: '→'; color: var(--teal); flex-shrink: 0; }
-  .card-body code { background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--teal); }
+  .card-body li::before { content: '→'; color: var(--amber); flex-shrink: 0; }
+  .card-body code { background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--amber); }
 
   /* ── FOOTER ── */
   footer { margin-top: 64px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
@@ -210,10 +210,10 @@
 <svg width="100%" viewBox="0 0 860 730" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,210,160,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
   <marker id="a1t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(29,158,117,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(196,154,74,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
 </defs>
 
@@ -223,7 +223,7 @@
   <text class="title" x="430" y="39" text-anchor="middle" dominant-baseline="central">Claude · Cursor · Windsurf</text>
   <text class="sub"   x="430" y="57" text-anchor="middle" dominant-baseline="central">MCP clients</text>
 </g>
-<line x1="430" y1="68" x2="430" y2="90" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+<line x1="430" y1="68" x2="430" y2="90" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a1)"/>
 
 <!-- ROW 1 — MCP Server -->
 <g class="node c-teal" onclick="showInfo('mcp')">
@@ -231,7 +231,7 @@
   <text class="title" x="430" y="112" text-anchor="middle" dominant-baseline="central">main.py · MCP Server :8765</text>
   <text class="sub"   x="430" y="130" text-anchor="middle" dominant-baseline="central">_register_all_tools() · Flask · JSON-RPC 2.0</text>
 </g>
-<line x1="430" y1="144" x2="430" y2="166" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+<line x1="430" y1="144" x2="430" y2="166" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a1)"/>
 
 <!-- ROW 2 — tool_adapters -->
 <g class="node c-teal" onclick="showInfo('adapters')">
@@ -241,14 +241,14 @@
 </g>
 
 <!-- fan arrows adapters → AI Core -->
-<path d="M336 218 L109 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M362 218 L257 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M400 218 L405 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M430 218 L553 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M458 218 L687 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M480 218 L792 268" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M336 218 L109 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M362 218 L257 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M400 218 L405 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M430 218 L553 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M458 218 L687 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M480 218 L792 268" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
 <!-- orchestrator separate arrow -->
-<path d="M380 218 L185 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M380 218 L185 370" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
 
 <!-- ROW 3 — AI Core (6 componente + orchestrator row 4) -->
 
@@ -301,12 +301,12 @@
 </g>
 
 <!-- internal links AI Core → orchestrator -->
-<line x1="105" y1="334" x2="105" y2="356" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M397 334 L397 354 L240 354 L240 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M543 334 L543 358 L260 358 L260 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M684 334 L684 362 L280 362 L280 370" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.1" marker-end="url(#a1)"/>
+<line x1="105" y1="334" x2="105" y2="356" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M397 334 L397 354 L240 354 L240 370" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M543 334 L543 358 L260 358 L260 370" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
+<path d="M684 334 L684 362 L280 362 L280 370" fill="none" stroke="rgba(255,210,160,0.12)" stroke-width="1.1" marker-end="url(#a1)"/>
 <!-- proactive ← context_engine (feedback) -->
-<line x1="186" y1="299" x2="170" y2="299" stroke="rgba(29,158,117,0.4)" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#a1t)"/>
+<line x1="186" y1="299" x2="170" y2="299" stroke="rgba(160,125,90,0.42)" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#a1t)"/>
 
 <!-- ROW 4 — Orchestrator -->
 <g class="node c-coral" onclick="showInfo('orchestrator')">
@@ -317,11 +317,11 @@
 </g>
 
 <!-- orchestrator → tools -->
-<line x1="190" y1="436" x2="190" y2="462" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a1)"/>
+<line x1="190" y1="436" x2="190" y2="462" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a1)"/>
 
 <!-- ROW 5 — Tools container -->
 <rect x="40" y="462" width="780" height="148" rx="10" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="6 4"/>
-<text class="sub" x="430" y="480" text-anchor="middle" fill="#5f5e5a">42 MCP tools — tooluri originale din repo</text>
+<text class="sub" x="430" y="480" text-anchor="middle" fill="#5a5248">42 MCP tools — tooluri originale din repo</text>
 
 <!-- tools row 1 -->
 <g class="node c-gray" onclick="showInfo('uia')">
@@ -378,7 +378,7 @@
 </g>
 
 <!-- ROW 6 — SQLite -->
-<line x1="430" y1="610" x2="430" y2="644" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a1t)"/>
+<line x1="430" y1="610" x2="430" y2="644" stroke="rgba(160,125,90,0.42)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a1t)"/>
 <g class="node c-gray" onclick="showInfo('sqlite')">
   <rect x="230" y="644" width="400" height="54" rx="8"/>
   <text class="title" x="430" y="664" text-anchor="middle" dominant-baseline="central">ana_memory.db (SQLite)</text>
@@ -387,13 +387,13 @@
 
 <!-- legenda -->
 <rect x="40" y="712" width="10" height="8" rx="2" fill="rgba(29,158,117,0.5)"/>
-<text class="sub" x="56" y="716" dominant-baseline="central" fill="#5f5e5a">componente noi (AI Core)</text>
+<text class="sub" x="56" y="716" dominant-baseline="central" fill="#5a5248">componente noi (AI Core)</text>
 <rect x="240" y="712" width="10" height="8" rx="2" fill="rgba(127,119,221,0.4)"/>
-<text class="sub" x="256" y="716" dominant-baseline="central" fill="#5f5e5a">memorie / orchestrare</text>
+<text class="sub" x="256" y="716" dominant-baseline="central" fill="#5a5248">memorie / orchestrare</text>
 <rect x="430" y="712" width="10" height="8" rx="2" fill="rgba(216,90,48,0.4)"/>
-<text class="sub" x="446" y="716" dominant-baseline="central" fill="#5f5e5a">orchestrator</text>
+<text class="sub" x="446" y="716" dominant-baseline="central" fill="#5a5248">orchestrator</text>
 <rect x="570" y="712" width="10" height="8" rx="2" fill="rgba(255,255,255,0.08)"/>
-<text class="sub" x="586" y="716" dominant-baseline="central" fill="#5f5e5a">tooluri existente</text>
+<text class="sub" x="586" y="716" dominant-baseline="central" fill="#5a5248">tooluri existente</text>
 </svg>
 </div>
 </div>
@@ -406,10 +406,10 @@
 <svg width="100%" viewBox="0 0 860 430" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(255,210,160,0.35)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
   <marker id="a2t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(29,158,117,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(196,154,74,0.75)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </marker>
 </defs>
 
@@ -428,8 +428,8 @@
 </g>
 
 <!-- arrows to MCP -->
-<path d="M240 70 L310 70 L310 186 L350 186" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
-<path d="M240 156 L310 156 L310 186 L350 186" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
+<path d="M240 70 L310 70 L310 186 L350 186" fill="none" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a2)"/>
+<path d="M240 156 L310 156 L310 186 L350 186" fill="none" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a2)"/>
 
 <!-- MCP Server -->
 <g class="node c-teal" onclick="showInfo('mcp_server')">
@@ -438,7 +438,7 @@
   <text class="sub"   x="455" y="192" text-anchor="middle" dominant-baseline="central">POST /mcp</text>
   <text class="sub"   x="455" y="208" text-anchor="middle" dominant-baseline="central">JSON-RPC 2.0</text>
 </g>
-<line x1="560" y1="186" x2="620" y2="186" stroke="rgba(255,255,255,0.2)" stroke-width="1.2" marker-end="url(#a2)"/>
+<line x1="560" y1="186" x2="620" y2="186" stroke="rgba(255,210,160,0.15)" stroke-width="1.2" marker-end="url(#a2)"/>
 
 <!-- ANA Tools -->
 <g class="node c-coral" onclick="showInfo('ana_tools')">
@@ -449,7 +449,7 @@
 </g>
 
 <!-- result back -->
-<path d="M620 210 L580 210 L580 290 L350 290 L350 280" fill="none" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
+<path d="M620 210 L580 210 L580 290 L350 290 L350 280" fill="none" stroke="rgba(160,125,90,0.42)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
 
 <!-- Result JSON -->
 <g class="node c-gray" onclick="showInfo('result_json')">
@@ -457,7 +457,7 @@
   <text class="title" x="240" y="278" text-anchor="middle" dominant-baseline="central">Rezultat JSON</text>
   <text class="sub"   x="240" y="296" text-anchor="middle" dominant-baseline="central">success · data · error</text>
 </g>
-<path d="M350 280 L240 280 L240 310" fill="none" stroke="rgba(29,158,117,0.4)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
+<path d="M350 280 L240 280 L240 310" fill="none" stroke="rgba(160,125,90,0.42)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
 
 <!-- JSON-RPC example -->
 <g class="node c-mono" onclick="showInfo('json_rpc')">
@@ -466,7 +466,7 @@
   <text x="370" y="370" dominant-baseline="central">  <tspan class="k">"params"</tspan>: { <tspan class="k">"name"</tspan>: <tspan class="val">"windows_uia_bridge"</tspan> }</text>
   <text x="370" y="388" dominant-baseline="central">}</text>
 </g>
-<text class="sub" x="590" y="322" text-anchor="middle" fill="#5f5e5a">cerere JSON-RPC (exemplu — click pentru detalii)</text>
+<text class="sub" x="590" y="322" text-anchor="middle" fill="#5a5248">cerere JSON-RPC (exemplu — click pentru detalii)</text>
 </svg>
 </div>
 
