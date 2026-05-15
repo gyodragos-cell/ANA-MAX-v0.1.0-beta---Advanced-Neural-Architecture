@@ -190,8 +190,8 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="num">42+</div><div class="lbl">MCP Tools</div></div>
-  <div class="stat"><div class="num">7</div><div class="lbl">AI Core Modules</div></div>
+  <div class="stat"><div class="num">51</div><div class="lbl">MCP Tools</div></div>
+  <div class="stat"><div class="num">9</div><div class="lbl">AI Core Modules</div></div>
   <div class="stat"><div class="num">:8765</div><div class="lbl">MCP Port</div></div>
   <div class="stat"><div class="num">SQLite</div><div class="lbl">Persistent Memory</div></div>
 </div>
@@ -673,7 +673,7 @@ python main.py
 <footer>
   <p>
     <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank">github.com/gyodragos-cell/ANA-MAX</a>
-    &nbsp;·&nbsp; v0.1.0-beta &nbsp;·&nbsp; Windows AI Agent · 42+ MCP Tools
+    &nbsp;·&nbsp; v0.1.0-beta &nbsp;·&nbsp; Windows AI Agent · 51 MCP Tools + 9 AI Core Modules
   </p>
 </footer>
 
@@ -690,7 +690,7 @@ const INFO = {
   },
   adapters: {
     icon:'✦', title:'tool_adapters.py — NOU',
-    text:'Fisier nou adaugat. Contine 7 clase adapter care expun componentele AI Core (context_engine, proactive_interrupt, self_evolving, memory_cortex, orchestrator, context_bridge, window_manager) prin interfata standard a registry-ului: <code>get_definition()</code> + <code>execute()</code>.'
+    text:'Fisier nou adaugat. Contine 9 clase adapter care expun componentele AI Core (context_engine, proactive_interrupt, self_evolving, memory_cortex, orchestrator, context_bridge, window_manager, clipboard_manager, ocr_tool) prin interfata standard a registry-ului: <code>get_definition()</code> + <code>execute()</code>.'
   },
   context_engine: {
     icon:'◎', title:'context_engine.py',
@@ -738,7 +738,7 @@ const INFO = {
   },
   more_tools: {
     icon:'+', title:'38+ tooluri suplimentare',
-    text:'git_tool, network_tool, security_tool, qa_tool, smart_search_tool, debugger_tool, browser_control, adb_tool (Android), frida_automation (reverse engineering), apk_analyzer, web_scraper, code_search, system_optimization si altele.'
+    text:'git_tool, network_tool, security_tool, qa_tool, smart_search_tool, debugger_tool, browser_control, adb_tool (Android), frida_automation (reverse engineering), apk_analyzer, web_scraper, code_search, system_optimization, window_manager, clipboard_manager, ocr_tool si altele.'
   },
   desktop_control: {
     icon:'⊞', title:'desktop_control_tool',
@@ -777,8 +777,8 @@ const INFO = {
     text:'Endpoint principal: <code>POST http://127.0.0.1:8765/mcp</code>. Accepta JSON-RPC 2.0. Metode: <code>tools/list</code> (listeaza toolurile), <code>tools/call</code> (executa un tool), <code>ana.ping</code> (health check).'
   },
   ana_tools: {
-    icon:'◈', title:'ANA MAX Tools (42+)',
-    text:'Toate toolurile inregistrate in registry. Fiecare are <code>get_definition()</code> (nume, descriere, parametri JSON Schema) si <code>execute(args)</code>. MCP server le expune automat clientilor conectati.'
+    icon:'◈', title:'ANA MAX Tools (51)',
+    text:'Toate toolurile inregistrate in registry. Fiecare are <code>get_definition()</code> (nume, descriere, parametri JSON Schema) si <code>execute(args)</code>. MCP server le expune automat clientilor conectati. Include 42 tooluri originale + 9 AI Core Modules.'
   },
   result_json: {
     icon:'✓', title:'Rezultat JSON',
