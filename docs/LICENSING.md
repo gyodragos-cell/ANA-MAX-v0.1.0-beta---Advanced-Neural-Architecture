@@ -7,19 +7,19 @@ ANA MAX uses a licensing system to differentiate between **Free (Trial)** and **
 ## Free vs Pro Features
 
 ### Free (Trial) Version
-The free version includes **42 functional tools**:
+The free version includes **43 functional tools**:
 - All code tools (edit, search, understanding)
 - Web tools (browser, scraper, search)
 - System tools (terminal, control, optimization)
 - Security tools (audit, pentest, network)
 - UI Automation (`windows_uia_bridge`)
+- Vision AI screenshot capture (`desktop_capture`)
 - Git operations
 - File operations
 - And more...
 
 ### Pro Version (License Required)
-The Pro version unlocks **5 additional premium tools**:
-- `desktop_capture` - AI screenshot capture
+The Pro version unlocks **4 additional premium tools**:
 - `live_desktop_viewer` - Real-time desktop streaming
 - `desktop_control` - Full desktop automation
 - `windows_insight` - Advanced system monitoring

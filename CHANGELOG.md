@@ -160,19 +160,19 @@ ANA_MAX_GitHub_Release/
 #### Trial Version - Premium Tool Gating
 Modified `main.py` to disable premium tools in trial version:
 
-**Disabled Premium Tools (5):**
-- `desktop_capture` - AI screenshot capture
+**Disabled Premium Tools (4):**
 - `live_desktop_viewer` - Real-time desktop streaming
 - `desktop_control` - Full desktop automation
 - `windows_insight` - Advanced system monitoring
 - `windows_deep_sight` - "God View" system analysis
 
-**Active Free Tools (42):**
+**Active Free Tools (43):**
 - All code tools (edit, search, understanding)
 - Web tools (browser, scraper, search)
 - System tools (terminal, control, optimization)
 - Security tools (audit, pentest, network)
 - UI Automation (`windows_uia_bridge` - Calculator demo)
+- Vision AI (`desktop_capture` - screenshot capture)
 - Git operations
 - File operations
 - And more...
@@ -181,7 +181,7 @@ Modified `main.py` to disable premium tools in trial version:
 ```python
 # Line 185-192: Desktop tools - Trial version
 desktop_tools = [
-    # ("tools.desktop_capture", "DesktopCaptureTool"),        # PREMIUM
+    ("tools.desktop_capture", "DesktopCaptureTool"),          # FREE - Vision AI enabled
     # ("tools.live_desktop_viewer", "LiveDesktopViewerTool"), # PREMIUM
     # ("tools.desktop_control_tool", "DesktopControlTool"),   # PREMIUM
     # ("tools.windows_insight_tool", "WindowsInsightTool"),   # PREMIUM
@@ -296,7 +296,7 @@ ANA_MAX_GitHub_Release/
 ### 💡 Trial vs Pro Strategy
 
 **Trial (Free):**
-- 42 functional tools
+- 43 functional tools
 - Code editing & search
 - Web automation
 - UI Automation (Calculator, Notepad)

@@ -144,7 +144,7 @@ class TestLicenseManager(TestCase):
     
     def test_is_tool_allowed_premium_without_license(self):
         """Testeaza accesul la tool premium fara licenta."""
-        self.assertFalse(self.manager.is_tool_allowed("desktop_capture"))
+        self.assertTrue(self.manager.is_tool_allowed("desktop_capture"))
         self.assertFalse(self.manager.is_tool_allowed("windows_deep_sight"))
     
     def test_is_tool_allowed_premium_with_license(self):
@@ -217,7 +217,7 @@ class TestCheckPremiumAccess(TestCase):
     
     def test_premium_tool_without_license(self):
         """Testeaza accesul la tool premium fara licenta."""
-        allowed, message = check_premium_access("desktop_capture")
+        allowed, message = check_premium_access("windows_deep_sight")
         self.assertFalse(allowed)
         self.assertIn("premium", message.lower())
     
@@ -241,7 +241,7 @@ class TestCheckPremiumAccess(TestCase):
         )
         lm._license_manager.activate(license_key)
         
-        allowed, message = check_premium_access("desktop_capture")
+        allowed, message = check_premium_access("windows_deep_sight")
         self.assertTrue(allowed)
         
         # Curata

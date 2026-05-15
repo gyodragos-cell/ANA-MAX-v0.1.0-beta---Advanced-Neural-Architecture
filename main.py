@@ -21,6 +21,19 @@ from types import SimpleNamespace
 from dotenv import load_dotenv
 
 
+def _configure_console_encoding() -> None:
+    """Face output-ul CLI tolerant cu diacritice/emoji pe console Windows vechi."""
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except Exception:
+                pass
+
+
+_configure_console_encoding()
+
+
 def _signal_handler(signum, frame):
     """Handler pentru inchidere cand se opreste terminalul."""
     print("\n[ANA MAX] Se opreste...")
@@ -280,6 +293,9 @@ def _list_tools():
     from tools.base import registry
     from core.license_manager import get_license_manager
 
+    if not registry.list_tools():
+        _register_all_tools()
+
     tools = registry.list_tools()
     license_manager = get_license_manager()
     license_info = license_manager.get_license_info()
@@ -307,6 +323,9 @@ def _list_tools():
 def _run_tests():
     """Teste rapide pe tool-uri."""
     from tools.base import registry
+
+    if not registry.list_tools():
+        _register_all_tools()
 
     print("\n  Teste rapide ANA MAX:")
     print("  " + "-" * 50)

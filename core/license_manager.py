@@ -5,17 +5,19 @@ ANA MAX - License Manager
 Sistem de licensing pentru functionalitatile Premium.
 """
 
+import base64
 import hashlib
 import hmac
 import json
 import os
 import platform
 import time
+import uuid
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Optional, Tuple
 
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
@@ -30,10 +32,11 @@ class LicenseManager:
     
     # Premium tools care necesita licenta
     PREMIUM_TOOLS = [
-        "desktop_capture",
         "live_desktop_viewer", 
         "desktop_control",
+        "desktop_control_tool",
         "windows_insight",
+        "windows_insight_tool",
         "windows_deep_sight",
     ]
     
@@ -54,7 +57,7 @@ class LicenseManager:
         components = [
             platform.node(),  # Nume calculator
             platform.machine(),  # Arhitectura
-            str(platform.uuid4()),  # UUID (fallback)
+            str(uuid.getnode()),  # MAC/node id fallback stabil
         ]
         raw_id = "|".join(components)
         return hashlib.sha256(raw_id.encode()).hexdigest()[:32]
@@ -82,8 +85,6 @@ class LicenseManager:
         Returns:
             Cheia de licenta generata
         """
-        import base64
-        
         issue_date = datetime.now()
         expiry_date = issue_date + timedelta(days=duration_days)
         
@@ -128,8 +129,6 @@ class LicenseManager:
         Returns:
             (success, message)
         """
-        import base64
-        
         try:
             # Decodifica cheia
             raw_data = base64.urlsafe_b64decode(license_key.encode())
@@ -169,6 +168,8 @@ class LicenseManager:
             
             return True, f"Licenta {license_data['type']} activata pana la {expiry_date.strftime('%Y-%m-%d')}"
             
+        except InvalidToken:
+            return False, "Licenta invalida: cheia secreta nu poate decripta licenta"
         except Exception as e:
             return False, f"Eroare la activare: {str(e)}"
     

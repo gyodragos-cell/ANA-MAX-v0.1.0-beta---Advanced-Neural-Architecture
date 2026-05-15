@@ -4,7 +4,7 @@
 
 # 🤖 ANA MAX – Advanced Neural Architecture
 
-### Windows AI Agent with 51 MCP Tools + 9 AI Core Modules
+### Windows AI Agent with 43 Free Tools + 4 Premium Tools + 9 AI Core Modules
 
 **See it in action!** 🎬 [Watch Demo Video](demo_ana_max.mp4) (186 MB)
 
@@ -26,7 +26,7 @@ ANA MAX is a **self‑contained, offline AI‑agent** that runs on Windows and c
 - **pywinauto / UIAutomation** for pixel‑perfect UI interaction (no OCR).  
 - **MCP (Model Context Protocol)** – a lightweight HTTP‑JSON‑RPC bridge that any AI (OpenCode, Cursor, Claude, Ollama, etc.) can call.
 - **SQLite‑based memory** for persistent learning across sessions.
-- **51 well‑documented tools** (`windows_uia_bridge`, `desktop_capture`, `security_tool`, …) exposed as MCP endpoints.
+- **43 free tools** (`windows_uia_bridge`, `desktop_capture`, `security_tool`, …) exposed as MCP endpoints.
 - **9 AI Core Modules** for intelligent automation: context engine, memory cortex, self-evolving tools, proactive interrupt detection, and more.
 
 It is designed to be **fully offline** – no internet calls are required once the required model files are downloaded locally (e.g. Mistral‑120B via Ollama).  The agent is ideal for:
@@ -134,17 +134,16 @@ All low‑level interactions (UIA, window handles, DPI‑aware screenshots) rely
 | `clipboard_manager` | Clipboard intelligence with history & monitoring |
 | `ocr_tool` | OCR on screen/region/file (PaddleOCR/Tesseract support) |
 
-> **Tip:** Run `python main.py --list-tools` to see all 51 loaded tools.
+> **Tip:** Run `python main.py --list-tools` to see all loaded tools.
 
 ## Premium Tools (License Required)
 
-- `desktop_capture` – high‑resolution screenshot of the entire desktop. Requires a Pro license.
 - `live_desktop_viewer` – real‑time streaming of the desktop for remote monitoring.
 - `desktop_control_tool` – full desktop automation (mouse, keyboard, window management) under a licensed edition.
 - `windows_insight_tool` – advanced system insight and diagnostics, premium feature.
 - `windows_deep_sight` – “God‑view” system monitoring and event streaming (experimental).
 
-These tools are **disabled in the trial/clean release** and are not loaded by default (see `main.py` where they are commented out). A short demo video (`teste tooluri.mp4`) showcases what the premium suite can do.
+`desktop_capture` is part of the free Vision AI feature set in v0.2.0. Premium tools are **disabled in the trial/clean release** and are not loaded by default (see `main.py` where they are commented out). A short demo video (`teste tooluri.mp4`) showcases what the premium suite can do.
 
 ---
 
