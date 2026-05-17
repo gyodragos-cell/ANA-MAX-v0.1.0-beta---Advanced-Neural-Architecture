@@ -297,33 +297,31 @@ pip install frida-tools
 
 ---
 
-## 🗣️ Voice Feature (Ana Can Talk!)
+## 🗣️ Voice Feature (Built-in Capability)
 
-### Ana Like Jarvis from Iron Man 🎙️
+### Ana Speaks Like Jarvis from Iron Man 🎙️
 
-Ana MAX has **built-in Text-to-Speech (TTS)** capability using `pyttsx3`:
+Ana MAX includes **built-in Text-to-Speech (TTS)** using `pyttsx3` as an integrated feature (not a standalone tool).
+
+**Voice is embedded in:**
+- `ana_orchestrator` - Task execution feedback
+- `context_engine` - Active communication
+- `proactive_interrupt` - Intelligent interruptions
 
 ```python
-# Ana can:
-├── Speak task confirmations aloud
-├── Read error messages to you
-├── Give vocal feedback during autonomous mode
-└── Warn you about critical issues
+# Ana can speak when these tools are active:
+├── Announcing task completion
+├── Reading errors aloud
+── Giving vocal feedback during autonomous mode
+└── Warning about critical issues
 ```
 
-### 🎭 Voice in Action:
+### ️ How It Works:
+
+Voice is **automatically available** when using orchestrator or context tools - no separate tool needed.
 
 ```python
-# When autonomous mode runs:
-Ana: "Am primit taskul: run tests and fix bugs"
-Ana: "Tests completed. 2 failures found. Starting analysis..."
-Ana: "Fixed test_math.py. Rerunning... All tests pass!"
-```
-
-### ⚙️ How to Enable/Disable:
-
-```python
-# In settings.yaml or code:
+# Voice is enabled by default in orchestrator:
 voice_feedback: True   # Ana talks (Jarvis mode 😄)
 voice_feedback: False  # Silent mode (recommended for focus)
 ```
@@ -334,6 +332,12 @@ voice_feedback: False  # Silent mode (recommended for focus)
 > Ana will talk to you ALL DAY like JARVIS from Iron Man.  
 > You might start arguing with her like in the movies! 😂  
 > *(This is a real feature, not a joke!)*
+
+### 🔧 Enable TTS:
+
+```bash
+pip install pyttsx3
+```
 
 ---
 
