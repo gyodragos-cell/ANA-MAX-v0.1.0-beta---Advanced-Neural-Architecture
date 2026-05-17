@@ -48,8 +48,11 @@ payloads/
 archives/
 backups/
 config/keys/
+data/*.db
+generated_bots/
 *.bak
 *.tmp
+desktop.ini
 
 # Sensitive
 .env

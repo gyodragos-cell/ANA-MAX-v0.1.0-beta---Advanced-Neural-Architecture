@@ -22,12 +22,12 @@
 ### Comenzi rapide
 
 ```cmd
-cd C:\Users\billy\Desktop\ana_dev\ANA_MAX
+cd ANA_MAX
 BOOTSTRAP_ANA_MAX.bat
 ```
 
 ```cmd
-cd C:\Users\billy\Desktop\ana_dev\ANA_MAX
+cd ANA_MAX
 SETUP_VSCODE_PYTHON.bat
 ```
 
@@ -56,7 +56,7 @@ ANA MAX este un **agent AI local** cu **20+ tools** care functionează ca "corp"
 ┌─────────────────────────────────────────────────────────┐
 │                     OPENCODE                           │
 │              (Creierul - AI/LLM)                       │
-│        path: C:\Users\billy\AppData\Local\OpenCode\    │
+│        path: %LOCALAPPDATA%\OpenCode\                  │
 └───────────────────────┬─────────────────────────────────┘
                         │ MCP (Model Context Protocol)
                         ▼

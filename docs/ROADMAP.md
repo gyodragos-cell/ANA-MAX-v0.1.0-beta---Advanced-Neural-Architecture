@@ -218,7 +218,7 @@ ANA MAX is currently a **research/experimental framework**. Here's what companie
 **Hardcoded Paths:**
 ```python
 # ❌ Bad
-"C:\Users\Dragos\Documents"
+"C:\\Users\\<USERNAME>\\Documents"
 
 # ✅ Good
 from pathlib import Path

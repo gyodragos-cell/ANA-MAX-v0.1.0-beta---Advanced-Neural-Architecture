@@ -317,8 +317,8 @@ To unlock: Uncomment lines in `main.py` and restart server.
 
 ## Development Notes
 
-**Source Repository:** `C:\Users\billy\Desktop\ana_dev\ANA_MAX\`
-**Release Folder:** `C:\Users\billy\Desktop\ANA_MAX_GitHub_Release\`
+**Source Repository:** `./ana_dev/` (internal development)
+**Release Folder:** `./` (this folder)
 **Release Date:** May 14, 2026
 **Status:** Beta Release - Ready for GitHub Upload
 

@@ -27,7 +27,7 @@ https://github.com/YOUR_USERNAME/ana-max
 
 ### 3. Push Code
 ```powershell
-cd c:\Users\billy\Desktop\ANA_MAX_GitHub_Release
+cd ANA_MAX_GitHub_Release
 
 git init
 git add .

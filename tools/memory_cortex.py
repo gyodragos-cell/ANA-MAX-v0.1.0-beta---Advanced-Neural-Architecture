@@ -643,7 +643,7 @@ if __name__ == "__main__":
     # Inițializare
     cortex = MemoryCortex(
         db_path="ana_memory.db",
-        user_name="Dragos",
+        user_name="<YOUR_NAME>",
         project="ANA MAX",
         verbose=True,
     )
