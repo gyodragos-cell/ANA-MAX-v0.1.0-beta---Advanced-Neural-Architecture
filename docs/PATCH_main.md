@@ -1,5 +1,9 @@
 # PATCH main.py
 
+Nota istorica pentru blocul AI Core adapters. Acest continut trebuie pastrat ca
+documentatie, nu ca fisier `.py`, pentru ca `compileall` incearca sa compileze
+toate fisierele Python din `tools/`.
+
 Adauga blocul de mai jos in `_register_all_tools()`, inainte de linia
 `return loaded` si dupa blocul `desktop_tools`.
 

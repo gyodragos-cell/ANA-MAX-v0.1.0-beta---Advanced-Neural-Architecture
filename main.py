@@ -21,19 +21,6 @@ from types import SimpleNamespace
 from dotenv import load_dotenv
 
 
-def _configure_console_encoding() -> None:
-    """Face output-ul CLI tolerant cu diacritice/emoji pe console Windows vechi."""
-    for stream in (sys.stdout, sys.stderr):
-        if hasattr(stream, "reconfigure"):
-            try:
-                stream.reconfigure(encoding="utf-8", errors="replace")
-            except Exception:
-                pass
-
-
-_configure_console_encoding()
-
-
 def _signal_handler(signum, frame):
     """Handler pentru inchidere cand se opreste terminalul."""
     print("\n[ANA MAX] Se opreste...")
@@ -60,7 +47,6 @@ if str(BASE_DIR) not in sys.path:
 os.chdir(BASE_DIR)
 
 from core.config import config  # noqa: E402
-from core.license_manager import get_license_manager, check_premium_access  # noqa: E402
 
 config.load(str(CONFIG_PATH))
 
@@ -92,7 +78,7 @@ def _build_runtime_agent():
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="ANA MAX - MCP Server cu 56+ tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
+        description="ANA MAX - MCP Server cu 56 tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
     )
     parser.add_argument("--port", "-p", type=int, default=8765, help="Port MCP server (default: 8765)")
     parser.add_argument("--host", default="127.0.0.1", help="Host MCP server (default: 127.0.0.1)")
@@ -107,7 +93,7 @@ def _print_banner() -> None:
         """
 ====================================================================
      A.N.A. MAX - Arhitectura Neurala Avansata
-     MCP Server | 56+ Tools | AI Desktop Control | OpenCode Ready
+     MCP Server | 56 Tools | AI Desktop Control | OpenCode Ready
      AI Core: Context Engine, Memory Cortex, Orchestrator
 ====================================================================
 """.strip()
@@ -198,14 +184,13 @@ def _register_all_tools():
     ]
     
     # AI Desktop Control tools (2026-05-13) - KILLER FEATURE
-    # FREE VERSION: desktop_capture now FREE (Vision AI + OCR enabled)
-    # PREMIUM: live_desktop_viewer, desktop_control, windows_insight remain premium
     desktop_tools = [
-        ("tools.desktop_capture", "DesktopCaptureTool"),          # FREE - Vision AI enabled
-        # ("tools.live_desktop_viewer", "LiveDesktopViewerTool"), # PREMIUM - requires license
-        # ("tools.desktop_control_tool", "DesktopControlTool"),   # PREMIUM - requires license
-        # ("tools.windows_insight_tool", "WindowsInsightTool"),   # PREMIUM - requires license
-        ("tools.windows_uia_bridge", "WindowsUiaBridgeTool"),     # FREE - structural UI automation
+        ("tools.desktop_capture", "DesktopCaptureTool"),
+        ("tools.live_desktop_viewer", "LiveDesktopViewerTool"),
+        ("tools.desktop_control_tool", "DesktopControlTool"),
+        ("tools.windows_insight_tool", "WindowsInsightTool"),
+        ("tools.windows_uia_bridge", "WindowsUiaBridgeTool"),
+        ("tools.foreground_ui_snapshot", "ForegroundUISnapshotTool"),  # NEW: Structural Eyes
     ]
     runtime_agent = _build_runtime_agent()
 
@@ -244,16 +229,13 @@ def _register_all_tools():
         except Exception as e:
             print(f"  [!] {class_name} skip: {e}")
     
-    # Windows Deep Sight tool (2026-05-13) - PREMIUM FEATURE
-    # TRIAL VERSION: Disabled (requires Pro license)
-    # PRO VERSION: Uncomment to enable God View system monitoring (license check will still apply)
+    # Windows Deep Sight tool (2026-05-13)
     try:
-        # tool_class = _load_tool_class("tools.windows_deep_sight", "WindowsDeepSightTool")  # PREMIUM
-        # tool_instance = tool_class()
-        # registry.register(tool_instance)
-        # loaded += 1
-        # print(f"  [OK] {tool_instance.get_definition().name} (GOD VIEW)")
-        print(f"  [!] windows_deep_sight - PREMIUM FEATURE (disabled in trial)")
+        tool_class = _load_tool_class("tools.windows_deep_sight", "WindowsDeepSightTool")
+        tool_instance = tool_class()
+        registry.register(tool_instance)
+        loaded += 1
+        print(f"  [OK] {tool_instance.get_definition().name} (GOD VIEW)")
     except Exception as e:
         logging.getLogger(__name__).warning("Deep Sight tool skipped: %s", e)
 
@@ -291,30 +273,15 @@ def _register_all_tools():
 def _list_tools():
     """Afiseaza toate tool-urile disponibile."""
     from tools.base import registry
-    from core.license_manager import get_license_manager
-
-    if not registry.list_tools():
-        _register_all_tools()
 
     tools = registry.list_tools()
-    license_manager = get_license_manager()
-    license_info = license_manager.get_license_info()
-    
     print(f"\n  Tool-uri ANA MAX ({len(tools)} disponibile):")
     print("  " + "-" * 50)
-    
-    if license_info:
-        print(f"  License: {license_info['type'].upper()} (expires: {license_info['expires']})")
-        print(f"  Days remaining: {license_info['days_remaining']}")
-        print()
-    
     for tool_name in sorted(tools):
         tool = registry.get(tool_name)
         if tool:
             definition = tool.get_definition()
-            is_premium = tool_name in license_manager.PREMIUM_TOOLS
-            suffix = " [PREMIUM]" if is_premium and not license_manager.is_pro() else ""
-            print(f"  - {tool_name}: {definition.description[:50]}{suffix}")
+            print(f"  - {tool_name}: {definition.description[:60]}")
         else:
             print(f"  - {tool_name}")
     print()
@@ -323,9 +290,6 @@ def _list_tools():
 def _run_tests():
     """Teste rapide pe tool-uri."""
     from tools.base import registry
-
-    if not registry.list_tools():
-        _register_all_tools()
 
     print("\n  Teste rapide ANA MAX:")
     print("  " + "-" * 50)
@@ -395,36 +359,28 @@ def _start_mcp_server(host: str, port: int):
     @app.route('/health', methods=['GET'])
     def health():
         tools = registry.list_tools()
-        license_manager = get_license_manager()
-        license_info = license_manager.get_license_info()
-        
         return jsonify({
             "status": "online",
             "agent": "A.N.A. MAX",
             "version": "18.0-MAX",
             "tools_count": len(tools),
             "tools": sorted(tools),
-            "license": license_info["type"] if license_info else "free",
             "mcp_ready": True
         })
 
     @app.route('/tools', methods=['GET'])
     def list_tools_endpoint():
         tools = registry.list_tools()
-        license_manager = get_license_manager()
         tool_list = []
         for name in sorted(tools):
             tool = registry.get(name)
             if tool:
                 definition = tool.get_definition()
-                is_premium = name in license_manager.PREMIUM_TOOLS
                 tool_list.append({
                     "name": name,
                     "description": definition.description,
                     "category": definition.category,
-                    "parameters": definition.to_dict().get("parameters", {}),
-                    "premium": is_premium,
-                    "available": not is_premium or license_manager.is_pro()
+                    "parameters": definition.to_dict().get("parameters", {})
                 })
         return jsonify({"tools": tool_list, "count": len(tool_list)})
 
@@ -439,16 +395,6 @@ def _start_mcp_server(host: str, port: int):
 
         if not tool_name:
             return jsonify({"error": "Missing 'tool' field"}), 400
-
-        # Verifica licenta pentru tool-uri premium
-        allowed, message = check_premium_access(tool_name)
-        if not allowed:
-            logging.getLogger(__name__).warning("Premium tool blocked: %s", tool_name)
-            return jsonify({
-                "success": False,
-                "error": message,
-                "license_required": True
-            }), 403
 
         try:
             logging.getLogger(__name__).info(
@@ -534,16 +480,6 @@ def _start_mcp_server(host: str, port: int):
                 if not tool_name:
                     return jsonify({"jsonrpc": "2.0", "id": request_id,
                                     "error": {"code": -32602, "message": "Missing tool name"}}), 400
-
-                # Verifica licenta pentru tool-uri premium
-                allowed, message = check_premium_access(tool_name)
-                if not allowed:
-                    logging.getLogger(__name__).warning("Premium tool blocked via MCP: %s", tool_name)
-                    return jsonify({
-                        "jsonrpc": "2.0",
-                        "id": request_id,
-                        "error": {"code": -32603, "message": message},
-                    }), 403
 
                 logging.getLogger(__name__).info(
                     "HTTP /mcp tools/call start name=%s id=%s args=%s",
@@ -633,20 +569,6 @@ def _start_mcp_server(host: str, port: int):
 
             elif method == "ana.ping":
                 return jsonify({"jsonrpc": "2.0", "id": request_id, "result": "pong"})
-
-            elif method == "license.status":
-                """Returneaza statusul licentei."""
-                license_manager = get_license_manager()
-                license_info = license_manager.get_license_info()
-                return jsonify({
-                    "jsonrpc": "2.0",
-                    "id": request_id,
-                    "result": {
-                        "license": license_info if license_info else {"type": "free"},
-                        "premium_tools_available": license_manager.is_pro(),
-                        "premium_tools": license_manager.PREMIUM_TOOLS,
-                    }
-                })
 
             else:
                 return jsonify({"jsonrpc": "2.0", "id": request_id,
