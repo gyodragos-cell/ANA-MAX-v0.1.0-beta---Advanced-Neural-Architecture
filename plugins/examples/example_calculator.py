@@ -7,7 +7,59 @@ This plugin provides advanced mathematical operations.
 """
 
 import math
+import ast
+import operator
 from typing import Dict, Any
+
+
+# Safe mathematical expression evaluator (replaces dangerous eval)
+_ALLOWED_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+    ast.UAdd: operator.pos,
+    ast.Mod: operator.mod,
+}
+
+
+def _safe_math_eval(expression: str) -> float:
+    """
+    Safely evaluate mathematical expressions WITHOUT using eval().
+    Only allows basic math operations: +, -, *, /, **, %
+    """
+    try:
+        node = ast.parse(expression, mode='eval')
+        return _eval_node(node.body)
+    except Exception as e:
+        raise ValueError(f"Invalid mathematical expression: {e}")
+
+
+def _eval_node(node):
+    """Recursively evaluate AST node for safe math."""
+    if isinstance(node, ast.Num):
+        return node.n
+    elif isinstance(node, ast.Constant):
+        if isinstance(node.value, (int, float)):
+            return node.value
+        raise ValueError("Only numeric constants allowed")
+    elif isinstance(node, ast.BinOp):
+        left = _eval_node(node.left)
+        right = _eval_node(node.right)
+        op_type = type(node.op)
+        if op_type in _ALLOWED_OPERATORS:
+            return _ALLOWED_OPERATORS[op_type](left, right)
+        raise ValueError(f"Operator not allowed: {op_type}")
+    elif isinstance(node, ast.UnaryOp):
+        operand = _eval_node(node.operand)
+        op_type = type(node.op)
+        if op_type in _ALLOWED_OPERATORS:
+            return _ALLOWED_OPERATORS[op_type](operand)
+        raise ValueError(f"Unary operator not allowed: {op_type}")
+    else:
+        raise ValueError(f"Expression not allowed: {type(node)}")
 
 
 def calculate_advanced(expression: str, operation: str = "eval") -> Dict[str, Any]:
@@ -23,15 +75,8 @@ def calculate_advanced(expression: str, operation: str = "eval") -> Dict[str, An
     """
     try:
         if operation == "eval":
-            # Safe evaluation (limited scope)
-            result = eval(expression, {"__builtins__": {}}, {
-                "math": math,
-                "abs": abs,
-                "round": round,
-                "min": min,
-                "max": max,
-                "sum": sum
-            })
+            # SAFE mathematical expression parser (no eval)
+            result = _safe_math_eval(expression)
         elif operation == "sqrt":
             result = math.sqrt(float(expression))
         elif operation == "factorial":
