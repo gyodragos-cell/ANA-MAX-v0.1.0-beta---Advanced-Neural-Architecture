@@ -6,6 +6,53 @@
 
 ---
 
+## ️ LEGAL DISCLAIMER & ETHICAL USE POLICY
+
+### 🔒 WHITE HAT ONLY - AUTHORIZED USE REQUIRED
+
+**ANA MAX is designed EXCLUSIVELY for:**
+- ✅ Authorized penetration testing (with explicit permission)
+- ✅ Security research on your own systems
+- ✅ System monitoring and automation
+- ✅ Educational and learning purposes
+- ✅ Defensive security and protection
+
+** STRICTLY PROHIBITED:**
+- ❌ Unauthorized access to systems you don't own
+- ❌ Spying on other users or applications without consent
+- ❌ Exploiting vulnerabilities without permission
+- ❌ Any illegal activity or malicious use
+- ❌ Bypassing security controls on third-party systems
+
+**⚖️ LEGAL NOTICE:**
+
+Unauthorized use of ANA MAX tools may violate laws including:
+- Computer Fraud and Abuse Act (CFAA) - USA
+- GDPR Article 32 - European Union (for privacy tools)
+- Local computer crime laws in your jurisdiction
+- Anti-hacking legislation worldwide
+
+**📜 RESPONSIBILITY:**
+
+The authors and contributors of ANA MAX are **NOT responsible** for any misuse of this software. By using ANA MAX, you agree to:
+1. Use tools only on systems you own or have explicit written permission to test
+2. Comply with all applicable laws and regulations
+3. Follow ethical security research practices
+4. Report vulnerabilities responsibly to affected parties
+
+** INTENDED AUDIENCE:**
+- Security professionals and researchers
+- System administrators
+- Developers learning about security
+- Ethical hackers and penetration testers
+- Privacy advocates and educators
+
+**🔐 DUAL-USE AWARENESS:**
+
+Like all security tools (Metasploit, Nmap, Burp Suite, Kali Linux), ANA MAX is a **dual-use technology**. The same capabilities that protect systems can be misused to attack them. **The difference is YOUR INTENT and LEGAL AUTHORIZATION.**
+
+---
+
 ## Quick Snapshot
 
 ### Ce e important acum
