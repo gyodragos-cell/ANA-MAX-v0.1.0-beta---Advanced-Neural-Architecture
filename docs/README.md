@@ -191,6 +191,65 @@ mcp:
 
 ---
 
+## 🔥 Advanced Mode: ANA + FRIDA (For Engineers)
+
+### FRIDA = "Ana's Best Friend" 🤝
+
+**FRIDA** is a **Dynamic Instrumentation Toolkit** used by security researchers and reverse engineers.
+
+```yaml
+FRIDA = Dynamic Instrumentation Toolkit
+│
+├── What it does:
+│   ├── Intercepts Windows API calls in real-time
+│   ├── Sees what processes are doing internally
+│   ├── Can modify application behavior dynamically
+│   └── Analyzes memory, crypto, network traffic
+│
+├── Why Ana needs it:
+│   ├── To see what other applications are doing
+│   ├── To understand user workflows deeply
+│   ├── To detect hidden errors and anomalies
+│   └── To automate complex system-level tasks
+│
+└── Why ADMIN mode:
+    ├── Frida requires root/admin privileges
+    ├── To hook system processes
+    └── Otherwise sees only its own processes
+```
+
+### 🚀 Running with FRIDA
+
+```batch
+# Normal mode (safe, recommended for most users)
+ANA_MAX.bat
+
+# Admin mode (Frida + full system access - for engineers)
+ANA_MAX_FRIDA_ADMIN.bat
+```
+
+### ⚠️ Important Notes
+
+- **Admin mode requires UAC approval** - Accept the Windows security prompt
+- **For advanced users only** - Frida is a professional reverse engineering tool
+- **Full system visibility** - Ana can see ALL processes, not just her own
+- **WorkGraph enhancement** - FRIDA enables deep workspace awareness
+
+### 🔧 Prerequisites for FRIDA Mode
+
+```bash
+# Install Visual C++ Build Tools (required for Frida)
+# Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+# Install Frida
+pip install frida-tools
+
+# Install ADB (for mobile device support)
+# Download from: https://developer.android.com/studio/releases/platform-tools
+```
+
+---
+
 ## 📚 Documentație
 
 - **ANA_DISCIPLINE_PLAYBOOK.md** - Reguli de lucru, cum să folosești ANA eficient
