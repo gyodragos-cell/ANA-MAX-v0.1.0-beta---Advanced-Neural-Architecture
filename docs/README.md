@@ -250,6 +250,46 @@ pip install frida-tools
 
 ---
 
+## 🗣️ Voice Feature (Ana Can Talk!)
+
+### Ana Like Jarvis from Iron Man 🎙️
+
+Ana MAX has **built-in Text-to-Speech (TTS)** capability using `pyttsx3`:
+
+```python
+# Ana can:
+├── Speak task confirmations aloud
+├── Read error messages to you
+├── Give vocal feedback during autonomous mode
+└── Warn you about critical issues
+```
+
+### 🎭 Voice in Action:
+
+```python
+# When autonomous mode runs:
+Ana: "Am primit taskul: run tests and fix bugs"
+Ana: "Tests completed. 2 failures found. Starting analysis..."
+Ana: "Fixed test_math.py. Rerunning... All tests pass!"
+```
+
+### ⚙️ How to Enable/Disable:
+
+```python
+# In settings.yaml or code:
+voice_feedback: True   # Ana talks (Jarvis mode 😄)
+voice_feedback: False  # Silent mode (recommended for focus)
+```
+
+### ⚠️ Funny Warning:
+
+> **Don't enable voice unless you're ready!**  
+> Ana will talk to you ALL DAY like JARVIS from Iron Man.  
+> You might start arguing with her like in the movies! 😂  
+> *(This is a real feature, not a joke!)*
+
+---
+
 ## 📚 Documentație
 
 - **ANA_DISCIPLINE_PLAYBOOK.md** - Reguli de lucru, cum să folosești ANA eficient
