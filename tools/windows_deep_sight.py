@@ -657,15 +657,19 @@ class WindowsDeepSightTool(Tool):
         top_procs = []
         try:
             procs = []
+            count = 0
             for p in psutil.process_iter(['pid', 'name', 'memory_info', 'num_threads']):
+                if count > 200:  # Limit to avoid timeout
+                    break
                 try:
                     p.cpu_percent(interval=None) # start measure
                     procs.append(p)
+                    count += 1
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     pass
             time.sleep(0.1)
             proc_stats = []
-            for p in procs:
+            for p in procs[:100]:  # Process max 100
                 try:
                     cpu = p.cpu_percent(interval=None)
                     info = p.info
@@ -683,7 +687,8 @@ class WindowsDeepSightTool(Tool):
             
             proc_stats.sort(key=lambda x: x["cpu"], reverse=True)
             top_procs = proc_stats[:10]
-        except Exception:
+        except Exception as e:
+            logger.warning(f"Process snapshot error: {e}")
             pass
 
         # Active windows

@@ -90,7 +90,7 @@ Orice abilitate nouă a agentului devine un Tool aici.
 
 ### 🚀 Fișiere și Foldere Root
 * `main.py`: Punctul de intrare central. Pornește serverul, rutează totul.
-* `install.bat` / launcher scripts: Scripturi Windows pentru instalare sau pornire. Verifică numele exact din release înainte să documentezi un shortcut.
+* `Start ANA MAX.bat`: Shortcut-ul oficial. Activează automat `venv` și pornește `main.py`.
 * `archives/` și `backups/`: Conțin cod vechi (ex: teste, versiuni anterioare). **Regulă AI:** Ignoră complet aceste foldere când analizezi codul sursă. Nu încerca să repari erori din interiorul lor.
 
 ---
@@ -210,7 +210,7 @@ python main.py --test
   "mcpServers": {
     "ana-max": {
       "command": "python",
-      "args": ["C:\\path\\to\\ANA_MAX\\main.py"],
+      "args": ["./main.py"],
       "env": {
         "MCP_API_KEY": "your_secret_key"
       }
