@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 ANA MAX - Arhitectura Neurala Avansata
 ======================================
@@ -192,6 +192,11 @@ def _register_all_tools():
         ("tools.windows_uia_bridge", "WindowsUiaBridgeTool"),
         ("tools.foreground_ui_snapshot", "ForegroundUISnapshotTool"),  # NEW: Structural Eyes
     ]
+    
+    # Voice tools (2026-05-14) - JARVIS STYLE
+    voice_tools = [
+        ("tools.edge_tts_voice", "EdgeTTSVoice"),  # Natural voice commentary
+    ]
     runtime_agent = _build_runtime_agent()
 
     loaded = 0
@@ -249,7 +254,31 @@ def _register_all_tools():
             print(f"  [OK] {tool_instance.get_definition().name} (DESKTOP CONTROL)")
         except Exception as e:
             logging.getLogger(__name__).warning("Desktop tool skipped %s.%s: %s", module_path, class_name, e)
+    
+    # Incarca Voice tools (2026-05-14) - JARVIS STYLE
+    for module_path, class_name in voice_tools:
+        try:
+            tool_class = _load_tool_class(module_path, class_name)
+            tool_instance = tool_class()
+            registry.register(tool_instance)
+            loaded += 1
+            print(f"  [OK] {tool_instance.get_definition().name} (JARVIS VOICE)")
+        except Exception as e:
+            logging.getLogger(__name__).warning("Voice tool skipped %s.%s: %s", module_path, class_name, e)
 
+    # Jules tools removed - separate project
+    
+    # Incarca Advanced tools (Vector Memory + Swarm) (2026-05-19)
+    for module_path, class_name in advanced_tools:
+        try:
+            tool_class = _load_tool_class(module_path, class_name)
+            tool_instance = tool_class()
+            registry.register(tool_instance)
+            loaded += 1
+            print(f"  [OK] {tool_instance.get_definition().name} (RUFLO-INTEGRATION)")
+        except Exception as e:
+            logging.getLogger(__name__).warning("Advanced tool skipped %s.%s: %s", module_path, class_name, e)
+    
     # AI Core adapters (context_engine, proactive_interrupt, self_evolving,
     # memory_cortex, orchestrator, context_bridge, window_manager)
     try:
@@ -266,6 +295,17 @@ def _register_all_tools():
                 )
     except ImportError as e:
         logging.getLogger(__name__).warning("tool_adapters.py nu a putut fi incarcat: %s", e)
+
+    # Incarca Jules MCP tools (2026-05-19)
+    for module_path, class_name in jules_tools:
+        try:
+            tool_class = _load_tool_class(module_path, class_name)
+            tool_instance = tool_class()
+            registry.register(tool_instance)
+            loaded += 1
+            print(f"  [OK] {tool_instance.get_definition().name} (JULES INTEGRATION)")
+        except Exception as e:
+            logging.getLogger(__name__).warning("Jules MCP tool skipped %s.%s: %s", module_path, class_name, e)
 
     return loaded
 
@@ -702,5 +742,6 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
