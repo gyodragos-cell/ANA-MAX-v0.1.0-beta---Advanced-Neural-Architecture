@@ -135,8 +135,14 @@ _commentary = None
 
 
 def get_commentary(enabled: bool = True) -> VoiceCommentary:
-    """Get or create global voice commentary instance."""
+    """Get or create global voice commentary instance.
+    
+    Voice is ENABLED by default - Ana speaks as your colleague!
+    Disable if it becomes distracting.
+    """
     global _commentary
     if _commentary is None:
-        _commentary = VoiceCommentary(enabled=enabled)
+        _commentary = VoiceCommentary(enabled=enabled, rate=140, volume=0.8)
+        if enabled:
+            _commentary.speak("Salut! Sunt Ana. Sunt aici să te ajut!" if _commentary.enabled else "")
     return _commentary

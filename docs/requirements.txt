@@ -32,12 +32,13 @@ pywin32>=306
 mss>=9.0.0
 pillow>=10.0.0
 pyttsx3>=2.90  # Voice commentary (TTS)
+paddleocr>=3.5.0  # OCR engine (recommended)
+paddlepaddle>=3.3.1  # PaddlePaddle backend for OCR
+edge-tts>=6.1.0  # Edge TTS voice (natural JARVIS voice)
 
 # Testing
 pytest>=8.0.0
 
-# Vector Memory & Swarm (Ruflo Integration - 2026-05-19)
-numpy>=1.24.0
-# Optional for faster vector search:
-# faiss-cpu>=1.7.4
-# hnswlib>=0.8.0
+# Security & Mobile
+frida-tools>=14.0.0  # Dynamic instrumentation (Frida)
+frida>=16.0.0  # Frida core library

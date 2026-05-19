@@ -261,6 +261,9 @@ class VectorMemoryCortex:
         Returns:
             Memory ID
         """
+        # Update vocabulary FIRST (before encoding)
+        self.embedding_model.update_vocabulary([content])
+        
         # Generate ID
         memory_id = hashlib.sha256(f"{content}{time.time()}".encode()).hexdigest()[:16]
         
@@ -289,9 +292,6 @@ class VectorMemoryCortex:
                 (memory_id, content, memory_type, timestamp, tags_json, metadata_json)
             )
             self._conn.commit()
-        
-        # Update vocabulary for better embeddings
-        self.embedding_model.update_vocabulary([content])
         
         logger.debug(f"Memory stored: {memory_id} (type={memory_type})")
         return memory_id
