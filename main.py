@@ -266,11 +266,6 @@ def _register_all_tools():
         except Exception as e:
             logging.getLogger(__name__).warning("Voice tool skipped %s.%s: %s", module_path, class_name, e)
 
-    # Jules MCP Integration (2026-05-19)
-    jules_tools = [
-        ("tools.jules_mcp_bridge", "JulesMCPTool"),  # Jules coding agent bridge
-    ]
-    
     # Ruflo-inspired: Vector Memory & Swarm (2026-05-19)
     advanced_tools = [
         ("tools.vector_memory_tool", "VectorMemoryTool"),  # Vector search 150x+ faster
@@ -283,17 +278,6 @@ def _register_all_tools():
         ("tools.remote_control_tool", "RemoteControlTool"),  # Remote machine control
         ("tools.event_stream_tool", "EventStreamTool"),  # Event stream debugging
     ]
-    
-    # Incarca Jules MCP tools (2026-05-19)
-    for module_path, class_name in jules_tools:
-        try:
-            tool_class = _load_tool_class(module_path, class_name)
-            tool_instance = tool_class()
-            registry.register(tool_instance)
-            loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (JULES INTEGRATION)")
-        except Exception as e:
-            logging.getLogger(__name__).warning("Jules tool skipped %s.%s: %s", module_path, class_name, e)
     
     # Incarca Advanced tools (Vector Memory + Swarm) (2026-05-19)
     for module_path, class_name in advanced_tools:
@@ -333,17 +317,6 @@ def _register_all_tools():
                 )
     except ImportError as e:
         logging.getLogger(__name__).warning("tool_adapters.py nu a putut fi incarcat: %s", e)
-
-    # Incarca Jules MCP tools (2026-05-19)
-    for module_path, class_name in jules_tools:
-        try:
-            tool_class = _load_tool_class(module_path, class_name)
-            tool_instance = tool_class()
-            registry.register(tool_instance)
-            loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (JULES INTEGRATION)")
-        except Exception as e:
-            logging.getLogger(__name__).warning("Jules MCP tool skipped %s.%s: %s", module_path, class_name, e)
 
     return loaded
 
