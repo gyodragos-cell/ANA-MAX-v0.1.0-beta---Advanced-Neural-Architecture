@@ -1,11 +1,48 @@
 # ANA MAX
 
-ANA MAX is a Windows-first AI agent runtime with MCP access to local tools:
-files, code search, system checks, desktop vision, UI automation, memory, and
-AI-core orchestration.
+ANA MAX is a Windows-first MCP runtime that gives AI agents situational
+awareness before they act: files, git state, terminal output, desktop vision,
+Windows UI automation, memory, runtime instrumentation, and smoke-test
+verification.
 
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
+
+## Why It Exists
+
+Most agents lose time because they guess from partial context. ANA MAX is built
+to help agents observe the real workspace first, pick the smallest useful tool,
+act, and verify the result.
+
+The intended workflow is:
+
+```text
+observe -> instrument when needed -> act -> verify -> learn
+```
+
+This can turn long manual debugging or UI inspection work into a focused agent
+workflow, especially when the agent can see the desktop, inspect Windows UI/API
+state, use git and tests, and use Frida for authorized runtime instrumentation.
+
+ANA MAX is privacy-first and hybrid:
+
+- local/offline workflows are the default direction;
+- online models can be used when configured by the operator;
+- MCP auth is enabled by default;
+- private memory, logs, screenshots, tokens, and license files do not belong in
+  the public release.
+
+## What Makes It Different
+
+- It gives agents situational awareness, not just file access.
+- It combines desktop vision, Windows UI automation, code tools, git, memory,
+  and verification in one workflow.
+- It supports authorized runtime instrumentation with Frida when static
+  inspection is not enough.
+- It treats `desktop_capture` as free Vision AI and keeps deep desktop control
+  premium-gated.
+- It keeps public docs and shell-facing examples ASCII-only so Windows consoles
+  and weaker agents can parse them reliably.
 
 ## Demo
 

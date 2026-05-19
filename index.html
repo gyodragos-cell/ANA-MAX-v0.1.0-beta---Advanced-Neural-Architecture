@@ -149,7 +149,7 @@
     gap: 10px;
     margin-top: 28px;
   }
-  .stat, .panel, .card, .codebox, .demo {
+  .stat, .panel, .card, .codebox, .demo, .promise {
     background: rgba(17, 24, 39, 0.82);
     border: 1px solid var(--line);
     border-radius: 8px;
@@ -242,6 +242,41 @@
     line-height: 1.7;
     font-size: 14px;
   }
+  .promise {
+    margin-top: 18px;
+    padding: 18px;
+  }
+  .promise h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+  }
+  .promise p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .promise-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .promise-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(23, 32, 51, 0.58);
+  }
+  .promise-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text);
+    font-size: 13px;
+  }
+  .promise-item span {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -304,7 +339,7 @@
     flex-wrap: wrap;
   }
   @media (max-width: 900px) {
-    .hero, .grid, .demo-layout { grid-template-columns: 1fr; }
+    .hero, .grid, .demo-layout, .promise-grid { grid-template-columns: 1fr; }
     .intro, .panel { min-height: auto; }
   }
   @media (max-width: 620px) {
@@ -336,13 +371,13 @@
   <main>
     <section class="hero" id="architecture">
       <div class="intro">
-        <div class="badge">v0.2.0-beta / public-safe release / MCP auth on</div>
-        <h2>Windows-first agent runtime with eyes, memory, and verification.</h2>
+        <div class="badge">privacy-first hybrid / local tools / MCP auth on</div>
+        <h2>Give AI agents situational awareness before they act.</h2>
         <p class="lead">
-          ANA MAX exposes local tools through MCP for code work, desktop vision,
-          UI automation, security checks, git operations, memory, and AI Core
-          orchestration. The public release is kept clean, testable, and aligned
-          with the project map.
+          ANA MAX is a Windows-first MCP runtime for agents that need to see the
+          workspace, inspect the desktop, use focused tools, instrument runtime
+          behavior when needed, and verify the result. The goal is simple:
+          turn slow guessing into observed, testable work.
         </p>
         <div class="actions">
           <a class="button" href="#demo">Watch demo</a>
@@ -416,6 +451,34 @@
           <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
           <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
         </svg>
+      </div>
+    </section>
+
+    <section class="promise" aria-label="Why ANA MAX is different">
+      <h3>Not another tool list. A workflow for agents that should not guess.</h3>
+      <p>
+        ANA MAX combines local/offline privacy, optional online models, desktop
+        vision, Windows UI/API awareness, git state, tests, memory, and safe
+        runtime instrumentation. Frida is used only for authorized dynamic
+        analysis when static inspection is not enough.
+      </p>
+      <div class="promise-grid">
+        <div class="promise-item">
+          <strong>Observe</strong>
+          <span>Read files, git state, terminal output, UIA, screenshots, and logs before acting.</span>
+        </div>
+        <div class="promise-item">
+          <strong>Instrument</strong>
+          <span>Use Frida or Windows inspection for authorized runtime facts when the task needs it.</span>
+        </div>
+        <div class="promise-item">
+          <strong>Act</strong>
+          <span>Edit code, run commands, control UI, and coordinate tools through MCP.</span>
+        </div>
+        <div class="promise-item">
+          <strong>Verify</strong>
+          <span>Run smoke tests and report what passed or failed instead of hiding uncertainty.</span>
+        </div>
       </div>
     </section>
 

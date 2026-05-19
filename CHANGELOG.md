@@ -33,6 +33,9 @@
 - Added a first-page demo section to `index.html` and documented
   `demo_ana_max.mp4` in the README so users can see the workflow before reading
   the architecture notes.
+- Repositioned the public website and README around ANA MAX as a privacy-first
+  hybrid situational-awareness runtime: observe, instrument when needed, act,
+  verify, and learn.
 
 ## Verification Baseline
 
