@@ -110,9 +110,62 @@ except Exception:
     LiveDesktopViewerTool = None  # type: ignore
 
 try:
+    from tools.desktop_control_tool import DesktopControlTool
+except Exception:
+    DesktopControlTool = None  # type: ignore
+
+try:
+    from tools.windows_insight_tool import WindowsInsightTool
+except Exception:
+    WindowsInsightTool = None  # type: ignore
+
+try:
     from tools.windows_uia_bridge import WindowsUiaBridgeTool
 except Exception:
     WindowsUiaBridgeTool = None  # type: ignore
+
+try:
+    from tools.windows_deep_sight import WindowsDeepSightTool
+except Exception:
+    WindowsDeepSightTool = None  # type: ignore
+
+try:
+    from tools.foreground_ui_snapshot import ForegroundUISnapshotTool
+except Exception:
+    ForegroundUISnapshotTool = None  # type: ignore
+
+# Voice tools (2026-05-14)
+try:
+    from tools.voice_commentary import VoiceCommentary
+except Exception:
+    VoiceCommentary = None  # type: ignore
+
+# Ruflo Integration (2026-05-19)
+try:
+    from tools.vector_memory_tool import VectorMemoryTool
+except Exception:
+    VectorMemoryTool = None  # type: ignore
+
+try:
+    from tools.swarm_tool import SwarmTool
+except Exception:
+    SwarmTool = None  # type: ignore
+
+# UI-TARS Integration (2026-05-19)
+try:
+    from tools.vision_fallback_tool import VisionFallbackTool
+except Exception:
+    VisionFallbackTool = None  # type: ignore
+
+try:
+    from tools.remote_control_tool import RemoteControlTool
+except Exception:
+    RemoteControlTool = None  # type: ignore
+
+try:
+    from tools.event_stream_tool import EventStreamTool
+except Exception:
+    EventStreamTool = None  # type: ignore
 
 # Verdent tools (bash, grep, search, web)
 try:
@@ -133,7 +186,14 @@ __all__ = [
     # Mobile tools
     'ADBTool', 'FridaTool', 'APKAnalyzerTool', 'CodeSearchTool', 'WebScraperTool',
     # Desktop control
-    'DesktopCaptureTool', 'LiveDesktopViewerTool', 'WindowsUiaBridgeTool',
+    'DesktopCaptureTool', 'LiveDesktopViewerTool', 'DesktopControlTool',
+    'WindowsInsightTool', 'WindowsUiaBridgeTool', 'WindowsDeepSightTool', 'ForegroundUISnapshotTool',
+    # Voice tools
+    'VoiceCommentary',
+    # Ruflo Integration
+    'VectorMemoryTool', 'SwarmTool',
+    # UI-TARS Integration
+    'VisionFallbackTool', 'RemoteControlTool', 'EventStreamTool',
     # Verdent tools
     'BashExecTool', 'GlobSearchTool', 'GrepContentTool', 'GrepFileTool', 'WebFetchTool',
 ]

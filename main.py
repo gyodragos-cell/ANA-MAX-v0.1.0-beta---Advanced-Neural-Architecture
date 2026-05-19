@@ -78,7 +78,7 @@ def _build_runtime_agent():
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="ANA MAX - MCP Server cu 56 tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
+        description="ANA MAX - MCP Server cu 63 tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
     )
     parser.add_argument("--port", "-p", type=int, default=8765, help="Port MCP server (default: 8765)")
     parser.add_argument("--host", default="127.0.0.1", help="Host MCP server (default: 127.0.0.1)")
@@ -93,7 +93,7 @@ def _print_banner() -> None:
         """
 ====================================================================
      A.N.A. MAX - Arhitectura Neurala Avansata
-     MCP Server | 56 Tools | AI Desktop Control | OpenCode Ready
+     MCP Server | 63 Tools | AI Desktop Control | OpenCode Ready
      AI Core: Context Engine, Memory Cortex, Orchestrator
 ====================================================================
 """.strip()
@@ -112,8 +112,12 @@ def _configure_logging(debug: bool) -> None:
 
     formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
+    # Stream handler pe stderr doar in modul debug
+    # In modul normal log-urile merg doar in fisier (evita exit code 1 in PowerShell)
+    if debug:
+        stream_handler = logging.StreamHandler(sys.stderr)
+        stream_handler.setFormatter(formatter)
+        root_logger.addHandler(stream_handler)
 
     file_handler = RotatingFileHandler(
         log_file,
@@ -124,7 +128,6 @@ def _configure_logging(debug: bool) -> None:
     file_handler.setFormatter(formatter)
 
     root_logger.setLevel(level)
-    root_logger.addHandler(stream_handler)
     root_logger.addHandler(file_handler)
 
 
