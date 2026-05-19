@@ -51,7 +51,7 @@ Example:
   "signals": {
     "errors": [],
     "warnings": [],
-    "important_text": ["63 loaded tools", "63 tests OK"]
+    "important_text": ["64 loaded tools", "64 tests OK"]
   },
   "recommended_next_step": "No blocking errors detected. Safe to continue.",
   "confidence": 0.86,
@@ -187,7 +187,8 @@ Large, destructive, or ambiguous fixes require user confirmation.
 
 ## Implementation Priority
 
-1. `workspace_situational_awareness`: compact state JSON.
+1. `workspace_situational_awareness`: compact state JSON. Implemented as a
+   public, observation-only tool.
 2. `error_radar`: multi-source blocker detection.
 3. `self_qa_agent`: release and handoff verification.
 4. `workflow_learner`: capture repeatable workflows.

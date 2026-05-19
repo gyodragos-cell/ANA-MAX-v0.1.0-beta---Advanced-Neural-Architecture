@@ -107,7 +107,14 @@ class TestToolRegistryBasic(TestCase):
         from tools.base import registry
         tools = registry.list_tools()
         
-        expected_tools = ["file_operations", "system_control", "code_tools", "web_search", "desktop_capture"]
+        expected_tools = [
+            "file_operations",
+            "system_control",
+            "code_tools",
+            "web_search",
+            "desktop_capture",
+            "workspace_situational_awareness",
+        ]
         for tool in expected_tools:
             self.assertIn(tool, tools, f"Tool-ul {tool} ar trebui sa existe")
     
@@ -158,6 +165,22 @@ class TestToolRegistryBasic(TestCase):
         ]:
             result = registry.execute(tool_name, **params)
             self.assertTrue(result.is_success, result.error)
+
+    def test_workspace_situational_awareness_snapshot(self):
+        """WorkGraph snapshot should be compact, read-only, and useful."""
+        from tools.base import registry
+
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        result = registry.execute("workspace_situational_awareness", path=".", max_files=10)
+        self.assertTrue(result.is_success, result.error)
+        self.assertEqual(result.data["schema"], "ana.workgraph.workspace_state.v1")
+        self.assertEqual(result.data["mode"], "observe_only")
+        self.assertIn("workspace", result.data)
+        self.assertIn("recommended_next_step", result.data)
+        self.assertLess(len(str(result.data)), 8192)
 
 
 class TestConfig(TestCase):

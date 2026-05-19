@@ -25,6 +25,7 @@ from tools.conversation_learning_tool import ConversationLearningTool
 from tools.session_log_miner_tool import SessionLogMinerTool
 from tools.ana_context_tool import AnaContextTool
 from tools.tool_healthcheck import ToolHealthcheckTool
+from tools.workspace_situational_awareness import WorkspaceSituationalAwarenessTool
 from tools.terminal_tool import TerminalTool
 from tools.todo_tool import TodoWriteTool
 from tools.edit_tool import EditTool
@@ -184,7 +185,7 @@ __all__ = [
     'SystemTool', 'CodeTool', 'GitTool', 'NetworkTool', 'SecurityTool',
     'QATool', 'MemoryTool', 'SmartSearchTool', 'DebuggerTool',
     'CodebaseUnderstandingTool', 'ConversationLearningTool',
-    'SessionLogMinerTool', 'AnaContextTool', 'ToolHealthcheckTool',
+    'SessionLogMinerTool', 'AnaContextTool', 'ToolHealthcheckTool', 'WorkspaceSituationalAwarenessTool',
     'TerminalTool', 'WebAIBridgeTool', 'AutonomousTool', 'ScienceTool',
     'AdaLTool', 'AdvancedScannerTool', 'TodoWriteTool', 'EditTool', 'TaskTool', 'SystemOptimizationTool',
     'MITMAnalyzerTool', 'NetworkPentestTool', 'HardwareScannerTool',

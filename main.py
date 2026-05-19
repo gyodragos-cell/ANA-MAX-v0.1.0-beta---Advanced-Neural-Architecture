@@ -143,6 +143,7 @@ def _register_all_tools():
         ("tools.web", "WebTool"),
         ("tools.system", "SystemTool"),
         ("tools.tool_healthcheck", "ToolHealthcheckTool"),
+        ("tools.workspace_situational_awareness", "WorkspaceSituationalAwarenessTool"),
         ("tools.conversation_learning_tool", "ConversationLearningTool"),
         ("tools.session_log_miner_tool", "SessionLogMinerTool"),
         ("tools.memory_tool", "MemoryTool"),
@@ -367,6 +368,7 @@ def _run_tests():
     tests = [
         ("file_operations", {"operation": "list", "path": "."}),
         ("system_control", {"operation": "vitals"}),
+        ("workspace_situational_awareness", {"path": ".", "max_files": 10}),
     ]
 
     passed = 0

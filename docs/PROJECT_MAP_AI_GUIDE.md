@@ -85,8 +85,9 @@ in isolated `LicenseManager` tests.
 
 Core utilities:
 - `ana_identity`, `file_operations`, `code_tools`, `web_search`,
-  `system_control`, `tool_healthcheck`, `git_operations`, `terminal`,
-  `todowrite`, `edit`, `task`, `autonomous_engine`.
+  `system_control`, `tool_healthcheck`, `workspace_situational_awareness`,
+  `git_operations`, `terminal`, `todowrite`, `edit`, `task`,
+  `autonomous_engine`.
 
 Security, network, and analysis:
 - `security_audit`, `network_diag`, `network_pentest`, `mitm_analyzer`,
@@ -156,8 +157,8 @@ python -m unittest discover -s tests -v
 ## Current Verification Baseline
 
 The expected public baseline is:
-- `python main.py --test`: `2 PASS / 0 FAIL`
-- `python main.py --list-tools`: 63 loaded tools
+- `python main.py --test`: `3 PASS / 0 FAIL`
+- `python main.py --list-tools`: 64 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 If the numbers change, update this file, `AGENTS.md`, README/docs, and tests in

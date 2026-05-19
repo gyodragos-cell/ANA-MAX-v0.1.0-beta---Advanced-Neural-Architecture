@@ -22,6 +22,8 @@
 - Rewrote the WorkGraph architecture note as ASCII-only guidance focused on
   observation-first agents, tool quality over tool count, and task-based Frida
   usage.
+- Added `workspace_situational_awareness`, an observation-only WorkGraph tool
+  that returns compact workspace JSON before an agent acts.
 
 ## Verification Baseline
 
@@ -33,6 +35,6 @@ python -m unittest discover -s tests -v
 ```
 
 Expected:
-- Quick test: `2 PASS / 0 FAIL`
-- Tool list: 63 loaded tools
+- Quick test: `3 PASS / 0 FAIL`
+- Tool list: 64 loaded tools
 - Unit tests: all tests passing

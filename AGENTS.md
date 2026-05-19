@@ -23,7 +23,7 @@ and verification commands.
   `live_desktop_viewer`, `desktop_control`, `desktop_control_tool`,
   `windows_insight`, `windows_insight_tool`, `windows_deep_sight`.
 - Keep documentation counts aligned with the release map:
-  `63 loaded tools, 4 premium-gated tools, 9 AI Core adapters`.
+  `64 loaded tools, 4 premium-gated tools, 9 AI Core adapters`.
 
 ## Release Sync Rule
 

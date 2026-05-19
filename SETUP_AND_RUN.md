@@ -23,8 +23,8 @@ python -m unittest discover -s tests -v
 Expected:
 
 ```text
-2 PASS / 0 FAIL
-63 loaded tools
+3 PASS / 0 FAIL
+64 loaded tools
 all tests passing
 ```
 

@@ -49,8 +49,8 @@ python -m unittest discover -s tests -v
 
 Expected baseline:
 
-- `python main.py --test`: `2 PASS / 0 FAIL`
-- `python main.py --list-tools`: 63 loaded tools
+- `python main.py --test`: `3 PASS / 0 FAIL`
+- `python main.py --list-tools`: 64 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 ## Tool Model
@@ -90,8 +90,8 @@ emoji, or mojibake in shell-facing text.
 Good:
 
 ```text
-2 PASS / 0 FAIL
-63 loaded tools
+3 PASS / 0 FAIL
+64 loaded tools
 Authorization: Bearer change-me
 ```
 
