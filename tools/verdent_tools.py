@@ -1,4 +1,4 @@
-﻿"""
+"""
 verdent_tools.py
 ================
 Tool-uri inspirate din capabilitatile Verdent AI:

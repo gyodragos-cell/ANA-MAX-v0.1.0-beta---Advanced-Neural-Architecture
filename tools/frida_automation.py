@@ -51,7 +51,7 @@ class FridaTool(Tool):
                 result = subprocess.run([p, "--version"], capture_output=True, text=True, timeout=5)
                 if result.returncode == 0:
                     return p
-            except:
+            except Exception:
                 continue
         return "frida"  # Fallback
 
@@ -318,7 +318,7 @@ class FridaTool(Tool):
             if os.path.exists(script_path):
                 try:
                     os.remove(script_path)
-                except:
+                except Exception:
                     pass
 
     def _list_modules(self, target: str, pkg: str, script: str, module: str, pattern: str, device: str, timeout: int) -> ToolResult:
@@ -367,7 +367,7 @@ class FridaTool(Tool):
             if os.path.exists(script_path):
                 try:
                     os.remove(script_path)
-                except:
+                except Exception:
                     pass
 
     def _find_functions(self, target: str, pkg: str, script: str, module: str, pattern: str, device: str, timeout: int) -> ToolResult:
@@ -426,7 +426,7 @@ class FridaTool(Tool):
             if os.path.exists(script_path):
                 try:
                     os.remove(script_path)
-                except:
+                except Exception:
                     pass
 
     def _hook(self, target: str, pkg: str, script: str, module: str, pattern: str, device: str, timeout: int) -> ToolResult:

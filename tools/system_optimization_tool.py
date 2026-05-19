@@ -69,7 +69,7 @@ class SystemOptimizationTool(Tool):
             if result.stdout:
                 try:
                     all_drivers = json.loads(result.stdout)
-                except:
+                except Exception:
                     all_drivers = []
             
             # Filter only important ones in Python
@@ -112,7 +112,7 @@ class SystemOptimizationTool(Tool):
             if result.stdout:
                 try:
                     software = json.loads(result.stdout)
-                except:
+                except Exception:
                     software = []
             
             # Log software found
@@ -146,7 +146,7 @@ class SystemOptimizationTool(Tool):
             ctypes.windll.shell32.SHGetSpecialFolderPath(None, shell, 0xA, False)
             recycle_path = Path(shell.value.decode())
             recycle_size = sum(f.stat().st_size for f in recycle_path.rglob('*') if f.is_file())
-        except:
+        except Exception:
             recycle_size = 0
         
         total_mb = round((user_size + win_size + recycle_size) / 1024 / 1024, 2)
@@ -175,7 +175,7 @@ class SystemOptimizationTool(Tool):
                         cleaned += size
                     elif f.is_dir():
                         shutil.rmtree(f, ignore_errors=True)
-                except:
+                except Exception:
                     pass
         
         if target in ["win_temp", "all"]:
@@ -188,7 +188,7 @@ class SystemOptimizationTool(Tool):
                         cleaned += size
                     elif f.is_dir():
                         shutil.rmtree(f, ignore_errors=True)
-                except:
+                except Exception:
                     pass
         
         mb_cleaned = round(cleaned / 1024 / 1024, 2)

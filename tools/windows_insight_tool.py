@@ -87,7 +87,7 @@ class WindowsInsightTool(Tool):
 
     def _ps_monitor_loop(self, path: str):
         """Bucla PowerShell care urmareste: Fisiere si Procese."""
-        ps_script = f"""
+        ps_script = rf"""
         $path = "{path}"
         
         # 1. File Watcher

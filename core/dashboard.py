@@ -131,7 +131,7 @@ def get_stats():
                         "type": ev.get("type", "EVENT"),
                         "data": str(ev.get("data", ""))[:100]
                     })
-                except: continue
+                except Exception: continue
     
     dataset_size = 0
     if dataset_file.exists():

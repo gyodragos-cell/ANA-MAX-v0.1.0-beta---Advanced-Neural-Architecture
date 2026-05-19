@@ -120,7 +120,7 @@ class LearningDatabase:
         try:
             if os.path.exists(file_path):
                 file_size = os.path.getsize(file_path)
-        except:
+        except Exception:
             pass
         
         cursor.execute("""

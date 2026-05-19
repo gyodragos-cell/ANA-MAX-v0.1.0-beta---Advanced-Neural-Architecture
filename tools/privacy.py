@@ -114,7 +114,9 @@ class PrivacyTool(Tool):
         obfuscated = text
         for kw in self.CORPORATE_KEYWORDS:
             import re
-            obfuscated = re.sub(rf"\b{kw}\b", "[REDACTED_CORP]", obfuscated, flags=re.IGNORECASE)
+            # Folosim șablon r-string pentru regex pentru a evita SyntaxWarning în Python 3.12+
+            pattern = rf"\b{kw}\b"
+            obfuscated = re.sub(pattern, "[REDACTED_CORP]", obfuscated, flags=re.IGNORECASE)
         
         return ToolResult(
             status=ToolStatus.SUCCESS,
@@ -308,7 +310,7 @@ class PrivacyTool(Tool):
                     status_lines.append("✓ Protecție completă în hosts")
                 else:
                     status_lines.append("⚠️ Protecție parțială - rulează 'block'")
-            except:
+            except Exception:
                 status_lines.append("⚠️ Nu pot verifica hosts")
         
         # Verifică servicii
@@ -323,7 +325,7 @@ class PrivacyTool(Tool):
                     status_lines.append(f"⚠️ {active_telemetry} servicii de telemetrie active")
                 else:
                     status_lines.append("✓ Niciun serviciu de telemetrie activ")
-            except:
+            except Exception:
                 pass
         
         return ToolResult(
@@ -347,7 +349,7 @@ class PrivacyTool(Tool):
                     fp = os.path.join(dirpath, f)
                     try:
                         total += os.path.getsize(fp)
-                    except:
+                    except Exception:
                         pass
             
             if total < 1024:
@@ -356,5 +358,5 @@ class PrivacyTool(Tool):
                 return f"{total / 1024:.1f} KB"
             else:
                 return f"{total / (1024 * 1024):.1f} MB"
-        except:
+        except Exception:
             return "N/A"

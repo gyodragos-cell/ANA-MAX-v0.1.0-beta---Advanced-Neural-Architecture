@@ -799,7 +799,7 @@ class WindowsDeepSightTool(Tool):
                         pass
         finally:
             try: process.terminate()
-            except: pass
+            except Exception: pass
 
     def _etw_registry_monitor(self):
         """Monitorizeaza modificari in registry chei critice."""
@@ -820,7 +820,7 @@ class WindowsDeepSightTool(Tool):
                 )
                 if result.returncode == 0 and result.stdout.strip():
                     known_values[key] = result.stdout.strip()
-            except:
+            except Exception:
                 known_values[key] = ""
 
         while not (getattr(self, '_etw_stop', None) and self._etw_stop.is_set()):
@@ -1134,7 +1134,7 @@ class WindowsDeepSightTool(Tool):
                         payload = json.loads(message["payload"])
                         output.append(payload)
                         self._event_queue.put(payload)
-                    except:
+                    except Exception:
                         output.append({"raw": message["payload"]})
 
             script.on("message", on_message)
@@ -1146,7 +1146,7 @@ class WindowsDeepSightTool(Tool):
                 _time.sleep(30)  # Monitor for 30 seconds
                 try:
                     session.detach()
-                except:
+                except Exception:
                     pass
 
             t = threading.Thread(target=monitor_thread, daemon=True)

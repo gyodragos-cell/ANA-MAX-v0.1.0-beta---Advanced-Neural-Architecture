@@ -107,5 +107,5 @@ class NetworkTool(Tool):
         try:
             info = socket.gethostbyaddr(target)
             return ToolResult(status=ToolStatus.SUCCESS, data=str(info))
-        except:
+        except Exception:
             return ToolResult(status=ToolStatus.ERROR, error="Informații indisponibile.")

@@ -155,7 +155,7 @@ class WebScraperTool(Tool):
                 try:
                     import json
                     headers = json.loads(headers_str)
-                except:
+                except Exception:
                     pass
 
             return operations[operation](url, html, selector, urls, output, timeout, headers, kwargs)
@@ -380,7 +380,7 @@ class WebScraperTool(Tool):
         try:
             import json
             urls_list = json.loads(urls_str)
-        except:
+        except Exception:
             # Try splitting by comma or newline
             urls_list = re.split(r'[,\n]', urls_str)
             urls_list = [u.strip() for u in urls_list if u.strip()]

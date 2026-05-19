@@ -157,7 +157,7 @@ class CodebaseUnderstanding:
                         'file': relative_path,
                         'line': node.lineno
                     }
-        except:
+        except Exception:
             pass
 
     def semantic_search(self, query: str, limit: int = 5) -> List[Dict]:

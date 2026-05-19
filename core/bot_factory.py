@@ -77,7 +77,7 @@ class BotFactory:
         return slug or "ana_cli_bot"
 
     def _render_main(self, bot_name: str) -> str:
-        return f'''#!/usr/bin/env python3
+        return rf'''#!/usr/bin/env python3
 import argparse
 import json
 import urllib.request
