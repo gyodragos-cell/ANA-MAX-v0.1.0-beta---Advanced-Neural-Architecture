@@ -55,6 +55,17 @@ Adapters in `tools/tool_adapters.py` may wrap helper modules, but they must not
 register phantom tools. If a backing module is missing, the adapter must be
 skipped or the module must be added.
 
+Tool quality beats tool count:
+- Prefer a small set of reliable, composable tools over many noisy tools.
+- Every tool must have a clear job: observe, diagnose, act, verify, or learn.
+- Before adding a new tool, check whether an existing tool can be improved.
+- Agents must observe the workspace before acting. Use structural UI, git
+  status, terminal/test output, logs, OCR, or Frida according to the task.
+- Use Frida only for dynamic runtime instrumentation, mobile/process hooks, or
+  cases where static and structural inspection cannot answer the question.
+- Do not use powerful tools by habit. Choose the smallest useful tool and verify
+  the result.
+
 ## Premium Gates
 
 `desktop_capture` is free Vision AI.

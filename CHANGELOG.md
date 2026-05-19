@@ -19,6 +19,9 @@
 - Added regression tests for runtime premium blocking and adapter backing
   modules.
 - Documented `MCP_API_KEY` in `.env.example`.
+- Rewrote the WorkGraph architecture note as ASCII-only guidance focused on
+  observation-first agents, tool quality over tool count, and task-based Frida
+  usage.
 
 ## Verification Baseline
 

@@ -65,6 +65,13 @@ If a check cannot be run, report that clearly with the reason.
   PowerShell output, log examples, and MCP examples must not contain Romanian
   diacritics, smart quotes, emoji, or mojibake. Use simple text that weak
   agents and Windows consoles can parse.
+- Tool quality beats tool count. Do not add tools just to increase the number.
+  Prefer reliable, composable tools with compact output.
+- Observe before acting. Pick tools according to the task: structural UI, git
+  state, terminal output, logs, OCR, Frida, or network tooling only when each is
+  actually relevant.
+- Use Frida only for dynamic runtime instrumentation, mobile/process hooks, or
+  cases where static and structural inspection cannot answer the question.
 
 ## Agent Discipline Rules
 
