@@ -136,6 +136,11 @@ except Exception:
 
 # Voice tools (2026-05-14)
 try:
+    from tools.edge_tts_voice import EdgeTTSVoice
+except Exception:
+    EdgeTTSVoice = None  # type: ignore
+
+try:
     from tools.voice_commentary import VoiceCommentary
 except Exception:
     VoiceCommentary = None  # type: ignore
@@ -189,7 +194,7 @@ __all__ = [
     'DesktopCaptureTool', 'LiveDesktopViewerTool', 'DesktopControlTool',
     'WindowsInsightTool', 'WindowsUiaBridgeTool', 'WindowsDeepSightTool', 'ForegroundUISnapshotTool',
     # Voice tools
-    'VoiceCommentary',
+    'EdgeTTSVoice', 'VoiceCommentary',
     # Ruflo Integration
     'VectorMemoryTool', 'SwarmTool',
     # UI-TARS Integration

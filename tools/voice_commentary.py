@@ -1,9 +1,9 @@
 """
-ANA MAX - Voice Commentary Tool (EXPERIMENTAL)
+ANA MAX - Voice Commentary Tool
 Jarvis-style vocal feedback for tool execution
 
-Ana comentează vocal ce face Qoder în timp real.
-Folosit DOAR în ana_dev pentru teste!
+Ana comenteaza vocal progresul ANA MAX in timp real.
+Public-release safe: disabled automatically when pyttsx3 is unavailable.
 """
 
 import logging

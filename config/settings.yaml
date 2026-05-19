@@ -168,7 +168,7 @@ engineer:
 mcp:
   port: 8765
   host: 127.0.0.1
-  auth_required: false
+  auth_required: true
   auth_token: ""  # Seteaza un token daca vrei autentificare
   stealth_mode: true  # ascunde banner-uri in response
   fake_banner: "Microsoft-IIS/10.0"  # Fake server header

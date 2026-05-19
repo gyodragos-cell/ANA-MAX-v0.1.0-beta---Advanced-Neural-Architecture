@@ -37,12 +37,6 @@
   "devDependencies": {
     "@types/vscode": "^1.80.0"
   },
-  "activationEvents": [
-    "onCommand:anaMax.startMCP",
-    "onCommand:anaMax.callTool",
-    "onCommand:anaMax.checkLicense",
-    "onCommand:anaMax.openDocs"
-  ],
   "main": "./src/extension.js",
   "contributes": {
     "commands": [
@@ -85,7 +79,8 @@
       "ana-max-container": [
         {
           "id": "ana-max-status",
-          "name": "ANA MAX Status"
+          "name": "ANA MAX Status",
+          "icon": "$(info)"
         }
       ]
     }

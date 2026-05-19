@@ -1,173 +1,70 @@
-# 🚀 ANA MAX - Setup și Rulare
+# Setup And Run
 
-## Quick Start (5 minute)
+This file is intentionally ASCII-only. PowerShell examples and expected output
+must not contain diacritics, smart quotes, emoji, or mojibake.
 
-### 1. Instalare Prerequisites
+## Install
+
 ```powershell
-# Python 3.11+
-python --version
-
-# npm (pentru VS Code extension - optional)
-npm --version
-```
-
-### 2. Clone și Setup
-```powershell
-git clone https://github.com/YOUR_USERNAME/ana-max.git
-cd ana-max
-
-# Creeaza virtual environment
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Instaleaza dependente
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-### 3. Configureaza Environment
+## Verify
+
 ```powershell
-# Copiaza template-ul
-copy .env.example .env
-
-# Editeaza .env cu API keys (optional - merge și fără)
-```
-
-### 4. Porneste MCP Server
-```powershell
-python main.py
-```
-
-Server e online pe **`http://127.0.0.1:8765`**
-
----
-
-## 🔨 Comenzi Disponibile
-
-### List Tools (42 disponibile)
-```powershell
-python main.py --list-tools
-```
-
-### Quick Test
-```powershell
+python -m compileall -q main.py core tools vscode_extension
 python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v
 ```
 
-### Custom Port
-```powershell
-python main.py --port 9000 --host 0.0.0.0
+Expected:
+
+```text
+2 PASS / 0 FAIL
+63 loaded tools
+all tests passing
 ```
 
-### Debug Mode
+## Run
+
+MCP authentication is enabled by default.
+
 ```powershell
-python main.py --debug
-```
-
----
-
-## 📡 Testare MCP via HTTP
-
-### Health Check
-```powershell
-$response = Invoke-WebRequest -Uri "http://127.0.0.1:8765/health" -UseBasicParsing
-$response.Content | ConvertFrom-Json
-```
-
-### Execute Tool (exemplu)
-```powershell
-$body = @{
-    tool = "file_operations"
-    params = @{
-        operation = "list"
-        path = "."
-    }
-} | ConvertTo-Json
-
-Invoke-WebRequest -Uri "http://127.0.0.1:8765/execute" `
-  -Method POST `
-  -ContentType "application/json" `
-  -Body $body `
-  -UseBasicParsing
-```
-
----
-
-## 🔌 VS Code Extension (Optional)
-
-### Install local extension
-1. Deschide `vscode_extension/` folder în VS Code
-2. Apasă `F5` → Extension Development Host
-3. Cauta: `ANA MAX: Start MCP Server`
-
----
-
-## 🎯 Tools Disponibile (42)
-
-### Core Tools
-- `file_operations` - Citire, scriere, cautare fisiere
-- `code_tools` - Analiză și execuție cod
-- `browser_control` - Deschide și inspecteaza pagini
-- `terminal` - Terminal persistent cu sesiune
-
-### Windows Automation
-- `windows_uia_bridge` - UI Automation (click, type, read)
-- `system_control` - Procese, vitals, comenzi shell
-
-### Advanced Tools
-- `git_operations` - Git control
-- `security_audit` - Scan secrete și vulnerabilități
-- `smart_search` - Ultra-fast search în proiecte
-- `codebase_understanding` - Semantic analysis
-
-### Mobile & Pentesting
-- `adb_operations` - Android device control
-- `frida_instrument` - Dynamic instrumentation
-- `network_pentest` - Port scan, vuln detection
-- `apk_analyzer` - Reverse engineering
-
-...și 27 mai departe. Vezi `python main.py --list-tools`
-
----
-
-## 🔐 Security Notes
-
-- `.env` conține API keys locale - **NEVER commit**
-- MCP server ascultă pe `127.0.0.1` (localhost only)
-- Premium tools (desktop_capture, live_viewer) sunt disabled în trial version
-- Niciun tool nu face apeluri externe fără consentul tău
-
----
-
-## 🐛 Troubleshooting
-
-### "ModuleNotFoundError: No module named 'core'"
-```powershell
-# Asigura-te că ești în directorul corect
-cd ana-max
+$env:MCP_API_KEY = "change-me"
 python main.py
 ```
 
-### "Port 8765 already in use"
-```powershell
-# Foloseste alt port
-python main.py --port 8766
+Server:
+
+```text
+http://127.0.0.1:8765
 ```
 
-### "Python not found"
+Example:
+
 ```powershell
-# Instaleaza Python de la https://python.org
-# Sau foloseste py launcher
-py -3 main.py
+curl -X POST http://127.0.0.1:8765/mcp `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer change-me" `
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
----
+## Troubleshooting
 
-## 📞 Support
+If Python cannot import project modules, run commands from the repo root.
 
-- Citeaza [PROJECT_MAP_AI_GUIDE.md](docs/PROJECT_MAP_AI_GUIDE.md) pentru arhitectură
-- Verifica [README.md](README.md) pentru overview complet
-- Issues: github.com/YOUR_USERNAME/ana-max/issues
+If premium tools return a blocked result, activate a valid license. This is
+expected behavior for:
 
----
+- `live_desktop_viewer`
+- `desktop_control`
+- `desktop_control_tool`
+- `windows_insight`
+- `windows_insight_tool`
+- `windows_deep_sight`
 
-**Happy hacking! 🎯**
+If text looks corrupted in PowerShell, keep the output ASCII and rerun the
+verification commands.

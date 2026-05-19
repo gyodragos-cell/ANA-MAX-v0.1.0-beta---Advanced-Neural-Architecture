@@ -2,9 +2,14 @@
 # 7 adapters that expose AI Core components through ANA MAX's standard registry interface
 
 import logging
+import importlib.util
 from tools.base import Tool, ToolDefinition, ToolResult, ToolStatus, ToolParameter
 
 logger = logging.getLogger(__name__)
+
+
+def _module_exists(module_name: str) -> bool:
+    return importlib.util.find_spec(module_name) is not None
 
 
 class ContextEngineAdapter(Tool):
@@ -181,6 +186,10 @@ class ContextBridgeAdapter(Tool):
 
 class WindowManagerAdapter(Tool):
     """Adapter for Window Manager - window control"""
+
+    @staticmethod
+    def is_available() -> bool:
+        return _module_exists("tools.window_manager")
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
@@ -209,6 +218,10 @@ class WindowManagerAdapter(Tool):
 
 class ClipboardManagerAdapter(Tool):
     """Adapter for Clipboard Manager - clipboard intelligence"""
+
+    @staticmethod
+    def is_available() -> bool:
+        return _module_exists("tools.clipboard_manager")
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(

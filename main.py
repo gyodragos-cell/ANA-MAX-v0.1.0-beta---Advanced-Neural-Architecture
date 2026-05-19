@@ -15,6 +15,7 @@ import logging
 import os
 import signal
 import sys
+import unicodedata
 from pathlib import Path
 from logging.handlers import RotatingFileHandler
 from types import SimpleNamespace
@@ -78,7 +79,7 @@ def _build_runtime_agent():
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="ANA MAX - MCP Server cu 63 tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
+        description="ANA MAX - MCP Server cu release-ready tools, AI Desktop Control, AI Core Intelligence pentru OpenCode"
     )
     parser.add_argument("--port", "-p", type=int, default=8765, help="Port MCP server (default: 8765)")
     parser.add_argument("--host", default="127.0.0.1", help="Host MCP server (default: 127.0.0.1)")
@@ -93,7 +94,7 @@ def _print_banner() -> None:
         """
 ====================================================================
      A.N.A. MAX - Arhitectura Neurala Avansata
-     MCP Server | 63 Tools | AI Desktop Control | OpenCode Ready
+     MCP Server | Release Tools | AI Desktop Control | OpenCode Ready
      AI Core: Context Engine, Memory Cortex, Orchestrator
 ====================================================================
 """.strip()
@@ -195,11 +196,11 @@ def _register_all_tools():
         ("tools.windows_uia_bridge", "WindowsUiaBridgeTool"),
         ("tools.foreground_ui_snapshot", "ForegroundUISnapshotTool"),  # NEW: Structural Eyes
     ]
-    
-    # Voice tools (2026-05-14) - JARVIS STYLE
+
     voice_tools = [
-        ("tools.edge_tts_voice", "EdgeTTSVoice"),  # Natural voice commentary
+        ("tools.edge_tts_voice", "EdgeTTSVoice"),
     ]
+
     runtime_agent = _build_runtime_agent()
 
     loaded = 0
@@ -257,15 +258,14 @@ def _register_all_tools():
             print(f"  [OK] {tool_instance.get_definition().name} (DESKTOP CONTROL)")
         except Exception as e:
             logging.getLogger(__name__).warning("Desktop tool skipped %s.%s: %s", module_path, class_name, e)
-    
-    # Incarca Voice tools (2026-05-14) - JARVIS STYLE
+
     for module_path, class_name in voice_tools:
         try:
             tool_class = _load_tool_class(module_path, class_name)
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (JARVIS VOICE)")
+            print(f"  [OK] {tool_instance.get_definition().name} (VOICE)")
         except Exception as e:
             logging.getLogger(__name__).warning("Voice tool skipped %s.%s: %s", module_path, class_name, e)
 
@@ -310,6 +310,12 @@ def _register_all_tools():
         from tools.tool_adapters import ANA_ADAPTER_CLASSES
         for AdapterClass in ANA_ADAPTER_CLASSES:
             try:
+                if hasattr(AdapterClass, "is_available") and not AdapterClass.is_available():
+                    logging.getLogger(__name__).warning(
+                        "AI Core adapter skipped %s: backing module is missing",
+                        AdapterClass.__name__,
+                    )
+                    continue
                 instance = AdapterClass()
                 registry.register(instance)
                 loaded += 1
@@ -328,6 +334,13 @@ def _list_tools():
     """Afiseaza toate tool-urile disponibile."""
     from tools.base import registry
 
+    def safe_text(value: str) -> str:
+        normalized = unicodedata.normalize("NFKD", str(value))
+        return normalized.encode("ascii", errors="ignore").decode("ascii")
+
+    if not registry.list_tools():
+        _register_all_tools()
+
     tools = registry.list_tools()
     print(f"\n  Tool-uri ANA MAX ({len(tools)} disponibile):")
     print("  " + "-" * 50)
@@ -335,15 +348,18 @@ def _list_tools():
         tool = registry.get(tool_name)
         if tool:
             definition = tool.get_definition()
-            print(f"  - {tool_name}: {definition.description[:60]}")
+            print(f"  - {safe_text(tool_name)}: {safe_text(definition.description[:60])}")
         else:
-            print(f"  - {tool_name}")
+            print(f"  - {safe_text(tool_name)}")
     print()
 
 
 def _run_tests():
     """Teste rapide pe tool-uri."""
     from tools.base import registry
+
+    if not registry.list_tools():
+        _register_all_tools()
 
     print("\n  Teste rapide ANA MAX:")
     print("  " + "-" * 50)
@@ -381,6 +397,37 @@ def _start_mcp_server(host: str, port: int):
     runtime = {"agent": None, "multi_agent": None}
 
     logging.getLogger('werkzeug').setLevel(logging.WARNING)
+
+    def _mcp_api_key() -> str:
+        return (
+            os.environ.get("ANA_MCP_KEY")
+            or os.environ.get("MCP_API_KEY")
+            or config.get("mcp.api_key", "")
+            or config.get("mcp.auth_token", "")
+            or ""
+        )
+
+    def _auth_is_required() -> bool:
+        return bool(config.get("mcp.auth_required", True))
+
+    @app.before_request
+    def require_mcp_auth():
+        if request.endpoint == "health":
+            return None
+        if not _auth_is_required():
+            return None
+
+        api_key = _mcp_api_key()
+        if not api_key:
+            return jsonify({
+                "error": "MCP authentication is required but no token is configured",
+                "hint": "Set ANA_MCP_KEY or MCP_API_KEY before starting ANA MAX.",
+            }), 503
+
+        auth_header = request.headers.get("Authorization", "")
+        if auth_header != f"Bearer {api_key}":
+            return jsonify({"error": "Unauthorized"}), 401
+        return None
 
     def _get_runtime_agent():
         backend = config.get("ai.primary_backend", "gemini")

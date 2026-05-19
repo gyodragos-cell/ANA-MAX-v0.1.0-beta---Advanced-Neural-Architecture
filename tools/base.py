@@ -296,6 +296,20 @@ class ToolRegistry:
                 status=ToolStatus.ERROR,
                 error=f"Tool-ul '{name}' nu exista"
             )
+
+        try:
+            from core.license_manager import check_premium_access
+
+            allowed, message = check_premium_access(name)
+            if not allowed:
+                logger.warning("TOOL BLOCKED name=%s reason=%s", name, message)
+                return ToolResult(
+                    status=ToolStatus.BLOCKED,
+                    message=message,
+                    error=message,
+                )
+        except Exception as exc:
+            logger.warning("Premium access check failed for %s: %s", name, exc)
             
         # UI v17: Rich Feedback
         try:
@@ -304,7 +318,7 @@ class ToolRegistry:
             console = Console()
             clean_params = {k: (v if len(str(v)) < 100 else f"<{type(v).__name__} len={len(str(v))}>") for k, v in kwargs.items()}
             console.print(Panel(
-                f"[bold cyan]🔧 Executie Tool:[/bold cyan] [bold yellow]{name}[/bold yellow]\n[dim]Parametri: {clean_params}[/dim]",
+                f"[bold cyan]Tool execution:[/bold cyan] [bold yellow]{name}[/bold yellow]\n[dim]Params: {clean_params}[/dim]",
                 border_style="blue",
                 padding=(0, 2)
             ))

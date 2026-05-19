@@ -1,194 +1,123 @@
-# ANA MAX – Windows‑only Autonomous Agent
+# ANA MAX
 
-<div align="center">
+ANA MAX is a Windows-first AI agent runtime with MCP access to local tools:
+files, code search, system checks, desktop vision, UI automation, memory, and
+AI-core orchestration.
 
-# 🤖 ANA MAX – Advanced Neural Architecture
+This repository is the clean public release. It must stay public-safe,
+repeatable, and boring in the best possible way.
 
-### Windows AI Agent with 43 Free Tools + 4 Premium Tools + 9 AI Core Modules
+## Quick Start
 
-**See it in action!** 🎬 [Watch Demo Video](demo_ana_max.mp4) (186 MB)
+Run from the repository root:
 
-> 📥 **How to watch:** Click the video file above → Click "Download" → Play locally
-> 
-> The demo shows ANA MAX controlling Windows Calculator, automating UI tasks, and using MCP tools in real-time.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+$env:MCP_API_KEY = "change-me"
+python main.py
+```
 
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%2010/11-lightgrey.svg)](#quickstart-windows)
+ANA MAX starts on `http://127.0.0.1:8765` by default.
 
-</div>
+MCP auth is enabled by default. Send:
 
----
+```text
+Authorization: Bearer change-me
+```
 
-##  What is ANA MAX?
+Example MCP request:
 
-ANA MAX is a **self‑contained, offline AI‑agent** that runs on Windows and can **control the OS natively**.  It uses:
-- **pywinauto / UIAutomation** for pixel‑perfect UI interaction (no OCR).  
-- **MCP (Model Context Protocol)** – a lightweight HTTP‑JSON‑RPC bridge that any AI (OpenCode, Cursor, Claude, Ollama, etc.) can call.
-- **SQLite‑based memory** for persistent learning across sessions.
-- **43 free tools** (`windows_uia_bridge`, `desktop_capture`, `security_tool`, …) exposed as MCP endpoints.
-- **9 AI Core Modules** for intelligent automation: context engine, memory cortex, self-evolving tools, proactive interrupt detection, and more.
+```powershell
+curl -X POST http://127.0.0.1:8765/mcp `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer change-me" `
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
 
-It is designed to be **fully offline** – no internet calls are required once the required model files are downloaded locally (e.g. Mistral‑120B via Ollama).  The agent is ideal for:
-- Automated UI testing.
-- Personal productivity assistants that can click, type and read windows.
-- Secure, on‑premise AI workflows where data never leaves the machine.
-- Intelligent desktop automation with context-aware predictions.
+## Verification
 
-##  Works With Popular AI Tools
+Before handing off changes, run:
 
-ANA MAX integrates seamlessly with:
-- **Qoder** - AI-powered IDE with MCP support
-- **Cursor** - The AI-first code editor
-- **Windsurf** - Agentic IDE for developers
-- **Antigravity** - AI coding assistant
-- **OpenCode** - Built-in MCP bridge
-- **Ollama** - Local LLMs for offline use
-- **Any MCP-compatible client**
+```powershell
+python -m compileall -q main.py core tools vscode_extension
+python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v
+```
 
-## 💡 Similar Projects
+Expected baseline:
 
-If you're interested in AI automation, also check out:
-- **[AdalFlow](https://github.com/SylphAI-Inc/AdalFlow)** - LLM application framework
-- **[Qoder AI](https://qoder.com)** - AI-powered development environment
-- **[Cursor](https://cursor.sh)** - AI-first code editor
-- **[Windsurf](https://windsurf.com)** - Agentic IDE
+- `python main.py --test`: `2 PASS / 0 FAIL`
+- `python main.py --list-tools`: 63 loaded tools
+- `python -m unittest discover -s tests -v`: all tests passing
 
-## Why Windows only?
-All low‑level interactions (UIA, window handles, DPI‑aware screenshots) rely on the Windows API, which gives us deterministic, fast, and secure control of the desktop.  The current code base has been thoroughly tested on Windows 10/11.
+## Tool Model
 
----
+Core tool behavior is owned by `tools/base.py`.
 
-## Quick‑Start (Windows)
+New tools must:
 
-1. **Prerequisites**
-   - Python 3.11 (or newer) installed and added to PATH.
-   - `git` installed.
-   - (Optional) **Ollama** with a local LLM (e.g. `mistral:latest`).  The agent works without an LLM, but most AI‑driven tools need a model.
+- inherit from `tools.base.Tool`;
+- implement `get_definition()` and `execute()`;
+- be registered from `main.py`;
+- be importable from this clean repo;
+- have docs only when the code and tests exist.
 
-2. **Clone the repository**
-   ```powershell
-   git clone https://github.com/<your‑username>/ANA_MAX.git
-   cd ANA_MAX
-   ```
+## Premium Gate
 
-3. **Create a virtual environment and install dependencies**
-   ```powershell
-   python -m venv venv
-   .\venv\Scripts\Activate.ps1   # PowerShell
-   pip install -r requirements.txt
-   ```
+`desktop_capture` is free Vision AI.
 
-4. **Set up environment variables**
-   - Copy the template:
-     ```powershell
-     copy .env.example .env
-     ```
-   - Edit `.env` and fill in ONLY the keys you need (OpenCode, OpenRouter, etc.).  **Never commit this file** – it is ignored by `.gitignore`.
+These tools are premium-gated at runtime:
 
-5. **Start the MCP server**
-   ```powershell
-   python mcp_server.py   # runs on http://127.0.0.1:8765
-   ```
-   You’ll see a log line:
-   > `ANA MCP Bridge initialized with 11 core OS‑level tools`.
+- `live_desktop_viewer`
+- `desktop_control`
+- `desktop_control_tool`
+- `windows_insight`
+- `windows_insight_tool`
+- `windows_deep_sight`
 
-6. **Call a tool** (example – open Notepad):
-   ```powershell
-   curl -X POST http://127.0.0.1:8765/mcp \
-        -H "Content-Type: application/json" \
-        -d '{"method":"call_tool","params":{"tool":"windows_uia_bridge","args":{"action":"click","target":"Notepad"}}}'
-   ```
-   The tool will launch Notepad and focus the window.
+Premium checks happen in `ToolRegistry.execute()`, so the gate applies through
+CLI, HTTP, and MCP.
 
-7. **Use with an AI frontend**
-   - **OpenCode** (already bundled in `./.opencode/plugins/ana-mcp-bridge.js`).  Open OpenCode, set the MCP URL to `http://127.0.0.1:8765`, and you can type commands like `"Open Notepad"`.
-   - **Cursor / VS Code Extension** – later you can create a small VS Code extension that forwards editor commands to the MCP server.
+## Windows And PowerShell Text Rule
 
----
+All commands, expected terminal output, log examples, and setup snippets in
+public docs must be ASCII-only. Do not use Romanian diacritics, smart quotes,
+emoji, or mojibake in shell-facing text.
 
-## Available Tools (Windows‑only)
+Good:
 
-### Core Tools (42)
-| Tool | Description |
-|------|-------------|
-| `windows_uia_bridge` | Structured UI Automation – find windows by title, click, type, read text. |
-| `desktop_capture` | Fast screenshot of the whole desktop (returns image path). |
-| `security_tool` | Simple local file/secret scanner (no network). |
-| `network_tool` | Ping, port‑scan, DNS‑lookup. |
-| `task_tool` | Schedule a Python task inside the agent. |
-| `terminal_tool` | Run a command in a persistent PowerShell session. |
-| `qa_tool` | Generate test cases or edge‑cases for a given function. |
-| ... | + 35 more tools (git, web, browser, mobile, code intelligence) |
+```text
+2 PASS / 0 FAIL
+63 loaded tools
+Authorization: Bearer change-me
+```
 
-### 🆕 AI Core Modules (9 NEW!)
-| Tool | Description |
-|------|-------------|
-| `context_engine` | Observes desktop activity, classifies behavior, predicts user intentions |
-| `proactive_interrupt` | 5 active detectors (STUCK, SEQUENCE, CLIPBOARD, REPEAT, CONTEXT_SHIFT) |
-| `memory_cortex` | 4-type persistent memory (Episodic, Semantic, Procedural, Error Log) |
-| `self_evolving_tool` | Auto-repair & self-improvement with rollback safety |
-| `ana_orchestrator` | 6-phase task execution: SEE → THINK → PLAN → EXECUTE → VERIFY → LEARN |
-| `context_bridge` | Session persistence – restores context between restarts |
-| `window_manager` | Window management: snap, tile, focus, list, close |
-| `clipboard_manager` | Clipboard intelligence with history & monitoring |
-| `ocr_tool` | OCR on screen/region/file (PaddleOCR/Tesseract support) |
+Bad:
 
-> **Tip:** Run `python main.py --list-tools` to see all loaded tools.
+```text
+mojibake text
+non-ascii shell output
+```
 
-## Premium Tools (License Required)
+This is deliberate. Cheap agents and Windows consoles often stumble on encoded
+text. Public docs should be simple enough that weak agents cannot misread them.
 
-- `live_desktop_viewer` – real‑time streaming of the desktop for remote monitoring.
-- `desktop_control_tool` – full desktop automation (mouse, keyboard, window management) under a licensed edition.
-- `windows_insight_tool` – advanced system insight and diagnostics, premium feature.
-- `windows_deep_sight` – “God‑view” system monitoring and event streaming (experimental).
+## Public Release Hygiene
 
-`desktop_capture` is part of the free Vision AI feature set in v0.2.0. Premium tools are **disabled in the trial/clean release** and are not loaded by default (see `main.py` where they are commented out). A short demo video (`teste tooluri.mp4`) showcases what the premium suite can do.
+Do not add private workspace notes, local IDE setup files, local shortcuts,
+private tokens, logs, databases, or screenshots.
 
----
+If a feature is experimental, keep it private until code, tests, docs, and
+release hygiene are all present.
 
-## Contributing
-We keep the repo **lean**.  Before opening a pull request:
-1. Make sure your code passes the built‑in `smoke_test_runner.py` suite.
-2. Add any new external dependency to `requirements.txt`.
-3. Update this README with the new tool’s description.
+When behavior changes, update code, docs, `.env.example`, tests, and release
+counts together. Users should never need private notes to know how the public
+release works.
 
----
+## License
 
-## 💝 Support This Project
-
-ANA MAX is a **free, open-source project** built with passion by a solo developer! If this tool helps you, consider supporting its development:
-
-<div align="center">
-
-[![GitHub Sponsors](https://img.shields.io/badge/GitHub_Sponsors-Support-blue?style=for-the-badge&logo=github)](https://github.com/sponsors/gyodragos-cell)
-[![PayPal](https://img.shields.io/badge/PayPal-Send_to_oana__alicia347__yahoo.com-blue?style=for-the-badge&logo=paypal)](https://paypal.me/oana_alicia347)
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_A_Coffee-Support-yellow?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/gyodragosw)
-
-</div>
-
-**Why your support matters:**
-- 🖥️ **Help me upgrade my PC** – Better hardware = faster development = more features
-- 🔧 **Fund new tools** – Your donations enable new capabilities and integrations
-- 🌍 **Keep ANA MAX free** – Support ensures this stays open-source for everyone
-- ❤️ **Fuel independent development** – Your contribution keeps the project alive
-
-**PayPal:** Send donations to `oana_alicia347@yahoo.com`
-
-*Every donation, no matter how small, makes a huge difference!* 
-
----
-
-## License & Disclaimer
-ANA MAX is released under the **MIT License**.  It is provided **as‑is** – the author is not liable for any damage caused by automated UI actions.  Use it responsibly and only on machines you own or have permission to control.
-
----
-
-## Contact
-- **Email:** gyodragos@gmail.com
-- **GitHub:** https://github.com/gyodragos-cell
-- **Security Issues:** See [SECURITY.md](SECURITY.md)
-
----
-
-*Happy Coding!*
+MIT. Use automated desktop control only on machines you own or are allowed to
+operate.

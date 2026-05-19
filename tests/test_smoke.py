@@ -12,6 +12,7 @@ Utilizare:
 
 import sys
 import time
+import tempfile
 from pathlib import Path
 from unittest import TestCase, main
 
@@ -125,6 +126,38 @@ class TestToolRegistryBasic(TestCase):
         self.assertIsNotNone(result.data)
         self.assertIsInstance(result.data, (dict, str))
         self.assertTrue(result.data)
+
+    def test_registry_blocks_premium_tool_without_license(self):
+        """Premium tools must be blocked at registry execution, not only in LicenseManager."""
+        import core.license_manager as lm
+        from core.license_manager import LicenseManager
+        from tools.base import registry
+
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        with tempfile.TemporaryDirectory() as tmp:
+            lm._license_manager = LicenseManager(str(Path(tmp) / ".license"))
+            result = registry.execute("live_desktop_viewer", operation="status")
+            self.assertFalse(result.is_success)
+            self.assertIn("premium", (result.error or result.message).lower())
+        lm._license_manager = None
+
+    def test_ai_core_adapters_have_backing_modules(self):
+        """Listed AI Core adapters should not be phantom tools."""
+        from tools.base import registry
+
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        for tool_name, params in [
+            ("window_manager", {"action": "list"}),
+            ("edge_tts_voice", {"action": "status"}),
+        ]:
+            result = registry.execute(tool_name, **params)
+            self.assertTrue(result.is_success, result.error)
 
 
 class TestConfig(TestCase):

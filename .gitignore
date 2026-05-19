@@ -57,6 +57,7 @@ desktop.ini
 # Sensitive
 .env
 .env.*
+!.env.example
 *.pem
 *.key
 secret*.json

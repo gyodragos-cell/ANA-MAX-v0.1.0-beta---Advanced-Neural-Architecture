@@ -23,7 +23,22 @@ and verification commands.
   `live_desktop_viewer`, `desktop_control`, `desktop_control_tool`,
   `windows_insight`, `windows_insight_tool`, `windows_deep_sight`.
 - Keep documentation counts aligned with the release map:
-  `43 Free + 4 Premium + 9 AI Core`.
+  `63 loaded tools, 4 premium-gated tools, 9 AI Core adapters`.
+
+## Release Sync Rule
+
+When code, tools, config, or runtime behavior changes, update every public
+surface in the same change:
+
+- `docs/PROJECT_MAP_AI_GUIDE.md`
+- `README.md`
+- `SETUP_AND_RUN.md`
+- `CHANGELOG.md`
+- `.env.example` when environment variables or auth behavior change
+- tests that protect the behavior or release hygiene
+
+Do not leave users behind with stale commands, stale tool counts, stale premium
+gates, or missing environment variables.
 
 ## Verification Before Handoff
 
@@ -46,3 +61,23 @@ If a check cannot be run, report that clearly with the reason.
 - Use native Python/Windows APIs where possible instead of spawning shell
   subprocesses for common operations.
 - Keep CLI output UTF-8 tolerant on Windows.
+- Public docs and shell-facing text must be ASCII-only. Commands, expected
+  PowerShell output, log examples, and MCP examples must not contain Romanian
+  diacritics, smart quotes, emoji, or mojibake. Use simple text that weak
+  agents and Windows consoles can parse.
+
+## Agent Discipline Rules
+
+- Work from facts, not assumptions: inspect the files that own the behavior
+  before changing them, and verify claims with commands.
+- Do not add tool registrations, docs, setup guides, or changelog entries for
+  modules that are not present and executable in this clean release.
+- Never copy integration notes from private workspaces, private IDE setup,
+  local shortcuts, or private tokens into this repository.
+- Keep public docs boring and exact: current file names, current tool counts,
+  current premium gates, and commands that run from this repo root.
+- If a feature is experimental or private-only, leave it out of the public
+  release until it has code, tests, docs, and release hygiene.
+- Before handoff, run the required verification commands and report failures
+  plainly. Passing import/compile is not enough if a listed tool fails when
+  executed.
