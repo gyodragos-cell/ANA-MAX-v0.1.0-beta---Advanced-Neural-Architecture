@@ -149,7 +149,7 @@
     gap: 10px;
     margin-top: 28px;
   }
-  .stat, .panel, .card, .codebox {
+  .stat, .panel, .card, .codebox, .demo {
     background: rgba(17, 24, 39, 0.82);
     border: 1px solid var(--line);
     border-radius: 8px;
@@ -208,6 +208,40 @@
   }
   .section { display: none; }
   .section.active { display: block; }
+  .demo {
+    margin-top: 30px;
+    padding: 18px;
+  }
+  .demo-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+    gap: 18px;
+    align-items: center;
+  }
+  .demo video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #050914;
+  }
+  .demo h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+  }
+  .demo p {
+    margin: 0 0 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .demo ol {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 14px;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -270,7 +304,7 @@
     flex-wrap: wrap;
   }
   @media (max-width: 900px) {
-    .hero, .grid { grid-template-columns: 1fr; }
+    .hero, .grid, .demo-layout { grid-template-columns: 1fr; }
     .intro, .panel { min-height: auto; }
   }
   @media (max-width: 620px) {
@@ -292,6 +326,7 @@
     </div>
     <nav class="nav" aria-label="Primary">
       <a href="#architecture">Architecture</a>
+      <a href="#demo">Demo</a>
       <a href="#mcp">MCP</a>
       <a href="#license">License</a>
       <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
@@ -310,7 +345,8 @@
           with the project map.
         </p>
         <div class="actions">
-          <a class="button" href="#mcp">Connect MCP</a>
+          <a class="button" href="#demo">Watch demo</a>
+          <a class="button secondary" href="#mcp">Connect MCP</a>
           <a class="button secondary" href="#checks">Run checks</a>
         </div>
         <div class="stats" aria-label="Release stats">
@@ -380,6 +416,27 @@
           <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
           <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
         </svg>
+      </div>
+    </section>
+
+    <section class="demo" id="demo" aria-label="ANA MAX demo video">
+      <div class="demo-layout">
+        <video controls preload="metadata" src="demo_ana_max.mp4">
+          Your browser cannot play this video. Open demo_ana_max.mp4 from the repository.
+        </video>
+        <div>
+          <div class="badge">real workflow demo</div>
+          <h3>See ANA MAX work before reading the docs.</h3>
+          <p>
+            The fastest way to understand the project is to watch the agent
+            observe the workspace, use tools, and verify the result.
+          </p>
+          <ol>
+            <li>Observe the desktop and project state.</li>
+            <li>Use focused tools instead of guessing.</li>
+            <li>Run smoke checks and report facts.</li>
+          </ol>
+        </div>
       </div>
     </section>
 

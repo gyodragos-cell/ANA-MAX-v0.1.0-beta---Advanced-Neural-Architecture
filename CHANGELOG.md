@@ -30,6 +30,9 @@
 - Repaired `index.html` for the public website: removed mojibake/emoji, aligned
   tool counts with the release baseline, documented MCP auth, and added it to
   release hygiene tests.
+- Added a first-page demo section to `index.html` and documented
+  `demo_ana_max.mp4` in the README so users can see the workflow before reading
+  the architecture notes.
 
 ## Verification Baseline
 

@@ -7,6 +7,19 @@ AI-core orchestration.
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
 
+## Demo
+
+Watch the local demo video:
+
+```text
+demo_ana_max.mp4
+```
+
+The demo should prove the core workflow quickly: observe the workspace, choose
+focused tools, act, run smoke checks, and verify the result. Keep the public
+demo short and factual; users should understand the value before reading the
+full architecture notes.
+
 ## Quick Start
 
 Run from the repository root:
