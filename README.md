@@ -57,6 +57,9 @@ focused tools, act, run smoke checks, and verify the result. Keep the public
 demo short and factual; users should understand the value before reading the
 full architecture notes.
 
+For the recommended public recording plan, see
+[`docs/ANA_MAX_WOW_DEMO.md`](docs/ANA_MAX_WOW_DEMO.md).
+
 ## Quick Start
 
 Run from the repository root:

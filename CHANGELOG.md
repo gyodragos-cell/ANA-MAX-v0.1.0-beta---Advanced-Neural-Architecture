@@ -36,6 +36,8 @@
 - Repositioned the public website and README around ANA MAX as a privacy-first
   hybrid situational-awareness runtime: observe, instrument when needed, act,
   verify, and learn.
+- Added `docs/ANA_MAX_WOW_DEMO.md`, a 90-second public demo blueprint that
+  explains how to show ANA MAX as a situational-awareness runtime for agents.
 
 ## Verification Baseline
 
