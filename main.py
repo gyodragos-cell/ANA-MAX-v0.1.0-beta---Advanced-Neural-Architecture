@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 ANA MAX - Arhitectura Neurala Avansata
 ======================================
@@ -266,7 +266,34 @@ def _register_all_tools():
         except Exception as e:
             logging.getLogger(__name__).warning("Voice tool skipped %s.%s: %s", module_path, class_name, e)
 
-    # Jules tools removed - separate project
+    # Jules MCP Integration (2026-05-19)
+    jules_tools = [
+        ("tools.jules_mcp_bridge", "JulesMCPTool"),  # Jules coding agent bridge
+    ]
+    
+    # Ruflo-inspired: Vector Memory & Swarm (2026-05-19)
+    advanced_tools = [
+        ("tools.vector_memory_tool", "VectorMemoryTool"),  # Vector search 150x+ faster
+        ("tools.swarm_tool", "SwarmTool"),  # Multi-agent swarm orchestration
+    ]
+    
+    # UI-TARS inspired: Vision, Remote Control, Event Stream (2026-05-19)
+    uitars_tools = [
+        ("tools.vision_fallback_tool", "VisionFallbackTool"),  # Vision-based GUI fallback
+        ("tools.remote_control_tool", "RemoteControlTool"),  # Remote machine control
+        ("tools.event_stream_tool", "EventStreamTool"),  # Event stream debugging
+    ]
+    
+    # Incarca Jules MCP tools (2026-05-19)
+    for module_path, class_name in jules_tools:
+        try:
+            tool_class = _load_tool_class(module_path, class_name)
+            tool_instance = tool_class()
+            registry.register(tool_instance)
+            loaded += 1
+            print(f"  [OK] {tool_instance.get_definition().name} (JULES INTEGRATION)")
+        except Exception as e:
+            logging.getLogger(__name__).warning("Jules tool skipped %s.%s: %s", module_path, class_name, e)
     
     # Incarca Advanced tools (Vector Memory + Swarm) (2026-05-19)
     for module_path, class_name in advanced_tools:
@@ -278,6 +305,17 @@ def _register_all_tools():
             print(f"  [OK] {tool_instance.get_definition().name} (RUFLO-INTEGRATION)")
         except Exception as e:
             logging.getLogger(__name__).warning("Advanced tool skipped %s.%s: %s", module_path, class_name, e)
+    
+    # Incarca UI-TARS tools (Vision, Remote, Event Stream) (2026-05-19)
+    for module_path, class_name in uitars_tools:
+        try:
+            tool_class = _load_tool_class(module_path, class_name)
+            tool_instance = tool_class()
+            registry.register(tool_instance)
+            loaded += 1
+            print(f"  [OK] {tool_instance.get_definition().name} (UI-TARS-INTEGRATION)")
+        except Exception as e:
+            logging.getLogger(__name__).warning("UI-TARS tool skipped %s.%s: %s", module_path, class_name, e)
     
     # AI Core adapters (context_engine, proactive_interrupt, self_evolving,
     # memory_cortex, orchestrator, context_bridge, window_manager)
@@ -742,6 +780,5 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
 
 
