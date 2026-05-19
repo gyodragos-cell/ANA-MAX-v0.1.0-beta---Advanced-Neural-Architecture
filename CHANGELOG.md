@@ -27,6 +27,9 @@
 - Hardened `workspace_situational_awareness` after bug hunt: file paths now
   resolve to their parent repo, loose AI parameters fall back safely, and local
   absolute repo paths are not exposed in the snapshot.
+- Repaired `index.html` for the public website: removed mojibake/emoji, aligned
+  tool counts with the release baseline, documented MCP auth, and added it to
+  release hygiene tests.
 
 ## Verification Baseline
 

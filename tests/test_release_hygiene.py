@@ -15,6 +15,7 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "SETUP_AND_RUN.md",
             PROJECT_ROOT / "AGENTS.md",
             PROJECT_ROOT / "CHANGELOG.md",
+            PROJECT_ROOT / "index.html",
             PROJECT_ROOT / ".env.example",
             PROJECT_ROOT / "docs" / "PROJECT_MAP_AI_GUIDE.md",
             PROJECT_ROOT / "docs" / "ANA_WORKGRAPH_ARCHITECTURE.md",

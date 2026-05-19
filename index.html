@@ -1,848 +1,505 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANA MAX — Advanced Neural Architecture</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+<title>ANA MAX - Advanced Neural Architecture</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  *, *::before, *::after { box-sizing: border-box; }
   :root {
-    /* Paletă Profesională Modernă - Dark Mode Tech */
-    --bg:         #0A0E1A; /* Deep Navy - Fundal principal */
-    --bg2:        #111827; /* Dark Gray - Carduri si elemente ridicate */
-    --bg3:        #1E293B; /* Slate Gray - Fundaluri secundare */
-    --border:     rgba(59, 130, 246, 0.15); /* Electric Blue subtil - Borduri */
-    --border2:    rgba(59, 130, 246, 0.35);  /* Electric Blue mediu - Accente */
-    --text:       #F1F5F9; /* Light Gray - Text principal */
-    --muted:      #94A3B8; /* Muted Gray - Text secundar */
-    --primary:    #3B82F6; /* Electric Blue - Accent principal */
-    --primary-dim: rgba(59, 130, 246, 0.1); /* Blue transparent - Hover */
-    --accent:     #8B5CF6; /* Purple - Accente secundare */
-    --success:    #10B981; /* Emerald - Succes */
-    --warning:    #F59E0B; /* Amber - Avertizare */
-    --danger:     #EF4444; /* Red - Eroare */
-    --glow:       0 0 20px rgba(59, 130, 246, 0.15);
+    --bg: #0b1020;
+    --panel: #111827;
+    --panel2: #172033;
+    --line: rgba(125, 154, 190, 0.22);
+    --line2: rgba(84, 175, 255, 0.45);
+    --text: #eef4ff;
+    --muted: #9fb0c7;
+    --blue: #4ea1ff;
+    --green: #39d98a;
+    --amber: #f7b955;
+    --red: #ff6b6b;
+    --violet: #a78bfa;
   }
-
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
+    margin: 0;
     min-height: 100vh;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(78, 161, 255, 0.14), transparent 30%),
+      linear-gradient(180deg, #0b1020 0%, #090d18 100%);
+    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  a { color: inherit; }
+  .shell {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 56px;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+  .mark {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--line2);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+    font-weight: 800;
+    box-shadow: 0 0 24px rgba(78, 161, 255, 0.18);
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+  .brand p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .nav a, .tab, .copy {
+    border: 1px solid var(--line);
+    background: rgba(17, 24, 39, 0.8);
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .nav a:hover, .tab:hover, .copy:hover {
+    border-color: var(--line2);
+    color: var(--text);
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+  .intro {
+    min-height: 520px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 48px 24px 80px;
+    justify-content: center;
   }
-
-  /* ── HEADER ── */
-  header { text-align: center; margin-bottom: 48px; }
   .badge {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.12em;
-    color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.35);
-    padding: 4px 14px; border-radius: 20px; margin-bottom: 20px;
-    background: rgba(16, 185, 129, 0.05);
+    width: fit-content;
+    border: 1px solid rgba(57, 217, 138, 0.35);
+    color: var(--green);
+    background: rgba(57, 217, 138, 0.08);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
   }
-  header h1 { 
-    font-size: clamp(28px,5vw,52px); 
-    font-weight: 700; 
-    letter-spacing: -0.02em; 
-    line-height: 1.1;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .intro h2 {
+    margin: 20px 0 14px;
+    font-size: clamp(42px, 8vw, 78px);
+    line-height: 0.95;
+    letter-spacing: 0;
   }
-  header h1 span { 
-    background: linear-gradient(135deg, var(--accent) 0%, #EC4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .intro .lead {
+    margin: 0 0 22px;
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 17px;
+    line-height: 1.65;
   }
-  header p { margin-top: 12px; color: var(--muted); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
-
-  /* ── STATS ROW ── */
+  .actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .button {
+    border: 1px solid var(--line2);
+    background: rgba(78, 161, 255, 0.14);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .button.secondary {
+    border-color: var(--line);
+    background: rgba(17, 24, 39, 0.76);
+    color: var(--muted);
+  }
   .stats {
-    display: flex; gap: 24px; margin-bottom: 44px; flex-wrap: wrap; justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .stat, .panel, .card, .codebox {
+    background: rgba(17, 24, 39, 0.82);
+    border: 1px solid var(--line);
+    border-radius: 8px;
   }
   .stat {
-    background: var(--bg2); 
-    border: 1px solid var(--border);
-    border-radius: 12px; 
-    padding: 16px 24px; 
-    text-align: center;
-    box-shadow: var(--glow);
-    transition: all 0.3s ease;
+    padding: 15px;
   }
-  .stat:hover {
-    border-color: var(--border2);
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.25);
+  .stat strong {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    color: var(--blue);
+    font-size: 26px;
   }
-  .stat .num { 
-    font-size: 28px; 
-    font-weight: 700; 
-    color: var(--primary); 
-    font-family: 'JetBrains Mono', monospace;
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  .stat span {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
   }
-  .stat .lbl { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
-
-  /* ── TABS ── */
-  .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; justify-content: center; }
-  .tab {
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    padding: 8px 20px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--bg2);
-    color: var(--muted); cursor: pointer; transition: all 0.2s; letter-spacing: 0.05em;
+  .panel {
+    min-height: 520px;
+    padding: 18px;
+    overflow: hidden;
   }
-  .tab:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
-  .tab.active { 
-    background: var(--primary-dim); 
-    border-color: var(--primary); 
-    color: var(--primary);
-    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
   }
-
-  /* ── DIAGRAM SECTIONS ── */
-  .diagram-section { display: none; width: 100%; max-width: 920px; }
-  .diagram-section.active { display: block; }
-  .diagram-wrap { width: 100%; overflow-x: auto; }
-
-  /* ── SVG NODES ── */
-  .node { cursor: pointer; transition: all 0.2s; }
-  .node:hover { filter: brightness(1.2); transform: scale(1.02); }
-
-  text.title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; }
-  text.sub   { font-family: 'JetBrains Mono', monospace; font-size: 10px; }
-
-  /* Node colors - Professional Dark Theme */
-  .c-primary rect { fill: rgba(59, 130, 246, 0.12); stroke: var(--primary); stroke-width: 1.5; }
-  .c-primary text.title { fill: var(--primary); } .c-primary text.sub { fill: #60A5FA; }
-
-  .c-accent rect { fill: rgba(139, 92, 246, 0.12); stroke: var(--accent); stroke-width: 1.5; }
-  .c-accent text.title { fill: var(--accent); } .c-accent text.sub { fill: #A78BFA; }
-
-  .c-success rect { fill: rgba(16, 185, 129, 0.12); stroke: var(--success); stroke-width: 1.5; }
-  .c-success text.title { fill: var(--success); } .c-success text.sub { fill: #34D399; }
-
-  .c-warning rect { fill: rgba(245, 158, 11, 0.12); stroke: var(--warning); stroke-width: 1.5; }
-  .c-warning text.title { fill: var(--warning); } .c-warning text.sub { fill: #FBBF24; }
-
-  .c-gray rect { fill: rgba(148, 163, 184, 0.08); stroke: rgba(148, 163, 184, 0.3); stroke-width: 1; }
-  .c-gray text.title { fill: #CBD5E1; } .c-gray text.sub { fill: var(--muted); }
-
-  .c-mono rect { fill: rgba(148, 163, 184, 0.05); stroke: rgba(148, 163, 184, 0.2); stroke-width: 0.5; }
-  .c-mono text { fill: #94A3B8; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-  .c-mono text.k { fill: var(--primary); } .c-mono text.val { fill: var(--accent); }
-
-  line.arr, path.arr { stroke: var(--primary); stroke-width: 1.5; fill: none; opacity: 0.6; }
-  line.arr2, path.arr2 { stroke: var(--accent); stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; opacity: 0.5; }
-
-  /* ── INFO PANEL ── */
-  #info-panel {
-    width: 100%; max-width: 920px; margin-top: 28px;
-    border: 1px solid var(--border2); border-radius: 12px;
-    background: var(--bg2); padding: 22px 26px;
-    transition: all 0.22s; min-height: 88px;
-    display: flex; align-items: flex-start; gap: 16px;
-    box-shadow: var(--glow);
+  .panel-head h3 {
+    margin: 0;
+    font-size: 14px;
   }
-  #info-panel .icon {
-    flex-shrink: 0; width: 40px; height: 40px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; background: var(--primary-dim);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: var(--primary);
+  .panel-head span {
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
   }
-  #info-panel .content h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  #info-panel .content p  { font-size: 13px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; }
-  #info-panel .content code {
-    background: var(--bg3); border: 1px solid var(--border);
-    border-radius: 4px; padding: 2px 8px; font-size: 11px; color: var(--primary);
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
   }
-
-  /* ── CONFIG BLOCK ── */
-  .config-block {
-    width: 100%; max-width: 920px; margin-top: 24px;
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 12px; overflow: hidden;
-    box-shadow: var(--glow);
+  .tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 30px 0 14px;
   }
-  .config-block + .config-block { margin-top: 14px; }
-  .config-block .bar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 12px 20px; border-bottom: 1px solid var(--border); background: var(--bg3);
+  .tab.active {
+    color: var(--blue);
+    border-color: var(--line2);
+    background: rgba(78, 161, 255, 0.12);
   }
-  .config-block .bar span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
-  .copy-btn {
-    font-family: 'JetBrains Mono', monospace; font-size: 10px;
-    padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border);
-    background: var(--bg2); color: var(--muted); cursor: pointer; transition: all 0.2s;
+  .section { display: none; }
+  .section.active { display: block; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
-  .copy-btn:hover { color: var(--primary); border-color: var(--primary); background: var(--primary-dim); }
-  .config-block pre { padding: 20px 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; color: var(--text); overflow-x: auto; background: var(--bg); }
-  .config-block pre .k { color: var(--primary); }
-  .config-block pre .s { color: var(--accent); }
-  .config-block pre .c { color: var(--muted); }
-
-  /* ── AI CORE CARDS (tab 3) ── */
-  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; width: 100%; max-width: 920px; }
   .card {
-    background: var(--bg2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s;
-    box-shadow: var(--glow);
+    padding: 16px;
   }
-  .card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 0 25px rgba(59, 130, 246, 0.2); }
-  .card.open { border-color: var(--primary); box-shadow: 0 0 30px rgba(59, 130, 246, 0.3); }
-  .card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
-  .card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-  .card-icon.primary   { background: rgba(59, 130, 246, 0.15);  border: 1px solid rgba(59, 130, 246, 0.3); color: var(--primary); }
-  .card-icon.accent { background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); color: var(--accent); }
-  .card-icon.warning  { background: rgba(245, 158, 11, 0.15);  border: 1px solid rgba(245, 158, 11, 0.3); color: var(--warning); }
-  .card-icon.success  { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--success); }
-  .card h3 { font-size: 14px; font-weight: 600; color: var(--text); }
-  .card .file { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
-  .card .tag  { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.25); margin-left: auto; }
-  .card-body { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .card.open .card-body { display: block; }
-  .card-body p  { font-size: 12px; color: var(--muted); line-height: 1.65; font-family: 'JetBrains Mono', monospace; margin-bottom: 10px; }
-  .card-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .card-body li { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; display: flex; gap: 8px; }
-  .card-body li::before { content: '→'; color: var(--primary); flex-shrink: 0; }
-  .card-body code { background: var(--bg3); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; font-size: 10px; color: var(--primary); }
-
-  /* ── FOOTER ── */
-  footer { margin-top: 64px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
-  footer a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
-  footer a:hover { color: var(--accent); text-decoration: underline; }
-
-  /* ── ANIMATIONS ── */
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+  .card h3 {
+    margin: 0 0 8px;
+    font-size: 15px;
   }
-  .badge { animation: pulse 3s ease-in-out infinite; }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 4px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+  .card p, .card li {
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 13px;
+  }
+  .card ul {
+    margin: 10px 0 0;
+    padding-left: 18px;
+  }
+  .codebox {
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .codebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(23, 32, 51, 0.82);
+  }
+  .codebar span {
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
+  }
+  pre {
+    margin: 0;
+    padding: 14px;
+    overflow-x: auto;
+    color: #dce9ff;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  code {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    color: #dce9ff;
+  }
+  footer {
+    margin-top: 38px;
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 900px) {
+    .hero, .grid { grid-template-columns: 1fr; }
+    .intro, .panel { min-height: auto; }
+  }
+  @media (max-width: 620px) {
+    .topbar { align-items: flex-start; flex-direction: column; }
+    .nav { justify-content: flex-start; }
+    .stats { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="badge">v0.2.0-beta · Vision AI Free · Pro License Ready</div>
-  <h1>ANA <span>MAX</span></h1>
-  <p>Advanced Neural Architecture · MCP Bridge · 127.0.0.1:8765</p>
-</header>
-
-<div class="stats">
-  <div class="stat"><div class="num">43</div><div class="lbl">Free Tools</div></div>
-  <div class="stat"><div class="num">4</div><div class="lbl">Premium Tools</div></div>
-  <div class="stat"><div class="num">:8765</div><div class="lbl">MCP Port</div></div>
-  <div class="stat"><div class="num">SQLite</div><div class="lbl">Memory</div></div>
-</div>
-
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('architecture')">Architecture</button>
-  <button class="tab" onclick="switchTab('connection')">MCP Connection</button>
-  <button class="tab" onclick="switchTab('licensing')">Licensing</button>
-</div>
-
-<!-- ══════════════════════════════════════════
-     TAB 1 — ARCHITECTURE DIAGRAM
-══════════════════════════════════════════ -->
-<div class="diagram-section active" id="tab-architecture">
-<div class="diagram-wrap">
-<svg width="100%" viewBox="0 0 860 650" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(59, 130, 246, 0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="a1t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(139, 92, 246, 0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-</defs>
-
-<!-- ROW 0 — Clients -->
-<g class="node c-primary" onclick="showInfo('clients')">
-  <rect x="280" y="18" width="300" height="50" rx="8"/>
-  <text class="title" x="430" y="39" text-anchor="middle" dominant-baseline="central">Claude · Cursor · Windsurf</text>
-  <text class="sub"   x="430" y="57" text-anchor="middle" dominant-baseline="central">MCP Clients</text>
-</g>
-<line x1="430" y1="68" x2="430" y2="90" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a1)"/>
-
-<!-- ROW 1 — MCP Server -->
-<g class="node c-success" onclick="showInfo('mcp')">
-  <rect x="200" y="90" width="460" height="54" rx="8"/>
-  <text class="title" x="430" y="112" text-anchor="middle" dominant-baseline="central">main.py · MCP Server :8765</text>
-  <text class="sub"   x="430" y="130" text-anchor="middle" dominant-baseline="central">_register_all_tools() · Flask · JSON-RPC 2.0</text>
-</g>
-<line x1="430" y1="144" x2="430" y2="166" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a1)"/>
-
-<!-- ROW 2 — License Manager (NEW) -->
-<g class="node c-warning" onclick="showInfo('license')">
-  <rect x="270" y="166" width="320" height="52" rx="8"/>
-  <text class="title" x="430" y="186" text-anchor="middle" dominant-baseline="central">license_manager.py ✦ NEW</text>
-  <text class="sub"   x="430" y="204" text-anchor="middle" dominant-baseline="central">Premium tool access control · Encryption</text>
-</g>
-
-<!-- fan arrows to AI Core -->
-<path d="M336 218 L109 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M362 218 L257 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M400 218 L405 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M430 218 L553 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M458 218 L687 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-<path d="M480 218 L792 268" fill="none" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.1" marker-end="url(#a1)"/>
-
-<!-- ROW 3 — AI Core Components -->
-<g class="node c-success" onclick="showInfo('context_engine')">
-  <rect x="40" y="268" width="130" height="66" rx="8"/>
-  <text class="title" x="105" y="287" text-anchor="middle" dominant-baseline="central">context</text>
-  <text class="title" x="105" y="303" text-anchor="middle" dominant-baseline="central">engine</text>
-  <text class="sub"   x="105" y="321" text-anchor="middle" dominant-baseline="central">observe · predict</text>
-</g>
-
-<g class="node c-success" onclick="showInfo('proactive')">
-  <rect x="186" y="268" width="130" height="66" rx="8"/>
-  <text class="title" x="251" y="287" text-anchor="middle" dominant-baseline="central">proactive</text>
-  <text class="title" x="251" y="303" text-anchor="middle" dominant-baseline="central">interrupt</text>
-  <text class="sub"   x="251" y="321" text-anchor="middle" dominant-baseline="central">5 detectors</text>
-</g>
-
-<g class="node c-accent" onclick="showInfo('memory_cortex')">
-  <rect x="332" y="268" width="130" height="66" rx="8"/>
-  <text class="title" x="397" y="287" text-anchor="middle" dominant-baseline="central">memory</text>
-  <text class="title" x="397" y="303" text-anchor="middle" dominant-baseline="central">cortex</text>
-  <text class="sub"   x="397" y="321" text-anchor="middle" dominant-baseline="central">4 memory types</text>
-</g>
-
-<g class="node c-warning" onclick="showInfo('self_evolving')">
-  <rect x="478" y="268" width="130" height="66" rx="8"/>
-  <text class="title" x="543" y="287" text-anchor="middle" dominant-baseline="central">self</text>
-  <text class="title" x="543" y="303" text-anchor="middle" dominant-baseline="central">evolving</text>
-  <text class="sub"   x="543" y="321" text-anchor="middle" dominant-baseline="central">auto-heal · rollback</text>
-</g>
-
-<g class="node c-accent" onclick="showInfo('context_bridge')">
-  <rect x="624" y="268" width="120" height="66" rx="8"/>
-  <text class="title" x="684" y="287" text-anchor="middle" dominant-baseline="central">context</text>
-  <text class="title" x="684" y="303" text-anchor="middle" dominant-baseline="central">bridge</text>
-  <text class="sub"   x="684" y="321" text-anchor="middle" dominant-baseline="central">SQLite sessions</text>
-</g>
-
-<g class="node c-success" onclick="showInfo('window_manager')">
-  <rect x="756" y="268" width="86" height="66" rx="8"/>
-  <text class="title" x="799" y="287" text-anchor="middle" dominant-baseline="central">window</text>
-  <text class="title" x="799" y="303" text-anchor="middle" dominant-baseline="central">manager</text>
-  <text class="sub"   x="799" y="321" text-anchor="middle" dominant-baseline="central">snap · tile</text>
-</g>
-
-<!-- ROW 4 — Orchestrator -->
-<g class="node c-warning" onclick="showInfo('orchestrator')">
-  <rect x="40" y="370" width="300" height="66" rx="8"/>
-  <text class="title" x="190" y="390" text-anchor="middle" dominant-baseline="central">ana_orchestrator</text>
-  <text class="sub"   x="190" y="408" text-anchor="middle" dominant-baseline="central">SEE · THINK · PLAN</text>
-  <text class="sub"   x="190" y="424" text-anchor="middle" dominant-baseline="central">EXECUTE · VERIFY · LEARN</text>
-</g>
-
-<line x1="190" y1="436" x2="190" y2="462" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a1)"/>
-
-<!-- ROW 5 — Tools container -->
-<rect x="40" y="462" width="780" height="148" rx="10" fill="none" stroke="rgba(148, 163, 184, 0.1)" stroke-width="1" stroke-dasharray="6 4"/>
-<text class="sub" x="430" y="480" text-anchor="middle" fill="#94A3B8">42 Free + 5 Premium MCP Tools</text>
-
-<!-- tools row 1 -->
-<g class="node c-gray" onclick="showInfo('uia')">
-  <rect x="56" y="488" width="148" height="44" rx="6"/>
-  <text class="title" x="130" y="506" text-anchor="middle" dominant-baseline="central">windows_uia_bridge</text>
-  <text class="sub"   x="130" y="522" text-anchor="middle" dominant-baseline="central">click · type · read</text>
-</g>
-<g class="node c-gray" onclick="showInfo('terminal')">
-  <rect x="212" y="488" width="126" height="44" rx="6"/>
-  <text class="title" x="275" y="506" text-anchor="middle" dominant-baseline="central">terminal_tool</text>
-  <text class="sub"   x="275" y="522" text-anchor="middle" dominant-baseline="central">PowerShell</text>
-</g>
-<g class="node c-gray" onclick="showInfo('memory_tool')">
-  <rect x="346" y="488" width="110" height="44" rx="6"/>
-  <text class="title" x="401" y="506" text-anchor="middle" dominant-baseline="central">memory_tool</text>
-  <text class="sub"   x="401" y="522" text-anchor="middle" dominant-baseline="central">key-value SQLite</text>
-</g>
-<g class="node c-gray" onclick="showInfo('more_tools')">
-  <rect x="464" y="488" width="338" height="44" rx="6"/>
-  <text class="title" x="633" y="506" text-anchor="middle" dominant-baseline="central">+ 38 Tools</text>
-  <text class="sub"   x="633" y="522" text-anchor="middle" dominant-baseline="central">git · web · qa · adb · frida · ocr...</text>
-</g>
-
-<!-- tools row 2 - Premium -->
-<g class="node c-warning" onclick="showInfo('desktop_capture')">
-  <rect x="56" y="542" width="148" height="44" rx="6"/>
-  <text class="title" x="130" y="560" text-anchor="middle" dominant-baseline="central">desktop_capture ★</text>
-  <text class="sub"   x="130" y="576" text-anchor="middle" dominant-baseline="central">screenshot · FREE</text>
-</g>
-<g class="node c-warning" onclick="showInfo('desktop_control')">
-  <rect x="212" y="542" width="148" height="44" rx="6"/>
-  <text class="title" x="286" y="560" text-anchor="middle" dominant-baseline="central">desktop_control ★</text>
-  <text class="sub"   x="286" y="576" text-anchor="middle" dominant-baseline="central">mouse · keyboard · PREMIUM</text>
-</g>
-<g class="node c-warning" onclick="showInfo('deep_sight')">
-  <rect x="368" y="542" width="182" height="44" rx="6"/>
-  <text class="title" x="459" y="560" text-anchor="middle" dominant-baseline="central">windows_deep_sight ★</text>
-  <text class="sub"   x="459" y="576" text-anchor="middle" dominant-baseline="central">god view · PREMIUM</text>
-</g>
-<g class="node c-gray" onclick="showInfo('ocr')">
-  <rect x="558" y="542" width="132" height="44" rx="6"/>
-  <text class="title" x="624" y="560" text-anchor="middle" dominant-baseline="central">ocr_tool</text>
-  <text class="sub"   x="624" y="576" text-anchor="middle" dominant-baseline="central">PaddleOCR</text>
-</g>
-<g class="node c-gray" onclick="showInfo('insight')">
-  <rect x="698" y="542" width="122" height="44" rx="6"/>
-  <text class="title" x="759" y="560" text-anchor="middle" dominant-baseline="central">windows_insight</text>
-  <text class="sub"   x="759" y="576" text-anchor="middle" dominant-baseline="central">diagnostics</text>
-</g>
-
-<!-- ROW 6 — SQLite -->
-<line x1="430" y1="610" x2="430" y2="644" stroke="rgba(139, 92, 246, 0.5)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a1t)"/>
-<g class="node c-gray" onclick="showInfo('sqlite')">
-  <rect x="230" y="644" width="400" height="54" rx="8"/>
-  <text class="title" x="430" y="664" text-anchor="middle" dominant-baseline="central">ana_memory.db (SQLite)</text>
-  <text class="sub"   x="430" y="682" text-anchor="middle" dominant-baseline="central">sessions · patterns · errors · evolution</text>
-</g>
-
-<!-- legend -->
-<rect x="40" y="712" width="10" height="8" rx="2" fill="rgba(16, 185, 129, 0.5)"/>
-<text class="sub" x="56" y="716" dominant-baseline="central" fill="#94A3B8">AI Core</text>
-<rect x="160" y="712" width="10" height="8" rx="2" fill="rgba(139, 92, 246, 0.4)"/>
-<text class="sub" x="176" y="716" dominant-baseline="central" fill="#94A3B8">Memory / Orchestration</text>
-<rect x="340" y="712" width="10" height="8" rx="2" fill="rgba(245, 158, 11, 0.4)"/>
-<text class="sub" x="356" y="716" dominant-baseline="central" fill="#94A3B8">Premium</text>
-<rect x="460" y="712" width="10" height="8" rx="2" fill="rgba(148, 163, 184, 0.15)"/>
-<text class="sub" x="476" y="716" dominant-baseline="central" fill="#94A3B8">Free Tools</text>
-</svg>
-</div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     TAB 2 — MCP CONNECTION
-══════════════════════════════════════════ -->
-<div class="diagram-section" id="tab-connection">
-<div class="diagram-wrap">
-<svg width="100%" viewBox="0 0 860 430" xmlns="http://www.w3.org/2000/svg">
-<defs>
-  <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(59, 130, 246, 0.6)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-  <marker id="a2t" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-    <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(139, 92, 246, 0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </marker>
-</defs>
-
-<!-- Claude Desktop -->
-<g class="node c-primary" onclick="showInfo('claude_config')">
-  <rect x="30" y="40" width="210" height="60" rx="8"/>
-  <text class="title" x="135" y="62" text-anchor="middle" dominant-baseline="central">Claude Desktop</text>
-  <text class="sub"   x="135" y="80" text-anchor="middle" dominant-baseline="central">claude_desktop_config.json</text>
-</g>
-
-<!-- Cursor / Windsurf -->
-<g class="node c-primary" onclick="showInfo('cursor_config')">
-  <rect x="30" y="126" width="210" height="60" rx="8"/>
-  <text class="title" x="135" y="148" text-anchor="middle" dominant-baseline="central">Cursor / Windsurf</text>
-  <text class="sub"   x="135" y="166" text-anchor="middle" dominant-baseline="central">Settings → MCP → Add URL</text>
-</g>
-
-<!-- arrows to MCP -->
-<path d="M240 70 L310 70 L310 186 L350 186" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a2)"/>
-<path d="M240 156 L310 156 L310 186 L350 186" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a2)"/>
-
-<!-- MCP Server -->
-<g class="node c-success" onclick="showInfo('mcp_server')">
-  <rect x="350" y="150" width="210" height="72" rx="8"/>
-  <text class="title" x="455" y="174" text-anchor="middle" dominant-baseline="central">MCP Server :8765</text>
-  <text class="sub"   x="455" y="192" text-anchor="middle" dominant-baseline="central">POST /mcp</text>
-  <text class="sub"   x="455" y="208" text-anchor="middle" dominant-baseline="central">JSON-RPC 2.0</text>
-</g>
-<line x1="560" y1="186" x2="620" y2="186" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.2" marker-end="url(#a2)"/>
-
-<!-- ANA Tools -->
-<g class="node c-warning" onclick="showInfo('ana_tools')">
-  <rect x="620" y="150" width="210" height="72" rx="8"/>
-  <text class="title" x="725" y="172" text-anchor="middle" dominant-baseline="central">ANA MAX Tools</text>
-  <text class="sub"   x="725" y="190" text-anchor="middle" dominant-baseline="central">42 Free + 5 Premium</text>
-  <text class="sub"   x="725" y="208" text-anchor="middle" dominant-baseline="central">License Check</text>
-</g>
-
-<!-- result back -->
-<path d="M620 210 L580 210 L580 290 L350 290 L350 280" fill="none" stroke="rgba(139, 92, 246, 0.5)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
-
-<!-- Result JSON -->
-<g class="node c-gray" onclick="showInfo('result_json')">
-  <rect x="130" y="258" width="220" height="52" rx="8"/>
-  <text class="title" x="240" y="278" text-anchor="middle" dominant-baseline="central">Result JSON</text>
-  <text class="sub"   x="240" y="296" text-anchor="middle" dominant-baseline="central">success · data · error</text>
-</g>
-<path d="M350 280 L240 280 L240 310" fill="none" stroke="rgba(139, 92, 246, 0.5)" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#a2t)"/>
-
-<!-- JSON-RPC example -->
-<g class="node c-mono" onclick="showInfo('json_rpc')">
-  <rect x="350" y="330" width="480" height="72" rx="8"/>
-  <text x="370" y="352" dominant-baseline="central">{ <tspan class="k">"method"</tspan>: <tspan class="val">"tools/call"</tspan>,</text>
-  <text x="370" y="370" dominant-baseline="central">  <tspan class="k">"params"</tspan>: { <tspan class="k">"name"</tspan>: <tspan class="val">"windows_uia_bridge"</tspan> }</text>
-  <text x="370" y="388" dominant-baseline="central">}</text>
-</g>
-<text class="sub" x="590" y="322" text-anchor="middle" fill="#94A3B8">JSON-RPC request (example — click for details)</text>
-</svg>
-</div>
-
-<!-- Config blocks for tab 2 -->
-<div class="config-block">
-  <div class="bar">
-    <span>claude_desktop_config.json — Windows</span>
-    <button class="copy-btn" onclick="copyConfig('claude')">copy</button>
-  </div>
-  <pre id="code-claude"><span class="c">// %APPDATA%\Claude\claude_desktop_config.json</span>
-<span class="c">{</span>
-  <span class="k">"mcpServers"</span>: {
-    <span class="k">"ana-max"</span>: {
-      <span class="k">"url"</span>: <span class="s">"http://127.0.0.1:8765/mcp"</span>
-    }
-  }
-<span class="c">}</span></pre>
-</div>
-
-<div class="config-block">
-  <div class="bar">
-    <span>Cursor / Windsurf — Settings → MCP → Add Server</span>
-    <button class="copy-btn" onclick="copyConfig('cursor')">copy</button>
-  </div>
-  <pre id="code-cursor">Server URL:  <span class="s">http://127.0.0.1:8765/mcp</span>
-Name:        <span class="k">ana-max</span>
-Transport:   <span class="s">HTTP (Streamable)</span></pre>
-</div>
-
-<div class="config-block">
-  <div class="bar">
-    <span>Start ANA MAX</span>
-    <button class="copy-btn" onclick="copyConfig('start')">copy</button>
-  </div>
-  <pre id="code-start"><span class="c"># in project folder</span>
-python main.py
-<span class="c"># MCP Server: http://127.0.0.1:8765</span>
-<span class="c"># 42 tools loaded</span></pre>
-</div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     TAB 3 — LICENSING
-══════════════════════════════════════════ -->
-<div class="diagram-section" id="tab-licensing">
-<div class="cards-grid">
-
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon success">🔓</div>
-      <div><h3>Free (Trial)</h3><div class="file">42 Tools Included</div></div>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">A</div>
+      <div>
+        <h1>ANA MAX</h1>
+        <p>Advanced Neural Architecture</p>
+      </div>
     </div>
-    <div class="card-body">
-      <p>Full access to 43 essential tools for development, automation, and Vision AI.</p>
-      <ul>
-        <li>All code tools (edit, search, understanding)</li>
-        <li>Web automation (browser, scraper, search)</li>
-        <li>System tools (terminal, control, optimization)</li>
-        <li>Security tools (audit, pentest, network)</li>
-        <li>UI Automation (windows_uia_bridge)</li>
-        <li>Git operations, File operations, and more</li>
-      </ul>
-    </div>
-  </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#architecture">Architecture</a>
+      <a href="#mcp">MCP</a>
+      <a href="#license">License</a>
+      <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
+    </nav>
+  </header>
 
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon warning">🔒</div>
-      <div><h3>Pro License</h3><div class="file">4 Premium Tools</div></div>
-    </div>
-    <div class="card-body">
-      <p>Unlock advanced desktop automation and monitoring capabilities.</p>
-      <ul>
-        <li><code>live_desktop_viewer</code> — Real-time streaming</li>
-        <li><code>desktop_control</code> — Full desktop automation</li>
-        <li><code>windows_insight</code> — Advanced monitoring</li>
-        <li><code>windows_deep_sight</code> — God View analysis</li>
-      </ul>
-    </div>
-  </div>
+  <main>
+    <section class="hero" id="architecture">
+      <div class="intro">
+        <div class="badge">v0.2.0-beta / public-safe release / MCP auth on</div>
+        <h2>Windows-first agent runtime with eyes, memory, and verification.</h2>
+        <p class="lead">
+          ANA MAX exposes local tools through MCP for code work, desktop vision,
+          UI automation, security checks, git operations, memory, and AI Core
+          orchestration. The public release is kept clean, testable, and aligned
+          with the project map.
+        </p>
+        <div class="actions">
+          <a class="button" href="#mcp">Connect MCP</a>
+          <a class="button secondary" href="#checks">Run checks</a>
+        </div>
+        <div class="stats" aria-label="Release stats">
+          <div class="stat"><strong>64</strong><span>loaded tools</span></div>
+          <div class="stat"><strong>4</strong><span>premium capabilities</span></div>
+          <div class="stat"><strong>9</strong><span>AI Core adapters</span></div>
+        </div>
+      </div>
 
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon primary">⚙️</div>
-      <div><h3>Activate License</h3><div class="file">3 Simple Steps</div></div>
-    </div>
-    <div class="card-body">
-      <p>Get your Pro license key and activate in 3 steps.</p>
-      <ul>
-        <li>1. Get license key from distributor</li>
-        <li>2. Run: <code>python activate_license.py --key YOUR_KEY</code></li>
-        <li>3. Restart ANA MAX server</li>
-        <li>License stored encrypted in <code>.license</code> file</li>
-      </ul>
-    </div>
-  </div>
+      <div class="panel" aria-label="Architecture diagram">
+        <div class="panel-head">
+          <h3>Runtime WorkGraph</h3>
+          <span>observe -> act -> verify</span>
+        </div>
+        <svg viewBox="0 0 760 560" role="img" aria-label="ANA MAX architecture diagram">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1 L8 5 L2 9" fill="none" stroke="#4ea1ff" stroke-width="1.5"/>
+            </marker>
+            <style>
+              .box { fill: rgba(17,24,39,.92); stroke: rgba(84,175,255,.45); stroke-width: 1.3; }
+              .box2 { fill: rgba(57,217,138,.09); stroke: rgba(57,217,138,.55); stroke-width: 1.3; }
+              .box3 { fill: rgba(247,185,85,.1); stroke: rgba(247,185,85,.58); stroke-width: 1.3; }
+              .box4 { fill: rgba(167,139,250,.1); stroke: rgba(167,139,250,.55); stroke-width: 1.3; }
+              .t { fill: #eef4ff; font: 700 16px system-ui, sans-serif; }
+              .s { fill: #9fb0c7; font: 12px ui-monospace, Consolas, monospace; }
+              .l { stroke: rgba(84,175,255,.55); stroke-width: 1.4; marker-end: url(#arrow); }
+            </style>
+          </defs>
 
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon accent">🔐</div>
-      <div><h3>Security</h3><div class="file">Enterprise-Grade</div></div>
-    </div>
-    <div class="card-body">
-      <p>Your license is protected with modern encryption.</p>
-      <ul>
-        <li><strong>Encryption:</strong> Fernet (AES-128-CBC)</li>
-        <li><strong>Signature:</strong> HMAC-SHA256</li>
-        <li><strong>Binding:</strong> Machine-specific ID</li>
-        <li><strong>Validation:</strong> Automatic on each premium access</li>
-      </ul>
-    </div>
-  </div>
+          <rect class="box2" x="230" y="18" width="300" height="58" rx="8"/>
+          <text class="t" x="380" y="42" text-anchor="middle">MCP Clients</text>
+          <text class="s" x="380" y="62" text-anchor="middle">Claude / Cursor / Windsurf</text>
+          <line class="l" x1="380" y1="76" x2="380" y2="108"/>
 
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon success">📋</div>
-      <div><h3>Check Status</h3><div class="file">Via API</div></div>
-    </div>
-    <div class="card-body">
-      <p>Check your license status programmatically.</p>
-      <ul>
-        <li>REST: <code>GET /health</code></li>
-        <li>MCP: <code>{"method": "license.status"}</code></li>
-        <li>CLI: <code>python -c "from core.license_manager import get_license_manager; print(get_license_manager().get_license_info())"</code></li>
-      </ul>
-    </div>
-  </div>
+          <rect class="box" x="190" y="108" width="380" height="70" rx="8"/>
+          <text class="t" x="380" y="136" text-anchor="middle">main.py MCP Server</text>
+          <text class="s" x="380" y="158" text-anchor="middle">Flask / JSON-RPC 2.0 / auth required</text>
+          <line class="l" x1="380" y1="178" x2="380" y2="210"/>
 
-  <div class="card" onclick="toggleCard(this)">
-    <div class="card-head">
-      <div class="card-icon warning">📄</div>
-      <div><h3>Documentation</h3><div class="file">Complete Guide</div></div>
-    </div>
-    <div class="card-body">
-      <p>Full licensing documentation available.</p>
-      <ul>
-        <li>See <code>docs/LICENSING.md</code></li>
-        <li>Activation instructions</li>
-        <li>Troubleshooting guide</li>
-        <li>API reference</li>
-      </ul>
-    </div>
-  </div>
+          <rect class="box3" x="210" y="210" width="340" height="62" rx="8"/>
+          <text class="t" x="380" y="235" text-anchor="middle">Tool Registry + License Gate</text>
+          <text class="s" x="380" y="255" text-anchor="middle">64 tools / runtime premium blocking</text>
 
+          <line class="l" x1="300" y1="272" x2="145" y2="328"/>
+          <line class="l" x1="350" y1="272" x2="300" y2="328"/>
+          <line class="l" x1="410" y1="272" x2="460" y2="328"/>
+          <line class="l" x1="460" y1="272" x2="615" y2="328"/>
+
+          <rect class="box2" x="40" y="328" width="210" height="76" rx="8"/>
+          <text class="t" x="145" y="356" text-anchor="middle">Desktop Eyes</text>
+          <text class="s" x="145" y="378" text-anchor="middle">capture / UIA / OCR</text>
+
+          <rect class="box" x="270" y="328" width="210" height="76" rx="8"/>
+          <text class="t" x="375" y="356" text-anchor="middle">Developer Tools</text>
+          <text class="s" x="375" y="378" text-anchor="middle">files / git / tests / shell</text>
+
+          <rect class="box4" x="500" y="328" width="210" height="76" rx="8"/>
+          <text class="t" x="605" y="356" text-anchor="middle">AI Core</text>
+          <text class="s" x="605" y="378" text-anchor="middle">memory / context / orchestration</text>
+
+          <line class="l" x1="145" y1="404" x2="380" y2="456"/>
+          <line class="l" x1="375" y1="404" x2="380" y2="456"/>
+          <line class="l" x1="605" y1="404" x2="380" y2="456"/>
+
+          <rect class="box3" x="180" y="456" width="400" height="66" rx="8"/>
+          <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
+          <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
+        </svg>
+      </div>
+    </section>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" type="button" onclick="showTab('mcp')">MCP setup</button>
+      <button class="tab" type="button" onclick="showTab('license')">Licensing</button>
+      <button class="tab" type="button" onclick="showTab('checks')">Verification</button>
+    </div>
+
+    <section class="section active" id="tab-mcp">
+      <div class="grid">
+        <div class="card">
+          <h3>Local server</h3>
+          <p>ANA MAX starts on <code>http://127.0.0.1:8765</code>. MCP requests go to <code>/mcp</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Auth required</h3>
+          <p>Set <code>MCP_API_KEY</code> or <code>ANA_MCP_KEY</code>, then send <code>Authorization: Bearer ...</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Public hygiene</h3>
+          <p>No private memory, logs, databases, screenshots, local paths, tokens, or license files belong in the public release.</p>
+        </div>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Start ANA MAX</span>
+          <button class="copy" type="button" onclick="copyBlock('start')">copy</button>
+        </div>
+        <pre id="code-start">$env:MCP_API_KEY = "change-me"
+python main.py</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>List tools through MCP</span>
+          <button class="copy" type="button" onclick="copyBlock('curl')">copy</button>
+        </div>
+        <pre id="code-curl">curl -X POST http://127.0.0.1:8765/mcp `
+  -H "Content-Type: application/json" `
+  -H "Authorization: Bearer change-me" `
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'</pre>
+      </div>
+    </section>
+
+    <section class="section" id="tab-license">
+      <div class="grid" id="license">
+        <div class="card">
+          <h3>Free Vision AI</h3>
+          <p><code>desktop_capture</code> is free in this release and can be used for observe and verify workflows.</p>
+        </div>
+        <div class="card">
+          <h3>Premium capabilities</h3>
+          <p>Premium desktop automation and deep Windows inspection are blocked at runtime without a valid Pro license.</p>
+          <ul>
+            <li><code>live_desktop_viewer</code></li>
+            <li><code>desktop_control</code> and <code>desktop_control_tool</code></li>
+            <li><code>windows_insight</code> and <code>windows_insight_tool</code></li>
+            <li><code>windows_deep_sight</code></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Activation</h3>
+          <p>Use <code>python activate_license.py --key YOUR_KEY</code>, then restart ANA MAX.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tab-checks">
+      <div class="grid" id="checks">
+        <div class="card">
+          <h3>Expected smoke</h3>
+          <p><code>python main.py --test</code> should report <code>3 PASS / 0 FAIL</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Expected tools</h3>
+          <p><code>python main.py --list-tools</code> should report <code>64 loaded tools</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Expected tests</h3>
+          <p><code>python -m unittest discover -s tests -v</code> should pass all tests.</p>
+        </div>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Release verification</span>
+          <button class="copy" type="button" onclick="copyBlock('verify')">copy</button>
+        </div>
+        <pre id="code-verify">python -m compileall -q main.py core tools vscode_extension
+python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v</pre>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>ANA MAX v0.2.0-beta / 64 loaded tools / MCP auth on</span>
+    <span><a href="docs/PROJECT_MAP_AI_GUIDE.md">Project map</a> / <a href="SETUP_AND_RUN.md">Setup</a></span>
+  </footer>
 </div>
-
-<!-- License API Config -->
-<div class="config-block">
-  <div class="bar">
-    <span>License API — MCP Method</span>
-    <button class="copy-btn" onclick="copyConfig('license_api')">copy</button>
-  </div>
-  <pre id="code-license_api"><span class="c"># Check license status via MCP</span>
-{
-  <span class="k">"jsonrpc"</span>: <span class="s">"2.0"</span>,
-  <span class="k">"id"</span>: <span class="s">1</span>,
-  <span class="k">"method"</span>: <span class="s">"license.status"</span>,
-  <span class="k">"params"</span>: {}
-}
-
-<span class="c"># Response:</span>
-{
-  <span class="k">"jsonrpc"</span>: <span class="s">"2.0"</span>,
-  <span class="k">"id"</span>: <span class="s">1</span>,
-  <span class="k">"result"</span>: {
-    <span class="k">"license"</span>: { <span class="k">"type"</span>: <span class="s">"pro"</span>, <span class="k">"days_remaining"</span>: <span class="s">25</span> },
-    <span class="k">"premium_tools_available"</span>: <span class="s">true</span>,
-    <span class="k">"premium_tools"</span>: [<span class="s">"live_desktop_viewer"</span>, <span class="s">"desktop_control"</span>, ...]
-  }
-}</pre>
-</div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     INFO PANEL (shared)
-══════════════════════════════════════════ -->
-<div id="info-panel">
-  <div class="icon">◈</div>
-  <div class="content">
-    <h3>Click any node for details</h3>
-    <p>Interactive diagram — each component has detailed explanations and configuration info.</p>
-  </div>
-</div>
-
-<footer>
-  <p>
-    <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank">github.com/gyodragos-cell/ANA-MAX</a>
-    &nbsp;·&nbsp; v0.2.0-beta &nbsp;·&nbsp; 43 Free + 4 Premium Tools &nbsp;·&nbsp; Vision AI Enabled
-  </p>
-</footer>
 
 <script>
-/* ── INFO DATA ── */
-const INFO = {
-  clients: {
-    icon:'◈', title:'Claude · Cursor · Windsurf',
-    text:'Any MCP-compatible client connects to ANA MAX. No API keys needed — everything runs locally on 127.0.0.1. Claude Desktop uses <code>claude_desktop_config.json</code>, Cursor uses Settings → MCP → Add Server.'
-  },
-  mcp: {
-    icon:'⬡', title:'MCP Server — main.py :8765',
-    text:'Flask server listens on <code>http://127.0.0.1:8765/mcp</code>. Receives JSON-RPC 2.0 requests, routes to correct tool in registry, returns results. Start: <code>python main.py</code>'
-  },
-  license: {
-    icon:'🔐', title:'License Manager — NEW',
-    text:'Enterprise-grade licensing system with Fernet encryption (AES-128), HMAC-SHA256 signatures, and machine binding. Automatically validates license on every premium tool access. See <code>core/license_manager.py</code>'
-  },
-  context_engine: {
-    icon:'◎', title:'context_engine.py',
-    text:'Continuously observes desktop in background: active window, clipboard, processes, CPU/RAM. Classifies activity into categories (coding/browsing/office...) and predicts intentions with confidence scores.'
-  },
-  proactive: {
-    icon:'◉', title:'proactive_interrupt.py',
-    text:'5 active detectors: <code>STUCK</code> (blocked 3+ min), <code>SEQUENCE</code> (repeated flows), <code>CLIPBOARD</code> (clipboard intent), <code>REPEAT</code> (same app often), <code>CONTEXT_SHIFT</code> (work → YouTube). Feedback loop adjusts confidence.'
-  },
-  memory_cortex: {
-    icon:'◇', title:'memory_cortex.py',
-    text:'4 memory types: Episodic (conversations), Semantic (stable facts injected into prompts), Procedural (approaches that worked), Error Log (LLM mistakes with increasing priority). Same mistake 3x → 100% priority.'
-  },
-  self_evolving: {
-    icon:'⟳', title:'self_evolving_tool.py',
-    text:'Runtime auto-repair: catches exception, sends code + error to LLM (local Mistral), validates fix in sandbox, backs up, applies. If fix breaks something → automatic rollback. Hourly auto-improve analyzes each tool.'
-  },
-  orchestrator: {
-    icon:'◈', title:'ana_orchestrator.py',
-    text:'Executor brain. Receives natural language task and processes in 6 phases: SEE (screenshot + context), THINK (analysis with memory_cortex), PLAN (concrete steps), EXECUTE (calls tools), VERIFY (final screenshot), LEARN (stores in memory_cortex).'
-  },
-  context_bridge: {
-    icon:'⊞', title:'context_bridge.py',
-    text:'Memory between sessions. On startup: <code>restore_session()</code> loads active project, incomplete tasks, unresolved errors, editor/shell preferences. On shutdown: <code>save_session()</code> saves everything to SQLite.'
-  },
-  window_manager: {
-    icon:'⊟', title:'window_manager.py',
-    text:'Windows control: <code>snap</code> (left/right/maximize), <code>tile</code> (grid 2x1, 2x2), <code>focus</code> (bring forward), <code>list</code> (all windows), <code>close</code>. Integrated with context_engine — detects 5+ windows, suggests auto-arrange.'
-  },
-  uia: {
-    icon:'⊕', title:'windows_uia_bridge',
-    text:'Native Windows UIAutomation — click, type, read on any UI element without OCR. Deterministic and fast. Example: <code>{"action":"click","target":"Notepad"}</code>'
-  },
-  desktop_capture: {
-    icon:'📸', title:'desktop_capture ★ FREE',
-    text:'Fast screenshot of entire desktop or region. Returns path to image file. Used by orchestrator in SEE and VERIFY phases. Included in the free Vision AI feature set.'
-  },
-  terminal: {
-    icon:'>', title:'terminal_tool',
-    text:'Persistent PowerShell session. Commands run in same context between calls — variables and current directory are preserved.'
-  },
-  memory_tool: {
-    icon:'○', title:'memory_tool',
-    text:'Simple key-value storage in SQLite. Used by orchestrator and other tools to persist information between sessions.'
-  },
-  more_tools: {
-    icon:'+', title:'38+ Additional Tools',
-    text:'git_tool, network_tool, security_tool, qa_tool, smart_search_tool, debugger_tool, browser_control, adb_tool (Android), frida_automation (reverse engineering), apk_analyzer, web_scraper, code_search, system_optimization, and more.'
-  },
-  desktop_control: {
-    icon:'🖱️', title:'desktop_control_tool ★ PREMIUM',
-    text:'Complete mouse and keyboard control. Click, double-click, drag, scroll, type. Complements windows_uia_bridge — for situations where UIA is unavailable (Java apps, games). Requires Pro license.'
-  },
-  ocr: {
-    icon:'◫', title:'ocr_tool',
-    text:'OCR with PaddleOCR — reads text from images or screen regions. Useful when UIAutomation cannot access elements.'
-  },
-  insight: {
-    icon:'◈', title:'windows_insight_tool',
-    text:'Advanced system diagnostics: processes, handles, memory, registry. Premium feature.'
-  },
-  deep_sight: {
-    icon:'👁️', title:'windows_deep_sight ★ PREMIUM',
-    text:'Advanced real-time system monitoring with SSE streaming on <code>/mcp/stream</code>. God View analysis. Requires Pro license.'
-  },
-  sqlite: {
-    icon:'◉', title:'ana_memory.db (SQLite)',
-    text:'Central database. Stores: sessions (context_bridge), learned patterns (context_engine), errors and fixes (memory_cortex), evolution changelog (self_evolving), todos and general memory (memory_tool).'
-  },
-  claude_config: {
-    icon:'⊞', title:'Claude Desktop Configuration',
-    text:'Edit <code>%APPDATA%\\Claude\\claude_desktop_config.json</code> on Windows or <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> on Mac. Add ANA MAX server and restart Claude Desktop.'
-  },
-  cursor_config: {
-    icon:'⊡', title:'Cursor / Windsurf Configuration',
-    text:'In Cursor: <code>Ctrl+Shift+P</code> → "MCP: Add Server" → HTTP → URL: <code>http://127.0.0.1:8765/mcp</code>. In Windsurf: Settings → MCP Servers → Add. Server name: <code>ana-max</code>.'
-  },
-  mcp_server: {
-    icon:'⬡', title:'MCP Server Flask :8765',
-    text:'Main endpoint: <code>POST http://127.0.0.1:8765/mcp</code>. Accepts JSON-RPC 2.0. Methods: <code>tools/list</code> (list tools), <code>tools/call</code> (execute tool), <code>license.status</code> (check license), <code>ana.ping</code> (health check).'
-  },
-  ana_tools: {
-    icon:'◈', title:'ANA MAX Tools (43 Free + 4 Premium)',
-    text:'All tools registered in registry. Each has <code>get_definition()</code> (name, description, JSON Schema parameters) and <code>execute(args)</code>. MCP server exposes them automatically to connected clients. License check on premium tools.'
-  },
-  result_json: {
-    icon:'✓', title:'Result JSON',
-    text:'Each execution returns: <code>{"success": true/false, "data": {...}, "message": "...", "error": "..."}</code>. AI client receives result and can use it in next plan step.'
-  },
-  json_rpc: {
-    icon:'{}', title:'JSON-RPC 2.0 Format',
-    text:'Open standard, simple: <code>{"jsonrpc":"2.0","method":"tools/call","params":{"name":"windows_uia_bridge","arguments":{"action":"click","target":"Notepad"}},"id":1}</code>. Any HTTP + JSON client can talk to ANA MAX — no special SDKs needed.'
-  }
-};
-
-function showInfo(key) {
-  const d = INFO[key];
-  if (!d) return;
-  const panel = document.getElementById('info-panel');
-  panel.querySelector('.icon').textContent = d.icon;
-  panel.querySelector('h3').textContent = d.title;
-  panel.querySelector('p').innerHTML = d.text;
-  panel.style.borderColor = 'rgba(59, 130, 246, 0.5)';
-  panel.style.boxShadow = '0 0 30px rgba(59, 130, 246, 0.2)';
-  setTimeout(() => {
-    panel.style.borderColor = '';
-    panel.style.boxShadow = '';
-  }, 600);
+function showTab(name) {
+  document.querySelectorAll(".tab").forEach(function (tab) {
+    tab.classList.toggle("active", tab.getAttribute("onclick").includes("'" + name + "'"));
+  });
+  document.querySelectorAll(".section").forEach(function (section) {
+    section.classList.toggle("active", section.id === "tab-" + name);
+  });
 }
 
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.diagram-section').forEach(s => s.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-  document.getElementById('tab-' + tab).classList.add('active');
-}
-
-function toggleCard(el) {
-  const wasOpen = el.classList.contains('open');
-  document.querySelectorAll('.card').forEach(c => c.classList.remove('open'));
-  if (!wasOpen) el.classList.add('open');
-}
-
-function copyConfig(type) {
-  const el = document.getElementById('code-' + type);
-  const text = el ? el.innerText : '';
-  navigator.clipboard.writeText(text).then(() => {
-    const btns = document.querySelectorAll('.copy-btn');
-    btns.forEach(b => {
-      if (b.getAttribute('onclick').includes(type)) {
-        b.textContent = 'copied!';
-        b.style.color = 'var(--success)';
-        b.style.borderColor = 'var(--success)';
-        setTimeout(() => {
-          b.textContent = 'copy';
-          b.style.color = '';
-          b.style.borderColor = '';
-        }, 1600);
+function copyBlock(name) {
+  var el = document.getElementById("code-" + name);
+  if (!el || !navigator.clipboard) return;
+  navigator.clipboard.writeText(el.innerText).then(function () {
+    document.querySelectorAll(".copy").forEach(function (button) {
+      if (button.getAttribute("onclick").includes("'" + name + "'")) {
+        var old = button.textContent;
+        button.textContent = "copied";
+        setTimeout(function () { button.textContent = old; }, 1200);
       }
     });
   });
