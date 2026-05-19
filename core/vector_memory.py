@@ -31,8 +31,10 @@ from datetime import datetime
 # Third-party imports (install if missing)
 try:
     import numpy as np
+    HAS_NUMPY = True
 except ImportError:
     np = None
+    HAS_NUMPY = False
 
 try:
     import faiss
@@ -116,11 +118,17 @@ class SimpleEmbeddingModel:
     
     def encode(self, text: str) -> np.ndarray:
         """Encode text to vector using TF-IDF."""
-        if np is None:
+        if not HAS_NUMPY:
             # Fallback: return random vector (not ideal but works)
-            return np.random.randn(self.dim).astype(np.float32)
+            import random
+            return [random.gauss(0, 1) for _ in range(self.dim)]
         
         tokens = self._tokenize(text)
+        
+        # If vocabulary is empty, return zero vector
+        if len(self.vocabulary) == 0:
+            return np.zeros(self.dim, dtype=np.float32)
+        
         vector = np.zeros(len(self.vocabulary), dtype=np.float32)
         
         # Calculate TF-IDF
