@@ -491,7 +491,7 @@ if __name__ == "__main__":
     # Store some memories
     vm.store("ANA MAX is an autonomous AI assistant", "semantic", tags=["intro", "ana"])
     vm.store("User prefers Romanian language for communication", "semantic", tags=["preference", "language"])
-    vm.store("Fixed BOM encoding issue in jules_mcp_bridge.py", "error_log", tags=["bug", "fix"])
+    vm.store("Fixed BOM encoding issue in main.py", "error_log", tags=["bug", "fix"])
     
     # Search
     results = vm.search("AI assistant capabilities", top_k=3)
