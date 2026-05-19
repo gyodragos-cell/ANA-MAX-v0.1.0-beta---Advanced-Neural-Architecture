@@ -51,7 +51,7 @@ Example:
   "signals": {
     "errors": [],
     "warnings": [],
-    "important_text": ["64 loaded tools", "64 tests OK"]
+    "important_text": ["64 loaded tools", "65 tests OK"]
   },
   "recommended_next_step": "No blocking errors detected. Safe to continue.",
   "confidence": 0.86,

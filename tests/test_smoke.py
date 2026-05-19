@@ -182,6 +182,23 @@ class TestToolRegistryBasic(TestCase):
         self.assertIn("recommended_next_step", result.data)
         self.assertLess(len(str(result.data)), 8192)
 
+    def test_workspace_situational_awareness_handles_agent_inputs(self):
+        """WorkGraph snapshot should tolerate file paths and loose AI parameters."""
+        from tools.base import registry
+
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        result = registry.execute(
+            "workspace_situational_awareness",
+            path="main.py",
+            max_files="not-a-number",
+        )
+        self.assertTrue(result.is_success, result.error)
+        self.assertTrue(result.data["workspace"]["available"])
+        self.assertNotIn("repo_path", result.data["workspace"])
+
 
 class TestConfig(TestCase):
     """Teste pentru config."""

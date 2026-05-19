@@ -24,6 +24,9 @@
   usage.
 - Added `workspace_situational_awareness`, an observation-only WorkGraph tool
   that returns compact workspace JSON before an agent acts.
+- Hardened `workspace_situational_awareness` after bug hunt: file paths now
+  resolve to their parent repo, loose AI parameters fall back safely, and local
+  absolute repo paths are not exposed in the snapshot.
 
 ## Verification Baseline
 

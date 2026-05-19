@@ -12,7 +12,7 @@ import os
 import subprocess
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
@@ -43,7 +43,10 @@ def _run_git(args: List[str], cwd: Path, timeout: float = 3.0) -> Dict[str, Any]
 
 
 def _git_state(path: Path, max_files: int) -> Dict[str, Any]:
+    git_cwd = path if path.is_dir() else path.parent
     root_result = _run_git(["rev-parse", "--show-toplevel"], path)
+    if not root_result["ok"] and git_cwd != path:
+        root_result = _run_git(["rev-parse", "--show-toplevel"], git_cwd)
     if not root_result["ok"]:
         return {
             "available": False,
@@ -62,7 +65,7 @@ def _git_state(path: Path, max_files: int) -> Dict[str, Any]:
     return {
         "available": True,
         "repo": repo.name,
-        "repo_path": str(repo),
+        "repo_root": repo.name,
         "branch": branch_result["stdout"] or "detached",
         "git_clean": len(files) == 0,
         "modified_files": files[:max_files],
@@ -157,7 +160,11 @@ class WorkspaceSituationalAwarenessTool(Tool):
             if not target.is_absolute():
                 target = PROJECT_ROOT / target
             target = target.resolve()
-            max_files_int = max(1, min(int(max_files), 50))
+            try:
+                max_files_int = int(max_files)
+            except (TypeError, ValueError):
+                max_files_int = 30
+            max_files_int = max(1, min(max_files_int, 50))
 
             active_window = _active_window()
             git = _git_state(target, max_files_int)
