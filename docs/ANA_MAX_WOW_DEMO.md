@@ -178,6 +178,22 @@ The viewer should leave with five beliefs:
 4. ANA MAX can use Frida for authorized runtime facts when needed.
 5. ANA MAX verifies with real checks.
 
+## Contributor Note: Codex
+
+Include one short acknowledgement in the public project page or video
+description:
+
+```text
+Built by Dragos as a human-led engineering project, with OpenAI Codex used as an
+AI coding collaborator for repair work, documentation, release hygiene, and
+repeatable verification.
+```
+
+Do not make Codex the product story. The product story is still ANA MAX:
+observe, instrument, act, verify. The Codex note exists to be transparent about
+the workflow and to show engineers that the project was improved through
+careful AI-assisted development, not random code generation.
+
 ## What To Avoid
 
 Do not make the first demo a long architecture lecture.

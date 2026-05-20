@@ -44,7 +44,30 @@ ANA MAX is privacy-first and hybrid:
 - It keeps public docs and shell-facing examples ASCII-only so Windows consoles
   and weaker agents can parse them reliably.
 
+## AI Collaboration Acknowledgement
+
+This project was built and repaired through a human-led engineering workflow.
+Dragos owns the vision, direction, testing, and final decisions.
+
+OpenAI Codex has been an important AI coding collaborator for this release:
+
+- helped turn a noisy experimental workspace into a cleaner public release;
+- helped repair MCP, voice, desktop diagnostic, and release-hygiene workflows;
+- helped separate public-safe demo material from local-only tools;
+- helped keep changes testable through repeatable quality checks;
+- helped document the project in a way that engineers can verify instead of
+  trusting hype.
+
+The goal of this acknowledgement is simple: show that AI tools can be useful
+when they work as careful engineering collaborators, not blind code generators.
+
 ## Demo
+
+Website:
+
+```text
+https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/
+```
 
 Watch the local demo video:
 
