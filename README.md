@@ -1,5 +1,11 @@
 # ANA MAX
 
+![Build Status](https://github.com/YOUR_USERNAME/ana-max/actions/workflows/ci.yml/badge.svg)
+![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
+![Platform Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
+![License MIT](https://img.shields.io/badge/license-MIT-green)
+![Tools](https://img.shields.io/badge/tools-64-blueviolet)
+
 ANA MAX is a Windows-first MCP runtime that gives AI agents situational
 awareness before they act: files, git state, terminal output, desktop vision,
 Windows UI automation, memory, runtime instrumentation, and smoke-test
@@ -132,6 +138,15 @@ Expected baseline:
 ## Tool Model
 
 Core tool behavior is owned by `tools/base.py`.
+
+### Tool Status Overview
+
+| Category | Status | Example Tools |
+|----------|--------|---------------|
+| **Core Utilities** | Stable | `file_operations`, `code_tools`, `git_operations` |
+| **Desktop Eyes** | Stable | `desktop_capture`, `windows_uia_bridge`, `ocr_tool` |
+| **AI Core Modules** | Experimental | `context_engine`, `self_evolving_tool` |
+| **Deep Windows API** | Premium / Pro | `desktop_control`, `windows_deep_sight` |
 
 New tools must:
 

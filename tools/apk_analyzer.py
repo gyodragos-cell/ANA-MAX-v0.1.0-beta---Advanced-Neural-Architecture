@@ -456,7 +456,7 @@ class APKAnalyzerTool(Tool):
                                     for match in matches:
                                         if match not in secrets[secret_type]:
                                             secrets[secret_type].append(match)
-                    except:
+                    except Exception as e:
                         continue
 
         total_secrets = sum(len(v) for v in secrets.values())
@@ -465,7 +465,7 @@ class APKAnalyzerTool(Tool):
         import shutil
         try:
             shutil.rmtree(output_dir)
-        except:
+        except Exception as e:
             pass
 
         return ToolResult(

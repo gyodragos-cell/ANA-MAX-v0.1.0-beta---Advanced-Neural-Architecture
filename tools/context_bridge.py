@@ -1,49 +1,49 @@
 """
 ANA MAX – context_bridge.py
 ============================
-Memoria dintre sesiuni. Creierul care nu uită.
+Memoria dintre sesiuni. Creierul care nu uita.
 
-Problema pe care o rezolvă:
-  Fiecare sesiune nouă, agentul pornește orb.
-  Nu știe ce proiecte ai, ce aplicații folosești,
-  unde sunt fișierele tale, ce taskuri ai lăsat la jumătate.
-  Rezultat: pierzi 5-10 minute la fiecare sesiune explicând contextul.
+Problema pe care o rezolva:
+  Fiecare sesiune noua, agentul porneste orb.
+  Nu stie ce proiecte ai, ce aplicatii folosesti,
+  unde sunt fisierele tale, ce taskuri ai lasat la jumatate.
+  Rezultat: pierzi 5-10 minute la fiecare sesiune explicand contextul.
 
-Soluția:
-  La ÎNCHIDEREA sesiunii → salvează un snapshot complet:
-    - ce aplicații erau deschise
+Solutia:
+  La INCHIDEREA sesiunii → salveaza un snapshot complet:
+    - ce aplicatii erau deschise
     - ce foldere ai accesat
-    - ce taskuri au rămas incomplete
-    - preferințele tale de lucru detectate automat
-    - "starea de spirit" a proiectului (e în debug? în build? în review?)
+    - ce taskuri au ramas incomplete
+    - preferintele tale de lucru detectate automat
+    - "starea de spirit" a proiectului (e in debug? in build? in review?)
 
-  La DESCHIDEREA sesiunii → încarcă contextul și injectează-l
-  în toți agenții activi. ANA știe deja unde ai rămas.
+  La DESCHIDEREA sesiunii → incarca contextul si injecteaza-l
+  in toti agentii activi. ANA stie deja unde ai ramas.
 
 Rezultat practic:
-  "Continuă unde am rămas" funcționează cu adevărat.
-  Agentul știe că 'proiect' = C:/dev/ana-max
-  Agentul știe că preferi PowerShell, nu CMD
-  Agentul știe că taskul de ieri a rămas la pasul 3
+  "Continua unde am ramas" functioneaza cu adevarat.
+  Agentul stie ca 'proiect' = C:/dev/ana-max
+  Agentul stie ca preferi PowerShell, nu CMD
+  Agentul stie ca taskul de ieri a ramas la pasul 3
 
-Integrare în main.py:
+Integrare in main.py:
     from tools.context_bridge import ContextBridge
 
     bridge = ContextBridge(db_path="ana_memory.db")
 
-    # La pornire — încarcă contextul sesiunii precedente:
+    # La pornire — incarca contextul sesiunii precedente:
     ctx = bridge.restore_session()
-    print(ctx.summary())   # "Bun venit înapoi! Ai lăsat 2 taskuri incomplete..."
+    print(ctx.summary())   # "Bun venit inapoi! Ai lasat 2 taskuri incomplete..."
 
-    # În timpul sesiunii — actualizează automat:
+    # In timpul sesiunii — actualizeaza automat:
     bridge.observe_event("file_opened", {"path": "C:/dev/ana/main.py"})
     bridge.observe_event("app_used",    {"name": "VS Code", "project": "ANA MAX"})
     bridge.observe_event("task_started",{"task": "Fix OCR bug", "step": 1})
 
-    # La închidere — salvează snapshot:
+    # La inchidere — salveaza snapshot:
     bridge.save_session()
 
-    # Din orice tool — obține contextul curent:
+    # Din orice tool — obtine contextul curent:
     ctx = bridge.get_current_context()
     active_project = ctx.active_project   # "ANA MAX"
     last_folder    = ctx.last_folders[0]  # "C:/dev/ana-max"
@@ -68,7 +68,7 @@ logger = logging.getLogger("ANA.ContextBridge")
 class WorkingContext:
     """
     Contextul complet al unei sesiuni de lucru.
-    Asta știe ANA despre tine și proiectul tău.
+    Asta stie ANA despre tine si proiectul tau.
     """
     session_id: str = ""
     session_start: str = ""
@@ -79,17 +79,17 @@ class WorkingContext:
     project_path: str = ""            # "C:/dev/ana-max"
     project_type: str = ""            # "python", "web", "data", etc.
 
-    # Aplicații și foldere
+    # Aplicatii si foldere
     open_apps: List[str] = field(default_factory=list)       # ["VS Code", "Chrome", "Terminal"]
     recent_folders: List[str] = field(default_factory=list)  # ultimele foldere accesate
-    recent_files: List[str] = field(default_factory=list)    # ultimele fișiere deschise
+    recent_files: List[str] = field(default_factory=list)    # ultimele fisiere deschise
 
     # Taskuri
-    incomplete_tasks: List[dict] = field(default_factory=list)  # taskuri lăsate la jumătate
-    completed_tasks: List[str] = field(default_factory=list)    # taskuri finalizate în sesiune
-    current_task: str = ""                                       # ce făcea chiar acum
+    incomplete_tasks: List[dict] = field(default_factory=list)  # taskuri lasate la jumatate
+    completed_tasks: List[str] = field(default_factory=list)    # taskuri finalizate in sesiune
+    current_task: str = ""                                       # ce facea chiar acum
 
-    # Preferințe detectate automat
+    # Preferinte detectate automat
     preferred_shell: str = "powershell"   # powershell | cmd | wsl
     preferred_editor: str = ""            # VS Code | Notepad++ | etc.
     preferred_browser: str = ""           # Chrome | Firefox | Edge
@@ -97,7 +97,7 @@ class WorkingContext:
 
     # Starea proiectului
     project_phase: str = ""   # "development" | "debugging" | "testing" | "review"
-    last_error: str = ""      # ultima eroare văzută
+    last_error: str = ""      # ultima eroare vazuta
     last_error_solved: bool = False
 
     # Metadata
@@ -106,7 +106,7 @@ class WorkingContext:
     last_seen: str = ""
 
     def summary(self) -> str:
-        """Rezumat human-readable pentru injectat în prompt."""
+        """Rezumat human-readable pentru injectat in prompt."""
         lines = []
 
         if self.active_project:
@@ -114,7 +114,7 @@ class WorkingContext:
             if self.project_path:
                 lines.append(f"  Path: {self.project_path}")
             if self.project_phase:
-                lines.append(f"  Fază: {self.project_phase}")
+                lines.append(f"  Faza: {self.project_phase}")
 
         if self.incomplete_tasks:
             lines.append(f"Taskuri incomplete ({len(self.incomplete_tasks)}):")
@@ -132,20 +132,20 @@ class WorkingContext:
             lines.append(f"Editor preferat: {self.preferred_editor}")
 
         if self.last_error and not self.last_error_solved:
-            lines.append(f"⚠️  Eroare nerezolvată: {self.last_error[:100]}")
+            lines.append(f"⚠️  Eroare nerezolvata: {self.last_error[:100]}")
 
         if self.last_seen:
             lines.append(f"Ultima sesiune: {self.last_seen}")
 
         if not lines:
-            return "Sesiune nouă — nu există context anterior."
+            return "Sesiune noua — nu exista context anterior."
 
-        return "CONTEXT SESIUNE ANTERIOARĂ:\n" + "\n".join(lines)
+        return "CONTEXT SESIUNE ANTERIOARA:\n" + "\n".join(lines)
 
     def to_prompt_injection(self) -> str:
         """
-        Format optimizat pentru injectat direct în system prompt-ul LLM-ului.
-        Concis, fără redundanță.
+        Format optimizat pentru injectat direct in system prompt-ul LLM-ului.
+        Concis, fara redundanta.
         """
         parts = []
 
@@ -156,7 +156,7 @@ class WorkingContext:
 
         if self.incomplete_tasks:
             task_names = [t.get("task", "?") for t in self.incomplete_tasks[:2]]
-            parts.append(f"Task-uri în curs: {'; '.join(task_names)}")
+            parts.append(f"Task-uri in curs: {'; '.join(task_names)}")
 
         if self.preferred_shell:
             parts.append(f"Shell: {self.preferred_shell}")
@@ -168,7 +168,7 @@ class WorkingContext:
             parts.append(f"Folder activ: {self.recent_folders[0]}")
 
         if self.last_error and not self.last_error_solved:
-            parts.append(f"Eroare activă: {self.last_error[:80]}")
+            parts.append(f"Eroare activa: {self.last_error[:80]}")
 
         return " | ".join(parts) if parts else ""
 
@@ -177,20 +177,20 @@ class WorkingContext:
 
 class ContextBridge:
     """
-    Memoria persistentă dintre sesiuni ANA MAX.
+    Memoria persistenta dintre sesiuni ANA MAX.
 
-    Salvează și restaurează contextul complet de lucru,
-    astfel încât fiecare sesiune nouă pornește de unde a rămas.
+    Salveaza si restaureaza contextul complet de lucru,
+    astfel incat fiecare sesiune noua porneste de unde a ramas.
     """
 
     def __init__(
         self,
         db_path: str = "ana_memory.db",
-        auto_observe: bool = True,     # observă automat aplicații deschise
+        auto_observe: bool = True,     # observa automat aplicatii deschise
         max_recent_files: int = 20,
         max_recent_folders: int = 10,
         max_incomplete_tasks: int = 10,
-        session_timeout_hours: int = 24,  # după câte ore se consideră sesiune nouă
+        session_timeout_hours: int = 24,  # dupa cate ore se considera sesiune noua
     ):
         self.db_path = db_path
         self.auto_observe = auto_observe
@@ -201,16 +201,16 @@ class ContextBridge:
 
         self._session_id = self._generate_session_id()
         self._session_start = datetime.now().isoformat()
-        self._events: List[dict] = []        # evenimente din sesiunea curentă
+        self._events: List[dict] = []        # evenimente din sesiunea curenta
         self._current_context: Optional[WorkingContext] = None
 
         self._init_db()
-        logger.info("✅ ContextBridge inițializat.")
+        logger.info("✅ ContextBridge initializat.")
 
     # ── DB ────────────────────────────────────────────────────────────────────
 
     def _init_db(self):
-        """Creează tabelele necesare dacă nu există."""
+        """Creeaza tabelele necesare daca nu exista."""
         with sqlite3.connect(self.db_path) as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS context_sessions (
@@ -254,11 +254,11 @@ class ContextBridge:
 
     def restore_session(self) -> WorkingContext:
         """
-        Restaurează contextul din sesiunea precedentă.
-        Apelează asta la pornirea ANA MAX, înainte de orice alt tool.
+        Restaureaza contextul din sesiunea precedenta.
+        Apeleaza asta la pornirea ANA MAX, inainte de orice alt tool.
 
         Returns:
-            WorkingContext cu tot ce știa ANA ultima dată.
+            WorkingContext cu tot ce stia ANA ultima data.
         """
         ctx = WorkingContext(
             session_id=self._session_id,
@@ -266,7 +266,7 @@ class ContextBridge:
         )
 
         try:
-            # Găsim ultima sesiune salvată
+            # Gasim ultima sesiune salvata
             with sqlite3.connect(self.db_path) as conn:
                 row = conn.execute("""
                     SELECT context_json, session_end
@@ -282,16 +282,16 @@ class ContextBridge:
 
             last_ctx_json, last_end = row
 
-            # Verificăm dacă sesiunea e recentă (nu timeout)
+            # Verificam daca sesiunea e recenta (nu timeout)
             if last_end:
                 last_end_dt = datetime.fromisoformat(last_end)
                 hours_ago = (datetime.now() - last_end_dt).total_seconds() / 3600
                 if hours_ago > self.session_timeout_hours:
-                    logger.info(f"  📋 Sesiune veche ({hours_ago:.0f}h) — context parțial resetat.")
+                    logger.info(f"  📋 Sesiune veche ({hours_ago:.0f}h) — context partial resetat.")
             else:
                 hours_ago = 0
 
-            # Deserializăm contextul anterior
+            # Deserializam contextul anterior
             saved = json.loads(last_ctx_json)
 
             ctx.active_project    = saved.get("active_project", "")
@@ -301,7 +301,7 @@ class ContextBridge:
             ctx.recent_folders    = saved.get("recent_folders", [])
             ctx.recent_files      = saved.get("recent_files", [])
             ctx.incomplete_tasks  = saved.get("incomplete_tasks", [])
-            ctx.completed_tasks   = []   # cele noi din sesiunea anterioară nu mai sunt relevante
+            ctx.completed_tasks   = []   # cele noi din sesiunea anterioara nu mai sunt relevante
             ctx.current_task      = saved.get("current_task", "")
             ctx.preferred_shell   = saved.get("preferred_shell", "powershell")
             ctx.preferred_editor  = saved.get("preferred_editor", "")
@@ -320,22 +320,22 @@ class ContextBridge:
             )
 
         except Exception as e:
-            logger.warning(f"  ⚠️ Restaurare context eșuată (non-critical): {e}")
+            logger.warning(f"  ⚠️ Restaurare context esuata (non-critical): {e}")
 
         self._current_context = ctx
 
-        # Dacă auto_observe, scanăm imediat starea curentă
+        # Daca auto_observe, scanam imediat starea curenta
         if self.auto_observe:
             self._auto_observe_current_state(ctx)
 
         return ctx
 
     def _auto_observe_current_state(self, ctx: WorkingContext):
-        """Scanează automat ce e deschis acum pe Windows."""
+        """Scaneaza automat ce e deschis acum pe Windows."""
         try:
             import subprocess
 
-            # Aplicații deschise via tasklist
+            # Aplicatii deschise via tasklist
             result = subprocess.run(
                 ["tasklist", "/fo", "csv", "/nh"],
                 capture_output=True, text=True, timeout=5
@@ -366,9 +366,9 @@ class ContextBridge:
                 ]
                 if found_apps:
                     ctx.open_apps = found_apps
-                    logger.info(f"  👁️ Aplicații deschise: {', '.join(found_apps)}")
+                    logger.info(f"  👁️ Aplicatii deschise: {', '.join(found_apps)}")
 
-                    # Detectăm preferințe din ce e deschis
+                    # Detectam preferinte din ce e deschis
                     if "VS Code" in found_apps or "Cursor" in found_apps or "Windsurf" in found_apps:
                         ctx.preferred_editor = next(
                             (a for a in ["Cursor", "Windsurf", "VS Code"] if a in found_apps),
@@ -384,12 +384,12 @@ class ContextBridge:
         except Exception as e:
             logger.debug(f"Auto-observe failed (non-critical): {e}")
 
-    # ── OBSERVE — în timpul sesiunii ─────────────────────────────────────────
+    # ── OBSERVE — in timpul sesiunii ─────────────────────────────────────────
 
     def observe_event(self, event_type: str, data: dict):
         """
-        Înregistrează un eveniment din sesiunea curentă.
-        Apelează asta din orice tool când se întâmplă ceva relevant.
+        Inregistreaza un eveniment din sesiunea curenta.
+        Apeleaza asta din orice tool cand se intampla ceva relevant.
 
         Tipuri de events:
             "file_opened"    → {"path": "C:/dev/main.py"}
@@ -411,7 +411,7 @@ class ContextBridge:
         }
         self._events.append(event)
 
-        # Salvăm în DB imediat (nu pierdem nimic dacă crăpă)
+        # Salvam in DB imediat (nu pierdem nimic daca crapa)
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.execute(
@@ -421,19 +421,19 @@ class ContextBridge:
         except Exception:
             pass
 
-        # Actualizăm contextul în memorie
+        # Actualizam contextul in memorie
         if self._current_context:
             self._update_context_from_event(self._current_context, event_type, data)
 
     def _update_context_from_event(self, ctx: WorkingContext, event_type: str, data: dict):
-        """Actualizează contextul în timp real pe baza evenimentelor."""
+        """Actualizeaza contextul in timp real pe baza evenimentelor."""
 
         if event_type == "file_opened":
             path = data.get("path", "")
             if path and path not in ctx.recent_files:
                 ctx.recent_files.insert(0, path)
                 ctx.recent_files = ctx.recent_files[:self.max_recent_files]
-            # Detectăm folderul
+            # Detectam folderul
             folder = str(Path(path).parent) if path else ""
             if folder and folder not in ctx.recent_folders:
                 ctx.recent_folders.insert(0, folder)
@@ -449,7 +449,7 @@ class ContextBridge:
             app = data.get("name", "")
             if app and app not in ctx.open_apps:
                 ctx.open_apps.insert(0, app)
-            # Detectăm proiect din context app
+            # Detectam proiect din context app
             if data.get("project") and not ctx.active_project:
                 ctx.active_project = data["project"]
 
@@ -461,7 +461,7 @@ class ContextBridge:
                 "started_at": datetime.now().isoformat(),
             }
             ctx.current_task = data.get("task", "")
-            # Adăugăm la incomplete dacă nu e deja acolo
+            # Adaugam la incomplete daca nu e deja acolo
             existing = [t for t in ctx.incomplete_tasks if t.get("task") == task_entry["task"]]
             if not existing:
                 ctx.incomplete_tasks.insert(0, task_entry)
@@ -481,7 +481,7 @@ class ContextBridge:
 
         elif event_type == "task_failed":
             task_name = data.get("task", "")
-            # Actualizăm step-ul în incomplete
+            # Actualizam step-ul in incomplete
             for t in ctx.incomplete_tasks:
                 if t.get("task") == task_name:
                     t["step"] = data.get("step", t.get("step", 1))
@@ -500,7 +500,7 @@ class ContextBridge:
             ctx.active_project = data.get("name", ctx.active_project)
             ctx.project_path   = data.get("path", ctx.project_path)
             ctx.project_type   = data.get("type", ctx.project_type)
-            # Salvăm și în tabelul de proiecte
+            # Salvam si in tabelul de proiecte
             try:
                 with sqlite3.connect(self.db_path) as conn:
                     conn.execute("""
@@ -524,15 +524,15 @@ class ContextBridge:
         elif event_type == "project_phase":
             ctx.project_phase = data.get("phase", "")  # debugging / testing / etc.
 
-    # ── SAVE — la închiderea sesiunii ─────────────────────────────────────────
+    # ── SAVE — la inchiderea sesiunii ─────────────────────────────────────────
 
     def save_session(self) -> bool:
         """
-        Salvează snapshot-ul complet al sesiunii curente.
-        Apelează asta la aterizarea ANA MAX sau la orice punct de checkpoint.
+        Salveaza snapshot-ul complet al sesiunii curente.
+        Apeleaza asta la aterizarea ANA MAX sau la orice punct de checkpoint.
 
         Returns:
-            True dacă a salvat cu succes.
+            True daca a salvat cu succes.
         """
         if not self._current_context:
             logger.warning("  ⚠️ Nimic de salvat — contextul e gol.")
@@ -559,7 +559,7 @@ class ContextBridge:
                     json.dumps(ctx_dict, ensure_ascii=False),
                 ))
 
-                # Actualizăm preferințele detectate
+                # Actualizam preferintele detectate
                 prefs = {
                     "preferred_shell":   ctx.preferred_shell,
                     "preferred_editor":  ctx.preferred_editor,
@@ -581,22 +581,22 @@ class ContextBridge:
                         """, (key, val))
 
             logger.info(
-                f"  ✅ Sesiune salvată: {len(ctx.completed_tasks)} taskuri finalizate, "
+                f"  ✅ Sesiune salvata: {len(ctx.completed_tasks)} taskuri finalizate, "
                 f"{len(ctx.incomplete_tasks)} incomplete, "
                 f"proiect='{ctx.active_project}'"
             )
             return True
 
         except Exception as e:
-            logger.error(f"  ❌ Salvare sesiune eșuată: {e}")
+            logger.error(f"  ❌ Salvare sesiune esuata: {e}")
             return False
 
     # ── GET — acces la context din orice tool ────────────────────────────────
 
     def get_current_context(self) -> WorkingContext:
         """
-        Returnează contextul curent.
-        Apelează asta din orice tool care are nevoie de context.
+        Returneaza contextul curent.
+        Apeleaza asta din orice tool care are nevoie de context.
         """
         if not self._current_context:
             return self.restore_session()
@@ -604,29 +604,29 @@ class ContextBridge:
 
     def get_prompt_injection(self) -> str:
         """
-        Returnează un string concis pentru injectat în prompt-ul LLM-ului.
-        Folosește asta în _plan() din orchestrator sau în orice prompt dinamic.
+        Returneaza un string concis pentru injectat in prompt-ul LLM-ului.
+        Foloseste asta in _plan() din orchestrator sau in orice prompt dinamic.
 
         Exemplu output:
-            "Proiect: ANA MAX | Path: C:/dev/ana | Task în curs: Fix OCR bug | Shell: powershell"
+            "Proiect: ANA MAX | Path: C:/dev/ana | Task in curs: Fix OCR bug | Shell: powershell"
         """
         ctx = self.get_current_context()
         return ctx.to_prompt_injection()
 
     def get_active_project_path(self) -> Optional[str]:
-        """Shortcut: returnează path-ul proiectului activ."""
+        """Shortcut: returneaza path-ul proiectului activ."""
         ctx = self.get_current_context()
         return ctx.project_path or None
 
     def get_incomplete_tasks(self) -> List[dict]:
-        """Shortcut: returnează taskurile incomplete."""
+        """Shortcut: returneaza taskurile incomplete."""
         ctx = self.get_current_context()
         return ctx.incomplete_tasks
 
     def get_preferences(self) -> dict:
         """
-        Returnează preferințele detectate cu confidence score.
-        Preferințele cu confidence > 0.7 sunt de încredere.
+        Returneaza preferintele detectate cu confidence score.
+        Preferintele cu confidence > 0.7 sunt de incredere.
         """
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -644,12 +644,12 @@ class ContextBridge:
         except Exception:
             return {}
 
-    # ── DETECT — detectare automată proiect ──────────────────────────────────
+    # ── DETECT — detectare automata proiect ──────────────────────────────────
 
     def detect_project_from_path(self, path: str) -> Optional[dict]:
         """
-        Detectează tipul proiectului dintr-un path.
-        Apelează asta când deschizi un fișier sau folder.
+        Detecteaza tipul proiectului dintr-un path.
+        Apeleaza asta cand deschizi un fisier sau folder.
 
         Returns:
             {"name": "ANA MAX", "type": "python", "path": "C:/dev/ana"}
@@ -658,7 +658,7 @@ class ContextBridge:
         if p.is_file():
             p = p.parent
 
-        # Urcăm în arbore căutând markeri de proiect
+        # Urcam in arbore cautand markeri de proiect
         for folder in [p, *p.parents]:
             project_info = self._identify_project_type(folder)
             if project_info:
@@ -670,7 +670,7 @@ class ContextBridge:
         return None
 
     def _identify_project_type(self, folder: Path) -> Optional[dict]:
-        """Identifică tipul proiectului dintr-un folder."""
+        """Identifica tipul proiectului dintr-un folder."""
         markers = {
             "requirements.txt":  "python",
             "setup.py":          "python",
@@ -687,7 +687,7 @@ class ContextBridge:
             files = set(f.name for f in folder.iterdir() if f.is_file())
             for marker, ptype in markers.items():
                 if marker in files:
-                    # Încearcă să extragă numele proiectului
+                    # Incearca sa extraga numele proiectului
                     name = self._extract_project_name(folder, ptype)
                     return {"type": ptype, "name": name}
         except Exception:
@@ -695,7 +695,7 @@ class ContextBridge:
         return None
 
     def _extract_project_name(self, folder: Path, ptype: str) -> str:
-        """Extrage numele proiectului din fișierele de config."""
+        """Extrage numele proiectului din fisierele de config."""
         try:
             if ptype == "python":
                 req = folder / "requirements.txt"
@@ -720,8 +720,8 @@ class ContextBridge:
 
     def get_session_history(self, last_n: int = 10) -> List[dict]:
         """
-        Returnează istoricul sesiunilor recente.
-        Util pentru debug sau pentru a afișa un rezumat utilizatorului.
+        Returneaza istoricul sesiunilor recente.
+        Util pentru debug sau pentru a afisa un rezumat utilizatorului.
         """
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -751,7 +751,7 @@ class ContextBridge:
             return []
 
     def get_known_projects(self) -> List[dict]:
-        """Returnează toate proiectele cunoscute de ANA."""
+        """Returneaza toate proiectele cunoscute de ANA."""
         try:
             with sqlite3.connect(self.db_path) as conn:
                 rows = conn.execute("""
@@ -771,8 +771,8 @@ class ContextBridge:
 
     def reset_context(self, keep_preferences: bool = True):
         """
-        Resetează contextul curent (util dacă schimbi proiectul complet).
-        Dacă keep_preferences=True, păstrează preferințele detectate.
+        Reseteaza contextul curent (util daca schimbi proiectul complet).
+        Daca keep_preferences=True, pastreaza preferintele detectate.
         """
         prefs = {}
         if keep_preferences and self._current_context:
@@ -794,20 +794,20 @@ class ContextBridge:
 
     def register_as_mcp_tool(self, mcp_app) -> None:
         """
-        Înregistrează ContextBridge ca tool MCP.
-        Apelează din mcp_server.py.
+        Inregistreaza ContextBridge ca tool MCP.
+        Apeleaza din mcp_server.py.
 
         Endpoints expuse:
             GET  /tools/ana_context          → contextul curent
-            POST /tools/ana_context/event    → înregistrează un eveniment
-            POST /tools/ana_context/save     → salvează sesiunea
+            POST /tools/ana_context/event    → inregistreaza un eveniment
+            POST /tools/ana_context/save     → salveaza sesiunea
             GET  /tools/ana_context/projects → proiecte cunoscute
             GET  /tools/ana_context/history  → istoric sesiuni
         """
         try:
             from flask import request, jsonify
         except ImportError:
-            logger.error("Flask indisponibil — MCP registration eșuată.")
+            logger.error("Flask indisponibil — MCP registration esuata.")
             return
 
         bridge = self
@@ -857,7 +857,7 @@ class ContextBridge:
             n = int(request.args.get("n", 10))
             return jsonify(bridge.get_session_history(last_n=n))
 
-        logger.info("  ✅ ContextBridge înregistrat ca MCP tools:")
+        logger.info("  ✅ ContextBridge inregistrat ca MCP tools:")
         logger.info("     GET  /tools/ana_context")
         logger.info("     POST /tools/ana_context/event")
         logger.info("     POST /tools/ana_context/save")
@@ -871,11 +871,11 @@ class ContextBridge:
 
 def inject_context_into_orchestrator(orchestrator, bridge: ContextBridge):
     """
-    Conectează ContextBridge la AnaOrchestrator.
-    Orchestratorul va injecta automat contextul în fiecare plan generat
-    și va înregistra automat evenimentele din execuție.
+    Conecteaza ContextBridge la AnaOrchestrator.
+    Orchestratorul va injecta automat contextul in fiecare plan generat
+    si va inregistra automat evenimentele din executie.
 
-    Exemplu în main.py:
+    Exemplu in main.py:
         from tools.context_bridge import ContextBridge, inject_context_into_orchestrator
         from tools.ana_orchestrator import AnaOrchestrator
 
@@ -886,22 +886,22 @@ def inject_context_into_orchestrator(orchestrator, bridge: ContextBridge):
         orchestrator = AnaOrchestrator(db_path="ana_memory.db", ...)
         inject_context_into_orchestrator(orchestrator, bridge)
 
-        # De-acum orchestratorul știe tot ce știe bridge-ul
-        result = orchestrator.execute("Continuă taskul de ieri")
+        # De-acum orchestratorul stie tot ce stie bridge-ul
+        result = orchestrator.execute("Continua taskul de ieri")
     """
     original_plan = orchestrator._plan
     original_execute_plan = orchestrator._execute_plan
     original_learn = orchestrator._learn_from_execution
 
     def patched_plan(task, visual_context, memory_context, extra_context, max_steps):
-        # Injectăm contextul sesiunii în planning
+        # Injectam contextul sesiunii in planning
         context_injection = bridge.get_prompt_injection()
         if context_injection and extra_context:
             extra_context = f"{context_injection}\n{extra_context}"
         elif context_injection:
             extra_context = context_injection
 
-        # Înregistrăm că am început un task
+        # Inregistram ca am inceput un task
         bridge.observe_event("task_started", {"task": task, "step": 1})
 
         return original_plan(task, visual_context, memory_context, extra_context, max_steps)
@@ -909,7 +909,7 @@ def inject_context_into_orchestrator(orchestrator, bridge: ContextBridge):
     def patched_execute_plan(plan):
         results = original_execute_plan(plan)
 
-        # Înregistrăm fișierele/folderele accesate din args
+        # Inregistram fisierele/folderele accesate din args
         for step in plan:
             for key, val in step.args.items():
                 if isinstance(val, str):
@@ -923,7 +923,7 @@ def inject_context_into_orchestrator(orchestrator, bridge: ContextBridge):
     def patched_learn(task, plan, result):
         original_learn(task, plan, result)
 
-        # Înregistrăm finalul taskului în bridge
+        # Inregistram finalul taskului in bridge
         if result.success:
             bridge.observe_event("task_completed", {"task": task})
         else:
@@ -932,7 +932,7 @@ def inject_context_into_orchestrator(orchestrator, bridge: ContextBridge):
                 "error": "; ".join(result.errors[:2]),
             })
 
-        # Salvăm sesiunea la fiecare task finalizat (checkpoint)
+        # Salvam sesiunea la fiecare task finalizat (checkpoint)
         bridge.save_session()
 
     # Patch metodele orchestratorului
@@ -958,12 +958,12 @@ if __name__ == "__main__":
         auto_observe=True,
     )
 
-    # La pornire — restaurează contextul
+    # La pornire — restaureaza contextul
     print("\n=== RESTAURARE SESIUNE ===")
     ctx = bridge.restore_session()
     print(ctx.summary())
 
-    # Simulăm o sesiune de lucru
+    # Simulam o sesiune de lucru
     print("\n=== SESIUNE DE LUCRU ===")
     bridge.observe_event("project_detected", {
         "path": "C:/dev/ana-max",
@@ -972,23 +972,23 @@ if __name__ == "__main__":
     })
     bridge.observe_event("app_used",    {"name": "VS Code"})
     bridge.observe_event("file_opened", {"path": "C:/dev/ana-max/tools/ocr_tool.py"})
-    bridge.observe_event("task_started", {"task": "Îmbunătățire OCR accuracy", "step": 1})
+    bridge.observe_event("task_started", {"task": "Imbunatatire OCR accuracy", "step": 1})
     bridge.observe_event("error_seen",   {"error": "PaddleOCR: model not found"})
 
-    # Afișăm contextul curent
+    # Afisam contextul curent
     print("\n=== CONTEXT CURENT ===")
     print(ctx.to_prompt_injection())
 
-    # La închidere — salvăm sesiunea
+    # La inchidere — salvam sesiunea
     print("\n=== SALVARE SESIUNE ===")
     bridge.save_session()
 
-    # Afișăm proiectele cunoscute
+    # Afisam proiectele cunoscute
     print("\n=== PROIECTE CUNOSCUTE ===")
     for p in bridge.get_known_projects():
         print(f"  • {p['name']} ({p['type']}) — {p['path']}")
 
-    # Afișăm preferințele
-    print("\n=== PREFERINȚE DETECTATE ===")
+    # Afisam preferintele
+    print("\n=== PREFERINTE DETECTATE ===")
     for key, info in bridge.get_preferences().items():
         print(f"  • {key}: {info['value']} (confidence: {info['confidence']:.1f})")

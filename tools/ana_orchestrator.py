@@ -1,30 +1,30 @@
 """
 ANA MAX – ana_orchestrator.py
 ==============================
-Creierul care coordonează toate toolurile ANA MAX între ele.
+Creierul care coordoneaza toate toolurile ANA MAX intre ele.
 
-Problema pe care o rezolvă:
-  Ai tooluri excelente dar fiecare lucrează singur.
-  window_manager nu știe ce face ocr_tool.
-  memory_cortex nu știe ce vede desktop_capture.
-  Rezultat: agent care lucrează orb, task de 2h rămâne 2h.
+Problema pe care o rezolva:
+  Ai tooluri excelente dar fiecare lucreaza singur.
+  window_manager nu stie ce face ocr_tool.
+  memory_cortex nu stie ce vede desktop_capture.
+  Rezultat: agent care lucreaza orb, task de 2h ramane 2h.
 
-Soluția:
-  Orchestratorul primește un task în limbaj natural și:
-    1. VEDE      — face screenshot, rulează OCR, înțelege contextul vizual
-    2. GÂNDEȘTE  — consultă memory_cortex pentru erori anterioare și preferințe
-    3. PLANIFICĂ — împarte taskul în pași mici cu toolurile corecte
-    4. EXECUTĂ   — rulează pașii în ordine, cu retry automat
-    5. VERIFICĂ  — face screenshot după fiecare pas, confirmă vizual că a mers
-    6. RAPORTEAZĂ — ce a făcut, cât a durat, ce a învățat
-    7. ÎNVAȚĂ    — salvează patternuri de succes și erori în memory_cortex
+Solutia:
+  Orchestratorul primeste un task in limbaj natural si:
+    1. VEDE      — face screenshot, ruleaza OCR, intelege contextul vizual
+    2. GANDESTE  — consulta memory_cortex pentru erori anterioare si preferinte
+    3. PLANIFICA — imparte taskul in pasi mici cu toolurile corecte
+    4. EXECUTA   — ruleaza pasii in ordine, cu retry automat
+    5. VERIFICA  — face screenshot dupa fiecare pas, confirma vizual ca a mers
+    6. RAPORTEAZA — ce a facut, cat a durat, ce a invatat
+    7. INVATA    — salveaza patternuri de succes si erori in memory_cortex
 
 Rezultat practic:
   Task de 2 ore → 30 minute
-  Agent orb → agent care vede și verifică
+  Agent orb → agent care vede si verifica
   Erori repetate → eliminate prin memory_cortex
 
-Integrare în main.py:
+Integrare in main.py:
     from tools.ana_orchestrator import AnaOrchestrator
 
     orchestrator = AnaOrchestrator(
@@ -33,30 +33,30 @@ Integrare în main.py:
         llm_model="mistral",
     )
 
-    # Task simplu în limbaj natural:
-    result = orchestrator.execute("Deschide Excel, verifică coloana B pentru erori și raportează")
-    result = orchestrator.execute("Fă screenshot, extrage toate emailurile din pagina curentă")
-    result = orchestrator.execute("Monitorizează progresul compilării și anunță când termină")
+    # Task simplu in limbaj natural:
+    result = orchestrator.execute("Deschide Excel, verifica coloana B pentru erori si raporteaza")
+    result = orchestrator.execute("Fa screenshot, extrage toate emailurile din pagina curenta")
+    result = orchestrator.execute("Monitorizeaza progresul compilarii si anunta cand termina")
 
-    # Taskuri multiple în batch:
+    # Taskuri multiple in batch:
     results = orchestrator.execute_batch([
-        "Fă screenshot la ecran",
-        "Extrage textul din fereastra activă",
-        "Salvează raportul în clipboard",
+        "Fa screenshot la ecran",
+        "Extrage textul din fereastra activa",
+        "Salveaza raportul in clipboard",
     ])
 
     # Expunere ca tool MCP (pentru Claude / Cursor / Windsurf):
-    #   Adaugă în mcp_server.py:
+    #   Adauga in mcp_server.py:
     #   from tools.ana_orchestrator import AnaOrchestrator
     #   orchestrator = AnaOrchestrator(...)
     #   @app.route("/mcp", methods=["POST"])
-    #   def mcp_handler(): ...  # vezi secțiunea MCP la finalul fișierului
+    #   def mcp_handler(): ...  # vezi sectiunea MCP la finalul fisierului
 
 Note tehnice:
-  - Toolurile se încarcă lazy (la prima folosire), nu la init
-  - Referențierea rezultatelor anterioare: args={"image": "$step_1"}
-  - dry_run=True simulează tot fără să execute nimic real
-  - voice_feedback=True folosește pyttsx3 pentru feedback vocal
+  - Toolurile se incarca lazy (la prima folosire), nu la init
+  - Referentierea rezultatelor anterioare: args={"image": "$step_1"}
+  - dry_run=True simuleaza tot fara sa execute nimic real
+  - voice_feedback=True foloseste pyttsx3 pentru feedback vocal
 """
 
 import json
@@ -74,14 +74,14 @@ logger = logging.getLogger("ANA.Orchestrator")
 # ── Structuri de date ─────────────────────────────────────────────────────────
 @dataclass
 class Step:
-    """Un pas dintr-un plan de execuție."""
+    """Un pas dintr-un plan de executie."""
     id: int
     description: str
     tool: str                    # ex: "desktop_capture", "ocr_tool", "window_manager"
     action: str                  # ex: "capture_and_read", "get_active_window"
     args: Dict = field(default_factory=dict)
-    depends_on: List[int] = field(default_factory=list)  # ID-uri pași anteriori
-    visual_verify: bool = False  # face screenshot după execuție pentru verificare
+    depends_on: List[int] = field(default_factory=list)  # ID-uri pasi anteriori
+    visual_verify: bool = False  # face screenshot dupa executie pentru verificare
     retry_count: int = 2
     status: str = "pending"      # pending | running | done | failed | skipped
     result: Any = None
@@ -100,7 +100,7 @@ class TaskResult:
     duration_sec: float
     summary: str
     visual_proof: Optional[str] = None   # path la screenshot final
-    learned: List[str] = field(default_factory=list)  # ce a învățat ANA
+    learned: List[str] = field(default_factory=list)  # ce a invatat ANA
     errors: List[str] = field(default_factory=list)
 
 
@@ -109,8 +109,8 @@ class AnaOrchestrator:
     """
     Orchestratorul principal ANA MAX.
 
-    Coordonează toate toolurile între ele pentru a executa
-    taskuri complexe în limbaj natural.
+    Coordoneaza toate toolurile intre ele pentru a executa
+    taskuri complexe in limbaj natural.
     """
 
     def __init__(
@@ -120,8 +120,8 @@ class AnaOrchestrator:
         llm_model: str = "mistral",
         project_root: str = ".",
         voice_feedback: bool = True,
-        auto_verify: bool = True,       # screenshot după fiecare pas important
-        dry_run: bool = False,          # simulează fără a executa (pentru test)
+        auto_verify: bool = True,       # screenshot dupa fiecare pas important
+        dry_run: bool = False,          # simuleaza fara a executa (pentru test)
     ):
         self.db_path      = db_path
         self.llm_url      = llm_url
@@ -131,7 +131,7 @@ class AnaOrchestrator:
         self.auto_verify  = auto_verify
         self.dry_run      = dry_run
 
-        # Inițializăm sub-sistemele ANA MAX
+        # Initializam sub-sistemele ANA MAX
         self._cortex   = None   # MemoryCortex
         self._evolver  = None   # SelfEvolvingTool
         self._pi       = None   # ProactiveInterrupt
@@ -140,17 +140,17 @@ class AnaOrchestrator:
         self._load_subsystems()
         self._register_tools()
 
-        logger.info("✅ AnaOrchestrator inițializat.")
+        logger.info("✅ AnaOrchestrator initializat.")
 
-    # ── Încărcare sub-sisteme ─────────────────────────────────────────────────
+    # ── Incarcare sub-sisteme ─────────────────────────────────────────────────
     def _load_subsystems(self):
-        """Încarcă toate sub-sistemele ANA MAX disponibile."""
+        """Incarca toate sub-sistemele ANA MAX disponibile."""
 
         # Memory Cortex
         try:
             from tools.memory_cortex import MemoryCortex
             self._cortex = MemoryCortex(db_path=self.db_path, verbose=False)
-            logger.info("  ✅ MemoryCortex încărcat")
+            logger.info("  ✅ MemoryCortex incarcat")
         except ImportError:
             logger.warning("  ⚠️ MemoryCortex indisponibil")
 
@@ -162,9 +162,9 @@ class AnaOrchestrator:
                 db_path=self.db_path,
                 llm_url=self.llm_url,
                 llm_model=self.llm_model,
-                auto_improve=False,  # manual în orchestrator
+                auto_improve=False,  # manual in orchestrator
             )
-            logger.info("  ✅ SelfEvolvingTool încărcat")
+            logger.info("  ✅ SelfEvolvingTool incarcat")
         except ImportError:
             logger.warning("  ⚠️ SelfEvolvingTool indisponibil")
 
@@ -174,7 +174,7 @@ class AnaOrchestrator:
                 import pyttsx3
                 self._tts = pyttsx3.init()
                 self._tts.setProperty("rate", 165)
-                logger.info("  ✅ TTS încărcat")
+                logger.info("  ✅ TTS incarcat")
             except Exception:
                 logger.warning("  ⚠️ TTS indisponibil")
 
@@ -182,61 +182,61 @@ class AnaOrchestrator:
     def _register_tools(self):
         """
         Registrul tuturor toolurilor ANA MAX disponibile.
-        Orchestratorul știe ce poate face fiecare tool.
+        Orchestratorul stie ce poate face fiecare tool.
         """
         self._tool_registry: Dict[str, dict] = {
 
             "desktop_capture": {
-                "description": "Face screenshot la ecranul curent. Returnează calea imaginii.",
-                "capabilities": ["vede ecranul", "captură vizuală", "screenshot"],
+                "description": "Face screenshot la ecranul curent. Returneaza calea imaginii.",
+                "capabilities": ["vede ecranul", "captura vizuala", "screenshot"],
                 "loader": self._load_tool("tools.desktop_capture", "DesktopCapture"),
             },
 
             "ocr_tool": {
                 "description": "Extrage textul vizibil de pe ecran prin OCR (PaddleOCR).",
-                "capabilities": ["citește text", "extrage date", "recunoaște text pe ecran"],
+                "capabilities": ["citeste text", "extrage date", "recunoaste text pe ecran"],
                 "loader": self._load_tool("tools.ocr_tool", "OCRTool"),
             },
 
             "window_manager": {
-                "description": "Controlează ferestrele Windows: focus, resize, listare.",
-                "capabilities": ["gestionează ferestre", "focus app", "lista ferestre deschise"],
+                "description": "Controleaza ferestrele Windows: focus, resize, listare.",
+                "capabilities": ["gestioneaza ferestre", "focus app", "lista ferestre deschise"],
                 "loader": self._load_tool("tools.window_manager", "WindowManager"),
             },
 
             "clipboard_manager": {
-                "description": "Citește și scrie în clipboard.",
+                "description": "Citeste si scrie in clipboard.",
                 "capabilities": ["clipboard", "copiere", "lipire text"],
                 "loader": self._load_tool("tools.clipboard_manager", "ClipboardManager"),
             },
 
             "windows_uia_bridge": {
                 "description": "Click, type, read prin UIAutomation. Controlul complet al UI-ului Windows.",
-                "capabilities": ["click", "tastează", "automatizare UI", "buton", "input"],
+                "capabilities": ["click", "tasteaza", "automatizare UI", "buton", "input"],
                 "loader": self._load_tool("tools.windows_uia_bridge", "WindowsUIABridge"),
             },
 
             "terminal_tool": {
-                "description": "Execută comenzi PowerShell/CMD.",
-                "capabilities": ["rulează comandă", "terminal", "powershell", "script"],
+                "description": "Executa comenzi PowerShell/CMD.",
+                "capabilities": ["ruleaza comanda", "terminal", "powershell", "script"],
                 "loader": self._load_tool("tools.terminal_tool", "TerminalTool"),
             },
 
             "security_tool": {
-                "description": "Scanează fișiere pentru secrete și vulnerabilități.",
-                "capabilities": ["securitate", "scan", "vulnerabilități", "secrete"],
+                "description": "Scaneaza fisiere pentru secrete si vulnerabilitati.",
+                "capabilities": ["securitate", "scan", "vulnerabilitati", "secrete"],
                 "loader": self._load_tool("tools.security_tool", "SecurityTool"),
             },
 
             "network_tool": {
                 "description": "Ping, port-scan, DNS lookup.",
-                "capabilities": ["rețea", "ping", "port", "dns", "conexiune"],
+                "capabilities": ["retea", "ping", "port", "dns", "conexiune"],
                 "loader": self._load_tool("tools.network_tool", "NetworkTool"),
             },
         }
 
     def _load_tool(self, module_path: str, class_name: str):
-        """Returnează un factory lazy pentru un tool."""
+        """Returneaza un factory lazy pentru un tool."""
         def factory():
             try:
                 import importlib
@@ -256,19 +256,19 @@ class AnaOrchestrator:
         max_steps: int = 15,
     ) -> TaskResult:
         """
-        Execută un task complex în limbaj natural.
+        Executa un task complex in limbaj natural.
 
         Parametri:
-            task     : descrierea taskului în română sau engleză
-            context  : context suplimentar opțional
-            max_steps: numărul maxim de pași pentru siguranță
+            task     : descrierea taskului in romana sau engleza
+            context  : context suplimentar optional
+            max_steps: numarul maxim de pasi pentru siguranta
 
         Exemplu:
             result = orchestrator.execute(
-                "Deschide Notepad, scrie 'Hello ANA', salvează ca test.txt"
+                "Deschide Notepad, scrie 'Hello ANA', salveaza ca test.txt"
             )
             result = orchestrator.execute(
-                "Verifică dacă există erori în fereastra activă și raportează"
+                "Verifica daca exista erori in fereastra activa si raporteaza"
             )
         """
         start_time = time.time()
@@ -278,13 +278,13 @@ class AnaOrchestrator:
 
         self._speak(f"Am primit taskul: {task[:80]}")
 
-        # 1. VEDE — snapshot vizual al stării curente
+        # 1. VEDE — snapshot vizual al starii curente
         visual_context = self._see_current_state()
 
-        # 2. GÂNDEȘTE — consultă memoria
+        # 2. GANDESTE — consulta memoria
         memory_context = self._think(task)
 
-        # 3. PLANIFICĂ — creează planul de execuție
+        # 3. PLANIFICA — creeaza planul de executie
         plan = self._plan(task, visual_context, memory_context, context, max_steps)
 
         if not plan:
@@ -292,32 +292,32 @@ class AnaOrchestrator:
                 task=task, success=False,
                 steps_total=0, steps_done=0, steps_failed=0,
                 duration_sec=time.time() - start_time,
-                summary="Nu am putut crea un plan de execuție.",
+                summary="Nu am putut crea un plan de executie.",
                 errors=["Planning failed"]
             )
 
-        logger.info(f"📋 Plan creat: {len(plan)} pași")
+        logger.info(f"📋 Plan creat: {len(plan)} pasi")
         for step in plan:
             logger.info(f"  [{step.id}] {step.description} → {step.tool}")
 
-        # 4. EXECUTĂ — rulează pașii
+        # 4. EXECUTA — ruleaza pasii
         results = self._execute_plan(plan)
 
-        # 5. VERIFICĂ — screenshot final
+        # 5. VERIFICA — screenshot final
         final_screenshot = self._verify_final_state(task)
 
-        # 6. RAPORTEAZĂ — sintetizează ce s-a întâmplat
+        # 6. RAPORTEAZA — sintetizeaza ce s-a intamplat
         duration = time.time() - start_time
         task_result = self._build_result(
             task, plan, results, final_screenshot, duration
         )
 
-        # 7. ÎNVAȚĂ — salvează în memory_cortex
+        # 7. INVATA — salveaza in memory_cortex
         self._learn_from_execution(task, plan, task_result)
 
         self._speak(
-            f"Task finalizat în {duration:.0f} secunde. "
-            f"{task_result.steps_done} pași reușiți."
+            f"Task finalizat in {duration:.0f} secunde. "
+            f"{task_result.steps_done} pasi reusiti."
         )
 
         self._print_result(task_result)
@@ -326,8 +326,8 @@ class AnaOrchestrator:
     # ── 1. VEDE ───────────────────────────────────────────────────────────────
     def _see_current_state(self) -> dict:
         """
-        Face un snapshot complet al stării vizuale curente.
-        Ăsta e avantajul față de orice agent cloud — ANA vede ecranul.
+        Face un snapshot complet al starii vizuale curente.
+        Asta e avantajul fata de orice agent cloud — ANA vede ecranul.
         """
         state = {
             "screenshot_path": None,
@@ -348,7 +348,7 @@ class AnaOrchestrator:
         except Exception as e:
             logger.debug(f"Screenshot failed: {e}")
 
-        # Fereastră activă
+        # Fereastra activa
         try:
             wm = self._tool_registry["window_manager"]["loader"]()
             if wm:
@@ -378,9 +378,9 @@ class AnaOrchestrator:
 
         return state
 
-    # ── 2. GÂNDEȘTE ───────────────────────────────────────────────────────────
+    # ── 2. GANDESTE ───────────────────────────────────────────────────────────
     def _think(self, task: str) -> dict:
-        """Consultă memoria pentru context relevant."""
+        """Consulta memoria pentru context relevant."""
         memory = {
             "similar_tasks": [],
             "known_errors": [],
@@ -403,7 +403,7 @@ class AnaOrchestrator:
 
         return memory
 
-    # ── 3. PLANIFICĂ ──────────────────────────────────────────────────────────
+    # ── 3. PLANIFICA ──────────────────────────────────────────────────────────
     def _plan(
         self,
         task: str,
@@ -413,8 +413,8 @@ class AnaOrchestrator:
         max_steps: int,
     ) -> List[Step]:
         """
-        Folosește LLM-ul pentru a crea un plan de execuție structurat.
-        Injectează contextul vizual și memoria în prompt.
+        Foloseste LLM-ul pentru a crea un plan de executie structurat.
+        Injecteaza contextul vizual si memoria in prompt.
         """
 
         # Construim descrierea toolurilor disponibile
@@ -426,7 +426,7 @@ class AnaOrchestrator:
         # Context vizual
         visual_summary = ""
         if visual_context.get("active_window"):
-            visual_summary += f"Fereastra activă: {visual_context['active_window']}\n"
+            visual_summary += f"Fereastra activa: {visual_context['active_window']}\n"
         if visual_context.get("screen_text"):
             visual_summary += f"Text vizibil pe ecran: {visual_context['screen_text'][:500]}\n"
         if visual_context.get("open_windows"):
@@ -435,18 +435,18 @@ class AnaOrchestrator:
         # Erori cunoscute
         errors_warning = ""
         if memory_context.get("known_errors"):
-            errors_warning = "ATENȚIE — erori anterioare de evitat:\n" + "\n".join(
+            errors_warning = "ATENTIE — erori anterioare de evitat:\n" + "\n".join(
                 f"  - {e['type']}: repetat de {e['times']} ori"
                 for e in memory_context["known_errors"]
             )
 
-        prompt = f"""Ești orchestratorul ANA MAX, un agent AI pentru Windows.
+        prompt = f"""Esti orchestratorul ANA MAX, un agent AI pentru Windows.
 
 TOOLURI DISPONIBILE:
 {tools_desc}
 
-STAREA CURENTĂ A ECRANULUI:
-{visual_summary if visual_summary else "Indisponibilă"}
+STAREA CURENTA A ECRANULUI:
+{visual_summary if visual_summary else "Indisponibila"}
 
 {errors_warning}
 
@@ -455,13 +455,13 @@ TASK DE EXECUTAT:
 
 {f"CONTEXT SUPLIMENTAR: {extra_context}" if extra_context else ""}
 
-Creează un plan de execuție cu MAXIM {max_steps} pași.
-Fiecare pas trebuie să folosească un tool disponibil.
-Pașii critici (care modifică ceva) trebuie să aibă visual_verify: true.
+Creeaza un plan de executie cu MAXIM {max_steps} pasi.
+Fiecare pas trebuie sa foloseasca un tool disponibil.
+Pasii critici (care modifica ceva) trebuie sa aiba visual_verify: true.
 
-Răspunde STRICT în JSON, fără text suplimentar:
+Raspunde STRICT in JSON, fara text suplimentar:
 {{
-  "plan_summary": "descriere scurtă a ce vei face",
+  "plan_summary": "descriere scurta a ce vei face",
   "estimated_minutes": 5,
   "steps": [
     {{
@@ -487,7 +487,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
             resp.raise_for_status()
             raw = resp.json().get("response", "").strip()
 
-            # Curățăm markdown dacă există
+            # Curatam markdown daca exista
             if "```" in raw:
                 raw = raw.split("```")[1]
                 if raw.startswith("json"):
@@ -516,15 +516,15 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
         except Exception as e:
             logger.error(f"Planning failed: {e}")
-            # Fallback: plan minimal — vede + raportează
+            # Fallback: plan minimal — vede + raporteaza
             return self._fallback_plan(task)
 
     def _fallback_plan(self, task: str) -> List[Step]:
-        """Plan minimal când LLM-ul nu poate planifica."""
+        """Plan minimal cand LLM-ul nu poate planifica."""
         return [
             Step(
                 id=1,
-                description="Captură ecran curent",
+                description="Captura ecran curent",
                 tool="desktop_capture",
                 action="capture",
                 visual_verify=False,
@@ -539,22 +539,22 @@ Răspunde STRICT în JSON, fără text suplimentar:
             ),
         ]
 
-    # ── 4. EXECUTĂ ────────────────────────────────────────────────────────────
+    # ── 4. EXECUTA ────────────────────────────────────────────────────────────
     def _execute_plan(self, plan: List[Step]) -> Dict[int, Any]:
         """
-        Execută planul pas cu pas.
-        Fiecare pas: verifică dependențe → rulează → verifică vizual → retry dacă fail.
+        Executa planul pas cu pas.
+        Fiecare pas: verifica dependente → ruleaza → verifica vizual → retry daca fail.
         """
         results: Dict[int, Any] = {}
         completed_ids = set()
 
         for step in plan:
-            # Verifică dependențe
+            # Verifica dependente
             if step.depends_on:
                 missing = [d for d in step.depends_on if d not in completed_ids]
                 if missing:
                     logger.warning(
-                        f"  ⏭️ Pas {step.id} sărit — dependențe neîndeplinite: {missing}"
+                        f"  ⏭️ Pas {step.id} sarit — dependente neindeplinite: {missing}"
                     )
                     step.status = "skipped"
                     continue
@@ -574,14 +574,14 @@ Răspunde STRICT în JSON, fără text suplimentar:
                     completed_ids.add(step.id)
 
                     logger.info(
-                        f"  ✅ Pas {step.id} gata în {step.duration_sec:.1f}s"
+                        f"  ✅ Pas {step.id} gata in {step.duration_sec:.1f}s"
                     )
 
-                    # Verificare vizuală după pas important
+                    # Verificare vizuala dupa pas important
                     if step.visual_verify and self.auto_verify:
                         self._visual_verify_step(step)
 
-                    break  # succes — ieșim din retry
+                    break  # succes — iesim din retry
 
                 except Exception as e:
                     step.error = str(e)
@@ -594,12 +594,12 @@ Răspunde STRICT în JSON, fără text suplimentar:
                     else:
                         step.status = "failed"
                         step.duration_sec = time.time() - start
-                        logger.error(f"  ❌ Pas {step.id} eșuat: {e}")
+                        logger.error(f"  ❌ Pas {step.id} esuat: {e}")
 
-                        # Self-healing: încearcă să repare toolul
+                        # Self-healing: incearca sa repare toolul
                         if self._evolver:
                             try:
-                                # Construim calea modulului manual (robust, fără _module_to_path)
+                                # Construim calea modulului manual (robust, fara _module_to_path)
                                 tool_file = self.project_root / "tools" / f"{step.tool}.py"
                                 if tool_file.exists():
                                     repair_fn = getattr(self._evolver, "_repair_file", None)
@@ -613,23 +613,23 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
     def _run_step(self, step: Step, previous_results: Dict[int, Any]) -> Any:
         """
-        Rulează un singur pas din plan.
-        Injectează rezultatele pașilor anteriori ca context.
+        Ruleaza un singur pas din plan.
+        Injecteaza rezultatele pasilor anteriori ca context.
         """
         if self.dry_run:
             logger.info(f"  [DRY RUN] {step.tool}.{step.action}({step.args})")
             return f"DRY_RUN_RESULT_{step.id}"
 
-        # Obținem instanța toolului
+        # Obtinem instanta toolului
         tool_info = self._tool_registry.get(step.tool)
         if not tool_info:
             raise ValueError(f"Tool necunoscut: {step.tool}")
 
         tool_instance = tool_info["loader"]()
         if not tool_instance:
-            raise RuntimeError(f"Tool {step.tool} nu a putut fi inițializat")
+            raise RuntimeError(f"Tool {step.tool} nu a putut fi initializat")
 
-        # Injectăm rezultatele anterioare în args dacă sunt referențiate
+        # Injectam rezultatele anterioare in args daca sunt referentiate
         args = dict(step.args)
         for key, val in args.items():
             if isinstance(val, str) and val.startswith("$step_"):
@@ -637,11 +637,11 @@ Răspunde STRICT în JSON, fără text suplimentar:
                 if step_ref in previous_results:
                     args[key] = previous_results[step_ref]
 
-        # Apelăm metoda
+        # Apelam metoda
         method = getattr(tool_instance, step.action, None)
         if not method:
             raise AttributeError(
-                f"Metoda '{step.action}' nu există în {step.tool}"
+                f"Metoda '{step.action}' nu exista in {step.tool}"
             )
 
         if args:
@@ -649,11 +649,11 @@ Răspunde STRICT în JSON, fără text suplimentar:
         else:
             return method()
 
-    # ── 5. VERIFICĂ VIZUAL ────────────────────────────────────────────────────
+    # ── 5. VERIFICA VIZUAL ────────────────────────────────────────────────────
     def _visual_verify_step(self, step: Step):
         """
-        Face screenshot după un pas important și verifică vizual că a funcționat.
-        Ăsta e avantajul cheie față de agenții orbi.
+        Face screenshot dupa un pas important si verifica vizual ca a functionat.
+        Asta e avantajul cheie fata de agentii orbi.
         """
         try:
             capture = self._tool_registry["desktop_capture"]["loader"]()
@@ -661,25 +661,25 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
             if capture:
                 screenshot_path = capture.capture()
-                logger.info(f"  🔍 Verificare vizuală: {screenshot_path}")
+                logger.info(f"  🔍 Verificare vizuala: {screenshot_path}")
 
             if ocr:
                 screen_text = ocr.capture_and_read() or ""
-                # Verificare simplă: dacă există text de eroare pe ecran
-                error_keywords = ["error", "eroare", "failed", "eșuat", "exception", "crash"]
+                # Verificare simpla: daca exista text de eroare pe ecran
+                error_keywords = ["error", "eroare", "failed", "esuat", "exception", "crash"]
                 found_errors = [kw for kw in error_keywords if kw.lower() in screen_text.lower()]
                 if found_errors:
                     logger.warning(
-                        f"  ⚠️ Verificare vizuală: găsit text suspect: {found_errors}"
+                        f"  ⚠️ Verificare vizuala: gasit text suspect: {found_errors}"
                     )
                 else:
-                    logger.info(f"  ✅ Verificare vizuală: ecran pare OK")
+                    logger.info(f"  ✅ Verificare vizuala: ecran pare OK")
 
         except Exception as e:
             logger.debug(f"Visual verify failed: {e}")
 
     def _verify_final_state(self, task: str) -> Optional[str]:
-        """Screenshot final al stării după execuția completă."""
+        """Screenshot final al starii dupa executia completa."""
         try:
             capture = self._tool_registry["desktop_capture"]["loader"]()
             if capture:
@@ -690,7 +690,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
             pass
         return None
 
-    # ── 6. RAPORTEAZĂ ─────────────────────────────────────────────────────────
+    # ── 6. RAPORTEAZA ─────────────────────────────────────────────────────────
     def _build_result(
         self,
         task: str,
@@ -707,8 +707,8 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
         summary_parts = [
             f"Task: {task}",
-            f"Durată: {duration:.1f}s",
-            f"Pași: {len(done)} reușiți, {len(failed)} eșuați, {len(skipped)} săriti",
+            f"Durata: {duration:.1f}s",
+            f"Pasi: {len(done)} reusiti, {len(failed)} esuati, {len(skipped)} sariti",
         ]
 
         if failed:
@@ -728,26 +728,26 @@ Răspunde STRICT în JSON, fără text suplimentar:
             errors=[f"Pas {s.id}: {s.error}" for s in failed],
         )
 
-    # ── 7. ÎNVAȚĂ ─────────────────────────────────────────────────────────────
+    # ── 7. INVATA ─────────────────────────────────────────────────────────────
     def _learn_from_execution(self, task: str, plan: List[Step], result: TaskResult):
         """
-        Salvează ce a funcționat și ce nu în memory_cortex.
-        Folosește metode defensive — funcționează indiferent de versiunea cortex-ului.
+        Salveaza ce a functionat si ce nu in memory_cortex.
+        Foloseste metode defensive — functioneaza indiferent de versiunea cortex-ului.
         """
         if not self._cortex:
             return
 
         try:
             tools_used = list(dict.fromkeys(s.tool for s in plan if s.status == "done"))
-            pattern = f"Tooluri în ordine: {' → '.join(tools_used)}"
+            pattern = f"Tooluri in ordine: {' → '.join(tools_used)}"
 
             if result.success:
-                # Încearcă metodele posibile ale MemoryCortex în ordine de preferință
+                # Incearca metodele posibile ale MemoryCortex in ordine de preferinta
                 if hasattr(self._cortex, "learned_success"):
                     self._cortex.learned_success(
                         task_type=self._classify_task(task),
                         pattern=pattern,
-                        notes=f"Task: {task[:100]} | Durată: {result.duration_sec:.0f}s",
+                        notes=f"Task: {task[:100]} | Durata: {result.duration_sec:.0f}s",
                     )
                 elif hasattr(self._cortex, "store"):
                     self._cortex.store(
@@ -767,9 +767,9 @@ Răspunde STRICT în JSON, fără text suplimentar:
                     )
 
                 result.learned.append(f"Pattern salvat: {pattern}")
-                logger.info(f"  🧠 Salvat în memorie: {pattern}")
+                logger.info(f"  🧠 Salvat in memorie: {pattern}")
 
-            # Salvăm erorile pentru evitare viitoare
+            # Salvam erorile pentru evitare viitoare
             for step in plan:
                 if step.status == "failed" and step.error:
                     error_entry = {
@@ -782,8 +782,8 @@ Răspunde STRICT în JSON, fără text suplimentar:
                     if hasattr(self._cortex, "correct"):
                         self._cortex.correct(
                             original_prompt=task,
-                            bad_response=f"Tool {step.tool}.{step.action} a eșuat",
-                            correct_response=f"Evită {step.tool}.{step.action} fără verificare prealabilă",
+                            bad_response=f"Tool {step.tool}.{step.action} a esuat",
+                            correct_response=f"Evita {step.tool}.{step.action} fara verificare prealabila",
                             error_type=f"tool_failure_{step.tool}",
                             tags=[step.tool],
                         )
@@ -803,15 +803,15 @@ Răspunde STRICT în JSON, fără text suplimentar:
             logger.debug(f"Learning failed (non-critical): {e}")
 
     def _classify_task(self, task: str) -> str:
-        """Clasifică taskul în categorii pentru pattern learning."""
+        """Clasifica taskul in categorii pentru pattern learning."""
         task_lower = task.lower()
-        if any(w in task_lower for w in ["screenshot", "captură", "ecran", "vede"]):
+        if any(w in task_lower for w in ["screenshot", "captura", "ecran", "vede"]):
             return "visual_task"
-        if any(w in task_lower for w in ["scrie", "tastează", "deschide", "click"]):
+        if any(w in task_lower for w in ["scrie", "tasteaza", "deschide", "click"]):
             return "ui_automation"
-        if any(w in task_lower for w in ["verifică", "eroare", "debug", "analizează"]):
+        if any(w in task_lower for w in ["verifica", "eroare", "debug", "analizeaza"]):
             return "debug_task"
-        if any(w in task_lower for w in ["fișier", "folder", "salvează", "citește"]):
+        if any(w in task_lower for w in ["fisier", "folder", "salveaza", "citeste"]):
             return "file_task"
         return "general_task"
 
@@ -819,15 +819,15 @@ Răspunde STRICT în JSON, fără text suplimentar:
     def _print_result(self, result: TaskResult):
         icon = "✅" if result.success else "❌"
         print(f"\n{'='*60}")
-        print(f"{icon} TASK {'FINALIZAT' if result.success else 'EȘUAT'}")
+        print(f"{icon} TASK {'FINALIZAT' if result.success else 'ESUAT'}")
         print(f"{'='*60}")
-        print(f"Durată:  {result.duration_sec:.1f}s  "
+        print(f"Durata:  {result.duration_sec:.1f}s  "
               f"({'~' + str(int(result.duration_sec/60)) + ' min' if result.duration_sec > 60 else 'sub 1 min'})")
-        print(f"Pași:    {result.steps_done}/{result.steps_total} reușiți")
+        print(f"Pasi:    {result.steps_done}/{result.steps_total} reusiti")
         if result.visual_proof:
-            print(f"Dovadă:  {result.visual_proof}")
+            print(f"Dovada:  {result.visual_proof}")
         if result.learned:
-            print(f"Învățat: {'; '.join(result.learned)}")
+            print(f"Invatat: {'; '.join(result.learned)}")
         if result.errors:
             print(f"Erori:   {'; '.join(result.errors[:3])}")
         print("="*60 + "\n")
@@ -844,28 +844,28 @@ Răspunde STRICT în JSON, fără text suplimentar:
     # ── Monitor continuu ──────────────────────────────────────────────────────
     def monitor(self, task: str, interval_sec: int = 30, max_checks: int = 20):
         """
-        Monitorizează un proces în curs (compilare, download, etc.)
-        și anunță când se termină sau apare o eroare.
+        Monitorizeaza un proces in curs (compilare, download, etc.)
+        si anunta cand se termina sau apare o eroare.
 
         Exemplu:
             orchestrator.monitor("compilarea proiectului", interval_sec=15)
         """
         logger.info(f"👁️ Monitorizez: {task}")
-        self._speak(f"Încep monitorizarea: {task}")
+        self._speak(f"Incep monitorizarea: {task}")
 
         prev_text = ""
         for check in range(max_checks):
             state = self._see_current_state()
             current_text = state.get("screen_text", "")
 
-            # Detectăm schimbări semnificative
+            # Detectam schimbari semnificative
             if current_text != prev_text:
                 changed_lines = len(set(current_text.split()) - set(prev_text.split()))
-                logger.info(f"  [{check+1}/{max_checks}] Schimbare detectată: {changed_lines} cuvinte noi")
+                logger.info(f"  [{check+1}/{max_checks}] Schimbare detectata: {changed_lines} cuvinte noi")
 
-                # Detectăm finalizare sau eroare
+                # Detectam finalizare sau eroare
                 finish_signals = ["done", "complete", "finished", "success", "gata", "finalizat"]
-                error_signals  = ["error", "failed", "crash", "exception", "eroare", "eșuat"]
+                error_signals  = ["error", "failed", "crash", "exception", "eroare", "esuat"]
 
                 text_lower = current_text.lower()
 
@@ -876,7 +876,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
                     return True
 
                 if any(s in text_lower for s in error_signals):
-                    msg = f"Detectat posibil eroare în '{task}'!"
+                    msg = f"Detectat posibil eroare in '{task}'!"
                     logger.warning(f"  ⚠️ {msg}")
                     self._speak(msg)
                     return False
@@ -885,7 +885,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
             time.sleep(interval_sec)
 
-        self._speak(f"Monitorizare terminată pentru: {task}")
+        self._speak(f"Monitorizare terminata pentru: {task}")
         return None
 
     # ── Batch execution ───────────────────────────────────────────────────────
@@ -895,26 +895,26 @@ Răspunde STRICT în JSON, fără text suplimentar:
         stop_on_failure: bool = False,
     ) -> List[TaskResult]:
         """
-        Execută o listă de taskuri în ordine.
+        Executa o lista de taskuri in ordine.
 
         Exemplu:
             results = orchestrator.execute_batch([
-                "Fă screenshot la ecran",
-                "Extrage textul din fereastra activă",
-                "Salvează log-ul în Desktop/ana_log.txt",
+                "Fa screenshot la ecran",
+                "Extrage textul din fereastra activa",
+                "Salveaza log-ul in Desktop/ana_log.txt",
             ])
             for r in results:
                 print(r.summary)
 
         Parametri:
-            tasks           : lista de taskuri în limbaj natural
-            stop_on_failure : dacă True, se oprește la primul task eșuat
+            tasks           : lista de taskuri in limbaj natural
+            stop_on_failure : daca True, se opreste la primul task esuat
         """
         logger.info(f"\n{'='*60}")
         logger.info(f"📦 BATCH: {len(tasks)} taskuri")
         logger.info(f"{'='*60}")
 
-        self._speak(f"Pornesc {len(tasks)} taskuri în batch.")
+        self._speak(f"Pornesc {len(tasks)} taskuri in batch.")
         results = []
 
         for i, task in enumerate(tasks, 1):
@@ -923,7 +923,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
             results.append(result)
 
             if stop_on_failure and not result.success:
-                logger.warning(f"⛔ Batch oprit la taskul {i} (eșec): {task[:60]}")
+                logger.warning(f"⛔ Batch oprit la taskul {i} (esec): {task[:60]}")
                 self._speak("Batch oprit din cauza unei erori.")
                 break
 
@@ -932,17 +932,17 @@ Răspunde STRICT în JSON, fără text suplimentar:
         total_time  = sum(r.duration_sec for r in results)
 
         logger.info(f"\n{'='*60}")
-        logger.info(f"📦 BATCH FINALIZAT: {done_count} reușite, {fail_count} eșuate, {total_time:.1f}s total")
+        logger.info(f"📦 BATCH FINALIZAT: {done_count} reusite, {fail_count} esuate, {total_time:.1f}s total")
         logger.info(f"{'='*60}")
-        self._speak(f"Batch finalizat. {done_count} din {len(tasks)} taskuri reușite.")
+        self._speak(f"Batch finalizat. {done_count} din {len(tasks)} taskuri reusite.")
 
         return results
 
     # ── Status / introspection ────────────────────────────────────────────────
     def get_status(self) -> dict:
         """
-        Returnează statusul curent al orchestratorului:
-        ce tooluri sunt disponibile, câte memories are, etc.
+        Returneaza statusul curent al orchestratorului:
+        ce tooluri sunt disponibile, cate memories are, etc.
 
         Util pentru health-check din MCP server sau dashboard.
         """
@@ -981,14 +981,14 @@ Răspunde STRICT în JSON, fără text suplimentar:
     # ── MCP Server integration ────────────────────────────────────────────────
     def register_as_mcp_tool(self, mcp_app) -> None:
         """
-        Înregistrează orchestratorul ca tool MCP în serverul ANA MAX.
-        Apelează asta din mcp_server.py după ce inițializezi AnaOrchestrator.
+        Inregistreaza orchestratorul ca tool MCP in serverul ANA MAX.
+        Apeleaza asta din mcp_server.py dupa ce initializezi AnaOrchestrator.
 
-        Exemplu în mcp_server.py:
+        Exemplu in mcp_server.py:
             from tools.ana_orchestrator import AnaOrchestrator
             orchestrator = AnaOrchestrator(...)
 
-            # Înregistrare ca tool MCP:
+            # Inregistrare ca tool MCP:
             orchestrator.register_as_mcp_tool(app)
 
         Dup asta, orice client MCP (Claude, Cursor, Windsurf) poate apela:
@@ -996,7 +996,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
               "method": "call_tool",
               "params": {
                 "tool": "ana_orchestrate",
-                "args": {"task": "Deschide Notepad și scrie Hello ANA"}
+                "args": {"task": "Deschide Notepad si scrie Hello ANA"}
               }
             }
 
@@ -1005,7 +1005,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
               "params": {
                 "tool": "ana_orchestrate_batch",
                 "args": {
-                  "tasks": ["Fă screenshot", "Extrage text", "Salvează log"],
+                  "tasks": ["Fa screenshot", "Extrage text", "Salveaza log"],
                   "stop_on_failure": false
                 }
               }
@@ -1014,20 +1014,20 @@ Răspunde STRICT în JSON, fără text suplimentar:
         try:
             from flask import request, jsonify
         except ImportError:
-            logger.error("Flask indisponibil — nu pot înregistra toolurile MCP.")
+            logger.error("Flask indisponibil — nu pot inregistra toolurile MCP.")
             return
 
-        orchestrator_self = self  # referință pentru closure
+        orchestrator_self = self  # referinta pentru closure
 
         @mcp_app.route("/tools/ana_orchestrate", methods=["POST"])
         def mcp_orchestrate():
-            """MCP endpoint: execută un task complex în limbaj natural."""
+            """MCP endpoint: executa un task complex in limbaj natural."""
             data = request.get_json(force=True) or {}
             task    = data.get("task", "")
             context = data.get("context", None)
 
             if not task:
-                return jsonify({"error": "Câmpul 'task' este obligatoriu."}), 400
+                return jsonify({"error": "Campul 'task' este obligatoriu."}), 400
 
             try:
                 result = orchestrator_self.execute(task, context=context)
@@ -1047,13 +1047,13 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
         @mcp_app.route("/tools/ana_orchestrate_batch", methods=["POST"])
         def mcp_orchestrate_batch():
-            """MCP endpoint: execută mai multe taskuri în batch."""
+            """MCP endpoint: executa mai multe taskuri in batch."""
             data  = request.get_json(force=True) or {}
             tasks = data.get("tasks", [])
             stop_on_failure = data.get("stop_on_failure", False)
 
             if not tasks or not isinstance(tasks, list):
-                return jsonify({"error": "Câmpul 'tasks' trebuie să fie o listă non-goală."}), 400
+                return jsonify({"error": "Campul 'tasks' trebuie sa fie o lista non-goala."}), 400
 
             try:
                 results = orchestrator_self.execute_batch(tasks, stop_on_failure=stop_on_failure)
@@ -1078,10 +1078,10 @@ Răspunde STRICT în JSON, fără text suplimentar:
 
         @mcp_app.route("/tools/ana_orchestrator_status", methods=["GET"])
         def mcp_orchestrator_status():
-            """MCP endpoint: health-check și status al orchestratorului."""
+            """MCP endpoint: health-check si status al orchestratorului."""
             return jsonify(orchestrator_self.get_status())
 
-        logger.info("  ✅ Orchestrator înregistrat ca MCP tools:")
+        logger.info("  ✅ Orchestrator inregistrat ca MCP tools:")
         logger.info("     POST /tools/ana_orchestrate")
         logger.info("     POST /tools/ana_orchestrate_batch")
         logger.info("     GET  /tools/ana_orchestrator_status")
@@ -1091,7 +1091,7 @@ Răspunde STRICT în JSON, fără text suplimentar:
 # Exemplu de utilizare
 # ─────────────────────────────────────────────────────────────────────────────
 # ─────────────────────────────────────────────────────────────────────────────
-# Exemplu de utilizare directă
+# Exemplu de utilizare directa
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     logging.basicConfig(
@@ -1106,7 +1106,7 @@ if __name__ == "__main__":
         llm_model="mistral",
         voice_feedback=True,
         auto_verify=True,
-        dry_run=False,        # True = simulare fără execuție reală
+        dry_run=False,        # True = simulare fara executie reala
     )
 
     # ── Status ────────────────────────────────────────────────────────────────
@@ -1114,35 +1114,35 @@ if __name__ == "__main__":
     status = orchestrator.get_status()
     print(f"Tooluri disponibile ({len(status['tools_available'])}): {', '.join(status['tools_available'])}")
     if status['tools_unavailable']:
-        print(f"Tooluri lipsă: {', '.join(status['tools_unavailable'])}")
+        print(f"Tooluri lipsa: {', '.join(status['tools_unavailable'])}")
     print(f"Memory Cortex: {'✅' if status['memory_cortex'] else '⚠️ indisponibil'}")
     print(f"Self-Evolving: {'✅' if status['self_evolving'] else '⚠️ indisponibil'}")
 
     # ── Task simplu ───────────────────────────────────────────────────────────
     print("\n=== TEST 1: Task simplu ===")
     result = orchestrator.execute(
-        "Fă screenshot la ecran și extrage tot textul vizibil"
+        "Fa screenshot la ecran si extrage tot textul vizibil"
     )
 
     # ── Task complex UI ───────────────────────────────────────────────────────
     # print("\n=== TEST 2: Task complex UI ===")
     # result = orchestrator.execute(
-    #     "Deschide Notepad, scrie data și ora curentă, salvează ca ana_log.txt pe Desktop"
+    #     "Deschide Notepad, scrie data si ora curenta, salveaza ca ana_log.txt pe Desktop"
     # )
 
     # ── Batch ─────────────────────────────────────────────────────────────────
     # print("\n=== TEST 3: Batch ===")
     # results = orchestrator.execute_batch([
-    #     "Fă screenshot la ecran",
-    #     "Extrage textul din fereastra activă",
-    #     "Verifică dacă există erori vizibile pe ecran",
+    #     "Fa screenshot la ecran",
+    #     "Extrage textul din fereastra activa",
+    #     "Verifica daca exista erori vizibile pe ecran",
     # ], stop_on_failure=False)
 
     # ── Monitorizare ──────────────────────────────────────────────────────────
     # print("\n=== TEST 4: Monitorizare compilare ===")
     # orchestrator.monitor("compilarea proiectului", interval_sec=10, max_checks=12)
 
-    # ── MCP registration (demo, necesită Flask app) ───────────────────────────
+    # ── MCP registration (demo, necesita Flask app) ───────────────────────────
     # from flask import Flask
     # app = Flask(__name__)
     # orchestrator.register_as_mcp_tool(app)

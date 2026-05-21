@@ -1,7 +1,7 @@
 """
 ANA MAX - MCP Server
 =========================
-Model Context Protocol server pentru integrare cu AdaL și alți agenți.
+Model Context Protocol server pentru integrare cu AdaL si alti agenti.
 """
 
 import json
@@ -97,7 +97,7 @@ class MCPServer:
 
 
 class AdalBridge:
-    """Bridge între A.N.A. și AdaL."""
+    """Bridge intre A.N.A. si AdaL."""
     
     def __init__(self, mcp_server: MCPServer):
         self.mcp_server = mcp_server
@@ -107,7 +107,7 @@ class AdalBridge:
         # Tool: Smart Search
         self.mcp_server.register_tool(
             name="ana_smart_search",
-            description="Căutare rapidă FTS5 în codebase",
+            description="Cautare rapida FTS5 in codebase",
             function=self._smart_search_handler,
             schema={
                 "type": "object",
@@ -122,7 +122,7 @@ class AdalBridge:
         # Tool: Auto-Evolution
         self.mcp_server.register_tool(
             name="ana_evolve",
-            description="Evoluție A.N.A.",
+            description="Evolutie A.N.A.",
             function=self._evolution_handler,
             schema={
                 "type": "object",
@@ -137,7 +137,7 @@ class AdalBridge:
         # Tool: Memory Search
         self.mcp_server.register_tool(
             name="ana_memory_search",
-            description="Caută în memoria locală A.N.A.",
+            description="Cauta in memoria locala A.N.A.",
             function=self._memory_search_handler,
             schema={
                 "type": "object",
@@ -313,7 +313,7 @@ def health():
 
 @app.route('/status', methods=['GET'])
 def status():
-    """Health check extins: backend, memorie, MCP. Pentru /status în consolă și monitorizare."""
+    """Health check extins: backend, memorie, MCP. Pentru /status in consola si monitorizare."""
     out = {"status": "online", "agent": "A.N.A. MCP", "ready": True}
     try:
         from core.config import config
@@ -393,7 +393,7 @@ _web_bridge_agent = None
 def mcp_handler():
     """
     Endpoint pentru extensia de browser (Chrome/Grok/Gemini)
-    Permite controlul A.N.A. direct din interfața web a AI-urilor.
+    Permite controlul A.N.A. direct din interfata web a AI-urilor.
     """
     import traceback
     
@@ -485,7 +485,7 @@ def mcp_handler():
                     }
                 })
 
-            # Încearcă multi-agent cu audit; la eroare fallback la răspuns simplu
+            # Incearca multi-agent cu audit; la eroare fallback la raspuns simplu
             try:
                 from core.multi_agent_system import get_multi_agent_system
                 mas = get_multi_agent_system(main_agent)
@@ -504,7 +504,7 @@ def mcp_handler():
                     "result": {
                         "output": str(output_summary),
                         "success": result.get("success", False),
-                        "full_report": "Task executat. Verifică fișierele create."
+                        "full_report": "Task executat. Verifica fisierele create."
                     }
                 })
             except Exception as mas_err:
@@ -514,9 +514,9 @@ def mcp_handler():
                     "jsonrpc": "2.0",
                     "id": request_id,
                     "result": {
-                        "output": response_text[:2000] if response_text else "(fără răspuns)",
+                        "output": response_text[:2000] if response_text else "(fara raspuns)",
                         "success": True,
-                        "full_report": "Răspuns direct ANA (mod simplu)."
+                        "full_report": "Raspuns direct ANA (mod simplu)."
                     }
                 })
 

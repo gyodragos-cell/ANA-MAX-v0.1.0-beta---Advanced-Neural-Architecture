@@ -1,6 +1,6 @@
 """
 🧠 Ana Deep Learning Observer Module
-Monitorizează activitatea utilizatorului și învață pattern-uri
+Monitorizeaza activitatea utilizatorului si invata pattern-uri
 """
 
 import os
@@ -19,18 +19,18 @@ try:
     WATCHDOG_AVAILABLE = True
 except ImportError:
     WATCHDOG_AVAILABLE = False
-    print("⚠️ watchdog nu este instalat. Rulează: pip install watchdog --break-system-packages")
+    print("⚠️ watchdog nu este instalat. Ruleaza: pip install watchdog --break-system-packages")
 
 try:
     import psutil
     PSUTIL_AVAILABLE = True
 except ImportError:
     PSUTIL_AVAILABLE = False
-    print("⚠️ psutil nu este instalat. Rulează: pip install psutil --break-system-packages")
+    print("⚠️ psutil nu este instalat. Ruleaza: pip install psutil --break-system-packages")
 
 
 class LearningDatabase:
-    """Baza de date pentru învățare și pattern-uri"""
+    """Baza de date pentru invatare si pattern-uri"""
     
     def __init__(self, db_path: str = "memory/learning.db"):
         self.db_path = db_path
@@ -38,11 +38,11 @@ class LearningDatabase:
         self._init_database()
     
     def _init_database(self):
-        """Inițializează structura bazei de date"""
+        """Initializeaza structura bazei de date"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
-        # Tabel pentru evenimente fișiere
+        # Tabel pentru evenimente fisiere
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS file_events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +56,7 @@ class LearningDatabase:
             )
         """)
         
-        # Tabel pentru procese/aplicații
+        # Tabel pentru procese/aplicatii
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS process_events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -93,7 +93,7 @@ class LearningDatabase:
             )
         """)
         
-        # Tabel pentru predicții și sugestii
+        # Tabel pentru predictii si sugestii
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS predictions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -109,7 +109,7 @@ class LearningDatabase:
         conn.close()
     
     def log_file_event(self, event_type: str, file_path: str):
-        """Înregistrează un eveniment de fișier"""
+        """Inregistreaza un eveniment de fisier"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -120,7 +120,7 @@ class LearningDatabase:
         try:
             if os.path.exists(file_path):
                 file_size = os.path.getsize(file_path)
-        except:
+        except Exception as e:
             pass
         
         cursor.execute("""
@@ -141,7 +141,7 @@ class LearningDatabase:
         conn.close()
     
     def log_process_event(self, process_name: str, duration: int):
-        """Înregistrează un eveniment de proces"""
+        """Inregistreaza un eveniment de proces"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -163,7 +163,7 @@ class LearningDatabase:
         conn.close()
     
     def log_command_event(self, command: str, working_dir: str, success: bool):
-        """Înregistrează o comandă executată"""
+        """Inregistreaza o comanda executata"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -185,7 +185,7 @@ class LearningDatabase:
         conn.close()
     
     def get_file_patterns(self, days: int = 7) -> Dict[str, Any]:
-        """Analizează pattern-uri de fișiere din ultimele N zile"""
+        """Analizeaza pattern-uri de fisiere din ultimele N zile"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -232,7 +232,7 @@ class LearningDatabase:
         }
     
     def get_process_patterns(self, days: int = 7) -> Dict[str, Any]:
-        """Analizează pattern-uri de procese"""
+        """Analizeaza pattern-uri de procese"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -257,7 +257,7 @@ class LearningDatabase:
 
 
 class FileWatcher(FileSystemEventHandler):
-    """Monitorizează modificările de fișiere"""
+    """Monitorizeaza modificarile de fisiere"""
     
     def __init__(self, learning_db: LearningDatabase):
         self.learning_db = learning_db
@@ -265,14 +265,14 @@ class FileWatcher(FileSystemEventHandler):
         self.ignored_dirs = {'node_modules', '.git', '.venv', 'venv', '__pycache__'}
     
     def _should_ignore(self, path: str) -> bool:
-        """Verifică dacă fișierul trebuie ignorat"""
+        """Verifica daca fisierul trebuie ignorat"""
         path_obj = Path(path)
         
-        # Ignoră extensii temporare
+        # Ignora extensii temporare
         if path_obj.suffix in self.ignored_extensions:
             return True
         
-        # Ignoră directoare specifice
+        # Ignora directoare specifice
         for part in path_obj.parts:
             if part in self.ignored_dirs:
                 return True
@@ -281,22 +281,22 @@ class FileWatcher(FileSystemEventHandler):
     
     def on_created(self, event):
         if not event.is_directory and not self._should_ignore(event.src_path):
-            print(f"📝 Fișier creat: {event.src_path}")
+            print(f"📝 Fisier creat: {event.src_path}")
             self.learning_db.log_file_event("created", event.src_path)
     
     def on_modified(self, event):
         if not event.is_directory and not self._should_ignore(event.src_path):
-            print(f"✏️ Fișier modificat: {event.src_path}")
+            print(f"✏️ Fisier modificat: {event.src_path}")
             self.learning_db.log_file_event("modified", event.src_path)
     
     def on_deleted(self, event):
         if not event.is_directory and not self._should_ignore(event.src_path):
-            print(f"🗑️ Fișier șters: {event.src_path}")
+            print(f"🗑️ Fisier sters: {event.src_path}")
             self.learning_db.log_file_event("deleted", event.src_path)
 
 
 class ProcessMonitor:
-    """Monitorizează procesele active"""
+    """Monitorizeaza procesele active"""
     
     def __init__(self, learning_db: LearningDatabase):
         self.learning_db = learning_db
@@ -319,7 +319,7 @@ class ProcessMonitor:
         }
     
     def start(self):
-        """Pornește monitorizarea proceselor"""
+        """Porneste monitorizarea proceselor"""
         if not PSUTIL_AVAILABLE:
             print("⚠️ psutil nu este disponibil. Process monitoring dezactivat.")
             return
@@ -330,7 +330,7 @@ class ProcessMonitor:
         print("🔍 Process Monitor pornit")
     
     def stop(self):
-        """Oprește monitorizarea"""
+        """Opreste monitorizarea"""
         self.running = False
         if self.monitor_thread:
             self.monitor_thread.join(timeout=2)
@@ -355,36 +355,36 @@ class ProcessMonitor:
                                     'name': self.interesting_processes[proc_name],
                                     'start_time': time.time()
                                 }
-                                print(f"🚀 Aplicație pornită: {self.interesting_processes[proc_name]}")
+                                print(f"🚀 Aplicatie pornita: {self.interesting_processes[proc_name]}")
                     except (psutil.NoSuchProcess, psutil.AccessDenied):
                         pass
                 
-                # Detectează procese închise
+                # Detecteaza procese inchise
                 closed_pids = set(self.tracked_processes.keys()) - current_processes
                 for pid in closed_pids:
                     proc_data = self.tracked_processes[pid]
                     duration = int(time.time() - proc_data['start_time'])
                     
-                    if duration > 10:  # Ignoră procese foarte scurte
+                    if duration > 10:  # Ignora procese foarte scurte
                         self.learning_db.log_process_event(proc_data['name'], duration)
-                        print(f"⏹️ Aplicație închisă: {proc_data['name']} (durată: {duration}s)")
+                        print(f"⏹️ Aplicatie inchisa: {proc_data['name']} (durata: {duration}s)")
                     
                     del self.tracked_processes[pid]
                 
             except Exception as e:
-                print(f"⚠️ Eroare în process monitor: {e}")
+                print(f"⚠️ Eroare in process monitor: {e}")
             
             time.sleep(5)  # Check la fiecare 5 secunde
 
 
 class PatternRecognizer:
-    """Recunoaște pattern-uri din datele colectate"""
+    """Recunoaste pattern-uri din datele colectate"""
     
     def __init__(self, learning_db: LearningDatabase):
         self.learning_db = learning_db
     
     def analyze_work_patterns(self) -> Dict[str, Any]:
-        """Analizează pattern-urile de lucru"""
+        """Analizeaza pattern-urile de lucru"""
         file_patterns = self.learning_db.get_file_patterns(days=7)
         process_patterns = self.learning_db.get_process_patterns(days=7)
         
@@ -398,7 +398,7 @@ class PatternRecognizer:
         return insights
     
     def _analyze_file_patterns(self, patterns: Dict) -> Dict[str, Any]:
-        """Analizează pattern-uri de fișiere"""
+        """Analizeaza pattern-uri de fisiere"""
         insights = {}
         
         # Extensii favorite
@@ -415,11 +415,11 @@ class PatternRecognizer:
         return insights
     
     def _analyze_process_patterns(self, patterns: Dict) -> Dict[str, Any]:
-        """Analizează pattern-uri de procese"""
+        """Analizeaza pattern-uri de procese"""
         insights = {}
         
         if patterns:
-            # Aplicația cea mai folosită
+            # Aplicatia cea mai folosita
             top_app = max(patterns.items(), key=lambda x: x[1]['total_time_seconds'])
             insights['most_used_app'] = {
                 'name': top_app[0],
@@ -429,7 +429,7 @@ class PatternRecognizer:
         return insights
     
     def _extension_to_language(self, ext: str) -> str:
-        """Mapează extensia la limbaj de programare"""
+        """Mapeaza extensia la limbaj de programare"""
         mapping = {
             '.py': 'Python',
             '.js': 'JavaScript',
@@ -450,7 +450,7 @@ class PatternRecognizer:
 
 
 class AnaObserver:
-    """Clasa principală pentru modul Observer"""
+    """Clasa principala pentru modul Observer"""
     
     def __init__(self, watch_path: str = None):
         self.watch_path = watch_path or os.getcwd()
@@ -461,27 +461,27 @@ class AnaObserver:
         self.observer = None
     
     def start(self):
-        """Pornește toate sistemele de monitorizare"""
-        print("🧠 Ana Deep Learning Observer se pornește...")
+        """Porneste toate sistemele de monitorizare"""
+        print("🧠 Ana Deep Learning Observer se porneste...")
         print(f"📁 Monitorizez: {self.watch_path}")
         
-        # Pornește file watcher
+        # Porneste file watcher
         if WATCHDOG_AVAILABLE:
             self.observer = Observer()
             self.observer.schedule(self.file_watcher, self.watch_path, recursive=True)
             self.observer.start()
             print("✅ File Watcher activ")
         else:
-            print("⚠️ File Watcher dezactivat (watchdog lipsește)")
+            print("⚠️ File Watcher dezactivat (watchdog lipseste)")
         
-        # Pornește process monitor
+        # Porneste process monitor
         self.process_monitor.start()
         
-        print("\n🎯 Ana observă și învață din activitatea ta!")
-        print("💡 Apasă Ctrl+C pentru a opri\n")
+        print("\n🎯 Ana observa si invata din activitatea ta!")
+        print("💡 Apasa Ctrl+C pentru a opri\n")
     
     def stop(self):
-        """Oprește toate sistemele"""
+        """Opreste toate sistemele"""
         print("\n🛑 Opresc Ana Observer...")
         
         if self.observer:
@@ -492,7 +492,7 @@ class AnaObserver:
         print("✅ Ana Observer oprit")
     
     def get_insights(self) -> Dict[str, Any]:
-        """Obține insights despre pattern-uri"""
+        """Obtine insights despre pattern-uri"""
         return self.pattern_recognizer.analyze_work_patterns()
 
 
@@ -503,11 +503,11 @@ if __name__ == "__main__":
     try:
         observer.start()
         
-        # Rulează până la Ctrl+C
+        # Ruleaza pana la Ctrl+C
         while True:
             time.sleep(10)
             
-            # Afișează insights la fiecare 60 secunde
+            # Afiseaza insights la fiecare 60 secunde
             if int(time.time()) % 60 == 0:
                 insights = observer.get_insights()
                 print(f"\n📊 Insights: {json.dumps(insights, indent=2)}\n")

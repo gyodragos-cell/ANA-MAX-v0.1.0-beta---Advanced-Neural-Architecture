@@ -1,6 +1,6 @@
 # Changelog
 
-## Current Clean Release
+## v0.1.0-beta — Current Clean Release
 
 - Restored a clean public release boundary: private integration setup notes are
   not part of this repository.

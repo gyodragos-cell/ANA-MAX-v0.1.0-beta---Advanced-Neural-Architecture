@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Security Tool
 =============================
-Instrumente pentru cercetare securitate și audit cod.
+Instrumente pentru cercetare securitate si audit cod.
 """
 
 import os
@@ -15,24 +15,24 @@ logger = logging.getLogger(__name__)
 
 class SecurityTool(Tool):
     """
-    Tool pentru audit securitate și analiză vulnerabilități.
+    Tool pentru audit securitate si analiza vulnerabilitati.
     """
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="security_audit",
-            description="Audit securitate: scanare secrete (keys), vulnerabilități statice, hash-uri.",
+            description="Audit securitate: scanare secrete (keys), vulnerabilitati statice, hash-uri.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: scan_secrets, static_analysis, hash_gen",
+                    description="Operatiunea: scan_secrets, static_analysis, hash_gen",
                     type="string",
                     required=True,
                     choices=["scan_secrets", "static_analysis", "hash_gen"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Path fișier, cod sursă sau text pentru hash.",
+                    description="Path fisier, cod sursa sau text pentru hash.",
                     type="string",
                     required=True
                 ),
@@ -48,7 +48,7 @@ class SecurityTool(Tool):
         )
 
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
-        """Execută operațiunea Security."""
+        """Executa operatiunea Security."""
         handlers = {
             "scan_secrets": self._scan_secrets,
             "static_analysis": self._static_analysis,
@@ -56,19 +56,19 @@ class SecurityTool(Tool):
         }
         
         if operation not in handlers:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
             
         return handlers[operation](target, **kwargs)
 
     def _scan_secrets(self, target: str, **kwargs) -> ToolResult:
-        """Caută API keys, parole și secrete în fișiere."""
+        """Cauta API keys, parole si secrete in fisiere."""
         if not os.path.exists(target):
-            # Dacă nu e path, tratăm ca text
+            # Daca nu e path, tratam ca text
             content = target
             findings = self._find_secrets_in_text(content)
             if findings:
-                return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(findings), message="Scurgeri de date găsite!")
-            return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am găsit secrete evidente.", message="Scanare curată.")
+                return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(findings), message="Scurgeri de date gasite!")
+            return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am gasit secrete evidente.", message="Scanare curata.")
         
         if os.path.isfile(target):
             try:
@@ -76,12 +76,12 @@ class SecurityTool(Tool):
                     content = f.read()
                 findings = self._find_secrets_in_text(content)
                 if findings:
-                    return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(findings), message="Scurgeri de date găsite!")
-                return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am găsit secrete evidente în fișier.", message="Scanare curată.")
+                    return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(findings), message="Scurgeri de date gasite!")
+                return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am gasit secrete evidente in fisier.", message="Scanare curata.")
             except PermissionError:
-                return ToolResult(status=ToolStatus.SUCCESS, data="⚠️ Permisiune refuzată pentru fișier.", message="Eroare permisiune.")
+                return ToolResult(status=ToolStatus.SUCCESS, data="⚠️ Permisiune refuzata pentru fisier.", message="Eroare permisiune.")
         
-        # Este director - scanează recursiv
+        # Este director - scaneaza recursiv
         all_findings = []
         for root, dirs, files in os.walk(target):
             for file in files:
@@ -96,8 +96,8 @@ class SecurityTool(Tool):
                     continue
         
         if all_findings:
-            return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(all_findings[:50]), message=f"Scurgeri găsite în {len(all_findings)} locuri!")
-        return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am găsit secrete evidente în director.", message="Scanare curată.")
+            return ToolResult(status=ToolStatus.SUCCESS, data="\n".join(all_findings[:50]), message=f"Scurgeri gasite in {len(all_findings)} locuri!")
+        return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am gasit secrete evidente in director.", message="Scanare curata.")
     
     def _find_secrets_in_text(self, content: str) -> list:
         """Helper pentru pattern matching."""
@@ -116,14 +116,14 @@ class SecurityTool(Tool):
         return findings
 
     def _static_analysis(self, target: str, **kwargs) -> ToolResult:
-        """Analiză statică simplă (echivalent Bandit light)."""
+        """Analiza statica simpla (echivalent Bandit light)."""
         if os.path.isfile(target):
             try:
                 with open(target, 'r', encoding='utf-8', errors='ignore') as f:
                     content = f.read()
                 return self._run_static_checks(content, target)
             except PermissionError:
-                return ToolResult(status=ToolStatus.SUCCESS, data="⚠️ Permisiune refuzată pentru fișier.", message="Eroare permisiune.")
+                return ToolResult(status=ToolStatus.SUCCESS, data="⚠️ Permisiune refuzata pentru fisier.", message="Eroare permisiune.")
         
         if os.path.isdir(target):
             all_risks = []
@@ -141,27 +141,27 @@ class SecurityTool(Tool):
                     except (PermissionError, UnicodeDecodeError):
                         continue
             if all_risks:
-                return ToolResult(status=ToolStatus.SUCCESS, data="\n\n".join(all_risks[:20]), message=f"Vulnerabilități detectate în {len(all_risks)} fișiere!")
-            return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am găsit riscuri evidente în director.", message="Analiză OK.")
+                return ToolResult(status=ToolStatus.SUCCESS, data="\n\n".join(all_risks[:20]), message=f"Vulnerabilitati detectate in {len(all_risks)} fisiere!")
+            return ToolResult(status=ToolStatus.SUCCESS, data="✅ Nu am gasit riscuri evidente in director.", message="Analiza OK.")
         
-        # Nu e path valid, tratează ca text
+        # Nu e path valid, trateaza ca text
         return self._run_static_checks(target, "text")
     
     def _run_static_checks(self, content: str, source: str) -> str:
-        """Rulează verificările statice pe un conținut."""
+        """Ruleaza verificarile statice pe un continut."""
         risks = []
         if "eval(" in content:
             risks.append("🚨 UTILIZARE eval() - Risc critic de Remote Code Execution (RCE).")
         if "os.system(" in content or ("subprocess" in content and "shell=True" in content):
-            risks.append("🚨 SHELL=TRUE în subprocess - Risc de Command Injection.")
+            risks.append("🚨 SHELL=TRUE in subprocess - Risc de Command Injection.")
         if "pickle.load(" in content:
-            risks.append("⚠️ UTILIZARE pickle - De-serializare nesigură.")
+            risks.append("⚠️ UTILIZARE pickle - De-serializare nesigura.")
         if "md5" in content.lower():
-            risks.append("⚠️ Algo slab detectat (MD5). Folosește SHA-256 sau mai nou.")
+            risks.append("⚠️ Algo slab detectat (MD5). Foloseste SHA-256 sau mai nou.")
         return "\n".join(risks) if risks else ""
 
     def _hash_gen(self, target: str, **kwargs) -> ToolResult:
-        """Generează hash pentru text/fișier."""
+        """Genereaza hash pentru text/fisier."""
         algo = kwargs.get('algo', 'sha256')
         try:
             h = hashlib.new(algo)

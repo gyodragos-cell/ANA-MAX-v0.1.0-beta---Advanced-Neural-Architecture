@@ -376,7 +376,7 @@ class ADBTool(Tool):
         )
 
     def _reboot(self, device_arg: List, cmd: str, local: str, remote: str, timeout: int) -> ToolResult:
-        """Repornește dispozitivul."""
+        """Reporneste dispozitivul."""
         mode = cmd if cmd in ["bootloader", "recovery", "sideload"] else ""
         full_cmd = device_arg + ["reboot"] + ([mode] if mode else [])
         

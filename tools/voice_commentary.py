@@ -22,11 +22,11 @@ except ImportError:
 
 class VoiceCommentary:
     """
-    Ana comentează vocal progresul execuției.
+    Ana comenteaza vocal progresul executiei.
     
     Usage:
         commentary = VoiceCommentary()
-        commentary.speak("Am început repararea...")
+        commentary.speak("Am inceput repararea...")
         commentary.speak("Testez acum...")
         commentary.speak("Gata! Succes!")
     """
@@ -144,5 +144,5 @@ def get_commentary(enabled: bool = True) -> VoiceCommentary:
     if _commentary is None:
         _commentary = VoiceCommentary(enabled=enabled, rate=140, volume=0.8)
         if enabled:
-            _commentary.speak("Salut! Sunt Ana. Sunt aici să te ajut!" if _commentary.enabled else "")
+            _commentary.speak("Salut! Sunt Ana. Sunt aici sa te ajut!" if _commentary.enabled else "")
     return _commentary

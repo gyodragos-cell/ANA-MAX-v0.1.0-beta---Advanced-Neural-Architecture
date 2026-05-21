@@ -7,9 +7,9 @@
 
 ---
 
-## 🎯 Project Vision
+## Project Vision
 
-ANA MAX is an **advanced neural architecture** for Windows that provides AI-driven desktop automation through a **Model Context Protocol (MCP)** server with 56+ tools. 
+ANA MAX is an **advanced neural architecture** for Windows that provides AI-driven desktop automation through a **Model Context Protocol (MCP)** server with 64+ tools. 
 
 **Target Use Cases:**
 - Privacy-first desktop automation
@@ -19,10 +19,10 @@ ANA MAX is an **advanced neural architecture** for Windows that provides AI-driv
 
 ---
 
-## 📊 Current State: Honest Assessment
+## Current State: Honest Assessment
 
 ### What Works (Production-Ready)
-✅ **10-15 Stable Tools:**
+**15+ Stable Tools:**
 - `file_operations` - File read/write/search/edit
 - `desktop_capture` - Screenshot capture
 - `qa_testing` - Edge case analysis & test generation
@@ -40,7 +40,7 @@ ANA MAX is an **advanced neural architecture** for Windows that provides AI-driv
 - `ana_memory` - Persistent memory
 
 ### What Needs Work (In Development)
-⚠️ **Requires Stabilization:**
+**Requires Stabilization:**
 - `windows_deep_sight` - God view (process monitoring timeout issues)
 - `ocr_tool` - OCR (PaddleOCR argument compatibility)
 - `live_desktop_viewer` - Live streaming (experimental)
@@ -53,18 +53,18 @@ ANA MAX is an **advanced neural architecture** for Windows that provides AI-driv
 
 | Severity | Count | Status |
 |----------|-------|--------|
-| 🔴 CRITICAL | 2 | Known, Not Fixed |
-| 🟠 HIGH | 4 | 2 Fixed, 2 Pending |
-| 🟡 MEDIUM | 3 | Pending |
-| 🟢 LOW | 2 | Pending |
+| CRITICAL | 2 | Known, Not Fixed |
+| HIGH | 4 | 2 Fixed, 2 Pending |
+| MEDIUM | 3 | Pending |
+| LOW | 2 | Pending |
 
 #### Critical Issues
 1. **jupyter_sandbox.py** - Uses `exec()` - Remote Code Execution risk
 2. **.env file** - API keys exposed in plain text (should use .env.example)
 
 #### High Priority (Fixed)
-3. ✅ **ocr_tool** - `show_log` argument bug → Fixed (changed to `quiet=True`)
-4. ✅ **windows_deep_sight** - Tool hangs/timeout → Fixed (process limit added)
+3. **ocr_tool** - `show_log` argument bug -> Fixed (changed to `quiet=True`)
+4. **windows_deep_sight** - Tool hangs/timeout -> Fixed (process limit added)
 
 #### High Priority (Pending)
 5. **25+ bare except clauses** - Hides critical errors
@@ -81,7 +81,7 @@ ANA MAX is an **advanced neural architecture** for Windows that provides AI-driv
 
 ---
 
-## 🚀 Development Roadmap
+## Development Roadmap
 
 ### Phase 1: Infrastructure Stabilization (Current)
 **Timeline:** Q2-Q3 2026  
@@ -138,20 +138,20 @@ Potential Specializations:
 
 ---
 
-## 💡 Architectural Decisions
+## Architectural Decisions
 
 ### Why Not Production-Ready Yet?
 
 ANA MAX is currently a **research/experimental framework**. Here's what companies expect from mature systems:
 
 **What We Have:**
-- 56 tools (impressive number)
+- 64 tools
 - Desktop automation capabilities
 - MCP server integration
 - Local-first architecture
 
 **What Needs Work:**
-- **Reliability:** 10 ultra-stable tools > 52 unstable ones
+- **Reliability:** 10 ultra-stable tools > 64 unstable ones
 - **Security:** Sandboxing, permission layers, input sanitization
 - **Orchestration:** Intelligent tool routing, error recovery
 - **Planning:** Agent reasoning, reflection, self-evaluation
@@ -165,11 +165,11 @@ ANA MAX is currently a **research/experimental framework**. Here's what companie
 
 ---
 
-## 🛡️ Security Considerations
+## Security Considerations
 
 ### Current Security Posture
 
-**⚠️ WARNING:** This framework is NOT designed for production environments with untrusted inputs.
+**WARNING:** This framework is NOT designed for production environments with untrusted inputs.
 
 **Known Security Risks:**
 1. `exec()` usage in jupyter_sandbox.py (RCE risk)
@@ -188,18 +188,18 @@ ANA MAX is currently a **research/experimental framework**. Here's what companie
 
 ---
 
-## 📈 Potential & Vision
+## Potential & Vision
 
 ### If We Stabilize The Infrastructure:
 
 **Rating:** 9/10 potential
 
 **Key Areas:**
-1. ✅ Stabilize system (15 core tools)
-2. ✅ Secure runtime (sandbox, permissions)
-3. ✅ Optimize orchestration (intelligent routing)
-4. ✅ Reduce tool chaos (quality over quantity)
-5. ✅ Improve planning/reflection (agent intelligence)
+1. Stabilize system (15 core tools)
+2. Secure runtime (sandbox, permissions)
+3. Optimize orchestration (intelligent routing)
+4. Reduce tool chaos (quality over quantity)
+5. Improve planning/reflection (agent intelligence)
 
 ### Target Markets
 
@@ -211,16 +211,16 @@ ANA MAX is currently a **research/experimental framework**. Here's what companie
 
 ---
 
-## 🔧 Technical Debt
+## Technical Debt
 
 ### Code Quality Issues
 
 **Hardcoded Paths:**
 ```python
-# ❌ Bad
+# Bad
 "C:\\Users\\<USERNAME>\\Documents"
 
-# ✅ Good
+# Good
 from pathlib import Path
 BASE_DIR = Path.home()
 ```
@@ -238,7 +238,7 @@ BASE_DIR = Path.home()
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is an **open research project**. Contributions welcome in:
 
@@ -250,7 +250,7 @@ This is an **open research project**. Contributions welcome in:
 
 ---
 
-## 📚 Resources
+## Resources
 
 - [ANA WorkGraph Architecture](ANA_WORKGRAPH_ARCHITECTURE.md) - Future vision
 - [AI Rules](AI_RULES.md) - Development guidelines
@@ -258,7 +258,7 @@ This is an **open research project**. Contributions welcome in:
 
 ---
 
-## ⚖️ License
+## License
 
 MIT License - See LICENSE file for details
 

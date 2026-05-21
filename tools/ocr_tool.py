@@ -2,8 +2,8 @@
 ANA MAX - OCR Tool (Optical Character Recognition)
 tools/ocr_tool.py
 
-OCR pe ecran, regiune, fișier sau clipboard
-Suportă PaddleOCR (recomandat) sau Tesseract (fallback)
+OCR pe ecran, regiune, fisier sau clipboard
+Suporta PaddleOCR (recomandat) sau Tesseract (fallback)
 """
 
 import logging

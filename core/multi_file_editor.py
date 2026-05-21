@@ -1,12 +1,12 @@
 """
 A.N.A. v15.0 - Multi-File Editor
 =================================
-Edit multiple files atomic cu preview și rollback.
+Edit multiple files atomic cu preview si rollback.
 
 FEATURES:
-- Edit 10-20+ fișiere simultan
+- Edit 10-20+ fisiere simultan
 - Atomic transactions (all or nothing)
-- Diff preview înainte de apply
+- Diff preview inainte de apply
 - Rollback automat la eroare
 - Conflict detection
 """
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class FileEdit:
-    """Reprezintă o editare de fișier."""
+    """Reprezinta o editare de fisier."""
     file_path: str
     old_content: str
     new_content: str
@@ -37,7 +37,7 @@ class FileEdit:
 
 @dataclass
 class EditTransaction:
-    """Reprezintă o tranzacție de editări."""
+    """Reprezinta o tranzactie de editari."""
     transaction_id: str
     edits: List[FileEdit]
     description: str
@@ -48,15 +48,15 @@ class EditTransaction:
 
 class MultiFileEditor:
     """
-    Editor pentru modificări multi-file atomic.
+    Editor pentru modificari multi-file atomic.
     
     Usage:
         editor = MultiFileEditor()
         
-        # Creează tranzacție
+        # Creeaza tranzactie
         tx = editor.create_transaction("Refactor authentication")
         
-        # Adaugă modificări
+        # Adauga modificari
         editor.add_edit(tx, "src/auth.py", old, new)
         editor.add_edit(tx, "src/user.py", old, new)
         
@@ -70,7 +70,7 @@ class MultiFileEditor:
     
     def __init__(self, project_root: str, backup_dir: str = ".ana_backups"):
         """
-        Inițializează editorul.
+        Initializeaza editorul.
         
         Args:
             project_root: Root-ul proiectului
@@ -87,10 +87,10 @@ class MultiFileEditor:
     
     def create_transaction(self, description: str) -> EditTransaction:
         """
-        Creează o nouă tranzacție de editări.
+        Creeaza o noua tranzactie de editari.
         
         Args:
-            description: Descriere modificări
+            description: Descriere modificari
         
         Returns:
             EditTransaction
@@ -115,16 +115,16 @@ class MultiFileEditor:
                 old_content: Optional[str], new_content: str,
                 operation: str = 'modify') -> None:
         """
-        Adaugă o editare la tranzacție.
+        Adauga o editare la tranzactie.
         
         Args:
-            transaction: Tranzacția
-            file_path: Path fișier (relativ la project_root)
-            old_content: Conținut vechi (None pentru 'create')
-            new_content: Conținut nou
+            transaction: Tranzactia
+            file_path: Path fisier (relativ la project_root)
+            old_content: Continut vechi (None pentru 'create')
+            new_content: Continut nou
             operation: 'modify', 'create', 'delete'
         """
-        # Read current content dacă nu e furnizat
+        # Read current content daca nu e furnizat
         if old_content is None and operation != 'create':
             full_path = self.project_root / file_path
             if full_path.exists():
@@ -146,11 +146,11 @@ class MultiFileEditor:
     def get_diff(self, transaction: EditTransaction, 
                 colored: bool = True) -> str:
         """
-        Generează diff pentru preview.
+        Genereaza diff pentru preview.
         
         Args:
-            transaction: Tranzacția
-            colored: Adaugă culori ANSI
+            transaction: Tranzactia
+            colored: Adauga culori ANSI
         
         Returns:
             Diff text
@@ -206,7 +206,7 @@ class MultiFileEditor:
     
     def validate_transaction(self, transaction: EditTransaction) -> Dict[str, Any]:
         """
-        Validează tranzacția înainte de aplicare.
+        Valideaza tranzactia inainte de aplicare.
         
         Returns:
             Dict cu warnings/errors
@@ -226,7 +226,7 @@ class MultiFileEditor:
                     issues['errors'].append(f"File not found: {edit.file_path}")
                     issues['can_apply'] = False
                 else:
-                    # Check dacă fișierul s-a modificat între timp
+                    # Check daca fisierul s-a modificat intre timp
                     with open(full_path, 'r', encoding='utf-8') as f:
                         current_content = f.read()
                     
@@ -248,15 +248,15 @@ class MultiFileEditor:
     def apply_transaction(self, transaction: EditTransaction,
                          force: bool = False, dry_run: bool = False) -> bool:
         """
-        Aplică tranzacția (atomic).
+        Aplica tranzactia (atomic).
         
         Args:
-            transaction: Tranzacția
+            transaction: Tranzactia
             force: Ignore warnings
-            dry_run: Nu aplica efectiv, doar validează
+            dry_run: Nu aplica efectiv, doar valideaza
         
         Returns:
-            True dacă success
+            True daca success
         """
         # Validate
         validation = self.validate_transaction(transaction)
@@ -298,7 +298,7 @@ class MultiFileEditor:
             return False
     
     def _apply_edit(self, edit: FileEdit) -> None:
-        """Aplică o singură editare."""
+        """Aplica o singura editare."""
         full_path = self.project_root / edit.file_path
         
         if edit.operation == 'delete':
@@ -307,7 +307,7 @@ class MultiFileEditor:
                 logger.debug(f"Deleted: {edit.file_path}")
         
         elif edit.operation in ['create', 'modify']:
-            # Create parent dirs dacă nu există
+            # Create parent dirs daca nu exista
             full_path.parent.mkdir(parents=True, exist_ok=True)
             
             # Write new content
@@ -317,7 +317,7 @@ class MultiFileEditor:
             logger.debug(f"{'Created' if edit.operation == 'create' else 'Modified'}: {edit.file_path}")
     
     def _create_backup(self, transaction: EditTransaction) -> Path:
-        """Creează backup înainte de aplicare."""
+        """Creeaza backup inainte de aplicare."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         backup_subdir = self.backup_dir / f"{transaction.transaction_id}_{timestamp}"
         backup_subdir.mkdir(parents=True, exist_ok=True)
@@ -377,11 +377,11 @@ class MultiFileEditor:
         logger.info("✓ Rollback complete")
     
     def get_transaction(self, transaction_id: str) -> Optional[EditTransaction]:
-        """Obține o tranzacție."""
+        """Obtine o tranzactie."""
         return self.transactions.get(transaction_id)
     
     def list_transactions(self) -> List[EditTransaction]:
-        """Listează toate tranzacțiile."""
+        """Listeaza toate tranzactiile."""
         return list(self.transactions.values())
     
     def get_stats(self) -> Dict[str, Any]:
@@ -408,7 +408,7 @@ def quick_edit(project_root: str, description: str,
         changes: Dict {file_path: new_content}
     
     Returns:
-        True dacă success
+        True daca success
     """
     editor = MultiFileEditor(project_root)
     tx = editor.create_transaction(description)

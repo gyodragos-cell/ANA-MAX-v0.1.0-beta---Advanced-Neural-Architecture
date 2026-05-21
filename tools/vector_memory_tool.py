@@ -31,26 +31,26 @@ class VectorMemoryTool(Tool):
             name="vector_memory",
             description=(
                 "Vector Memory System cu search semantic ultra-rapid (150x+). "
-                " stochează și caută memorii cu AI embeddings. "
+                " stocheaza si cauta memorii cu AI embeddings. "
                 "Actions: store, search, stats, consolidate"
             ),
             parameters=[
                 ToolParameter(
                     name="action",
-                    description="Acțiunea: store, search, stats, consolidate",
+                    description="Actiunea: store, search, stats, consolidate",
                     type="string",
                     required=True,
                     choices=["store", "search", "stats", "consolidate"]
                 ),
                 ToolParameter(
                     name="content",
-                    description="Conținutul memoriei (pentru store)",
+                    description="Continutul memoriei (pentru store)",
                     type="string",
                     required=False
                 ),
                 ToolParameter(
                     name="query",
-                    description="Query de căutare (pentru search)",
+                    description="Query de cautare (pentru search)",
                     type="string",
                     required=False
                 ),
@@ -63,7 +63,7 @@ class VectorMemoryTool(Tool):
                 ),
                 ToolParameter(
                     name="top_k",
-                    description="Număr de rezultate (pentru search)",
+                    description="Numar de rezultate (pentru search)",
                     type="integer",
                     required=False,
                     default=10
@@ -76,7 +76,7 @@ class VectorMemoryTool(Tool):
                 ),
                 ToolParameter(
                     name="min_importance",
-                    description="Importanță minimă (0.0-1.0)",
+                    description="Importanta minima (0.0-1.0)",
                     type="number",
                     required=False,
                     default=0.0

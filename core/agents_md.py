@@ -1,9 +1,9 @@
 """
 A.N.A. v17.0 PRO - AGENTS.md Reader (Standard GitHub)
 ======================================================
-Citește și respectă fișierele AGENTS.md din proiectele utilizatorului.
+Citeste si respecta fisierele AGENTS.md din proiectele utilizatorului.
 La fel cum README.md e pentru oameni, AGENTS.md e pentru AI.
-ANA nu va face niciodată greșeli de stil dacă proiectul are AGENTS.md.
+ANA nu va face niciodata greseli de stil daca proiectul are AGENTS.md.
 """
 
 import os
@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 
 class AgentsMDReader:
     """
-    Citește regulile din AGENTS.md (sau .cursorrules) și le aplică
-    în system prompt-ul ANA pentru proiectul curent.
+    Citeste regulile din AGENTS.md (sau .cursorrules) si le aplica
+    in system prompt-ul ANA pentru proiectul curent.
     
-    Fișiere suportate (în ordine de prioritate):
+    Fisiere suportate (in ordine de prioritate):
     1. AGENTS.md
     2. .agents.md  
     3. .cursorrules
@@ -39,34 +39,34 @@ class AgentsMDReader:
     
     def find_agents_file(self, project_path: str = ".") -> Optional[str]:
         """
-        Caută un fișier de tip AGENTS.md în proiectul dat.
+        Cauta un fisier de tip AGENTS.md in proiectul dat.
         
         Returns:
-            Calea către fișierul găsit, sau None
+            Calea catre fisierul gasit, sau None
         """
         project = Path(project_path).resolve()
         
         for filename in self.SUPPORTED_FILES:
             filepath = project / filename
             if filepath.exists() and filepath.is_file():
-                logger.info(f"📋 AGENTS.md găsit: {filepath}")
+                logger.info(f"📋 AGENTS.md gasit: {filepath}")
                 return str(filepath)
         
-        # Caută și în subdirectoare de nivel 1 (monorepo support)
+        # Cauta si in subdirectoare de nivel 1 (monorepo support)
         for subdir in project.iterdir():
             if subdir.is_dir() and not subdir.name.startswith('.'):
                 for filename in self.SUPPORTED_FILES[:2]:  # Doar AGENTS.md
                     filepath = subdir / filename
                     if filepath.exists():
-                        logger.info(f"📋 AGENTS.md găsit în subdir: {filepath}")
+                        logger.info(f"📋 AGENTS.md gasit in subdir: {filepath}")
                         return str(filepath)
         
         return None
     
     def read_rules(self, project_path: str = ".") -> Optional[str]:
         """
-        Citește regulile din AGENTS.md pentru un proiect.
-        Returnează conținutul sau None dacă nu există.
+        Citeste regulile din AGENTS.md pentru un proiect.
+        Returneaza continutul sau None daca nu exista.
         """
         # Check cache
         cache_key = str(Path(project_path).resolve())
@@ -80,7 +80,7 @@ class AgentsMDReader:
         try:
             content = Path(filepath).read_text(encoding='utf-8')
             self._cache[cache_key] = content
-            logger.info(f"📋 Reguli AGENTS.md încărcate ({len(content)} caractere)")
+            logger.info(f"📋 Reguli AGENTS.md incarcate ({len(content)} caractere)")
             return content
         except Exception as e:
             logger.error(f"Eroare la citirea {filepath}: {e}")
@@ -88,25 +88,25 @@ class AgentsMDReader:
     
     def get_prompt_injection(self, project_path: str = ".") -> str:
         """
-        Returnează textul care se adaugă la system prompt-ul ANA
-        când lucrează pe un proiect care are AGENTS.md.
+        Returneaza textul care se adauga la system prompt-ul ANA
+        cand lucreaza pe un proiect care are AGENTS.md.
         """
         rules = self.read_rules(project_path)
         if not rules:
             return ""
         
         return f"""
-REGULI PROIECT (din AGENTS.md - RESPECTĂ-LE OBLIGATORIU):
+REGULI PROIECT (din AGENTS.md - RESPECTA-LE OBLIGATORIU):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 {rules}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-IMPORTANT: Aceste reguli au prioritate maximă. Nu le încălca niciodată.
+IMPORTANT: Aceste reguli au prioritate maxima. Nu le incalca niciodata.
 """
     
     def parse_structured_rules(self, content: str) -> Dict[str, List[str]]:
         """
-        Parsează regulile structurate din AGENTS.md.
-        Returnează secțiunile principale ca dict.
+        Parseaza regulile structurate din AGENTS.md.
+        Returneaza sectiunile principale ca dict.
         """
         sections: Dict[str, List[str]] = {}
         current_section = "general"
@@ -128,40 +128,40 @@ IMPORTANT: Aceste reguli au prioritate maximă. Nu le încălca niciodată.
         return sections
     
     def clear_cache(self):
-        """Golește cache-ul."""
+        """Goleste cache-ul."""
         self._cache.clear()
     
     @staticmethod
     def generate_template(project_path: str = ".") -> str:
         """
-        Generează un template AGENTS.md pentru un proiect nou.
-        ANA poate crea automat acest fișier când analizează un proiect.
+        Genereaza un template AGENTS.md pentru un proiect nou.
+        ANA poate crea automat acest fisier cand analizeaza un proiect.
         """
         project_name = Path(project_path).resolve().name
         
         return f"""# AGENTS.md - Reguli pentru AI ({project_name})
 
-## Structură Proiect
-- Descrie aici structura de foldere și convențiile de denumire
+## Structura Proiect
+- Descrie aici structura de foldere si conventiile de denumire
 
 ## Tehnologii
 - Limbaj: Python 3.10+
-- Framework: (specifică aici)
+- Framework: (specifica aici)
 - Package Manager: pip / uv
 
 ## Reguli de Stil
-- Folosește docstrings pentru funcții publice
-- Denumiri de variabile în snake_case
-- Comentarii în limba română (sau engleză - specifică)
+- Foloseste docstrings pentru functii publice
+- Denumiri de variabile in snake_case
+- Comentarii in limba romana (sau engleza - specifica)
 
-## Fișiere Protejate (NU MODIFICA)
-- config/settings.yaml (fără aprobare explicită)
-- .env (conține secrete)
+## Fisiere Protejate (NU MODIFICA)
+- config/settings.yaml (fara aprobare explicita)
+- .env (contine secrete)
 
-## Convenții Commit
+## Conventii Commit
 - Format: type(scope): message
 - Types: feat, fix, refactor, docs, test
 
 ## Reguli Speciale
-- (adaugă reguli specifice proiectului tău aici)
+- (adauga reguli specifice proiectului tau aici)
 """

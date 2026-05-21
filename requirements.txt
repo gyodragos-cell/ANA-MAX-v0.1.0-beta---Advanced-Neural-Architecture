@@ -1,10 +1,13 @@
-﻿# ANA MAX - Python Dependencies
+# ANA MAX - Python Dependencies
 # Install: pip install -r requirements.txt
 
-# Core MCP Server
-flask>=2.3.0
-requests>=2.31.0
-pydantic>=2.0.0
+# Core MCP
+pydantic==2.10.5
+requests==2.32.5
+urllib3==1.26.18
+chardet==5.2.0
+python-dotenv==1.0.1
+flask==3.1.3
 
 # Desktop Automation
 pywinauto>=0.6.8

@@ -1,20 +1,20 @@
 """
 A.N.A. v15.0 - Smart Search Engine
 ===================================
-Căutare inteligentă în proiecte mari cu indexare vectorială și RAG.
+Cautare inteligenta in proiecte mari cu indexare vectoriala si RAG.
 
-PROBLEMĂ REZOLVATĂ:
-- AI-urile clasice iau 5-10 minute să analizeze 1M fisiere
+PROBLEMA REZOLVATA:
+- AI-urile clasice iau 5-10 minute sa analizeze 1M fisiere
 - A.N.A. cu Smart Search: 2-5 secunde!
 
 ALGORITM:
-1. Indexare incrementală (doar fișiere modificate)
+1. Indexare incrementala (doar fisiere modificate)
 2. Vectorizare cu embeddings
-3. Căutare semantică (nu doar cuvinte cheie)
+3. Cautare semantica (nu doar cuvinte cheie)
 4. Cache inteligent
 5. RAG (Retrieval-Augmented Generation)
 TODO:
-🔧 Dar să-l facem PENTEST-READY:
+🔧 Dar sa-l facem PENTEST-READY:
 python
 
 
@@ -29,7 +29,7 @@ def pentest_search(project_root):
     stats = engine.index_project()
     print(f"🔍 Indexed: {stats['total_indexed']} files")
     
-    # Căutări pentest clasice
+    # Cautari pentest clasice
     pentest_queries = [
         "admin.*password", "api_key", "secret", "private_key", 
         "hardcoded.*password", "mysql.*password", "DATABASE_URL",
@@ -44,7 +44,7 @@ def pentest_search(project_root):
             for r in results:
                 print(f"  📄 {r['file_path']}:{r['start_line']} - {r['language']}")
 
-# Rulează
+# Ruleaza
 pentest_search("/path/to/target")
 """
 
@@ -64,18 +64,18 @@ logger = logging.getLogger(__name__)
 
 class SmartSearchEngine:
     """
-    Motor de căutare inteligent pentru proiecte mari.
+    Motor de cautare inteligent pentru proiecte mari.
     
     Features:
-    - Indexare incrementală (nu rescaneză tot proiectul)
-    - Embeddings vectoriali pentru căutare semantică
+    - Indexare incrementala (nu rescaneza tot proiectul)
+    - Embeddings vectoriali pentru cautare semantica
     - Cache pentru rezultate frecvente
     - RAG pentru context relevant
     """
     
     def __init__(self, project_root: str, db_path: str = "memory/smart_search.db"):
         """
-        Inițializează motorul de căutare.
+        Initializeaza motorul de cautare.
         
         Args:
             project_root: Root-ul proiectului de indexat
@@ -83,7 +83,7 @@ class SmartSearchEngine:
         """
         self.project_root = Path(project_root)
         self.db_path = db_path
-        self.use_fts = False  # Inițializat default
+        self.use_fts = False  # Initializat default
         self._init_database()
         
         # Cache pentru rezultate frecvente
@@ -98,13 +98,13 @@ class SmartSearchEngine:
         logger.info(f"Smart Search Engine initialized for: {project_root}")
     
     def _init_database(self) -> None:
-        """Inițializează baza de date pentru indexare."""
+        """Initializeaza baza de date pentru indexare."""
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
-        # Tabel pentru fișiere indexate
+        # Tabel pentru fisiere indexate
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS indexed_files (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -118,7 +118,7 @@ class SmartSearchEngine:
             )
         """)
         
-        # Tabel pentru conținut (chunks)
+        # Tabel pentru continut (chunks)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS file_chunks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -132,7 +132,7 @@ class SmartSearchEngine:
             )
         """)
         
-        # Tabel FTS5 pentru căutare rapidă
+        # Tabel FTS5 pentru cautare rapida
         try:
             cursor.execute("""
                 CREATE VIRTUAL TABLE IF NOT EXISTS file_chunks_fts USING fts5(
@@ -147,7 +147,7 @@ class SmartSearchEngine:
         else:
             self.use_fts = True
         
-        # Tabel pentru cache de căutări
+        # Tabel pentru cache de cautari
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS search_cache (
                 query_hash TEXT PRIMARY KEY,
@@ -158,7 +158,7 @@ class SmartSearchEngine:
             )
         """)
         
-        # Index pentru performanță
+        # Index pentru performanta
         cursor.execute("""
             CREATE INDEX IF NOT EXISTS idx_file_path 
             ON indexed_files(file_path)
@@ -177,11 +177,11 @@ class SmartSearchEngine:
     def index_project(self, extensions: Optional[List[str]] = None, 
                      force: bool = False) -> Dict[str, Any]:
         """
-        Indexează proiectul (incremental).
+        Indexeaza proiectul (incremental).
         
         Args:
             extensions: Lista de extensii (ex: ['.py', '.js', '.md'])
-            force: Dacă True, reindexează tot
+            force: Daca True, reindexeaza tot
         
         Returns:
             Dict cu statistici indexare
@@ -207,7 +207,7 @@ class SmartSearchEngine:
         
         try:
             for file_path in self.project_root.rglob('*'):
-                # Skip directories și fișiere exclude
+                # Skip directories si fisiere exclude
                 if file_path.is_dir():
                     continue
                 
@@ -217,14 +217,14 @@ class SmartSearchEngine:
                 if file_path.suffix not in extensions:
                     continue
                 
-                # Check dacă trebuie reindexat
+                # Check daca trebuie reindexat
                 relative_path = str(file_path.relative_to(self.project_root))
                 
                 if not force and self._is_file_indexed(cursor, relative_path, file_path):
                     files_skipped += 1
                     continue
                 
-                # Indexează fișierul
+                # Indexeaza fisierul
                 if self._index_file(cursor, relative_path, file_path):
                     files_updated += 1
                 
@@ -254,7 +254,7 @@ class SmartSearchEngine:
         }
     
     def _is_file_indexed(self, cursor, relative_path: str, file_path: Path) -> bool:
-        """Verifică dacă fișierul e deja indexat și actual."""
+        """Verifica daca fisierul e deja indexat si actual."""
         cursor.execute(
             "SELECT file_hash, last_modified FROM indexed_files WHERE file_path = ?",
             (relative_path,)
@@ -267,20 +267,20 @@ class SmartSearchEngine:
         stored_hash, stored_mtime = result
         current_mtime = file_path.stat().st_mtime
         
-        # Verifică dacă fișierul s-a modificat
+        # Verifica daca fisierul s-a modificat
         if abs(current_mtime - stored_mtime) > 1:  # tolerance 1 sec
             return False
         
         return True
     
     def _index_file(self, cursor, relative_path: str, file_path: Path) -> bool:
-        """Indexează un fișier."""
+        """Indexeaza un fisier."""
         try:
-            # Citește conținutul
+            # Citeste continutul
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 content = f.read()
             
-            # Calculează hash
+            # Calculeaza hash
             file_hash = hashlib.md5(content.encode()).hexdigest()
             file_size = file_path.stat().st_size
             file_mtime = file_path.stat().st_mtime
@@ -289,10 +289,10 @@ class SmartSearchEngine:
             lines = content.split('\n')
             line_count = len(lines)
             
-            # Șterge intrarea veche dacă există
+            # Sterge intrarea veche daca exista
             cursor.execute("DELETE FROM indexed_files WHERE file_path = ?", (relative_path,))
             
-            # Insert fișier
+            # Insert fisier
             cursor.execute("""
                 INSERT INTO indexed_files 
                 (file_path, file_hash, file_size, last_modified, indexed_at, language, line_count)
@@ -301,7 +301,7 @@ class SmartSearchEngine:
             
             file_id = cursor.lastrowid
             
-            # Împarte în chunks (pentru fișiere mari)
+            # Imparte in chunks (pentru fisiere mari)
             chunks = self._create_chunks(content, chunk_size=50)
             
             for i, chunk in enumerate(chunks):
@@ -313,7 +313,7 @@ class SmartSearchEngine:
                 
                 chunk_id = cursor.lastrowid
                 
-                # Sync cu FTS dacă e activat
+                # Sync cu FTS daca e activat
                 if getattr(self, 'use_fts', False):
                     cursor.execute("""
                         INSERT INTO file_chunks_fts (rowid, content)
@@ -327,7 +327,7 @@ class SmartSearchEngine:
             return False
     
     def _create_chunks(self, content: str, chunk_size: int = 50) -> List[Dict]:
-        """Împarte conținutul în chunks."""
+        """Imparte continutul in chunks."""
         lines: List[str] = content.split('\n')
         chunks = []
         
@@ -342,7 +342,7 @@ class SmartSearchEngine:
         return chunks
     
     def _detect_language(self, extension: str) -> str:
-        """Detectează limbajul din extensie."""
+        """Detecteaza limbajul din extensie."""
         lang_map = {
             '.py': 'python',
             '.js': 'javascript',
@@ -364,15 +364,15 @@ class SmartSearchEngine:
     def search(self, query: str, limit: int = 10, 
                file_types: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         """
-        Căutare inteligentă în proiect.
+        Cautare inteligenta in proiect.
         
         Args:
-            query: Query de căutare
-            limit: Număr max de rezultate
-            file_types: Tipuri de fișiere (ex: ['python', 'javascript'])
+            query: Query de cautare
+            limit: Numar max de rezultate
+            file_types: Tipuri de fisiere (ex: ['python', 'javascript'])
         
         Returns:
-            Lista de rezultate sortate după relevanță
+            Lista de rezultate sortate dupa relevanta
         """
         original_query = query
         query = self._normalize_query(query)
@@ -393,13 +393,13 @@ class SmartSearchEngine:
         
         self.cache_misses += 1
         
-        # Căutare în baza de date
+        # Cautare in baza de date
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
         try:
             if getattr(self, 'use_fts', False):
-                # Varianta cu FTS5 (super rapidă)
+                # Varianta cu FTS5 (super rapida)
                 sql = """
                     SELECT 
                         f.file_path,
@@ -424,7 +424,7 @@ class SmartSearchEngine:
                 sql += " ORDER BY rank LIMIT ?"
                 params.append(limit)
             else:
-                # Varianta fallback cu LIKE (lentă)
+                # Varianta fallback cu LIKE (lenta)
                 sql = """
                     SELECT 
                         f.file_path,
@@ -496,20 +496,20 @@ class SmartSearchEngine:
         return cleaned
     
     def _get_cache_key(self, query: str, file_types: Optional[List[str]]) -> str:
-        """Generează cheie pentru cache."""
+        """Genereaza cheie pentru cache."""
         key_data = f"{query}_{file_types}"
         return hashlib.md5(key_data.encode()).hexdigest()
     
     def find_definition(self, symbol: str, language: Optional[str] = None) -> List[Dict]:
         """
-        Găsește definiția unui simbol (funcție, clasă, variabilă).
+        Gaseste definitia unui simbol (functie, clasa, variabila).
         
         Args:
             symbol: Numele simbolului
-            language: Limbajul (opțional)
+            language: Limbajul (optional)
         
         Returns:
-            Lista de locații unde e definit simbolul
+            Lista de locatii unde e definit simbolul
         """
         patterns = {
             'python': [
@@ -534,11 +534,11 @@ class SmartSearchEngine:
         
         results = []
         
-        # Caută în toate pattern-urile
+        # Cauta in toate pattern-urile
         if language and language in patterns:
             search_patterns = patterns[language]
         else:
-            # Caută în toate limbajele
+            # Cauta in toate limbajele
             search_patterns = []
             for lang_patterns in patterns.values():
                 search_patterns.extend(lang_patterns)
@@ -551,14 +551,14 @@ class SmartSearchEngine:
     
     def get_file_context(self, file_path: str, max_lines: int = 100) -> Optional[str]:
         """
-        Obține contextul unui fișier (pentru RAG).
+        Obtine contextul unui fisier (pentru RAG).
         
         Args:
-            file_path: Path-ul relativ al fișierului
-            max_lines: Număr max de linii
+            file_path: Path-ul relativ al fisierului
+            max_lines: Numar max de linii
         
         Returns:
-            Conținutul fișierului (truncat dacă e prea mare)
+            Continutul fisierului (truncat daca e prea mare)
         """
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
@@ -577,10 +577,10 @@ class SmartSearchEngine:
             if not chunks:
                 return None
             
-            # Concatenează chunks
+            # Concateneaza chunks
             full_content = '\n'.join(chunk[0] for chunk in chunks)
             
-            # Truncate dacă e prea mare
+            # Truncate daca e prea mare
             lines = full_content.split('\n')
             if len(lines) > max_lines:
                 return '\n'.join(lines[:max_lines]) + f"\n... (truncated, total {len(lines)} lines)"
@@ -591,11 +591,11 @@ class SmartSearchEngine:
             conn.close()
     
     def refresh_index(self, force: bool = True) -> Dict[str, Any]:
-        """Re-indexează proiectul (forțat implicit)."""
+        """Re-indexeaza proiectul (fortat implicit)."""
         return self.index_project(force=force)
     
     def get_stats(self) -> Dict[str, Any]:
-        """Returnează statistici despre indexare."""
+        """Returneaza statistici despre indexare."""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
@@ -632,7 +632,7 @@ class SmartSearchEngine:
 _search_engine: Optional[SmartSearchEngine] = None
 
 def get_search_engine(project_root: Optional[str] = None, db_path: Optional[str] = None) -> SmartSearchEngine:
-    """Obține instanța globală a search engine."""
+    """Obtine instanta globala a search engine."""
     global _search_engine
     
     if _search_engine is None:

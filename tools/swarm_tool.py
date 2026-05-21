@@ -32,13 +32,13 @@ class SwarmTool(Tool):
             name="swarm_orchestrator",
             description=(
                 "Orchestrare multi-agent swarm cu topologii adaptive. "
-                "Descompune task-uri complexe în subtask-uri și le execută paralel. "
+                "Descompune task-uri complexe in subtask-uri si le executa paralel. "
                 "Actions: execute, status, add_agent, optimize, spawn"
             ),
             parameters=[
                 ToolParameter(
                     name="action",
-                    description="Acțiunea: execute, status, add_agent, optimize, spawn",
+                    description="Actiunea: execute, status, add_agent, optimize, spawn",
                     type="string",
                     required=True,
                     choices=["execute", "status", "add_agent", "optimize", "spawn"]
@@ -71,7 +71,7 @@ class SwarmTool(Tool):
                 ),
                 ToolParameter(
                     name="specializations",
-                    description="Specializări agent (JSON array)",
+                    description="Specializari agent (JSON array)",
                     type="string",
                     required=False
                 )

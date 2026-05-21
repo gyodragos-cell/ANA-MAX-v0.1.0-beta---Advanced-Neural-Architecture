@@ -11,12 +11,12 @@ from typing import Dict, Optional
 
 ROMANIAN_WEEKDAYS = [
     "luni",
-    "marți",
+    "marti",
     "miercuri",
     "joi",
     "vineri",
-    "sâmbătă",
-    "duminică",
+    "sambata",
+    "duminica",
 ]
 
 ROMANIAN_MONTHS = [
@@ -35,11 +35,11 @@ ROMANIAN_MONTHS = [
 ]
 
 TASK_KEYWORDS = {
-    "analizeaza", "analizează", "analyze", "debug", "fix", "repara", "repară",
-    "repair", "refactor", "creeaza", "creează", "create", "build", "construieste",
-    "construiește", "scrie", "write", "cod", "code", "script", "fisier", "fișier",
+    "analizeaza", "analizeaza", "analyze", "debug", "fix", "repara", "repara",
+    "repair", "refactor", "creeaza", "creeaza", "create", "build", "construieste",
+    "construieste", "scrie", "write", "cod", "code", "script", "fisier", "fisier",
     "file", "folder", "director", "project", "proiect", "repo", "repository",
-    "test", "pytest", "terminal", "command", "comanda", "comandă", "browser",
+    "test", "pytest", "terminal", "command", "comanda", "comanda", "browser",
     "mcp", "bot", "patch", "search in repo", "cauta in repo", "cauta in proiect",
 }
 
@@ -50,12 +50,12 @@ def normalize_text(text: str) -> str:
         .strip()
         .lower()
         .translate(str.maketrans({
-            "ă": "a",
-            "â": "a",
-            "î": "i",
-            "ș": "s",
+            "a": "a",
+            "a": "a",
+            "i": "i",
+            "s": "s",
             "ş": "s",
-            "ț": "t",
+            "t": "t",
             "ţ": "t",
         }))
     )
@@ -102,14 +102,14 @@ def get_local_runtime_answer(text: str, now: Optional[datetime] = None) -> Optio
 
     parts = []
     if wants_day and wants_date:
-        parts.append(f"Astăzi este {weekday}, {date_str}.")
+        parts.append(f"Astazi este {weekday}, {date_str}.")
     elif wants_day:
-        parts.append(f"Astăzi este {weekday}.")
+        parts.append(f"Astazi este {weekday}.")
     elif wants_date:
-        parts.append(f"Astăzi este {date_str}.")
+        parts.append(f"Astazi este {date_str}.")
 
     if wants_time:
-        parts.append(f"Ora curentă este {time_str}.")
+        parts.append(f"Ora curenta este {time_str}.")
 
     return " ".join(parts)
 
@@ -128,11 +128,11 @@ def classify_engineer_input(text: str) -> str:
     if any(keyword in normalized for keyword in TASK_KEYWORDS):
         return "task"
 
-    if normalized.startswith(("salut", "hello", "hi", "hei", "ce poti", "ce poți", "cine esti", "cine ești")):
+    if normalized.startswith(("salut", "hello", "hi", "hei", "ce poti", "ce poti", "cine esti", "cine esti")):
         return "chat"
 
     if normalized.endswith("?") or normalized.split(" ", 1)[0] in {
-        "ce", "care", "cum", "unde", "cand", "când", "cine", "cat", "cât", "de", "what", "how", "who", "when",
+        "ce", "care", "cum", "unde", "cand", "cand", "cine", "cat", "cat", "de", "what", "how", "who", "when",
     }:
         return "chat"
 

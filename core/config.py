@@ -1,7 +1,7 @@
 """
 ANA MAX - Configuration Loader
 ===================================
-Încarcă și validează configurația din YAML.
+Incarca si valideaza configuratia din YAML.
 """
 
 import os
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class Config:
-    """Singleton pentru configurația A.N.A."""
+    """Singleton pentru configuratia A.N.A."""
     
     _instance: Optional['Config'] = None
     _config: Dict[str, Any] = {}
@@ -33,9 +33,9 @@ class Config:
     }
     
     def load(self, config_path: Optional[str] = None) -> None:
-        """Încarcă configurația din fișier YAML."""
+        """Incarca configuratia din fisier YAML."""
         if config_path is None:
-            # Caută config în directorul curent sau în config/
+            # Cauta config in directorul curent sau in config/
             possible_paths = [
                 Path(__file__).parent.parent / "config" / "settings.yaml",
                 Path("config/settings.yaml"),
@@ -50,13 +50,13 @@ class Config:
             with open(config_path, 'r', encoding='utf-8') as f:
                 self._config = yaml.safe_load(f) or {}
             self._normalize_paths(Path(config_path).resolve().parent)
-            logger.info(f"Configurație încărcată din: {config_path}")
+            logger.info(f"Configuratie incarcata din: {config_path}")
         else:
-            logger.warning("Nu s-a găsit fișier de configurație, folosesc valori implicite")
+            logger.warning("Nu s-a gasit fisier de configuratie, folosesc valori implicite")
             self._config = self._get_defaults()
 
     def _normalize_paths(self, base_dir: Path) -> None:
-        """Rezolvă căile relative din config față de directorul fișierului YAML."""
+        """Rezolva caile relative din config fata de directorul fisierului YAML."""
         path_keys = [
             'memory.database_path',
             'logging.file',
@@ -78,7 +78,7 @@ class Config:
             self.set(key, str((base_dir / path_value).resolve()))
     
     def _get_defaults(self) -> Dict[str, Any]:
-        """Returnează configurația implicită."""
+        """Returneaza configuratia implicita."""
         return {
             'ai': {
                 'primary_backend': 'gemini',
@@ -112,8 +112,8 @@ class Config:
                 'shell': {
                     'enabled': True,
                     'require_confirmation': False,
-                    'allowed_commands': ['*'],  # Permite orice comandă
-                    'blocked_commands': [],    # Nu blochează niciuna
+                    'allowed_commands': ['*'],  # Permite orice comanda
+                    'blocked_commands': [],    # Nu blocheaza niciuna
                 },
                 'sandbox': {
                     'enabled': False,
@@ -151,7 +151,7 @@ class Config:
     
     def get(self, key: str, default: Any = None) -> Any:
         """
-        Obține o valoare din configurație folosind notație cu punct.
+        Obtine o valoare din configuratie folosind notatie cu punct.
         Exemplu: config.get('ai.gemini.model')
         """
         for candidate in (key, self._legacy_key_map.get(key)):
@@ -174,7 +174,7 @@ class Config:
         return default
     
     def set(self, key: str, value: Any) -> None:
-        """Setează o valoare în configurație."""
+        """Seteaza o valoare in configuratie."""
         keys = key.split('.')
         config = self._config
         
@@ -187,9 +187,9 @@ class Config:
     
     @property
     def all(self) -> Dict[str, Any]:
-        """Returnează întreaga configurație."""
+        """Returneaza intreaga configuratie."""
         return self._config.copy()
 
 
-# Instanță globală
+# Instanta globala
 config = Config()

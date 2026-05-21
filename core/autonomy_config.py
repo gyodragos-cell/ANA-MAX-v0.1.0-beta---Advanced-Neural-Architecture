@@ -1,70 +1,70 @@
 """
 ANA MAX - Autonomy Configuration
 =====================================
-Dezactivează restricțiile pentru autonomie completă
+Dezactiveaza restrictiile pentru autonomie completa
 """
 
 # NIVEL DE AUTONOMIE: 'full', 'restricted', 'safe'
-AUTONOMY_LEVEL = 'full'  # SCHIMBĂ AICI
+AUTONOMY_LEVEL = 'full'  # SCHIMBA AICI
 
-# CONFIGURARE AUTONOMIE COMPLETĂ
+# CONFIGURARE AUTONOMIE COMPLETA
 AUTONOMY_CONFIG = {
-    # Self-healing fără restricții
+    # Self-healing fara restrictii
     'self_healing': {
         'require_backup': False,           # Nu cere backup automat
         'validate_ast': False,             # Nu valida cu AST
         'auto_rollback': False,            # Nu da rollback automat
-        'max_changes_per_session': None,   # Fără limită de changes
+        'max_changes_per_session': None,   # Fara limita de changes
     },
     
-    # Browser control fără restricții
+    # Browser control fara restrictii
     'browser': {
         'allow_arbitrary_js': True,        # Permite JS execution arbitrar
-        'collect_all_feedback': True,      # Colectează tot (console, network, etc)
-        'bypass_cors': True,               # Încearcă bypass CORS
+        'collect_all_feedback': True,      # Colecteaza tot (console, network, etc)
+        'bypass_cors': True,               # Incearca bypass CORS
         'stealth_mode': True,              # Ascunde automation signals
     },
     
-    # Căutare FTS fără sanitizare
+    # Cautare FTS fara sanitizare
     'search': {
-        'sanitize_regex': False,           # Nu curăță regex-urile
+        'sanitize_regex': False,           # Nu curata regex-urile
         'allow_complex_patterns': True,    # Permite pattern-uri complexe
-        'max_query_length': None,          # Fără limită de lungime
+        'max_query_length': None,          # Fara limita de lungime
     },
     
-    # Memorie fără validare SQL
+    # Memorie fara validare SQL
     'memory': {
-        'validate_sql': False,             # Nu validează query-uri SQL
+        'validate_sql': False,             # Nu valideaza query-uri SQL
         'allow_raw_queries': True,         # Permite raw SQL queries
-        'auto_backup_before_write': False, # Nu face backup înainte de write
+        'auto_backup_before_write': False, # Nu face backup inainte de write
     },
     
-    # Agent thinking fără forcing
+    # Agent thinking fara forcing
     'agent': {
-        'force_thinking_loop': False,      # Nu forța thinking loop
+        'force_thinking_loop': False,      # Nu forta thinking loop
         'require_context_injection': False,# Nu cere context injection
-        'auto_critique': False,            # Nu face auto-critică automată
-        'planning_required': False,        # Nu cere plan înainte de execuție
+        'auto_critique': False,            # Nu face auto-critica automata
+        'planning_required': False,        # Nu cere plan inainte de executie
     },
     
-    # Tool execution fără safety
+    # Tool execution fara safety
     'tools': {
-        'timeout_seconds': None,           # Fără timeout
-        'max_retries': 10,                 # Retry unlimited (până la 10)
-        'ignore_errors': False,            # Nu ignora erorile (le loghează doar)
-        'sandbox_enabled': False,          # Dezactivează sandbox
+        'timeout_seconds': None,           # Fara timeout
+        'max_retries': 10,                 # Retry unlimited (pana la 10)
+        'ignore_errors': False,            # Nu ignora erorile (le logheaza doar)
+        'sandbox_enabled': False,          # Dezactiveaza sandbox
     }
 }
 
-# OVERRIDE GLOBAL - dacă e True, toate safety features sunt OFF
+# OVERRIDE GLOBAL - daca e True, toate safety features sunt OFF
 FULL_AUTONOMY_OVERRIDE = True
 
 def get_autonomy_config():
-    """Returnează configurația de autonomie"""
+    """Returneaza configuratia de autonomie"""
     if FULL_AUTONOMY_OVERRIDE:
         return AUTONOMY_CONFIG
     
-    # Dacă nu e full autonomy, returnează config parțial
+    # Daca nu e full autonomy, returneaza config partial
     if AUTONOMY_LEVEL == 'safe':
         return {
             'self_healing': {'require_backup': True, 'validate_ast': True},

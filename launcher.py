@@ -63,7 +63,7 @@ def _port_free(port: int) -> bool:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(2)
             return s.connect_ex((HOST, port)) != 0
-    except:
+    except Exception as e:
         return True
 
 
@@ -78,7 +78,7 @@ def _kill_port(port: int):
             creationflags=subprocess.CREATE_NO_WINDOW
         )
         time.sleep(2)
-    except:
+    except Exception as e:
         pass
 
     # If still occupied, try elevated kill (UAC prompt)
@@ -92,7 +92,7 @@ def _kill_port(port: int):
                 creationflags=subprocess.CREATE_NO_WINDOW
             )
             time.sleep(3)
-        except:
+        except Exception as e:
             pass
 
 
@@ -123,7 +123,7 @@ def _load_state() -> dict:
     try:
         if STATE_FILE.exists():
             return json.loads(STATE_FILE.read_text())
-    except:
+    except Exception as e:
         pass
     return {"boot_count": 0, "last_ok": None, "retries": 0}
 
@@ -131,7 +131,7 @@ def _load_state() -> dict:
 def _save_state(state: dict):
     try:
         STATE_FILE.write_text(json.dumps(state, indent=2))
-    except:
+    except Exception as e:
         pass
 
 

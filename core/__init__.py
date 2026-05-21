@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Core Package
 ===========================
-Agent AI cu auto-evoluție și protecție privacy.
+Agent AI cu auto-evolutie si protectie privacy.
 """
 
 __version__ = "15.0.0"

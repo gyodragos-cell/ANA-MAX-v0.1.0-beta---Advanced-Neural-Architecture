@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Backup Plugin
 =============================
-Plugin pentru arhivarea și salvarea proiectului.
+Plugin pentru arhivarea si salvarea proiectului.
 """
 
 import os
@@ -22,7 +22,7 @@ class BackupPlugin(Plugin):
     
     def __init__(self, project_root: str = None):
         if project_root is None:
-            # Detectăm root-ul proiectului (presupunem că suntem în plugins/)
+            # Detectam root-ul proiectului (presupunem ca suntem in plugins/)
             self.project_root = Path(__file__).parent.parent.resolve()
         else:
             self.project_root = Path(project_root).resolve()
@@ -34,21 +34,21 @@ class BackupPlugin(Plugin):
         return PluginMetadata(
             name="backup_plugin",
             version="1.1.0",
-            description="Plugin pentru arhivarea și salvarea proiectului ANA.",
+            description="Plugin pentru arhivarea si salvarea proiectului ANA.",
             author="Ghost",
             capabilities=["backup", "archive"]
         )
 
     def initialize(self) -> bool:
-        """Inițializează plugin-ul."""
+        """Initializeaza plugin-ul."""
         return True
 
     def get_tools(self) -> List[Callable]:
-        """Returnează tool-urile plugin-ului."""
+        """Returneaza tool-urile plugin-ului."""
         return [self.create_project_backup, self.list_project_backups]
 
     def create_project_backup(self) -> str:
-        """Creează o arhivă ZIP de siguranță cu tot proiectul ANA."""
+        """Creeaza o arhiva ZIP de siguranta cu tot proiectul ANA."""
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         backup_name = f"ana_backup_{timestamp}.zip"
         backup_path = self.backup_dir / backup_name
@@ -73,15 +73,15 @@ class BackupPlugin(Plugin):
             size_mb = os.path.getsize(backup_path) / (1024 * 1024)
             logger.info(f"Backup creat cu succes: {backup_name} ({size_mb:.2f} MB)")
             
-            return f"✅ Backup creat: {backup_name} ({size_mb:.2f} MB). Îl găsești în folderul 'backups/'."
+            return f"✅ Backup creat: {backup_name} ({size_mb:.2f} MB). Il gasesti in folderul 'backups/'."
         except Exception as e:
             logger.error(f"Eroare la crearea backup-ului: {e}")
             return f"❌ Eroare: {str(e)}"
 
     def list_project_backups(self) -> str:
-        """Listează toate arhivele de backup disponibile."""
+        """Listeaza toate arhivele de backup disponibile."""
         if not self.backup_dir.exists():
-            return "Nu am găsit niciun backup."
+            return "Nu am gasit niciun backup."
             
         backups = []
         for f in self.backup_dir.glob("*.zip"):
@@ -93,7 +93,7 @@ class BackupPlugin(Plugin):
             })
         
         if not backups:
-            return "Nu am găsit niciun backup."
+            return "Nu am gasit niciun backup."
             
         backups.sort(key=lambda x: x['created'], reverse=True)
         

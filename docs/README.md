@@ -1,7 +1,7 @@
-# ANA MAX v18.0 - Arhitectura Neurală Avansata
+# ANA MAX v18.0 - Arhitectura Neurala Avansata
 
 **Versiune:** 18.0.0-MAX  
-**Status:** Stabil, funcțional cu OpenCode MCP  
+**Status:** Stabil, functional cu OpenCode MCP  
 **Last Updated:** 2026-03-26 (with v18 updates)
 
 ---
@@ -97,7 +97,7 @@ BOOTSTRAP_ANA_MAX.bat
 
 ## 🎯 Ce este ANA MAX?
 
-ANA MAX este un **agent AI local** cu **20+ tools** care functionează ca "corp" pentru OpenCode (creierul).
+ANA MAX este un **agent AI local** cu **20+ tools** care functioneaza ca "corp" pentru OpenCode (creierul).
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -148,25 +148,25 @@ ANA_MAX/
 │   └── opencode_mcp.json    # MCP config pentru OpenCode
 ├── memory/
 │   ├── ana_max_brain.db     # SQLite memory database
-│   └── conversation_learning.jsonl  # Lecții învățate
+│   └── conversation_learning.jsonl  # Lectii invatate
 ├── docs/
 │   ├── ANA_DISCIPLINE_PLAYBOOK.md  # Reguli de disciplina
-│   ├── CONVERSATIONAL_LEARNING.md  # Sistem de învățare
+│   ├── CONVERSATIONAL_LEARNING.md  # Sistem de invatare
 │   └── WORKLOG_2026-03-26.md        # Istoric complet
 ├── tests/
 │   └── test_reliability.py  # Teste pentru reliability module
 ├── logs/
 │   └── ana_max.log          # Log principal
 ├── backups/                  # Backup-uri automate
-├── START_ANA_MAX.bat         # Pornește doar ANA
-├── START_DEV_ANA_OPENCODE.bat # Pornește ANA + OpenCode
-├── ENSURE_OPENCODE_MCP.ps1   # Configurează MCP
+├── START_ANA_MAX.bat         # Porneste doar ANA
+├── START_DEV_ANA_OPENCODE.bat # Porneste ANA + OpenCode
+├── ENSURE_OPENCODE_MCP.ps1   # Configureaza MCP
 └── requirements.txt          # Dependente Python
 ```
 
 ---
 
-## 🚀 Cum Pornești
+## 🚀 Cum Pornesti
 
 ### Doar ANA (MCP Server)
 
@@ -180,7 +180,7 @@ START_ANA_MAX.bat
 START_DEV_ANA_OPENCODE.bat
 ```
 
-### Verifică Status
+### Verifica Status
 
 ```bash
 curl http://127.0.0.1:8765/health
@@ -193,25 +193,25 @@ curl http://127.0.0.1:8765/tools
 
 | Tool | Descriere |
 |------|-----------|
-| `file_operations` | CRUD fișiere, diff, surgical edit |
-| `code_tools` | Analiza cod, execuție |
+| `file_operations` | CRUD fisiere, diff, surgical edit |
+| `code_tools` | Analiza cod, executie |
 | `system_control` | Vitals, procese, shell |
-| `web_search` | Căutare web |
+| `web_search` | Cautare web |
 | `git_operations` | Git commands |
-| `ana_memory` | Acces la memoria persistentă |
-| `conversation_learning` | Salvare lecții |
-| `session_log_miner` | Extrage lecții din loguri |
+| `ana_memory` | Acces la memoria persistenta |
+| `conversation_learning` | Salvare lectii |
+| `session_log_miner` | Extrage lectii din loguri |
 | `smart_search` | Semantic search cu embeddings |
 | `codebase_understanding` | RAG pentru arhitectura |
 | `browser_control` | Control browser (debug) |
-| `debugger` | Traceback și fix plan |
-| `privacy_shield` | Protecție date |
-| `network_diag` | Diagnostic rețea |
+| `debugger` | Traceback si fix plan |
+| `privacy_shield` | Protectie date |
+| `network_diag` | Diagnostic retea |
 | `security_audit` | Audit securitate |
-| `qa_testing` | Testare automată |
-| `terminal` | Execută comenzi |
+| `qa_testing` | Testare automata |
+| `terminal` | Executa comenzi |
 | `autonomous_engine` | Task-uri autonome |
-| și altele... | |
+| si altele... | |
 
 ---
 
@@ -219,7 +219,7 @@ curl http://127.0.0.1:8765/tools
 
 ```yaml
 ai:
-  primary_backend: opencode_zen  # Folosește OpenCode pentru AI
+  primary_backend: opencode_zen  # Foloseste OpenCode pentru AI
   fallback_backend: gemini        # Fallback la Gemini cloud
   
   # Modele disponibile (round-robin, prefer free)
@@ -341,11 +341,11 @@ pip install pyttsx3
 
 ---
 
-## 📚 Documentație
+## 📚 Documentatie
 
-- **ANA_DISCIPLINE_PLAYBOOK.md** - Reguli de lucru, cum să folosești ANA eficient
-- **CONVERSATIONAL_LEARNING.md** - Sistemul de învățare din conversații
-- **WORKLOG_2026-03-26.md** - Istoric complet cu toate modificările
+- **ANA_DISCIPLINE_PLAYBOOK.md** - Reguli de lucru, cum sa folosesti ANA eficient
+- **CONVERSATIONAL_LEARNING.md** - Sistemul de invatare din conversatii
+- **WORKLOG_2026-03-26.md** - Istoric complet cu toate modificarile
 
 ---
 
@@ -356,7 +356,7 @@ Flask, DrissionPage, psutil, pyttsx3, sentence-transformers,
 google-genai, openai, duckduckgo-search, mem0ai, rich, pyyaml
 ```
 
-Instalează cu:
+Instaleaza cu:
 
 ```bash
 pip install -r requirements.txt
@@ -366,30 +366,30 @@ pip install -r requirements.txt
 
 ## 🐛 Troubleshooting
 
-### ANA nu pornește
+### ANA nu porneste
 
 ```bash
-# Verifică Python
+# Verifica Python
 python --version
 
-# Activează venv
+# Activeaza venv
 .\venv\Scripts\activate
 
-# Rulează manual
+# Ruleaza manual
 python main.py --debug
 ```
 
 ### OpenCode nu vede tool-urile
 
 ```bash
-# Verifică MCP config
+# Verifica MCP config
 powershell -File ENSURE_OPENCODE_MCP.ps1
 
-# Verifică health
+# Verifica health
 curl http://127.0.0.1:8765/health
 ```
 
-### Tool-ul nu funcționează
+### Tool-ul nu functioneaza
 
 ```bash
 # List all tools
@@ -403,10 +403,10 @@ python main.py --test
 
 ## 📝 Note de Development
 
-- ANA folosește **backup automat** înainte de orice operație pe fișiere
-- **Circuit breaker** dezactivează automat tools care eșuează de 3x consecutiv
-- **Memory** persistă între sesiuni via SQLite
-- **Health tracking** monitorizează success rate per tool
+- ANA foloseste **backup automat** inainte de orice operatie pe fisiere
+- **Circuit breaker** dezactiveaza automat tools care esueaza de 3x consecutiv
+- **Memory** persista intre sesiuni via SQLite
+- **Health tracking** monitorizeaza success rate per tool
 
 ---
 

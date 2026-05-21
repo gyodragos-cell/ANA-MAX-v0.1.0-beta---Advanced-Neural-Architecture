@@ -6,9 +6,9 @@ logger = logging.getLogger(__name__)
 
 class MultiAgentSystem:
     """
-    Coordonează colaborarea între doi agenți:
-    1. DevAgent: Scrie codul și rezolvă task-ul.
-    2. AuditorAgent: Verifică securitatea, bug-urile și calitatea codului.
+    Coordoneaza colaborarea intre doi agenti:
+    1. DevAgent: Scrie codul si rezolva task-ul.
+    2. AuditorAgent: Verifica securitatea, bug-urile si calitatea codului.
     """
     
     def __init__(self, main_agent):
@@ -19,19 +19,19 @@ class MultiAgentSystem:
     def execute_with_audit(self, task):
         print(f"🚀 [MULTI-AGENT] Starting task with Audit: {task}")
         
-        # 1. DevAgent propune o soluție
+        # 1. DevAgent propune o solutie
         print("👨‍💻 [DEV AGENT] Generating solution...")
         dev_result = self.dev_agent.execute_task(task)
         
-        # 2. AuditorAgent verifică ce a făcut DevAgent
+        # 2. AuditorAgent verifica ce a facut DevAgent
         print("🛡️ [AUDITOR AGENT] Auditing changes...")
-        audit_task = f"Analizează modificările făcute pentru task-ul: '{task}'. Verifică securitatea, posibilele bug-uri și conformitatea cu standardele."
+        audit_task = f"Analizeaza modificarile facute pentru task-ul: '{task}'. Verifica securitatea, posibilele bug-uri si conformitatea cu standardele."
         audit_result = self.auditor_agent.execute_task(audit_task)
         
-        # 3. Dacă Auditor găsește probleme, DevAgent repară
+        # 3. Daca Auditor gaseste probleme, DevAgent repara
         if not audit_result.get('success', False):
             print("⚠️ [AUDITOR] Issues found! Requesting fix from Dev Agent...")
-            fix_task = f"Repară următoarele probleme identificate de Auditor: {audit_result.get('output')}"
+            fix_task = f"Repara urmatoarele probleme identificate de Auditor: {audit_result.get('output')}"
             final_result = self.dev_agent.execute_task(fix_task)
             return final_result
             

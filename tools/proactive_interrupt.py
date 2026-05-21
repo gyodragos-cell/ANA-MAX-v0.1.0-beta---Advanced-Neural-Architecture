@@ -1,28 +1,28 @@
 """
 ANA MAX – proactive_interrupt.py
 =================================
-Modulul "WOW" — ANA vorbește singură când are ceva relevant de spus.
+Modulul "WOW" — ANA vorbeste singura cand are ceva relevant de spus.
 
-Nu așteaptă comenzi. Monitorizează continuu:
+Nu asteapta comenzi. Monitorizeaza continuu:
   • Ferestrele active (window_manager)
   • Clipboardul (clipboard_manager)
   • OCR pe ecran (ocr_tool)
   • Pattern-urile din SQLite (context engine existent)
 
-Și intervine proactiv când detectează:
-  1. STUCK DETECTION    — ești pe același ecran >N minute fără progres
-  2. SEQUENCE TRIGGER   — ai intrat într-o secvență cunoscută (ex: Gmail→VS Code)
-  3. CLIPBOARD INTENT   — ai copiat ceva și ANA știe ce urmează de obicei
-  4. REPEAT ALERT       — faci același lucru pentru a 3-a oară (poate automatizezi?)
-  5. CONTEXT SHIFT      — ai schimbat brusc contextul (work→social media) — îți amintește
+Si intervine proactiv cand detecteaza:
+  1. STUCK DETECTION    — esti pe acelasi ecran >N minute fara progres
+  2. SEQUENCE TRIGGER   — ai intrat intr-o secventa cunoscuta (ex: Gmail→VS Code)
+  3. CLIPBOARD INTENT   — ai copiat ceva si ANA stie ce urmeaza de obicei
+  4. REPEAT ALERT       — faci acelasi lucru pentru a 3-a oara (poate automatizezi?)
+  5. CONTEXT SHIFT      — ai schimbat brusc contextul (work→social media) — iti aminteste
 
-Instalare dependențe:
+Instalare dependente:
     pip install pyttsx3 win10toast schedule
 
-Integrare în main.py:
+Integrare in main.py:
     from tools.proactive_interrupt import ProactiveInterrupt
     pi = ProactiveInterrupt(db_path="ana_memory.db")
-    pi.start()   # pornește în background thread
+    pi.start()   # porneste in background thread
 """
 
 import sqlite3
@@ -36,13 +36,13 @@ import json
 
 logger = logging.getLogger("ANA.ProactiveInterrupt")
 
-# ── Dependențe opționale ──────────────────────────────────────────────────────
+# ── Dependente optionale ──────────────────────────────────────────────────────
 try:
     import pyttsx3
     TTS_AVAILABLE = True
 except ImportError:
     TTS_AVAILABLE = False
-    logger.info("pyttsx3 nu e instalat — vocea e dezactivată. Rulează: pip install pyttsx3")
+    logger.info("pyttsx3 nu e instalat — vocea e dezactivata. Ruleaza: pip install pyttsx3")
 
 try:
     from win10toast import ToastNotifier
@@ -50,28 +50,28 @@ try:
     _toaster = ToastNotifier()
 except ImportError:
     TOAST_AVAILABLE = False
-    logger.info("win10toast nu e instalat — notificări simple. Rulează: pip install win10toast")
+    logger.info("win10toast nu e instalat — notificari simple. Ruleaza: pip install win10toast")
 
 # ── Constante configurabile ───────────────────────────────────────────────────
-STUCK_THRESHOLD_SEC     = 180    # 3 minute pe același ecran = "blocat"
-REPEAT_THRESHOLD        = 3      # același pattern de N ori = sugerează automatizare
-COOLDOWN_SEC            = 30     # minim între două întreruperi (ca la tine în engine)
-MONITOR_INTERVAL_SEC    = 5      # cât de des verifică
-SEQUENCE_WINDOW_SEC     = 60     # fereastra de timp pentru detectarea secvențelor
-MAX_HISTORY             = 50     # câte evenimente păstrăm în memorie scurtă
+STUCK_THRESHOLD_SEC     = 180    # 3 minute pe acelasi ecran = "blocat"
+REPEAT_THRESHOLD        = 3      # acelasi pattern de N ori = sugereaza automatizare
+COOLDOWN_SEC            = 30     # minim intre doua intreruperi (ca la tine in engine)
+MONITOR_INTERVAL_SEC    = 5      # cat de des verifica
+SEQUENCE_WINDOW_SEC     = 60     # fereastra de timp pentru detectarea secventelor
+MAX_HISTORY             = 50     # cate evenimente pastram in memorie scurta
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 class ProactiveInterrupt:
     """
-    Nucleul modulului. Se instanțiază o dată și rulează în background.
+    Nucleul modulului. Se instantiaza o data si ruleaza in background.
 
     Parametri:
-        db_path      : calea către SQLite-ul ANA MAX existent
-        voice        : True/False — ANA vorbește sau doar notificări
+        db_path      : calea catre SQLite-ul ANA MAX existent
+        voice        : True/False — ANA vorbeste sau doar notificari
         language     : 'ro' sau 'en' pentru mesaje
-        on_interrupt : callback opțional fn(message, interrupt_type) — 
-                       util dacă vrei să trimiți mesajul și la LLM
+        on_interrupt : callback optional fn(message, interrupt_type) — 
+                       util daca vrei sa trimiti mesajul si la LLM
     """
 
     def __init__(
@@ -84,20 +84,20 @@ class ProactiveInterrupt:
         self.db_path       = db_path
         self.voice         = voice and TTS_AVAILABLE
         self.language      = language
-        self.on_interrupt  = on_interrupt  # callback extern opțional
+        self.on_interrupt  = on_interrupt  # callback extern optional
 
         self._running      = False
         self._thread: Optional[threading.Thread] = None
         self._last_interrupt_time = 0
         self._event_history: deque = deque(maxlen=MAX_HISTORY)
 
-        # TTS engine (singleton per instanță)
+        # TTS engine (singleton per instanta)
         self._tts = None
         if self.voice:
             try:
                 self._tts = pyttsx3.init()
                 self._tts.setProperty("rate", 160)
-                # Voce românească dacă există, altfel prima disponibilă
+                # Voce romaneasca daca exista, altfel prima disponibila
                 voices = self._tts.getProperty("voices")
                 for v in voices:
                     if "ro" in v.id.lower() or "romanian" in v.name.lower():
@@ -111,7 +111,7 @@ class ProactiveInterrupt:
 
     # ── DB setup ──────────────────────────────────────────────────────────────
     def _ensure_tables(self):
-        """Creează tabelele necesare dacă nu există (nu strică ce ai deja)."""
+        """Creeaza tabelele necesare daca nu exista (nu strica ce ai deja)."""
         with sqlite3.connect(self.db_path) as conn:
             conn.executescript("""
                 CREATE TABLE IF NOT EXISTS pi_events (
@@ -142,9 +142,9 @@ class ProactiveInterrupt:
 
     # ── Start / Stop ──────────────────────────────────────────────────────────
     def start(self):
-        """Pornește monitorizarea în background thread."""
+        """Porneste monitorizarea in background thread."""
         if self._running:
-            logger.warning("ProactiveInterrupt rulează deja.")
+            logger.warning("ProactiveInterrupt ruleaza deja.")
             return
         self._running = True
         self._thread = threading.Thread(target=self._monitor_loop, daemon=True)
@@ -157,7 +157,7 @@ class ProactiveInterrupt:
             self._thread.join(timeout=10)
         logger.info("ProactiveInterrupt oprit.")
 
-    # ── Bucla principală ──────────────────────────────────────────────────────
+    # ── Bucla principala ──────────────────────────────────────────────────────
     def _monitor_loop(self):
         while self._running:
             try:
@@ -167,14 +167,14 @@ class ProactiveInterrupt:
                     self._save_event(snapshot)
                     self._analyze(snapshot)
             except Exception as e:
-                logger.error(f"Eroare în monitor loop: {e}")
+                logger.error(f"Eroare in monitor loop: {e}")
             time.sleep(MONITOR_INTERVAL_SEC)
 
     # ── Snapshot curent ───────────────────────────────────────────────────────
     def _take_snapshot(self) -> Optional[dict]:
         """
-        Colectează starea curentă din toolurile ANA MAX existente.
-        Fallback sigur dacă un tool lipsește.
+        Colecteaza starea curenta din toolurile ANA MAX existente.
+        Fallback sigur daca un tool lipseste.
         """
         snapshot = {
             "timestamp": datetime.now().isoformat(),
@@ -194,7 +194,7 @@ class ProactiveInterrupt:
                 snapshot["app"]          = active.get("app", "unknown")
                 snapshot["window_title"] = active.get("title", "")
         except Exception:
-            pass  # tool indisponibil, continuăm
+            pass  # tool indisponibil, continuam
 
         # Clipboard Manager
         try:
@@ -207,7 +207,7 @@ class ProactiveInterrupt:
         except Exception:
             pass
 
-        # OCR — doar dacă avem app activ (ca să nu facem screenshot degeaba)
+        # OCR — doar daca avem app activ (ca sa nu facem screenshot degeaba)
         try:
             if snapshot["app"]:
                 from tools.ocr_tool import OCRTool
@@ -222,9 +222,9 @@ class ProactiveInterrupt:
 
         return snapshot if snapshot["app"] else None
 
-    # ── Analiză și detecție ───────────────────────────────────────────────────
+    # ── Analiza si detectie ───────────────────────────────────────────────────
     def _analyze(self, snapshot: dict):
-        """Rulează toți detectorii. Primul care se declanșează câștigă (cooldown)."""
+        """Ruleaza toti detectorii. Primul care se declanseaza castiga (cooldown)."""
 
         checks = [
             self._check_stuck,
@@ -243,7 +243,7 @@ class ProactiveInterrupt:
 
     # ── Detector 1: STUCK ─────────────────────────────────────────────────────
     def _check_stuck(self, snapshot: dict) -> Optional[tuple]:
-        """Dacă ești pe același titlu de fereastră >STUCK_THRESHOLD_SEC secunde."""
+        """Daca esti pe acelasi titlu de fereastra >STUCK_THRESHOLD_SEC secunde."""
         if len(self._event_history) < 3:
             return None
 
@@ -251,7 +251,7 @@ class ProactiveInterrupt:
         if not current_title:
             return None
 
-        # Câte evenimente consecutive au același titlu?
+        # Cate evenimente consecutive au acelasi titlu?
         consecutive_sec = 0
         for ev in reversed(self._event_history):
             if ev.get("window_title") == current_title:
@@ -260,10 +260,10 @@ class ProactiveInterrupt:
                 break
 
         if consecutive_sec >= STUCK_THRESHOLD_SEC:
-            app = snapshot.get("app", "aplicație")
+            app = snapshot.get("app", "aplicatie")
             minutes = consecutive_sec // 60
             msg = self._msg(
-                ro=f"Ești în {app} de {minutes} minute. Vrei să continui sau ai nevoie de ajutor?",
+                ro=f"Esti in {app} de {minutes} minute. Vrei sa continui sau ai nevoie de ajutor?",
                 en=f"You've been in {app} for {minutes} minutes. Need help or a nudge?"
             )
             return ("stuck", msg)
@@ -272,13 +272,13 @@ class ProactiveInterrupt:
     # ── Detector 2: SEQUENCE TRIGGER ─────────────────────────────────────────
     def _check_sequence_trigger(self, snapshot: dict) -> Optional[tuple]:
         """
-        Dacă ultimele 2-3 app-uri formează o secvență cunoscută din trecut,
-        ANA anticipează ce urmează.
+        Daca ultimele 2-3 app-uri formeaza o secventa cunoscuta din trecut,
+        ANA anticipeaza ce urmeaza.
         """
         if len(self._event_history) < 2:
             return None
 
-        # Construim secvența recentă (ultimele 3 app-uri unice)
+        # Construim secventa recenta (ultimele 3 app-uri unice)
         recent_apps = []
         for ev in reversed(self._event_history):
             app = ev.get("app")
@@ -300,19 +300,19 @@ class ProactiveInterrupt:
 
             if row:
                 count, suggestion = row
-                # Actualizăm
+                # Actualizam
                 conn.execute(
                     "UPDATE pi_sequences SET count = count+1, last_seen = ? WHERE sequence = ?",
                     (datetime.now().isoformat(), seq_key)
                 )
                 if count >= 3 and suggestion:
                     msg = self._msg(
-                        ro=f"Recunosc acest flux: {seq_key}. De obicei urmează: {suggestion}. Să pregătesc?",
+                        ro=f"Recunosc acest flux: {seq_key}. De obicei urmeaza: {suggestion}. Sa pregatesc?",
                         en=f"I recognize this flow: {seq_key}. Usually next is: {suggestion}. Shall I prepare?"
                     )
                     return ("sequence", msg)
             else:
-                # Prima dată — înregistrăm, nu întrerupem încă
+                # Prima data — inregistram, nu intrerupem inca
                 conn.execute(
                     "INSERT INTO pi_sequences (sequence, count, last_seen) VALUES (?, 1, ?)",
                     (seq_key, datetime.now().isoformat())
@@ -323,27 +323,27 @@ class ProactiveInterrupt:
     # ── Detector 3: CLIPBOARD INTENT ─────────────────────────────────────────
     def _check_clipboard_intent(self, snapshot: dict) -> Optional[tuple]:
         """
-        Dacă clipboardul s-a schimbat și conținutul sugerează o intenție specifică.
-        Ex: ai copiat un URL → vrei să-l deschizi? 
-            ai copiat un număr → calculezi ceva?
-            ai copiat cod → vrei să-l explice ANA?
+        Daca clipboardul s-a schimbat si continutul sugereaza o intentie specifica.
+        Ex: ai copiat un URL → vrei sa-l deschizi? 
+            ai copiat un numar → calculezi ceva?
+            ai copiat cod → vrei sa-l explice ANA?
         """
         clip = snapshot.get("clipboard_text", "")
         if not clip:
             return None
 
-        # Verificăm dacă hash-ul s-a schimbat față de ultimul snapshot
+        # Verificam daca hash-ul s-a schimbat fata de ultimul snapshot
         prev_hashes = [ev.get("clipboard_hash") for ev in list(self._event_history)[-5:]]
         current_hash = snapshot.get("clipboard_hash")
         if current_hash in prev_hashes[:-1]:
             return None  # nu s-a schimbat
 
-        # Detectare tip conținut
+        # Detectare tip continut
         clip_stripped = clip.strip()
 
         if clip_stripped.startswith("http://") or clip_stripped.startswith("https://"):
             msg = self._msg(
-                ro=f"Ai copiat un link. Vrei să-l deschid sau să-ți spun ce conține?",
+                ro=f"Ai copiat un link. Vrei sa-l deschid sau sa-ti spun ce contine?",
                 en=f"You copied a URL. Want me to open it or summarize it?"
             )
             return ("clipboard_url", msg)
@@ -351,21 +351,21 @@ class ProactiveInterrupt:
         if len(clip_stripped) > 50 and any(kw in clip_stripped.lower() for kw in
                                             ["def ", "class ", "import ", "function", "var ", "const "]):
             msg = self._msg(
-                ro="Ai copiat cod. Vrei să-l explic, optimizez sau testez?",
+                ro="Ai copiat cod. Vrei sa-l explic, optimizez sau testez?",
                 en="You copied code. Want me to explain, optimize, or test it?"
             )
             return ("clipboard_code", msg)
 
         if clip_stripped.replace(".", "").replace(",", "").replace(" ", "").isnumeric():
             msg = self._msg(
-                ro=f"Ai copiat un număr: {clip_stripped[:30]}. Calculez ceva cu el?",
+                ro=f"Ai copiat un numar: {clip_stripped[:30]}. Calculez ceva cu el?",
                 en=f"You copied a number: {clip_stripped[:30]}. Need a calculation?"
             )
             return ("clipboard_number", msg)
 
         if len(clip_stripped) > 200:
             msg = self._msg(
-                ro="Ai copiat un text lung. Vrei un rezumat sau să-l procesez?",
+                ro="Ai copiat un text lung. Vrei un rezumat sau sa-l procesez?",
                 en="You copied a long text. Want a summary or to process it?"
             )
             return ("clipboard_text_long", msg)
@@ -375,8 +375,8 @@ class ProactiveInterrupt:
     # ── Detector 4: REPEAT ALERT ─────────────────────────────────────────────
     def _check_repeat_alert(self, snapshot: dict) -> Optional[tuple]:
         """
-        Dacă aceeași fereastră/app a apărut de REPEAT_THRESHOLD ori în ultima oră,
-        sugerează automatizare.
+        Daca aceeasi fereastra/app a aparut de REPEAT_THRESHOLD ori in ultima ora,
+        sugereaza automatizare.
         """
         app = snapshot.get("app")
         if not app:
@@ -392,7 +392,7 @@ class ProactiveInterrupt:
             ).fetchone()
 
         count = row[0] if row else 0
-        # Împărțim la MONITOR_INTERVAL_SEC pentru a număra vizite, nu snapshots
+        # Impartim la MONITOR_INTERVAL_SEC pentru a numara vizite, nu snapshots
         visits = count * MONITOR_INTERVAL_SEC // 60  # aproximativ minute
 
         if count > 0 and count % (REPEAT_THRESHOLD * (60 // MONITOR_INTERVAL_SEC)) == 0:
@@ -407,8 +407,8 @@ class ProactiveInterrupt:
     # ── Detector 5: CONTEXT SHIFT ─────────────────────────────────────────────
     def _check_context_shift(self, snapshot: dict) -> Optional[tuple]:
         """
-        Detectează schimbări bruște de context.
-        Ex: lucrai la cod → ai deschis YouTube/Facebook → îți amintește de task.
+        Detecteaza schimbari bruste de context.
+        Ex: lucrai la cod → ai deschis YouTube/Facebook → iti aminteste de task.
         """
         distraction_apps = {
             "youtube", "facebook", "instagram", "twitter", "tiktok",
@@ -427,7 +427,7 @@ class ProactiveInterrupt:
         if not is_distraction:
             return None
 
-        # Verificăm dacă înainte era focus
+        # Verificam daca inainte era focus
         recent = list(self._event_history)[-10:]
         was_focused = any(
             any(f in (ev.get("app") or "").lower() for f in focus_apps)
@@ -436,7 +436,7 @@ class ProactiveInterrupt:
 
         if was_focused:
             msg = self._msg(
-                ro="Ai trecut de la muncă la distracție. Task-ul tău e în așteptare — mă întorc eu la el.",
+                ro="Ai trecut de la munca la distractie. Task-ul tau e in asteptare — ma intorc eu la el.",
                 en="You switched from work to distraction. Your task is waiting — I'll keep track of it."
             )
             return ("context_shift", msg)
@@ -445,7 +445,7 @@ class ProactiveInterrupt:
 
     # ── Fire interrupt ────────────────────────────────────────────────────────
     def _fire_interrupt(self, interrupt_type: str, message: str):
-        """Declanșează notificarea + vocea, respectând cooldown-ul."""
+        """Declanseaza notificarea + vocea, respectand cooldown-ul."""
         now = time.time()
         if now - self._last_interrupt_time < COOLDOWN_SEC:
             return  # cooldown activ
@@ -453,7 +453,7 @@ class ProactiveInterrupt:
         self._last_interrupt_time = now
         logger.info(f"[INTERRUPT:{interrupt_type}] {message}")
 
-        # Salvează în DB
+        # Salveaza in DB
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
                 "INSERT INTO pi_interrupts (timestamp, interrupt_type, message) VALUES (?, ?, ?)",
@@ -471,7 +471,7 @@ class ProactiveInterrupt:
             except Exception as e:
                 logger.warning(f"TTS error: {e}")
 
-        # Callback extern (ex: trimite la LLM pentru răspuns)
+        # Callback extern (ex: trimite la LLM pentru raspuns)
         if self.on_interrupt:
             try:
                 self.on_interrupt(message, interrupt_type)
@@ -486,7 +486,7 @@ class ProactiveInterrupt:
                 return
             except Exception:
                 pass
-        # Fallback: print în consolă cu formatare vizibilă
+        # Fallback: print in consola cu formatare vizibila
         print(f"\n{'='*60}")
         print(f"🤖 {title}")
         print(f"   {message}")
@@ -495,15 +495,15 @@ class ProactiveInterrupt:
     # ── Feedback API ─────────────────────────────────────────────────────────
     def feedback(self, accepted: bool, interrupt_type: Optional[str] = None):
         """
-        Înregistrează feedback pentru ultimul interrupt.
-        Compatibil cu sistemul tău existent de feedback loop.
+        Inregistreaza feedback pentru ultimul interrupt.
+        Compatibil cu sistemul tau existent de feedback loop.
 
         Exemplu:
             pi.feedback(accepted=True)   # ANA a avut dreptate
             pi.feedback(accepted=False)  # nu era relevant
         """
         with sqlite3.connect(self.db_path) as conn:
-            # Actualizăm cel mai recent interrupt
+            # Actualizam cel mai recent interrupt
             row = conn.execute(
                 "SELECT id FROM pi_interrupts ORDER BY id DESC LIMIT 1"
             ).fetchone()
@@ -516,10 +516,10 @@ class ProactiveInterrupt:
         action = "✅ acceptat" if accepted else "❌ respins"
         logger.info(f"Feedback {action} pentru ultimul interrupt.")
 
-    # ── Sugestie secvență (API manual) ───────────────────────────────────────
+    # ── Sugestie secventa (API manual) ───────────────────────────────────────
     def set_sequence_suggestion(self, sequence: str, suggestion: str):
         """
-        Adaugă manual o sugestie pentru o secvență.
+        Adauga manual o sugestie pentru o secventa.
         Ex: pi.set_sequence_suggestion("Gmail→VS Code", "deschide branch-ul de feature")
         """
         with sqlite3.connect(self.db_path) as conn:
@@ -529,11 +529,11 @@ class ProactiveInterrupt:
                    ON CONFLICT(sequence) DO UPDATE SET suggestion = excluded.suggestion""",
                 (sequence, datetime.now().isoformat(), suggestion)
             )
-        logger.info(f"Sugestie setată pentru secvența '{sequence}': {suggestion}")
+        logger.info(f"Sugestie setata pentru secventa '{sequence}': {suggestion}")
 
     # ── Stats ─────────────────────────────────────────────────────────────────
     def get_stats(self) -> dict:
-        """Returnează statistici despre întreruperile ANA."""
+        """Returneaza statistici despre intreruperile ANA."""
         with sqlite3.connect(self.db_path) as conn:
             total = conn.execute("SELECT COUNT(*) FROM pi_interrupts").fetchone()[0]
             accepted = conn.execute(
@@ -555,7 +555,7 @@ class ProactiveInterrupt:
     def _msg(self, ro: str, en: str) -> str:
         return ro if self.language == "ro" else en
 
-    # ── Salvare event în DB ───────────────────────────────────────────────────
+    # ── Salvare event in DB ───────────────────────────────────────────────────
     def _save_event(self, snapshot: dict):
         with sqlite3.connect(self.db_path) as conn:
             conn.execute(
@@ -573,15 +573,15 @@ class ProactiveInterrupt:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Exemplu de integrare în main.py
+# Exemplu de integrare in main.py
 # ─────────────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     def my_callback(message: str, interrupt_type: str):
         """
-        Opțional: trimite mesajul și la LLM pentru un răspuns mai inteligent.
-        Poți înlocui cu apelul tău către Ollama / Claude API.
+        Optional: trimite mesajul si la LLM pentru un raspuns mai inteligent.
+        Poti inlocui cu apelul tau catre Ollama / Claude API.
         """
         print(f"\n[CALLBACK] Tipul: {interrupt_type}")
         print(f"[CALLBACK] Mesaj ANA: {message}")
@@ -589,19 +589,19 @@ if __name__ == "__main__":
 
     pi = ProactiveInterrupt(
         db_path="ana_memory.db",
-        voice=True,       # False dacă nu ai pyttsx3
-        language="ro",    # "en" pentru engleză
+        voice=True,       # False daca nu ai pyttsx3
+        language="ro",    # "en" pentru engleza
         on_interrupt=my_callback,
     )
 
-    # Setează manual o secvență cu sugestie (opțional)
+    # Seteaza manual o secventa cu sugestie (optional)
     pi.set_sequence_suggestion(
         sequence="Gmail→Visual Studio Code",
-        suggestion="deschide fișierul la care ai lucrat ultima dată"
+        suggestion="deschide fisierul la care ai lucrat ultima data"
     )
 
     pi.start()
-    print("ANA MAX ProactiveInterrupt rulează. Ctrl+C pentru oprire.")
+    print("ANA MAX ProactiveInterrupt ruleaza. Ctrl+C pentru oprire.")
 
     try:
         while True:

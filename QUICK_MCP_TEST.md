@@ -177,15 +177,15 @@ try {
 ## Troubleshooting
 
 ### Connection Refused
-- Verifica dacă `python main.py` e pornit
+- Verifica daca `python main.py` e pornit
 - Verifica portul: `netstat -ano | grep 8765`
 
 ### Invalid JSON Response
-- Check MCP server logs în terminal
+- Check MCP server logs in terminal
 - Verifica payload-ul JSON format
 
 ### Tool Not Found
-- Run `python main.py --list-tools` pentru lista exactă
+- Run `python main.py --list-tools` pentru lista exacta
 - Verify tool name spelling
 
 ---

@@ -2,7 +2,7 @@
 A.N.A. v15.0 - Plugin System
 ============================
 Sistem de plugin-uri pentru extensibilitate.
-Înlocuiește self_modify_code cu o abordare sigură.
+Inlocuieste self_modify_code cu o abordare sigura.
 """
 
 import os
@@ -31,40 +31,40 @@ class PluginMetadata:
 
 class Plugin(ABC):
     """
-    Clasă de bază pentru plugin-uri.
-    Toate plugin-urile trebuie să extindă această clasă.
+    Clasa de baza pentru plugin-uri.
+    Toate plugin-urile trebuie sa extinda aceasta clasa.
     """
     
     @abstractmethod
     def get_metadata(self) -> PluginMetadata:
-        """Returnează metadatele plugin-ului."""
+        """Returneaza metadatele plugin-ului."""
         pass
     
     @abstractmethod
     def initialize(self) -> bool:
-        """Inițializează plugin-ul. Returnează True dacă succes."""
+        """Initializeaza plugin-ul. Returneaza True daca succes."""
         pass
     
     @abstractmethod
     def get_tools(self) -> List[Callable]:
-        """Returnează funcțiile/tool-urile oferite de plugin."""
+        """Returneaza functiile/tool-urile oferite de plugin."""
         pass
     
     def cleanup(self) -> None:
-        """Curăță resursele la dezactivare. Override opțional."""
+        """Curata resursele la dezactivare. Override optional."""
         pass
     
     def on_message(self, message: str) -> Optional[str]:
         """
-        Hook pentru procesare mesaje. Override opțional.
-        Returnează None pentru a nu interveni sau un răspuns pentru a intercepta.
+        Hook pentru procesare mesaje. Override optional.
+        Returneaza None pentru a nu interveni sau un raspuns pentru a intercepta.
         """
         return None
 
 
 class PluginManager:
     """
-    Manager pentru încărcarea și gestionarea plugin-urilor.
+    Manager pentru incarcarea si gestionarea plugin-urilor.
     """
     
     def __init__(self, plugins_dir: str = "plugins"):
@@ -74,16 +74,16 @@ class PluginManager:
         self._ensure_directory()
     
     def _ensure_directory(self) -> None:
-        """Creează directorul de plugin-uri dacă nu există."""
+        """Creeaza directorul de plugin-uri daca nu exista."""
         self.plugins_dir.mkdir(parents=True, exist_ok=True)
         
-        # Creează __init__.py
+        # Creeaza __init__.py
         init_file = self.plugins_dir / "__init__.py"
         if not init_file.exists():
             init_file.write_text('"""A.N.A. Plugins Directory"""\n')
     
     def discover_plugins(self) -> List[str]:
-        """Descoperă plugin-urile disponibile."""
+        """Descopera plugin-urile disponibile."""
         discovered = []
         
         for item in self.plugins_dir.iterdir():
@@ -95,9 +95,9 @@ class PluginManager:
         return discovered
     
     def load_plugin(self, name: str) -> bool:
-        """Încarcă un plugin după nume."""
+        """Incarca un plugin dupa nume."""
         try:
-            # Caută fișierul plugin-ului
+            # Cauta fisierul plugin-ului
             plugin_path = None
             
             # Director cu plugin.py
@@ -105,25 +105,25 @@ class PluginManager:
             if dir_path.exists():
                 plugin_path = dir_path
             else:
-                # Fișier direct
+                # Fisier direct
                 file_path = self.plugins_dir / f"{name}.py"
                 if file_path.exists():
                     plugin_path = file_path
             
             if not plugin_path:
-                logger.error(f"Plugin-ul '{name}' nu a fost găsit")
+                logger.error(f"Plugin-ul '{name}' nu a fost gasit")
                 return False
             
-            # Încarcă modulul
+            # Incarca modulul
             spec = importlib.util.spec_from_file_location(f"plugins.{name}", plugin_path)
             if not spec or not spec.loader:
-                logger.error(f"Nu pot încărca spec pentru plugin '{name}'")
+                logger.error(f"Nu pot incarca spec pentru plugin '{name}'")
                 return False
             
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             
-            # Găsește clasa Plugin
+            # Gaseste clasa Plugin
             plugin_class = None
             for attr_name in dir(module):
                 attr = getattr(module, attr_name)
@@ -134,29 +134,29 @@ class PluginManager:
                     break
             
             if not plugin_class:
-                logger.error(f"Nu am găsit clasă Plugin în '{name}'")
+                logger.error(f"Nu am gasit clasa Plugin in '{name}'")
                 return False
             
-            # Instanțiază și inițializează
+            # Instantiaza si initializeaza
             plugin_instance = plugin_class()
             
             if not plugin_instance.initialize():
-                logger.error(f"Inițializare eșuată pentru plugin '{name}'")
+                logger.error(f"Initializare esuata pentru plugin '{name}'")
                 return False
             
-            # Salvează
+            # Salveaza
             self.plugins[name] = plugin_instance
             self.metadata[name] = plugin_instance.get_metadata()
             
-            logger.info(f"Plugin încărcat: {name} v{self.metadata[name].version}")
+            logger.info(f"Plugin incarcat: {name} v{self.metadata[name].version}")
             return True
             
         except Exception as e:
-            logger.error(f"Eroare la încărcarea plugin-ului '{name}': {e}")
+            logger.error(f"Eroare la incarcarea plugin-ului '{name}': {e}")
             return False
     
     def unload_plugin(self, name: str) -> bool:
-        """Descarcă un plugin."""
+        """Descarca un plugin."""
         if name not in self.plugins:
             return False
         
@@ -164,14 +164,14 @@ class PluginManager:
             self.plugins[name].cleanup()
             del self.plugins[name]
             del self.metadata[name]
-            logger.info(f"Plugin descărcat: {name}")
+            logger.info(f"Plugin descarcat: {name}")
             return True
         except Exception as e:
-            logger.error(f"Eroare la descărcarea plugin-ului '{name}': {e}")
+            logger.error(f"Eroare la descarcarea plugin-ului '{name}': {e}")
             return False
     
     def load_all(self) -> int:
-        """Încarcă toate plugin-urile disponibile."""
+        """Incarca toate plugin-urile disponibile."""
         loaded = 0
         for name in self.discover_plugins():
             if self.load_plugin(name):
@@ -179,14 +179,14 @@ class PluginManager:
         return loaded
     
     def get_all_tools(self) -> List[Callable]:
-        """Obține toate tool-urile de la toate plugin-urile."""
+        """Obtine toate tool-urile de la toate plugin-urile."""
         tools = []
         for plugin in self.plugins.values():
             tools.extend(plugin.get_tools())
         return tools
     
     def process_message(self, message: str) -> Optional[str]:
-        """Permite plugin-urilor să proceseze mesaje."""
+        """Permite plugin-urilor sa proceseze mesaje."""
         for plugin in self.plugins.values():
             response = plugin.on_message(message)
             if response is not None:
@@ -194,7 +194,7 @@ class PluginManager:
         return None
     
     def list_plugins(self) -> Dict[str, Dict[str, Any]]:
-        """Listează toate plugin-urile încărcate."""
+        """Listeaza toate plugin-urile incarcate."""
         return {
             name: {
                 'version': meta.version,
@@ -231,12 +231,12 @@ class {class_name}Plugin(Plugin):
         )
     
     def initialize(self) -> bool:
-        """Inițializare plugin."""
-        # Adaugă logica de inițializare aici
+        """Initializare plugin."""
+        # Adauga logica de initializare aici
         return True
     
     def get_tools(self) -> List[Callable]:
-        """Returnează tool-urile plugin-ului."""
+        """Returneaza tool-urile plugin-ului."""
         return [self.my_custom_tool]
     
     def my_custom_tool(self, param: str) -> str:
@@ -247,12 +247,12 @@ class {class_name}Plugin(Plugin):
             param: Parametru de exemplu
         
         Returns:
-            Rezultatul operației
+            Rezultatul operatiei
         """
         return f"Plugin {self.get_metadata().name}: procesat '{{param}}'"
     
     def cleanup(self) -> None:
-        """Curățare la dezactivare."""
+        """Curatare la dezactivare."""
         pass
 '''
 
@@ -260,8 +260,8 @@ class {class_name}Plugin(Plugin):
 def create_plugin_template(name: str, description: str = "", 
                            author: str = "Unknown",
                            plugins_dir: str = "plugins") -> str:
-    """Creează un template pentru un plugin nou."""
-    # Normalizează numele
+    """Creeaza un template pentru un plugin nou."""
+    # Normalizeaza numele
     class_name = ''.join(word.capitalize() for word in name.replace('-', '_').split('_'))
     
     content = PLUGIN_TEMPLATE.format(
@@ -271,14 +271,14 @@ def create_plugin_template(name: str, description: str = "",
         author=author
     )
     
-    # Creează directorul și fișierul
+    # Creeaza directorul si fisierul
     plugin_dir = Path(plugins_dir) / name
     plugin_dir.mkdir(parents=True, exist_ok=True)
     
     plugin_file = plugin_dir / "plugin.py"
     plugin_file.write_text(content)
     
-    # Creează __init__.py
+    # Creeaza __init__.py
     (plugin_dir / "__init__.py").write_text(f'from .plugin import {class_name}Plugin\n')
     
     return str(plugin_file)

@@ -198,7 +198,7 @@ class EventStreamTool(Tool):
         
         try:
             data = json.loads(event_data)
-        except:
+        except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error="event_data must be valid JSON"

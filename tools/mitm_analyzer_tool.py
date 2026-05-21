@@ -5,7 +5,7 @@ from tools.base import Tool, ToolResult, ToolStatus
 
 class MITMAnalyzerTool(Tool):
     name = "mitm_analyzer"
-    description = "Analiză trafic MITM (Charles/Wireshark) pentru bug bounty - capture, analyze, export."
+    description = "Analiza trafic MITM (Charles/Wireshark) pentru bug bounty - capture, analyze, export."
     
     def get_definition(self):
         from tools.base import ToolDefinition, ToolParameter
@@ -15,26 +15,26 @@ class MITMAnalyzerTool(Tool):
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: capture_start, capture_stop, analyze, export",
+                    description="Operatiunea: capture_start, capture_stop, analyze, export",
                     type="string",
                     required=True,
                     choices=["capture_start", "capture_stop", "analyze", "export"]
                 ),
                 ToolParameter(
                     name="interface",
-                    description="Interfață rețea (ex: 'Loopback', 'Wi-Fi')",
+                    description="Interfata retea (ex: 'Loopback', 'Wi-Fi')",
                     type="string",
                     required=False
                 ),
                 ToolParameter(
                     name="target_port",
-                    description="Port țintă (ex: 8765 pentru ANA MCP)",
+                    description="Port tinta (ex: 8765 pentru ANA MCP)",
                     type="string",
                     required=False
                 ),
                 ToolParameter(
                     name="output_file",
-                    description="Fișier output pentru export",
+                    description="Fisier output pentru export",
                     type="string",
                     required=False
                 )
@@ -57,10 +57,10 @@ class MITMAnalyzerTool(Tool):
         elif operation == "export":
             return self._export_for_bounty(output_file)
         else:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
     
     def _start_capture(self, interface, target_port):
-        """Pornește Wireshark pentru capture"""
+        """Porneste Wireshark pentru capture"""
         try:
             # Start Wireshark with filter
             cmd = [
@@ -72,33 +72,33 @@ class MITMAnalyzerTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data=f"Wireshark pornit pe {interface}, filtru: tcp port {target_port}",
-                message=f"Capture pornit - trafic către portul {target_port}"
+                message=f"Capture pornit - trafic catre portul {target_port}"
             )
         except Exception as e:
             return ToolResult(status=ToolStatus.ERROR, error=str(e))
     
     def _stop_capture(self):
-        """Oprește capture (salinformația)"""
+        """Opreste capture (salinformatia)"""
         try:
             # Kill wireshark gracefully
             subprocess.run(["taskkill", "/IM", "wireshark.exe", "/F"], capture_output=True)
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="Capture oprit",
-                message="Wireshark oprit - salvează capture-ul manual"
+                message="Wireshark oprit - salveaza capture-ul manual"
             )
         except Exception as e:
             return ToolResult(status=ToolStatus.ERROR, error=str(e))
     
     def _analyze_capture(self, pcap_file):
-        """Analizează pachete pentru vulnerabilități"""
+        """Analizeaza pachete pentru vulnerabilitati"""
         try:
             # Check if tshark exists
             import shutil
             if not shutil.which("tshark"):
                 return ToolResult(
                     status=ToolStatus.ERROR,
-                    error="tshark (Wireshark) nu este instalat. Instalează Wireshark de la https://www.wireshark.org/ și asigură-te că tshark este în PATH."
+                    error="tshark (Wireshark) nu este instalat. Instaleaza Wireshark de la https://www.wireshark.org/ si asigura-te ca tshark este in PATH."
                 )
             # Use tshark for analysis
             cmd = [
@@ -114,7 +114,7 @@ class MITMAnalyzerTool(Tool):
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
                     data=f"Analizate {packets} pachete HTTP din {pcap_file}",
-                    message=f"Găsite {packets} pachete pentru analiză"
+                    message=f"Gasite {packets} pachete pentru analiza"
                 )
             else:
                 return ToolResult(
@@ -125,7 +125,7 @@ class MITMAnalyzerTool(Tool):
             return ToolResult(status=ToolStatus.ERROR, error=str(e))
     
     def _export_for_bounty(self, output_file):
-        """Exportă dovezi pentru bug bounty"""
+        """Exporta dovezi pentru bug bounty"""
         try:
             # Export in format compatible cu HackerOne/Bugcrowd
             export_path = f"security_research/proofs/{output_file}"
@@ -138,7 +138,7 @@ class MITMAnalyzerTool(Tool):
             subprocess.run(cmd, capture_output=True, timeout=10)
             return ToolResult(
                 status=ToolStatus.SUCCESS,
-                data=f"Exportat în {export_path}",
+                data=f"Exportat in {export_path}",
                 message="Dovezi exportate pentru bug bounty"
             )
         except Exception as e:

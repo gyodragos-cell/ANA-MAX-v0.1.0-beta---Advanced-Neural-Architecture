@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - System Tools
 ===========================
-Instrumente pentru monitorizare și control sistem.
+Instrumente pentru monitorizare si control sistem.
 """
 
 import os
@@ -28,16 +28,16 @@ logger = logging.getLogger(__name__)
 
 class SystemTool(Tool):
     """
-    Tool pentru monitorizare și control sistem.
+    Tool pentru monitorizare si control sistem.
     Vitals, procese, comenzi shell (cu confirmare).
     """
     
     @staticmethod
     def _translate_cmd_for_windows(cmd: str) -> str:
         """
-        Normalizează comenzile *nix frecvente la echivalente CMD pentru
-        a evita eroarea 'is not recognized' și halucinațiile de sintaxă.
-        Se aplică doar aliasuri simple, fără a emula un shell POSIX complet.
+        Normalizeaza comenzile *nix frecvente la echivalente CMD pentru
+        a evita eroarea 'is not recognized' si halucinatiile de sintaxa.
+        Se aplica doar aliasuri simple, fara a emula un shell POSIX complet.
         """
         if os.name != "nt":
             return cmd
@@ -70,18 +70,18 @@ class SystemTool(Tool):
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="system_control",
-            description="Monitorizare și control sistem: vitals, procese, comenzi shell.",
+            description="Monitorizare si control sistem: vitals, procese, comenzi shell.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea de executat",
+                    description="Operatiunea de executat",
                     type="string",
                     required=True,
                     choices=["vitals", "processes", "kill_process", "shell", "speak", "health_check"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta operațiunii (nume proces, comandă shell, text)",
+                    description="Tinta operatiunii (nume proces, comanda shell, text)",
                     type="string",
                     required=False
                 ),
@@ -91,7 +91,7 @@ class SystemTool(Tool):
         )
     
     def execute(self, operation: str, target: Optional[str] = None, **kwargs) -> ToolResult:
-        """Execută operațiunea de sistem."""
+        """Executa operatiunea de sistem."""
         operations = {
             "vitals": self._get_vitals,
             "processes": self._list_processes,
@@ -104,13 +104,13 @@ class SystemTool(Tool):
         if operation not in operations:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Operațiune necunoscută: {operation}"
+                error=f"Operatiune necunoscuta: {operation}"
             )
         
         return operations[operation](target, **kwargs)
     
     def _get_vitals(self, target: Optional[str] = None, **kwargs) -> ToolResult:
-        """Obține vitalele sistemului."""
+        """Obtine vitalele sistemului."""
         if not HAS_PSUTIL:
             return ToolResult(
                 status=ToolStatus.ERROR,
@@ -136,7 +136,7 @@ class SystemTool(Tool):
             except Exception:
                 pass
             
-            # Network (opțional)
+            # Network (optional)
             try:
                 net = psutil.net_io_counters()
                 vitals["Net_Sent"] = f"{net.bytes_sent / (1024**2):.1f} MB"
@@ -149,16 +149,16 @@ class SystemTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data=formatted,
-                message="Vitals obținute"
+                message="Vitals obtinute"
             )
         except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la obținere vitals: {e}"
+                error=f"Eroare la obtinere vitals: {e}"
             )
     
     def _list_processes(self, target: Optional[str] = None, **kwargs) -> ToolResult:
-        """Listează procesele active."""
+        """Listeaza procesele active."""
         if not HAS_PSUTIL:
             return ToolResult(
                 status=ToolStatus.ERROR,
@@ -170,7 +170,7 @@ class SystemTool(Tool):
             for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent']):
                 try:
                     info = proc.info
-                    # Filtrare opțională
+                    # Filtrare optionala
                     if target and target.lower() not in info['name'].lower():
                         continue
                     processes.append({
@@ -182,7 +182,7 @@ class SystemTool(Tool):
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     continue
             
-            # Sortează după CPU
+            # Sorteaza dupa CPU
             processes.sort(key=lambda x: x['cpu'], reverse=True)
             
             # Top 20
@@ -193,7 +193,7 @@ class SystemTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="\n".join(formatted),
-                message=f"Găsite {len(processes)} procese"
+                message=f"Gasite {len(processes)} procese"
             )
         except Exception as e:
             return ToolResult(
@@ -202,7 +202,7 @@ class SystemTool(Tool):
             )
     
     def _kill_process(self, target: Optional[str] = None, **kwargs) -> ToolResult:
-        """Oprește un proces după nume."""
+        """Opreste un proces dupa nume."""
         if not target:
             return ToolResult(
                 status=ToolStatus.ERROR,
@@ -234,7 +234,7 @@ class SystemTool(Tool):
             else:
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
-                    data=f"Nu am găsit procese cu numele '{target}'",
+                    data=f"Nu am gasit procese cu numele '{target}'",
                     message="Niciun proces oprit"
                 )
         except Exception as e:
@@ -245,13 +245,13 @@ class SystemTool(Tool):
     
     def _execute_shell(self, target: Optional[str] = None, **kwargs) -> ToolResult:
         """
-        Execută o comandă shell.
-        ATENȚIE: Această funcție necesită validare de securitate!
+        Executa o comanda shell.
+        ATENTIE: Aceasta functie necesita validare de securitate!
         """
         if not target:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error="Comanda shell este necesară"
+                error="Comanda shell este necesara"
             )
         
         # Verificare comenzi periculoase (activa cand sandbox este ACTIVAT)
@@ -266,11 +266,11 @@ class SystemTool(Tool):
                 if pattern in target.lower():
                     return ToolResult(
                         status=ToolStatus.BLOCKED,
-                        error=f"Comandă blocată din motive de securitate: conține '{pattern}'"
+                        error=f"Comanda blocata din motive de securitate: contine '{pattern}'"
                     )
         
         try:
-            # Ajustează sintaxa pentru Windows CMD când utilizatorul trimite comenzi POSIX.
+            # Ajusteaza sintaxa pentru Windows CMD cand utilizatorul trimite comenzi POSIX.
             target = self._translate_cmd_for_windows(target)
 
             result = subprocess.check_output(
@@ -283,8 +283,8 @@ class SystemTool(Tool):
             
             return ToolResult(
                 status=ToolStatus.SUCCESS,
-                data=result if result else "(comandă executată fără output)",
-                message="Comandă executată"
+                data=result if result else "(comanda executata fara output)",
+                message="Comanda executata"
             )
         except subprocess.TimeoutExpired:
             return ToolResult(
@@ -294,7 +294,7 @@ class SystemTool(Tool):
         except subprocess.CalledProcessError as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la execuție: {e.output}"
+                error=f"Eroare la executie: {e.output}"
             )
         except Exception as e:
             return ToolResult(
@@ -313,7 +313,7 @@ class SystemTool(Tool):
         if not HAS_TTS:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error="pyttsx3 nu este instalat. Rulează: pip install pyttsx3"
+                error="pyttsx3 nu este instalat. Ruleaza: pip install pyttsx3"
             )
         
         try:
@@ -333,7 +333,7 @@ class SystemTool(Tool):
             )
 
     def _health_check(self, target: Optional[str] = None, **kwargs) -> ToolResult:
-        """Analizează sănătatea sistemului și oferă sugestii."""
+        """Analizeaza sanatatea sistemului si ofera sugestii."""
         if not HAS_PSUTIL:
             return ToolResult(status=ToolStatus.ERROR, error="psutil necesar.")
             
@@ -342,20 +342,20 @@ class SystemTool(Tool):
         ram = psutil.virtual_memory().percent
         
         if cpu > 80:
-            suggestions.append("⚠️ CPU foarte încărcat. Închide procesele inutile.")
+            suggestions.append("⚠️ CPU foarte incarcat. Inchide procesele inutile.")
         if ram > 85:
-            suggestions.append("⚠️ Memorie RAM limitată. Recomand curățarea cache-ului.")
+            suggestions.append("⚠️ Memorie RAM limitata. Recomand curatarea cache-ului.")
             
         # Disk check
         try:
             disk = psutil.disk_usage('C:' if os.name == 'nt' else '/')
             if disk.percent > 90:
-                suggestions.append(f"🚨 Spațiu pe disc critic ({disk.percent}%). Șterge fișiere temporare.")
+                suggestions.append(f"🚨 Spatiu pe disc critic ({disk.percent}%). Sterge fisiere temporare.")
         except Exception:
             pass
         
         if not suggestions:
-            suggestions.append("✅ Sistemul funcționează optim. Nicio problemă detectată.")
+            suggestions.append("✅ Sistemul functioneaza optim. Nicio problema detectata.")
             
         return ToolResult(
             status=ToolStatus.SUCCESS,
@@ -364,16 +364,16 @@ class SystemTool(Tool):
         )
 
 
-# Funcții simple pentru compatibilitate
+# Functii simple pentru compatibilitate
 def get_system_vitals() -> str:
-    """Funcție simplă pentru vitals (compatibilitate)."""
+    """Functie simpla pentru vitals (compatibilitate)."""
     tool = SystemTool()
     result = tool.execute("vitals")
     return str(result)
 
 
 def exec_shell(cmd: str) -> str:
-    """Funcție simplă pentru shell (compatibilitate)."""
+    """Functie simpla pentru shell (compatibilitate)."""
     tool = SystemTool()
     result = tool.execute("shell", cmd)
     return str(result)

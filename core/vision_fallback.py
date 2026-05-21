@@ -2,7 +2,7 @@
 """
 ANA MAX - Vision-Based GUI Fallback (Inspirat din UI-TARS)
 ===========================================================
-Când UI Automation nu găsește elemente, fallback la Vision AI.
+Cand UI Automation nu gaseste elemente, fallback la Vision AI.
 
 Features:
 - Screenshot + Vision LLM analysis
@@ -177,7 +177,7 @@ class VisionGUIFallback:
             import json
             try:
                 return json.loads(content)
-            except:
+            except Exception as e:
                 return {"error": "Failed to parse response", "raw": content}
         else:
             return {"error": f"API error: {response.status_code}", "details": response.text}
@@ -227,7 +227,7 @@ class VisionGUIFallback:
             import json
             try:
                 return json.loads(content)
-            except:
+            except Exception as e:
                 return {"error": "Failed to parse response", "raw": content}
         else:
             return {"error": f"API error: {response.status_code}", "details": response.text}
@@ -270,7 +270,7 @@ class VisionGUIFallback:
             content = data['candidates'][0]['content']['parts'][0]['text']
             try:
                 return json.loads(content)
-            except:
+            except Exception as e:
                 return {"error": "Failed to parse response", "raw": content}
         else:
             return {"error": f"API error: {response.status_code}", "details": response.text}

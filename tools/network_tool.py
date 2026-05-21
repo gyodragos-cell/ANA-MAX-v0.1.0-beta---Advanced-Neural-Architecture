@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Network Tool
 ===========================
-Instrumente pentru inginerie de rețea și diagnoză.
+Instrumente pentru inginerie de retea si diagnoza.
 """
 
 import os
@@ -15,24 +15,24 @@ logger = logging.getLogger(__name__)
 
 class NetworkTool(Tool):
     """
-    Tool pentru diagnoză rețea și conectivitate.
+    Tool pentru diagnoza retea si conectivitate.
     """
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="network_diag",
-            description="Diagnoză rețea: ping, port scan, DNS, IP info.",
+            description="Diagnoza retea: ping, port scan, DNS, IP info.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: ping, scan_ports, dns_lookup, ip_info",
+                    description="Operatiunea: ping, scan_ports, dns_lookup, ip_info",
                     type="string",
                     required=True,
                     choices=["ping", "scan_ports", "dns_lookup", "ip_info"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta: IP sau Domain",
+                    description="Tinta: IP sau Domain",
                     type="string",
                     required=True
                 ),
@@ -47,7 +47,7 @@ class NetworkTool(Tool):
         )
 
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
-        """Execută operațiunea network."""
+        """Executa operatiunea network."""
         handlers = {
             "ping": self._ping,
             "scan_ports": self._scan_ports,
@@ -56,21 +56,21 @@ class NetworkTool(Tool):
         }
         
         if operation not in handlers:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
             
         return handlers[operation](target, **kwargs)
 
     def _ping(self, target: str, **kwargs) -> ToolResult:
-        """Ping către un host."""
+        """Ping catre un host."""
         param = "-n" if os.name == "nt" else "-c"
         try:
             output = subprocess.check_output(["ping", param, "4", target], text=True, stderr=subprocess.STDOUT)
-            return ToolResult(status=ToolStatus.SUCCESS, data=output, message=f"Ping realizat către {target}")
+            return ToolResult(status=ToolStatus.SUCCESS, data=output, message=f"Ping realizat catre {target}")
         except subprocess.CalledProcessError as e:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Host-ul {target} nu răspunde.")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Host-ul {target} nu raspunde.")
 
     def _scan_ports(self, target: str, **kwargs) -> ToolResult:
-        """Scanare simplă de porturi."""
+        """Scanare simpla de porturi."""
         port_str = kwargs.get('ports', '80,443,22,21,3389')
         ports = []
         if '-' in port_str:
@@ -90,12 +90,12 @@ class NetworkTool(Tool):
         if open_ports:
             res += f"Porturi deschise: {', '.join(map(str, open_ports))}"
         else:
-            res += "Toate porturile scanate par închise."
+            res += "Toate porturile scanate par inchise."
             
         return ToolResult(status=ToolStatus.SUCCESS, data=res)
 
     def _dns_lookup(self, target: str, **kwargs) -> ToolResult:
-        """Căutare DNS."""
+        """Cautare DNS."""
         try:
             addr = socket.gethostbyname(target)
             return ToolResult(status=ToolStatus.SUCCESS, data=f"{target} -> IP: {addr}")
@@ -103,9 +103,9 @@ class NetworkTool(Tool):
             return ToolResult(status=ToolStatus.ERROR, error="Nu am putut rezolva domeniul.")
 
     def _ip_info(self, target: str, **kwargs) -> ToolResult:
-        """Informații IP (local momentan)."""
+        """Informatii IP (local momentan)."""
         try:
             info = socket.gethostbyaddr(target)
             return ToolResult(status=ToolStatus.SUCCESS, data=str(info))
-        except:
-            return ToolResult(status=ToolStatus.ERROR, error="Informații indisponibile.")
+        except Exception as e:
+            return ToolResult(status=ToolStatus.ERROR, error="Informatii indisponibile.")

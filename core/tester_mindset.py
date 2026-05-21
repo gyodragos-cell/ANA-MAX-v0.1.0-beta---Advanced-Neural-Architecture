@@ -1,7 +1,7 @@
 """
 A.N.A. v15.1 - Tester Mindset Algorithm
 =======================================
-Algoritm dedicat pentru gândire critică de tip QA/Tester.
+Algoritm dedicat pentru gandire critica de tip QA/Tester.
 Include auto-documentare prin web search pentru cele mai noi strategii.
 """
 
@@ -24,8 +24,8 @@ class TesterMindset:
 
     def think_like_a_tester(self, code_context: str, task_description: str) -> str:
         """
-        Execută loop-ul de gândire tip Tester:
-        1. Auto-documentare (Căutare strategii noi pe net).
+        Executa loop-ul de gandire tip Tester:
+        1. Auto-documentare (Cautare strategii noi pe net).
         2. Analiza codului din perspectiva distrugerii/bug-urilor.
         3. Generare plan de testare.
         """
@@ -37,7 +37,7 @@ class TesterMindset:
         
         # 2. Construire Prompt de Tester (Brainstorming Bug-uri)
         tester_prompt = f"""
-        Ești acum în modul 'PROFESSIONAL QA TESTER'. 
+        Esti acum in modul 'PROFESSIONAL QA TESTER'. 
         
         CONTEXT COD:
         {code_context}
@@ -48,20 +48,20 @@ class TesterMindset:
         RECENT RESEARCH (Web):
         {research_results}
         
-        ALGORITM DE GÂNDIRE:
-        1. Identifică 'Happy Path' (ce ar trebui să meargă).
-        2. Identifică 'Negative Scenarios' (cum putem strica asta?).
-        3. Aplică 'Boundary Value Analysis' (valori limită).
-        4. Verifică securitatea datelor (SQL injection, XSS, etc.).
-        5. Sugerează tool-uri specifice (Pytest, Playwright, etc.).
+        ALGORITM DE GANDIRE:
+        1. Identifica 'Happy Path' (ce ar trebui sa mearga).
+        2. Identifica 'Negative Scenarios' (cum putem strica asta?).
+        3. Aplica 'Boundary Value Analysis' (valori limita).
+        4. Verifica securitatea datelor (SQL injection, XSS, etc.).
+        5. Sugereaza tool-uri specifice (Pytest, Playwright, etc.).
         
-        Te rog să oferi un raport de testare critic și sugestii de cod pentru teste.
+        Te rog sa oferi un raport de testare critic si sugestii de cod pentru teste.
         """
         
         return self.agent.send_message(tester_prompt)
 
     def generate_test_cases(self, feature_desc: str) -> List[str]:
-        """Generează cazuri de testare bazate pe experiență și research."""
-        prompt = f"Generați 5 cazuri de testare critice pentru funcționalitatea: {feature_desc}. Gândește ca un tester care vrea să găsească bug-uri ascunse."
+        """Genereaza cazuri de testare bazate pe experienta si research."""
+        prompt = f"Generati 5 cazuri de testare critice pentru functionalitatea: {feature_desc}. Gandeste ca un tester care vrea sa gaseasca bug-uri ascunse."
         response = self.agent.send_message(prompt)
         return [response]

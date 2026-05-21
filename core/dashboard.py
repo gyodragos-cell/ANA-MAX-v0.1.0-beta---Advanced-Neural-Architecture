@@ -39,7 +39,7 @@ DASHBOARD_HTML = """
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div class="bg-black border border-green-900 p-4 rounded shadow-lg">
-                <h3 class="text-gray-500 text-xs uppercase mb-2">Evoluții Detectate</h3>
+                <h3 class="text-gray-500 text-xs uppercase mb-2">Evolutii Detectate</h3>
                 <p id="evolution-count" class="text-4xl font-bold text-white">0</p>
             </div>
             <div class="bg-black border border-green-900 p-4 rounded shadow-lg">
@@ -111,7 +111,7 @@ def index():
 
 @app.route('/api/stats')
 def get_stats():
-    # Simulăm citirea datelor din fișierele reale
+    # Simulam citirea datelor din fisierele reale
     evolution_log = Path("logs/evolution.jsonl")
     dataset_file = Path("dataset/fine_tuning_v16.jsonl")
     
@@ -131,7 +131,7 @@ def get_stats():
                         "type": ev.get("type", "EVENT"),
                         "data": str(ev.get("data", ""))[:100]
                     })
-                except: continue
+                except Exception as e: continue
     
     dataset_size = 0
     if dataset_file.exists():
@@ -145,8 +145,8 @@ def get_stats():
     })
 
 def run_dashboard(port=5000):
-    """Rulează serverul Dashboard fără să blocheze procesul principal."""
-    # Dezactivăm output-ul Werkzeug pentru a nu polua terminalul de chat
+    """Ruleaza serverul Dashboard fara sa blocheze procesul principal."""
+    # Dezactivam output-ul Werkzeug pentru a nu polua terminalul de chat
     import logging
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)

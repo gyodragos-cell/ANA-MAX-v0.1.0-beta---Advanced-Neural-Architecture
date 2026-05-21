@@ -503,7 +503,7 @@ class AutonomousAgent:
             return []
 
         wants_create = any(term in lowered for term in ("create", "cree", "creaza", "creeaza"))
-        wants_delete = any(term in lowered for term in ("delete", "sterge", "șterge"))
+        wants_delete = any(term in lowered for term in ("delete", "sterge", "sterge"))
 
         if wants_create and not wants_delete:
             create_cmd = self._wrap_powershell(f"New-Item -ItemType Directory -Force -Path '{target}' | Out-Null")
@@ -542,7 +542,7 @@ class AutonomousAgent:
         base_dir = self._project_root
         if "desktop" in lowered:
             base_dir = Path.home() / "Desktop"
-        elif any(term in lowered for term in ("workspace", "spatiul meu de lucru", "spațiul meu de lucru", "proiect")):
+        elif any(term in lowered for term in ("workspace", "spatiul meu de lucru", "spatiul meu de lucru", "proiect")):
             base_dir = self._project_root
 
         return str(base_dir / folder_name)

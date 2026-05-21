@@ -1,19 +1,19 @@
-# 📦 Integrare Tool-uri Noi în ANA MAX
+# 📦 Integrare Tool-uri Noi in ANA MAX
 
-## Fișiere generate
+## Fisiere generate
 - `tools/window_manager.py`   → 🪟 Window Management
 - `tools/clipboard_manager.py` → 📋 Clipboard Intelligence  
 - `tools/ocr_tool.py`          → 📸 OCR cu PaddleOCR
 
 ---
 
-## Pasul 1 — Copiază fișierele în `tools/`
-Pune toate cele 3 fișiere în folderul `tools/` al proiectului.
+## Pasul 1 — Copiaza fisierele in `tools/`
+Pune toate cele 3 fisiere in folderul `tools/` al proiectului.
 
 ---
 
-## Pasul 2 — Înregistrează în `tools/__init__.py`
-Adaugă la sfârșitul fișierului:
+## Pasul 2 — Inregistreaza in `tools/__init__.py`
+Adauga la sfarsitul fisierului:
 
 ```python
 from .window_manager   import run as window_manager_run
@@ -23,8 +23,8 @@ from .ocr_tool          import run as ocr_tool_run
 
 ---
 
-## Pasul 3 — Înregistrează în `main.py`
-Găsește array-ul `desktop_tools` sau `new_tools` și adaugă:
+## Pasul 3 — Inregistreaza in `main.py`
+Gaseste array-ul `desktop_tools` sau `new_tools` si adauga:
 
 ```python
 {
@@ -34,32 +34,32 @@ Găsește array-ul `desktop_tools` sau `new_tools` și adaugă:
 },
 {
     "name": "clipboard_manager",
-    "description": "Clipboard: citire, scriere, istoric, monitorizare, transformări",
+    "description": "Clipboard: citire, scriere, istoric, monitorizare, transformari",
     "handler": clipboard_manager_run,
 },
 {
     "name": "ocr_tool",
-    "description": "OCR pe ecran, regiune, fișier sau clipboard (PaddleOCR/Tesseract)",
+    "description": "OCR pe ecran, regiune, fisier sau clipboard (PaddleOCR/Tesseract)",
     "handler": ocr_tool_run,
 },
 ```
 
 ---
 
-## Pasul 4 — Instalare dependențe
+## Pasul 4 — Instalare dependente
 
 ```bash
-# Activează venv-ul mai întâi!
+# Activeaza venv-ul mai intai!
 .\venv\Scripts\Activate.ps1
 
-# Window Manager — fără dependențe noi (Win32 nativ)
+# Window Manager — fara dependente noi (Win32 nativ)
 
-# Clipboard Manager — fără dependențe noi (Win32 nativ + threading stdlib)
+# Clipboard Manager — fara dependente noi (Win32 nativ + threading stdlib)
 
 # OCR Tool — alege una:
 pip install paddleocr paddlepaddle pillow   # recomandat (mai precis)
 # SAU
-pip install pytesseract pillow              # + instalează Tesseract OCR separat
+pip install pytesseract pillow              # + instaleaza Tesseract OCR separat
 ```
 
 ---
@@ -104,9 +104,9 @@ python main.py --test
 
 ## Note importante
 
-- **window_manager.py** — zero dependențe noi, merge imediat
-- **clipboard_manager.py** — zero dependențe noi, merge imediat
-- **ocr_tool.py** — necesită `pip install paddleocr paddlepaddle pillow`
-  - Prima rulare descarcă modelele (~100MB), după aceea e offline
+- **window_manager.py** — zero dependente noi, merge imediat
+- **clipboard_manager.py** — zero dependente noi, merge imediat
+- **ocr_tool.py** — necesita `pip install paddleocr paddlepaddle pillow`
+  - Prima rulare descarca modelele (~100MB), dupa aceea e offline
   - Pe CPU modest: ~2-5 secunde per screenshot, acceptabil
   - `use_angle_cls=False` → mai rapid, suficient pentru text drept pe ecran

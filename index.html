@@ -195,6 +195,88 @@
     width: 100%;
     height: auto;
   }
+  .wg-node {
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 160ms ease, filter 160ms ease;
+  }
+  .wg-node rect {
+    transition: stroke 160ms ease, stroke-width 160ms ease, fill 160ms ease;
+  }
+  .wg-node:hover,
+  .wg-node.active {
+    transform: scale(1.045);
+    filter: drop-shadow(0 0 14px rgba(78, 161, 255, 0.26));
+  }
+  .wg-node.active rect {
+    stroke: var(--green);
+    stroke-width: 2.4;
+    fill: rgba(57, 217, 138, 0.13);
+  }
+  .wg-node:focus {
+    outline: none;
+  }
+  .wg-node:focus rect {
+    stroke: var(--amber);
+    stroke-width: 2.4;
+  }
+  .l.active {
+    stroke: var(--green);
+    stroke-width: 2.6;
+  }
+  .l {
+    cursor: pointer;
+    transition: stroke 160ms ease, stroke-width 160ms ease;
+  }
+  .wg-detail {
+    margin-top: 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(23, 32, 51, 0.62);
+    padding: 14px;
+  }
+  .wg-detail strong {
+    display: block;
+    color: var(--green);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .wg-detail p {
+    margin: 0 0 10px;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 13px;
+  }
+  .wg-detail code {
+    color: var(--text);
+    background: rgba(11, 16, 32, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 8px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .wg-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .wg-controls button {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(78, 161, 255, 0.12);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 700;
+    padding: 8px 11px;
+  }
+  .wg-controls button:hover,
+  .wg-controls button:focus {
+    border-color: var(--blue);
+    outline: none;
+  }
   .tabs {
     display: flex;
     gap: 8px;
@@ -362,8 +444,8 @@
     <nav class="nav" aria-label="Primary">
       <a href="#architecture">Architecture</a>
       <a href="#demo">Demo</a>
-      <a href="#mcp">MCP</a>
-      <a href="#license">License</a>
+      <a href="#tab-mcp" onclick="showTab('mcp')">MCP</a>
+      <a href="#tab-license" onclick="showTab('license')">License</a>
       <a href="docs/ANA_MAX_WOW_DEMO.md">Wow Demo</a>
       <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
     </nav>
@@ -383,8 +465,8 @@
         <div class="actions">
           <a class="button" href="#demo">Watch demo</a>
           <a class="button secondary" href="docs/ANA_MAX_WOW_DEMO.md">90s proof script</a>
-          <a class="button secondary" href="#mcp">Connect MCP</a>
-          <a class="button secondary" href="#checks">Run checks</a>
+          <a class="button secondary" href="#tab-mcp" onclick="showTab('mcp')">Connect MCP</a>
+          <a class="button secondary" href="#tab-checks" onclick="showTab('checks')">Run checks</a>
         </div>
         <div class="stats" aria-label="Release stats">
           <div class="stat"><strong>64</strong><span>loaded tools</span></div>
@@ -414,45 +496,68 @@
             </style>
           </defs>
 
-          <rect class="box2" x="230" y="18" width="300" height="58" rx="8"/>
-          <text class="t" x="380" y="42" text-anchor="middle">MCP Clients</text>
-          <text class="s" x="380" y="62" text-anchor="middle">Claude / Cursor / Windsurf</text>
-          <line class="l" x1="380" y1="76" x2="380" y2="108"/>
+          <g class="wg-node active" data-node="clients" tabindex="0" role="button" aria-label="MCP clients">
+            <rect class="box2" x="230" y="18" width="300" height="58" rx="8"/>
+            <text class="t" x="380" y="42" text-anchor="middle">MCP Clients</text>
+            <text class="s" x="380" y="62" text-anchor="middle">Claude / Cursor / Windsurf</text>
+          </g>
+          <line class="l active" data-edge="clients server" x1="380" y1="76" x2="380" y2="108"/>
 
-          <rect class="box" x="190" y="108" width="380" height="70" rx="8"/>
-          <text class="t" x="380" y="136" text-anchor="middle">main.py MCP Server</text>
-          <text class="s" x="380" y="158" text-anchor="middle">Flask / JSON-RPC 2.0 / auth required</text>
-          <line class="l" x1="380" y1="178" x2="380" y2="210"/>
+          <g class="wg-node" data-node="server" tabindex="0" role="button" aria-label="MCP server">
+            <rect class="box" x="190" y="108" width="380" height="70" rx="8"/>
+            <text class="t" x="380" y="136" text-anchor="middle">main.py MCP Server</text>
+            <text class="s" x="380" y="158" text-anchor="middle">Flask / JSON-RPC 2.0 / auth required</text>
+          </g>
+          <line class="l" data-edge="server registry" x1="380" y1="178" x2="380" y2="210"/>
 
-          <rect class="box3" x="210" y="210" width="340" height="62" rx="8"/>
-          <text class="t" x="380" y="235" text-anchor="middle">Tool Registry + License Gate</text>
-          <text class="s" x="380" y="255" text-anchor="middle">64 tools / runtime premium blocking</text>
+          <g class="wg-node" data-node="registry" tabindex="0" role="button" aria-label="Tool registry and license gate">
+            <rect class="box3" x="210" y="210" width="340" height="62" rx="8"/>
+            <text class="t" x="380" y="235" text-anchor="middle">Tool Registry + License Gate</text>
+            <text class="s" x="380" y="255" text-anchor="middle">64 tools / runtime premium blocking</text>
+          </g>
 
-          <line class="l" x1="300" y1="272" x2="145" y2="328"/>
-          <line class="l" x1="350" y1="272" x2="300" y2="328"/>
-          <line class="l" x1="410" y1="272" x2="460" y2="328"/>
-          <line class="l" x1="460" y1="272" x2="615" y2="328"/>
+          <line class="l" data-edge="registry desktop" x1="300" y1="272" x2="145" y2="328"/>
+          <line class="l" data-edge="registry devtools" x1="350" y1="272" x2="300" y2="328"/>
+          <line class="l" data-edge="registry aicore" x1="410" y1="272" x2="460" y2="328"/>
+          <line class="l" data-edge="registry aicore" x1="460" y1="272" x2="615" y2="328"/>
 
-          <rect class="box2" x="40" y="328" width="210" height="76" rx="8"/>
-          <text class="t" x="145" y="356" text-anchor="middle">Desktop Eyes</text>
-          <text class="s" x="145" y="378" text-anchor="middle">capture / UIA / OCR</text>
+          <g class="wg-node" data-node="desktop" tabindex="0" role="button" aria-label="Desktop eyes">
+            <rect class="box2" x="40" y="328" width="210" height="76" rx="8"/>
+            <text class="t" x="145" y="356" text-anchor="middle">Desktop Eyes</text>
+            <text class="s" x="145" y="378" text-anchor="middle">capture / UIA / OCR</text>
+          </g>
 
-          <rect class="box" x="270" y="328" width="210" height="76" rx="8"/>
-          <text class="t" x="375" y="356" text-anchor="middle">Developer Tools</text>
-          <text class="s" x="375" y="378" text-anchor="middle">files / git / tests / shell</text>
+          <g class="wg-node" data-node="devtools" tabindex="0" role="button" aria-label="Developer tools">
+            <rect class="box" x="270" y="328" width="210" height="76" rx="8"/>
+            <text class="t" x="375" y="356" text-anchor="middle">Developer Tools</text>
+            <text class="s" x="375" y="378" text-anchor="middle">files / git / tests / shell</text>
+          </g>
 
-          <rect class="box4" x="500" y="328" width="210" height="76" rx="8"/>
-          <text class="t" x="605" y="356" text-anchor="middle">AI Core</text>
-          <text class="s" x="605" y="378" text-anchor="middle">memory / context / orchestration</text>
+          <g class="wg-node" data-node="aicore" tabindex="0" role="button" aria-label="AI core">
+            <rect class="box4" x="500" y="328" width="210" height="76" rx="8"/>
+            <text class="t" x="605" y="356" text-anchor="middle">AI Core</text>
+            <text class="s" x="605" y="378" text-anchor="middle">memory / context / orchestration</text>
+          </g>
 
-          <line class="l" x1="145" y1="404" x2="380" y2="456"/>
-          <line class="l" x1="375" y1="404" x2="380" y2="456"/>
-          <line class="l" x1="605" y1="404" x2="380" y2="456"/>
+          <line class="l" data-edge="desktop discipline" x1="145" y1="404" x2="380" y2="456"/>
+          <line class="l" data-edge="devtools discipline" x1="375" y1="404" x2="380" y2="456"/>
+          <line class="l" data-edge="aicore discipline" x1="605" y1="404" x2="380" y2="456"/>
 
-          <rect class="box3" x="180" y="456" width="400" height="66" rx="8"/>
-          <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
-          <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
+          <g class="wg-node" data-node="discipline" tabindex="0" role="button" aria-label="WorkGraph discipline">
+            <rect class="box3" x="180" y="456" width="400" height="66" rx="8"/>
+            <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
+            <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
+          </g>
         </svg>
+        <div class="wg-detail" id="wg-detail" aria-live="polite">
+          <strong id="wg-title">MCP Clients</strong>
+          <p id="wg-desc">The coding assistant asks for real observations instead of guessing. Cursor, Windsurf, Antigravity, OpenCode, or Codex can call ANA through MCP.</p>
+          <code id="wg-test">Ask the agent to inspect first, then edit only after a tool result.</code>
+          <div class="wg-controls" aria-label="Runtime WorkGraph navigation">
+            <button type="button" id="wg-prev">Previous</button>
+            <button type="button" id="wg-next">Next</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -608,19 +713,151 @@ python -m unittest discover -s tests -v</pre>
 </div>
 
 <script>
+var workGraphDetails = {
+  clients: {
+    title: "MCP Clients",
+    desc: "The coding assistant asks for real observations instead of guessing. Cursor, Windsurf, Antigravity, OpenCode, or Codex can call ANA through MCP.",
+    test: "Ask the agent to inspect first, then edit only after a tool result.",
+    edges: ["clients server"]
+  },
+  server: {
+    title: "main.py MCP Server",
+    desc: "The local server receives JSON-RPC requests, checks auth, and routes the request to ANA tools.",
+    test: "python main.py --test",
+    edges: ["clients server", "server registry"]
+  },
+  registry: {
+    title: "Tool Registry + License Gate",
+    desc: "The registry exposes tool schemas and blocks premium capabilities at runtime when the license is missing.",
+    test: "python main.py --list-tools",
+    edges: ["server registry", "registry desktop", "registry devtools", "registry aicore"]
+  },
+  desktop: {
+    title: "Desktop Eyes",
+    desc: "ANA can capture the screen, inspect Windows UIA controls, run OCR, and verify what is actually visible.",
+    test: "Use desktop_capture before desktop_control.",
+    edges: ["registry desktop", "desktop discipline"]
+  },
+  devtools: {
+    title: "Developer Tools",
+    desc: "ANA reads files, checks git state, runs terminal commands, executes tests, and edits only after evidence.",
+    test: "python -m compileall -q main.py core tools",
+    edges: ["registry devtools", "devtools discipline"]
+  },
+  aicore: {
+    title: "AI Core",
+    desc: "Memory, context, orchestration, and proactive checks help the agent remember the task and avoid blind work.",
+    test: "Use workspace_situational_awareness before large changes.",
+    edges: ["registry aicore", "aicore discipline"]
+  },
+  discipline: {
+    title: "WorkGraph Discipline",
+    desc: "The workflow is observe, choose the right tool, act narrowly, verify, then explain what passed or failed.",
+    test: "Observe -> act -> verify -> report.",
+    edges: ["desktop discipline", "devtools discipline", "aicore discipline"]
+  }
+};
+var workGraphOrder = ["clients", "server", "registry", "desktop", "devtools", "aicore", "discipline"];
+var activeWorkGraphNode = "clients";
+
+function selectWorkGraphNode(name) {
+  var detail = workGraphDetails[name];
+  if (!detail) return;
+  activeWorkGraphNode = name;
+
+  document.querySelectorAll(".wg-node").forEach(function (node) {
+    node.classList.toggle("active", node.getAttribute("data-node") === name);
+  });
+  document.querySelectorAll(".l").forEach(function (edge) {
+    var edgeName = edge.getAttribute("data-edge");
+    edge.classList.toggle("active", detail.edges.indexOf(edgeName) !== -1);
+  });
+
+  document.getElementById("wg-title").textContent = detail.title;
+  document.getElementById("wg-desc").textContent = detail.desc;
+  document.getElementById("wg-test").textContent = detail.test;
+}
+
+function moveWorkGraph(step) {
+  var index = workGraphOrder.indexOf(activeWorkGraphNode);
+  var nextIndex = (index + step + workGraphOrder.length) % workGraphOrder.length;
+  selectWorkGraphNode(workGraphOrder[nextIndex]);
+}
+
+document.querySelectorAll(".wg-node").forEach(function (node) {
+  node.addEventListener("click", function () {
+    selectWorkGraphNode(node.getAttribute("data-node"));
+  });
+  node.addEventListener("keydown", function (event) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      selectWorkGraphNode(node.getAttribute("data-node"));
+    }
+  });
+});
+
+document.querySelectorAll(".l").forEach(function (edge) {
+  edge.addEventListener("click", function () {
+    var edgeName = edge.getAttribute("data-edge") || "";
+    var target = edgeName.split(" ")[1];
+    selectWorkGraphNode(target);
+  });
+});
+
+document.getElementById("wg-prev").addEventListener("click", function () {
+  moveWorkGraph(-1);
+});
+
+document.getElementById("wg-next").addEventListener("click", function () {
+  moveWorkGraph(1);
+});
+
 function showTab(name) {
   document.querySelectorAll(".tab").forEach(function (tab) {
-    tab.classList.toggle("active", tab.getAttribute("onclick").includes("'" + name + "'"));
+    var action = tab.getAttribute("onclick") || "";
+    tab.classList.toggle("active", action.indexOf("'" + name + "'") !== -1);
   });
   document.querySelectorAll(".section").forEach(function (section) {
     section.classList.toggle("active", section.id === "tab-" + name);
   });
 }
 
+function showTabFromHash() {
+  var hash = window.location.hash || "";
+  if (hash.indexOf("#tab-") === 0) {
+    showTab(hash.replace("#tab-", ""));
+  }
+}
+
+showTabFromHash();
+window.addEventListener("hashchange", showTabFromHash);
+
+function copyText(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  return new Promise(function (resolve, reject) {
+    var area = document.createElement("textarea");
+    area.value = text;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    document.body.appendChild(area);
+    area.select();
+    try {
+      document.execCommand("copy") ? resolve() : reject(new Error("copy failed"));
+    } catch (err) {
+      reject(err);
+    } finally {
+      document.body.removeChild(area);
+    }
+  });
+}
+
 function copyBlock(name) {
   var el = document.getElementById("code-" + name);
-  if (!el || !navigator.clipboard) return;
-  navigator.clipboard.writeText(el.innerText).then(function () {
+  if (!el) return;
+  copyText(el.innerText).then(function () {
     document.querySelectorAll(".copy").forEach(function (button) {
       if (button.getAttribute("onclick").includes("'" + name + "'")) {
         var old = button.textContent;
@@ -628,6 +865,8 @@ function copyBlock(name) {
         setTimeout(function () { button.textContent = old; }, 1200);
       }
     });
+  }).catch(function () {
+    alert("Copy failed. Select the command text manually.");
   });
 }
 </script>

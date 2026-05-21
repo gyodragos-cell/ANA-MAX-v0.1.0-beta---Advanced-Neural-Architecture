@@ -1,8 +1,8 @@
 """
 A.N.A. v15.1 - Multi-Model Consensus Engine
 ==========================================
-Sistem de votare între modele (Gemini, Ollama, Grok) pentru decizii critice.
-Asigură o acuratețe maximă și reduce halucinațiile.
+Sistem de votare intre modele (Gemini, Ollama, Grok) pentru decizii critice.
+Asigura o acuratete maxima si reduce halucinatiile.
 """
 
 import logging
@@ -17,13 +17,13 @@ class ConsensusEngine:
 
     def get_consensus(self, task: str, primary_response: str) -> str:
         """
-        Solicită o a doua opinie de la un alt backend disponibil 
+        Solicita o a doua opinie de la un alt backend disponibil 
         pentru a valida decizia/codul generat.
         """
         if not self.enabled:
             return primary_response
 
-        # Identificăm backends disponibile (altele decât cel curent)
+        # Identificam backends disponibile (altele decat cel curent)
         available_backends = []
         if self.agent.backend != "gemini" and self.agent.ai_client: available_backends.append("gemini")
         if self.agent.backend != "ollama" and hasattr(self.agent, 'ollama_client'): available_backends.append("ollama")
@@ -37,22 +37,22 @@ class ConsensusEngine:
         logger.info(f"⚖️ Consensus: Validare decizie cu {secondary_backend}...")
 
         validation_prompt = f"""
-        Suntem într-un proces de consens. Un alt model AI a propus următoarea soluție pentru task-ul: "{task}"
+        Suntem intr-un proces de consens. Un alt model AI a propus urmatoarea solutie pentru task-ul: "{task}"
         
-        Soluția propusă:
+        Solutia propusa:
         {primary_response}
         
-        Te rog să analizezi critic această soluție. 
-        Dacă este corectă, răspunde cu "VALID". 
-        Dacă are erori, explică-le pe scurt și oferă o variantă corectată.
+        Te rog sa analizezi critic aceasta solutie. 
+        Daca este corecta, raspunde cu "VALID". 
+        Daca are erori, explica-le pe scurt si ofera o varianta corectata.
         """
 
         try:
-            # Apelăm temporar backend-ul secundar
+            # Apelam temporar backend-ul secundar
             original_backend = self.agent.backend
             self.agent.backend = secondary_backend
             
-            # Notă: Folosim o metodă privată de trimitere pentru a nu polua istoricul principal
+            # Nota: Folosim o metoda privata de trimitere pentru a nu polua istoricul principal
             if secondary_backend == "gemini":
                 validation_resp = self.agent._send_gemini(validation_prompt)
             elif secondary_backend == "ollama":
@@ -65,13 +65,13 @@ class ConsensusEngine:
             self.agent.backend = original_backend
 
             if "VALID" in validation_resp.upper() and len(validation_resp) < 20:
-                logger.info("✅ Consensus atins: Soluția este validată.")
+                logger.info("✅ Consensus atins: Solutia este validata.")
                 return primary_response
             else:
-                logger.warning("⚠️ Consensus: Modelul secundar a propus corecții.")
-                return f"{primary_response}\n\n--- ⚖️ NOTĂ CONSENS ({secondary_backend}) ---\n{validation_resp}"
+                logger.warning("⚠️ Consensus: Modelul secundar a propus corectii.")
+                return f"{primary_response}\n\n--- ⚖️ NOTA CONSENS ({secondary_backend}) ---\n{validation_resp}"
 
         except Exception as e:
-            logger.error(f"Eroare în motorul de consens: {e}")
+            logger.error(f"Eroare in motorul de consens: {e}")
             self.agent.backend = original_backend
             return primary_response

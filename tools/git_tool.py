@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class GitTool(Tool):
     """
-    Tool pentru operațiuni Git.
+    Tool pentru operatiuni Git.
     """
     
     def get_definition(self) -> ToolDefinition:
@@ -28,7 +28,7 @@ class GitTool(Tool):
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: status, init, add, commit, log, branch, diff, checkout",
+                    description="Operatiunea: status, init, add, commit, log, branch, diff, checkout",
                     type="string",
                     required=True,
                     choices=["status", "init", "add", "commit", "log", "branch", "diff", "checkout"]
@@ -41,13 +41,13 @@ class GitTool(Tool):
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta: fișier, nume branch, etc.",
+                    description="Tinta: fisier, nume branch, etc.",
                     type="string",
                     required=False
                 ),
                 ToolParameter(
                     name="path",
-                    description="Calea către repository (implicit '.')",
+                    description="Calea catre repository (implicit '.')",
                     type="string",
                     required=False,
                     default="."
@@ -57,12 +57,12 @@ class GitTool(Tool):
         )
 
     def execute(self, operation: str, **kwargs) -> ToolResult:
-        """Execută comanda git."""
+        """Executa comanda git."""
         repo_path = kwargs.get('path', '.')
         handler_kwargs = dict(kwargs)
         handler_kwargs.pop('path', None)
         
-        # Verificăm dacă git este instalat
+        # Verificam daca git este instalat
         try:
             subprocess.run(["git", "--version"], check=True, capture_output=True)
         except (subprocess.CalledProcessError, FileNotFoundError):
@@ -80,12 +80,12 @@ class GitTool(Tool):
         }
         
         if operation not in handlers:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
             
         return handlers[operation](repo_path, **handler_kwargs)
 
     def _run_git(self, args: List[str], cwd: str) -> Tuple[int, str, str]:
-        """Rulează o comandă git și returnează rezultatul."""
+        """Ruleaza o comanda git si returneaza rezultatul."""
         import subprocess
         try:
             result = subprocess.run(
@@ -103,20 +103,20 @@ class GitTool(Tool):
     def _status(self, path: str, **kwargs) -> ToolResult:
         code, out, err = self._run_git(["status"], path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Status repository obținut")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Status repository obtinut")
         return ToolResult(status=ToolStatus.ERROR, error=err or "Folderul nu este un repository git.")
 
     def _init(self, path: str, **kwargs) -> ToolResult:
         code, out, err = self._run_git(["init"], path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Repository inițializat")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Repository initializat")
         return ToolResult(status=ToolStatus.ERROR, error=err)
 
     def _add(self, path: str, **kwargs) -> ToolResult:
         target = kwargs.get('target', '.')
         code, out, err = self._run_git(["add", target], path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out, message=f"Fișiere adăugate: {target}")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out, message=f"Fisiere adaugate: {target}")
         return ToolResult(status=ToolStatus.ERROR, error=err)
 
     def _commit(self, path: str, **kwargs) -> ToolResult:
@@ -132,7 +132,7 @@ class GitTool(Tool):
     def _log(self, path: str, **kwargs) -> ToolResult:
         code, out, err = self._run_git(["log", "--oneline", "-n", "10"], path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Istoric commit-uri obținut")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out, message="Istoric commit-uri obtinut")
         return ToolResult(status=ToolStatus.ERROR, error=err)
 
     def _branch(self, path: str, **kwargs) -> ToolResult:
@@ -143,19 +143,19 @@ class GitTool(Tool):
             
         code, out, err = self._run_git(args, path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out or f"Branch creat: {target}", message="Operațiune branch finalizată")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out or f"Branch creat: {target}", message="Operatiune branch finalizata")
         return ToolResult(status=ToolStatus.ERROR, error=err)
 
     def _diff(self, path: str, **kwargs) -> ToolResult:
         code, out, err = self._run_git(["diff"], path)
         if code == 0:
-            return ToolResult(status=ToolStatus.SUCCESS, data=out or "Nicio diferență față de index.", message="Diff obținut")
+            return ToolResult(status=ToolStatus.SUCCESS, data=out or "Nicio diferenta fata de index.", message="Diff obtinut")
         return ToolResult(status=ToolStatus.ERROR, error=err)
 
     def _checkout(self, path: str, **kwargs) -> ToolResult:
         target = kwargs.get('target')
         if not target:
-            return ToolResult(status=ToolStatus.ERROR, error="Ținta (branch/commit) este obligatorie pentru checkout.")
+            return ToolResult(status=ToolStatus.ERROR, error="Tinta (branch/commit) este obligatorie pentru checkout.")
             
         code, out, err = self._run_git(["checkout", target], path)
         if code == 0:

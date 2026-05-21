@@ -7,7 +7,7 @@ from tools.base import Tool, ToolResult, ToolStatus
 
 class SystemOptimizationTool(Tool):
     name = "system_optimization"
-    description = "Optimizează sistemul Windows: curăță temp, recycle bin, DNS cache. Alternativă CCleaner Pro."
+    description = "Optimizeaza sistemul Windows: curata temp, recycle bin, DNS cache. Alternativa CCleaner Pro."
     
     def get_definition(self) -> 'ToolDefinition':
         from tools.base import ToolDefinition, ToolParameter
@@ -17,13 +17,13 @@ class SystemOptimizationTool(Tool):
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: analyze, clean_temp, clean_recycle, clean_dns, full_optimize, scan_drivers, scan_software",
+                    description="Operatiunea: analyze, clean_temp, clean_recycle, clean_dns, full_optimize, scan_drivers, scan_software",
                     type="string",
                     required=True
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta: user_temp, win_temp, recycle, all",
+                    description="Tinta: user_temp, win_temp, recycle, all",
                     type="string",
                     required=False
                 )
@@ -50,7 +50,7 @@ class SystemOptimizationTool(Tool):
         elif operation == "scan_software":
             return self._scan_software()
         else:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
     
     def _scan_drivers(self):
         """Scan drivers and open Windows Update for optional updates (free, official)"""
@@ -69,7 +69,7 @@ class SystemOptimizationTool(Tool):
             if result.stdout:
                 try:
                     all_drivers = json.loads(result.stdout)
-                except:
+                except Exception as e:
                     all_drivers = []
             
             # Filter only important ones in Python
@@ -112,7 +112,7 @@ class SystemOptimizationTool(Tool):
             if result.stdout:
                 try:
                     software = json.loads(result.stdout)
-                except:
+                except Exception as e:
                     software = []
             
             # Log software found
@@ -146,7 +146,7 @@ class SystemOptimizationTool(Tool):
             ctypes.windll.shell32.SHGetSpecialFolderPath(None, shell, 0xA, False)
             recycle_path = Path(shell.value.decode())
             recycle_size = sum(f.stat().st_size for f in recycle_path.rglob('*') if f.is_file())
-        except:
+        except Exception as e:
             recycle_size = 0
         
         total_mb = round((user_size + win_size + recycle_size) / 1024 / 1024, 2)
@@ -159,7 +159,7 @@ class SystemOptimizationTool(Tool):
                 "recycle_bin_mb": round(recycle_size / 1024 / 1024, 2),
                 "total_cleanable_mb": total_mb
             },
-            message=f"Analiză completă. {total_mb} MB de curățat"
+            message=f"Analiza completa. {total_mb} MB de curatat"
         )
     
     def _clean_temp_files(self, target="all"):
@@ -175,7 +175,7 @@ class SystemOptimizationTool(Tool):
                         cleaned += size
                     elif f.is_dir():
                         shutil.rmtree(f, ignore_errors=True)
-                except:
+                except Exception as e:
                     pass
         
         if target in ["win_temp", "all"]:
@@ -188,14 +188,14 @@ class SystemOptimizationTool(Tool):
                         cleaned += size
                     elif f.is_dir():
                         shutil.rmtree(f, ignore_errors=True)
-                except:
+                except Exception as e:
                     pass
         
         mb_cleaned = round(cleaned / 1024 / 1024, 2)
         return ToolResult(
             status=ToolStatus.SUCCESS,
-            data=f"Curățat {mb_cleaned} MB din temp",
-            message=f"Curățat {mb_cleaned} MB din temp"
+            data=f"Curatat {mb_cleaned} MB din temp",
+            message=f"Curatat {mb_cleaned} MB din temp"
         )
     
     def _clean_recycle_bin(self):
@@ -208,7 +208,7 @@ class SystemOptimizationTool(Tool):
     def _clean_dns_cache(self):
         try:
             subprocess.run(["ipconfig", "/flushdns"], capture_output=True, check=True)
-            return ToolResult(status=ToolStatus.SUCCESS, data="DNS cache curățat", message="DNS cache curățat")
+            return ToolResult(status=ToolStatus.SUCCESS, data="DNS cache curatat", message="DNS cache curatat")
         except Exception as e:
             return ToolResult(status=ToolStatus.ERROR, error=str(e))
     
@@ -218,7 +218,7 @@ class SystemOptimizationTool(Tool):
         # Analyze before
         before = self._analyze_system()
         before_mb = before.data["total_cleanable_mb"]
-        results.append(f"ÎNAINTE: {before_mb} MB de curățat")
+        results.append(f"INAINTE: {before_mb} MB de curatat")
         
         # Clean
         self._clean_temp_files("all")
@@ -228,11 +228,11 @@ class SystemOptimizationTool(Tool):
         # Analyze after
         after = self._analyze_system()
         after_mb = after.data["total_cleanable_mb"]
-        results.append(f"DUPĂ: {after_mb} MB rămas")
+        results.append(f"DUPA: {after_mb} MB ramas")
         results.append(f"ELIBERAT: {round(before_mb - after_mb, 2)} MB")
         
         return ToolResult(
             status=ToolStatus.SUCCESS,
             data="\n".join(results),
-            message="Optimizare completă terminată"
+            message="Optimizare completa terminata"
         )

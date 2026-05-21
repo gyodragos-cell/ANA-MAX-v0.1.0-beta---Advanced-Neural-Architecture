@@ -9,27 +9,27 @@ from tools.base import Tool, ToolResult, ToolStatus, ToolDefinition, ToolParamet
 logger = logging.getLogger(__name__)
 
 class WindowsUiaBridgeTool(Tool):
-    """Ochii și mâinile ANA MAX (via Microsoft UI Automation)."""
+    """Ochii si mainile ANA MAX (via Microsoft UI Automation)."""
 
     def get_definition(self):
         return ToolDefinition(
             name="windows_uia_bridge",
             description=(
-                "Ochii și mâinile ANA MAX (via Microsoft UI Automation). "
-                "Citește arborele structural al ferestrelor, dă click pe elemente și scrie text "
-                "fără să folosească OCR sau coordonate vizuale."
+                "Ochii si mainile ANA MAX (via Microsoft UI Automation). "
+                "Citeste arborele structural al ferestrelor, da click pe elemente si scrie text "
+                "fara sa foloseasca OCR sau coordonate vizuale."
             ),
             parameters=[
                 ToolParameter(
                     name="action",
-                    description="Acțiunea pe care dorești să o faci: list_windows, inspect_window, click_element, type_text.",
+                    description="Actiunea pe care doresti sa o faci: list_windows, inspect_window, click_element, type_text.",
                     type="string",
                     required=True,
                     choices=["list_windows", "inspect_window", "click_element", "type_text"]
                 ),
                 ToolParameter(
                     name="window_title",
-                    description="Numele parțial sau complet al ferestrei (pentru inspect_window, click_element, type_text).",
+                    description="Numele partial sau complet al ferestrei (pentru inspect_window, click_element, type_text).",
                     type="string",
                     required=False
                 ),
@@ -41,7 +41,7 @@ class WindowsUiaBridgeTool(Tool):
                 ),
                 ToolParameter(
                     name="auto_id",
-                    description="AutomationId-ul elementului (dacă e cunoscut).",
+                    description="AutomationId-ul elementului (daca e cunoscut).",
                     type="string",
                     required=False
                 ),
@@ -53,7 +53,7 @@ class WindowsUiaBridgeTool(Tool):
                 ),
                 ToolParameter(
                     name="text",
-                    description="Textul de tastat (pentru acțiunea type_text).",
+                    description="Textul de tastat (pentru actiunea type_text).",
                     type="string",
                     required=False
                 )
@@ -75,11 +75,11 @@ class WindowsUiaBridgeTool(Tool):
 
     def execute(self, **kwargs) -> ToolResult:
         if not self._uia_available:
-            error_msg = f"Librăria pywinauto lipsește. "
+            error_msg = f"Libraria pywinauto lipseste. "
             if self._import_error:
                 error_msg += f"Eroare la import: {self._import_error}"
             else:
-                error_msg += "Rulează 'pip install pywinauto' mai întâi."
+                error_msg += "Ruleaza 'pip install pywinauto' mai intai."
             logger.error(error_msg)
             return ToolResult(
                 status=ToolStatus.ERROR, 
@@ -109,7 +109,7 @@ class WindowsUiaBridgeTool(Tool):
                 text=kwargs.get("text")
             )
         else:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Acțiune necunoscută: {action}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Actiune necunoscuta: {action}")
 
     def _list_windows(self) -> ToolResult:
         import pywinauto
@@ -127,7 +127,7 @@ class WindowsUiaBridgeTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data={"windows": win_list, "count": len(win_list)},
-                message=f"Am găsit {len(win_list)} ferestre vizibile."
+                message=f"Am gasit {len(win_list)} ferestre vizibile."
             )
         except Exception as e:
             return ToolResult(status=ToolStatus.ERROR, error=f"Eroare la listarea ferestrelor: {e}")
@@ -141,7 +141,7 @@ class WindowsUiaBridgeTool(Tool):
             app = pywinauto.Desktop(backend="uia")
             wins = app.windows(title_re=f".*{title}.*", visible_only=True)
             if not wins:
-                return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{title}' nu a fost găsită.")
+                return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{title}' nu a fost gasita.")
             win = wins[0]
                 
             elements = []
@@ -162,24 +162,24 @@ class WindowsUiaBridgeTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data={"window_title": win.window_text(), "elements": elements, "count": len(elements)},
-                message=f"Am mapat fereastra '{win.window_text()}' ({len(elements)} elemente interacționabile)."
+                message=f"Am mapat fereastra '{win.window_text()}' ({len(elements)} elemente interactionabile)."
             )
         except Exception as e:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare la inspectare fereastră: {e}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare la inspectare fereastra: {e}")
 
     def _interact_element(self, win_title, elem_title, auto_id, ctrl_type, action="click", text="") -> ToolResult:
         if not win_title:
             return ToolResult(status=ToolStatus.ERROR, error="window_title este obligatoriu.")
             
         if not elem_title and not auto_id:
-            return ToolResult(status=ToolStatus.ERROR, error="Specifică element_title sau auto_id.")
+            return ToolResult(status=ToolStatus.ERROR, error="Specifica element_title sau auto_id.")
 
         import pywinauto
         try:
             app = pywinauto.Desktop(backend="uia")
             wins = app.windows(title_re=f".*{win_title}.*", visible_only=True)
             if not wins:
-                return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{win_title}' nu a fost găsită.")
+                return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{win_title}' nu a fost gasita.")
             win = wins[0]
             
             search_args = {}
@@ -192,7 +192,7 @@ class WindowsUiaBridgeTool(Tool):
 
             ctrl = win.child_window(**search_args)
             if not ctrl.exists():
-                return ToolResult(status=ToolStatus.ERROR, error=f"Elementul {search_args} nu a fost găsit în fereastră.")
+                return ToolResult(status=ToolStatus.ERROR, error=f"Elementul {search_args} nu a fost gasit in fereastra.")
                 
             if action == "click":
                 try:
@@ -209,7 +209,7 @@ class WindowsUiaBridgeTool(Tool):
                 pywinauto.keyboard.send_keys(text, with_spaces=True)
                 return ToolResult(
                     status=ToolStatus.SUCCESS, 
-                    message=f"Am scris textul în elementul '{elem_title or auto_id}'."
+                    message=f"Am scris textul in elementul '{elem_title or auto_id}'."
                 )
         except Exception as e:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare la acțiunea {action}: {e}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare la actiunea {action}: {e}")

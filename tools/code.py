@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Code Tools
 =========================
-Instrumente pentru lucrul cu cod: analiză, execuție, creare proiecte.
+Instrumente pentru lucrul cu cod: analiza, executie, creare proiecte.
 """
 
 import os
@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class CodeTool(Tool):
     """
     Tool pentru lucrul cu cod.
-    Analiză, execuție în sandbox, creare proiecte.
+    Analiza, executie in sandbox, creare proiecte.
     """
     
     # Template-uri pentru proiecte
@@ -167,18 +167,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="code_tools",
-            description="Instrumente pentru cod: analiză, execuție, creare proiecte.",
+            description="Instrumente pentru cod: analiza, executie, creare proiecte.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea de executat",
+                    description="Operatiunea de executat",
                     type="string",
                     required=True,
                     choices=["analyze", "run", "create_project", "install_package"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta: cale fișier, cod de rulat, tip proiect, nume pachet",
+                    description="Tinta: cale fisier, cod de rulat, tip proiect, nume pachet",
                     type="string",
                     required=True
                 ),
@@ -197,7 +197,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
                 ),
                 ToolParameter(
                     name="language",
-                    description="Limbaj pentru execuție cod",
+                    description="Limbaj pentru executie cod",
                     type="string",
                     required=False,
                     default="python",
@@ -205,7 +205,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
                 ),
                 ToolParameter(
                     name="setup_venv",
-                    description="Creează automat un virtual environment (pentru proiecte Python/API)",
+                    description="Creeaza automat un virtual environment (pentru proiecte Python/API)",
                     type="boolean",
                     required=False,
                     default=False
@@ -216,7 +216,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
         )
     
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
-        """Execută operațiunea cu cod."""
+        """Executa operatiunea cu cod."""
         operations = {
             "analyze": self._analyze_code,
             "run": self._run_code,
@@ -227,18 +227,18 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
         if operation not in operations:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Operațiune necunoscută: {operation}"
+                error=f"Operatiune necunoscuta: {operation}"
             )
         
         return operations[operation](target, **kwargs)
     
     def _analyze_code(self, target: str, **kwargs) -> ToolResult:
-        """Analizează un fișier de cod."""
+        """Analizeaza un fisier de cod."""
         try:
             if not os.path.exists(target):
                 return ToolResult(
                     status=ToolStatus.ERROR,
-                    error=f"Fișierul nu există: {target}"
+                    error=f"Fisierul nu exista: {target}"
                 )
             
             with open(target, 'r', encoding='utf-8', errors='ignore') as f:
@@ -265,9 +265,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
                 else:
                     analysis["code_lines"] += 1
                 
-                # Verificări
+                # Verificari
                 if len(line) > 120:
-                    analysis["issues"].append(f"Linia {i}: Prea lungă ({len(line)} chars)")
+                    analysis["issues"].append(f"Linia {i}: Prea lunga ({len(line)} chars)")
                 
                 if 'TODO' in line or 'FIXME' in line:
                     analysis["todos"].append(f"Linia {i}: {stripped[:80]}")
@@ -282,7 +282,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             
             # Formatare rezultat
             result_lines = [
-                f"=== Analiză: {os.path.basename(target)} ===",
+                f"=== Analiza: {os.path.basename(target)} ===",
                 f"Linii totale: {analysis['total_lines']}",
                 f"Linii cod: {analysis['code_lines']}",
                 f"Comentarii: {analysis['comment_lines']}",
@@ -290,7 +290,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             ]
             
             if analysis["issues"]:
-                result_lines.append(f"\n⚠️ Probleme găsite ({len(analysis['issues'])}):")
+                result_lines.append(f"\n⚠️ Probleme gasite ({len(analysis['issues'])}):")
                 result_lines.extend([f"  • {i}" for i in analysis["issues"][:10]])
             
             if analysis["todos"]:
@@ -298,29 +298,29 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
                 result_lines.extend([f"  • {t}" for t in analysis["todos"][:5]])
             
             if not analysis["issues"] and not analysis["todos"]:
-                result_lines.append("\n✓ Nicio problemă detectată!")
+                result_lines.append("\n✓ Nicio problema detectata!")
             
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="\n".join(result_lines),
-                message="Analiză completă"
+                message="Analiza completa"
             )
         except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la analiză: {e}"
+                error=f"Eroare la analiza: {e}"
             )
     
     def _run_code(self, target: str, language: str = "python", **kwargs) -> ToolResult:
         """
-        Rulează cod într-un sandbox.
-        NOTĂ: Aceasta este o versiune simplificată. 
-        Pentru producție, folosește sandbox/secure_runner.py
+        Ruleaza cod intr-un sandbox.
+        NOTA: Aceasta este o versiune simplificata. 
+        Pentru productie, foloseste sandbox/secure_runner.py
         """
         if language != "python":
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Limbajul '{language}' nu este suportat încă"
+                error=f"Limbajul '{language}' nu este suportat inca"
             )
         
         # Verificare cod periculos
@@ -334,7 +334,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             if pattern in target:
                 return ToolResult(
                     status=ToolStatus.BLOCKED,
-                    error=f"Cod blocat: conține '{pattern}' (periculos în sandbox)"
+                    error=f"Cod blocat: contine '{pattern}' (periculos in sandbox)"
                 )
         
         try:
@@ -347,7 +347,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             
             return ToolResult(
                 status=ToolStatus.SUCCESS,
-                data=result if result else "(executat fără output)",
+                data=result if result else "(executat fara output)",
                 message="Cod executat"
             )
         except subprocess.TimeoutExpired:
@@ -358,7 +358,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
         except subprocess.CalledProcessError as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la execuție:\n{e.output}"
+                error=f"Eroare la executie:\n{e.output}"
             )
         except Exception as e:
             return ToolResult(
@@ -368,7 +368,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
     
     def _create_project(self, target: str, name: Optional[str] = None, 
                         path: str = ".", **kwargs) -> ToolResult:
-        """Creează un proiect nou din template."""
+        """Creeaza un proiect nou din template."""
         if target not in self.PROJECT_TEMPLATES:
             available = ", ".join(self.PROJECT_TEMPLATES.keys())
             return ToolResult(
@@ -386,24 +386,24 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             template = self.PROJECT_TEMPLATES[target]
             project_path = os.path.join(path, name)
             
-            # Creează directorul principal
+            # Creeaza directorul principal
             os.makedirs(project_path, exist_ok=True)
             
-            # Creează subdirectoare
+            # Creeaza subdirectoare
             for dir_name in template.get("dirs", []):
                 os.makedirs(os.path.join(project_path, dir_name), exist_ok=True)
             
-            # Creează fișiere
+            # Creeaza fisiere
             created_files = []
             for file_path, content in template.get("files", {}).items():
                 full_path = os.path.join(project_path, file_path)
                 
-                # Creează directorul părinte dacă e necesar
+                # Creeaza directorul parinte daca e necesar
                 parent = os.path.dirname(full_path)
                 if parent:
                     os.makedirs(parent, exist_ok=True)
                 
-                # Scrie fișierul cu numele proiectului înlocuit
+                # Scrie fisierul cu numele proiectului inlocuit
                 with open(full_path, 'w', encoding='utf-8') as f:
                     f.write(content.format(name=name))
                 
@@ -412,9 +412,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             result_lines = [
                 f"✓ Proiect '{name}' creat cu succes!",
                 f"Tip: {target}",
-                f"Locație: {os.path.abspath(project_path)}",
+                f"Locatie: {os.path.abspath(project_path)}",
                 "",
-                "Fișiere create:"
+                "Fisiere create:"
             ]
             result_lines.extend([f"  • {f}" for f in created_files])
             
@@ -434,7 +434,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             )
     
     def _install_package(self, target: str, **kwargs) -> ToolResult:
-        """Instalează un pachet Python."""
+        """Instaleaza un pachet Python."""
         try:
             # Verificare nume pachet valid
             if not target or ' ' in target or ';' in target:
@@ -450,7 +450,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
                 timeout=120
             )
             
-            # Extrage ultima parte relevantă
+            # Extrage ultima parte relevanta
             lines = result.strip().split('\n')
             summary = lines[-3:] if len(lines) > 3 else lines
             
@@ -476,7 +476,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
             )
 
     def _setup_venv(self, project_path: str):
-        """Creează un virtual environment."""
+        """Creeaza un virtual environment."""
         try:
             import sys
             subprocess.run([sys.executable, "-m", "venv", os.path.join(project_path, "venv")], check=True)
@@ -486,16 +486,16 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
 
 
 
-# Funcții simple pentru compatibilitate
+# Functii simple pentru compatibilitate
 def analyze_code(file_path: str) -> str:
-    """Funcție simplă de analiză (compatibilitate)."""
+    """Functie simpla de analiza (compatibilitate)."""
     tool = CodeTool()
     result = tool.execute("analyze", file_path)
     return str(result)
 
 
 def run_code(code: str, language: str = "python") -> str:
-    """Funcție simplă de execuție (compatibilitate)."""
+    """Functie simpla de executie (compatibilitate)."""
     tool = CodeTool()
     result = tool.execute("run", code, language=language)
     return str(result)

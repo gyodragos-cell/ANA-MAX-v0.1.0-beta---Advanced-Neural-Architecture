@@ -35,7 +35,7 @@ except ImportError:
 
 class CodebaseUnderstanding:
     """
-    Motor de înțelegere a codebase-ului cu suport pentru persistență.
+    Motor de intelegere a codebase-ului cu suport pentru persistenta.
     """
     
     def __init__(self, project_root: str, db_path: str = "memory/smart_search.db"):
@@ -60,13 +60,13 @@ class CodebaseUnderstanding:
         logger.info(f"Codebase Understanding initialized for: {project_root}")
 
     def _init_db(self):
-        """Asigură-te că tabelul de embeddings există în baza de date Smart Search."""
+        """Asigura-te ca tabelul de embeddings exista in baza de date Smart Search."""
         os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
-        # Verificăm dacă coloana embedding există deja în file_chunks (ar trebui să fie din smart_search.py)
-        # Dar ne asigurăm că avem și un tabel pentru metadate de codebase
+        # Verificam daca coloana embedding exista deja in file_chunks (ar trebui sa fie din smart_search.py)
+        # Dar ne asiguram ca avem si un tabel pentru metadate de codebase
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS codebase_metadata (
                 key TEXT PRIMARY KEY,
@@ -78,7 +78,7 @@ class CodebaseUnderstanding:
         conn.close()
 
     def analyze_project(self, extensions: Optional[List[str]] = None) -> Dict[str, Any]:
-        """Analizează proiectul și generează embeddings."""
+        """Analizeaza proiectul si genereaza embeddings."""
         if extensions is None:
             extensions = ['.py', '.js', '.ts', '.jsx', '.tsx', '.md']
             
@@ -102,7 +102,7 @@ class CodebaseUnderstanding:
                 
                 relative_path = str(file_path.relative_to(self.project_root))
                 
-                # Citim conținutul
+                # Citim continutul
                 with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
                     content = f.read()
                 
@@ -118,9 +118,9 @@ class CodebaseUnderstanding:
                 
                 if chunks_to_embed and self.model is not None:
                     for chunk_id, chunk_content in chunks_to_embed:
-                        # Generăm embedding
+                        # Generam embedding
                         embedding = self.model.encode(chunk_content)
-                        # Salvăm în DB ca blob
+                        # Salvam in DB ca blob
                         embedding_blob = embedding.tobytes()
                         
                         cursor.execute(
@@ -142,7 +142,7 @@ class CodebaseUnderstanding:
         return stats
 
     def _parse_python_ast(self, content: str, relative_path: str):
-        """Extrage clase și funcții folosind AST."""
+        """Extrage clase si functii folosind AST."""
         try:
             tree = ast.parse(content)
             for node in ast.walk(tree):
@@ -157,11 +157,11 @@ class CodebaseUnderstanding:
                         'file': relative_path,
                         'line': node.lineno
                     }
-        except:
+        except Exception as e:
             pass
 
     def semantic_search(self, query: str, limit: int = 5) -> List[Dict]:
-        """Căutare semantică folosind embeddings din baza de date."""
+        """Cautare semantica folosind embeddings din baza de date."""
         if self.model is None or not HAS_NUMPY:
             return []
             
@@ -172,7 +172,7 @@ class CodebaseUnderstanding:
         
         results = []
         try:
-            # Luăm toate chunkurile care au embedding
+            # Luam toate chunkurile care au embedding
             cursor.execute("""
                 SELECT f.file_path, c.content, c.start_line, c.end_line, c.embedding
                 FROM file_chunks c
@@ -196,7 +196,7 @@ class CodebaseUnderstanding:
                     'similarity': float(similarity)
                 })
             
-            # Sortăm
+            # Sortam
             results.sort(key=lambda x: x['similarity'], reverse=True)
         finally:
             conn.close()
@@ -204,12 +204,12 @@ class CodebaseUnderstanding:
         return results[:limit]
 
     def ask_codebase(self, question: str) -> str:
-        """Răspunde semantic la o întrebare."""
+        """Raspunde semantic la o intrebare."""
         results = self.semantic_search(question)
         if not results:
-            return "Nu am găsit informații semantice. Te rog să indexezi proiectul mai întâi."
+            return "Nu am gasit informatii semantice. Te rog sa indexezi proiectul mai intai."
             
-        resp = f"Pe baza analizei semantice, am găsit următoarele fragmente relevante:\n\n"
+        resp = f"Pe baza analizei semantice, am gasit urmatoarele fragmente relevante:\n\n"
         for i, r in enumerate(results, 1):
             resp += f"{i}. **{r['file']}** (Linia {r['line']}) - Scorul similiaritate: {r['similarity']:.2f}\n"
             resp += f"```\n{r['content'][:300]}...\n```\n"

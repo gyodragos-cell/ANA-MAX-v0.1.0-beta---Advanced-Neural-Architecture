@@ -6,9 +6,12 @@ sa nu lucreze orbeste.
 
 ## Nota Curenta
 
-Nota: 8/10.
+Nota: 9/10.
 
 De ce:
+- S-au adaugat CI/CD pentru validarea toolurilor, README curatat cu badges si tabele de status
+- Fisierul `atentie.txt` a fost curatat din release-ul public
+- `ROADMAP.md` a fost curatat de emoji-uri pentru a respecta regula ASCII-only
 - Tool registry incarca 64 tooluri si testele trec.
 - Premium gate este acum la runtime.
 - MCP auth este activ by default.

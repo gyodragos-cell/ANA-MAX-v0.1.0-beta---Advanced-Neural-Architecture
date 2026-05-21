@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - QA & Testing Tool
 ================================
-Instrumente pentru asigurarea calității și testare.
+Instrumente pentru asigurarea calitatii si testare.
 """
 
 import os
@@ -14,24 +14,24 @@ logger = logging.getLogger(__name__)
 
 class QATool(Tool):
     """
-    Tool pentru generare teste și analiză edge-cases.
+    Tool pentru generare teste si analiza edge-cases.
     """
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="qa_testing",
-            description="Asigurarea calității: generare teste, edge-cases, mock data.",
+            description="Asigurarea calitatii: generare teste, edge-cases, mock data.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: generate_tests, edge_case_analysis, mock_data",
+                    description="Operatiunea: generate_tests, edge_case_analysis, mock_data",
                     type="string",
                     required=True,
                     choices=["generate_tests", "edge_case_analysis", "mock_data"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Codul sursă sau descrierea funcției.",
+                    description="Codul sursa sau descrierea functiei.",
                     type="string",
                     required=True
                 ),
@@ -47,7 +47,7 @@ class QATool(Tool):
         )
 
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
-        """Execută operațiunea QA."""
+        """Executa operatiunea QA."""
         handlers = {
             "generate_tests": self._generate_tests,
             "edge_case_analysis": self._edge_case_analysis,
@@ -55,15 +55,15 @@ class QATool(Tool):
         }
         
         if operation not in handlers:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Operațiune necunoscută: {operation}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
             
         return handlers[operation](target, **kwargs)
 
     def _generate_tests(self, target: str, **kwargs) -> ToolResult:
-        """Generează boilerplate pentru teste."""
+        """Genereaza boilerplate pentru teste."""
         framework = kwargs.get('framework', 'pytest')
         
-        # Logică simplă de extracție nume funcție
+        # Logica simpla de extractie nume functie
         func_match = re.search(r"def\s+(\w+)", target)
         func_name = func_match.group(1) if func_match else "function"
         
@@ -98,25 +98,25 @@ def test_{func_name}_error_handling():
             "1. Input Nul/None",
             "2. String gol sau foarte lung (>1GB)",
             "3. Caractere speciale (Unicode, Emoji, SQL Injection patterns)",
-            "4. Valori la limită (0, -1, MAX_INT)",
-            "5. Race conditions (dacă e asincron)",
-            "6. Lipsa permisiunilor de fișier"
+            "4. Valori la limita (0, -1, MAX_INT)",
+            "5. Race conditions (daca e asincron)",
+            "6. Lipsa permisiunilor de fisier"
         ]
         
-        # Analiză de bază a codului
+        # Analiza de baza a codului
         if "int" in target:
             suggestions.append("7. Overflow numeric")
         if "list" in target or "dict" in target:
-            suggestions.append("8. Colecții modificate în timpul iterării")
+            suggestions.append("8. Colectii modificate in timpul iterarii")
             
         return ToolResult(
             status=ToolStatus.SUCCESS,
             data="\n".join(suggestions),
-            message="Analiză edge-cases finalizată."
+            message="Analiza edge-cases finalizata."
         )
 
     def _mock_data(self, target: str, **kwargs) -> ToolResult:
-        """Generează date de test (JSON)."""
+        """Genereaza date de test (JSON)."""
         import json
         mock = {
             "user": {"id": 1, "name": "Test User", "email": "test@ana.dev"},

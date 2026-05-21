@@ -2,9 +2,9 @@
 
 ## Pre-Release (Local Verification)
 
-- [ ] `python main.py --test` → 2/2 PASS
-- [ ] `python main.py --list-tools` → 42 tools listed
-- [ ] `npm pack --dry-run` în `vscode_extension/` → ✅ valid
+- [ ] `python main.py --test` → 3/3 PASS
+- [ ] `python main.py --list-tools` → 64 tools listed
+- [ ] `npm pack --dry-run` in `vscode_extension/` → ✅ valid
 - [ ] `.env` not in repo (check `.gitignore`)
 - [ ] `.env.example` has placeholders only
 - [ ] No API keys in code comments
@@ -20,7 +20,7 @@ https://github.com/YOUR_USERNAME/ana-max
 ```
 
 ### 2. Configure Repository Settings
-- [ ] Description: "AI-powered Windows automation with 42 MCP tools"
+- [ ] Description: "AI-powered Windows automation with 64 MCP tools"
 - [ ] Topics: `mcp`, `windows-automation`, `ai-tools`, `desktop-control`, `python`
 - [ ] Make Public
 - [ ] Add license: MIT
@@ -31,7 +31,7 @@ cd ANA_MAX_GitHub_Release
 
 git init
 git add .
-git commit -m "Initial release: ANA MAX v18.0-TRIAL with 42 tools"
+git commit -m "Initial release: ANA MAX v0.1.0-beta with 64 tools"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/ana-max.git
 git push -u origin main
@@ -39,12 +39,12 @@ git push -u origin main
 
 ### 4. Create Release
 - [ ] Go to GitHub → Releases → Draft new release
-- [ ] Tag: `v18.0-trial`
-- [ ] Title: `ANA MAX v18.0 - Trial Release (42 Free Tools)`
+- [ ] Tag: `v0.1.0-beta`
+- [ ] Title: `ANA MAX v0.1.0-beta - Beta Release (64 Tools)`
 - [ ] Description:
 ```
 ## Features
-- 42 free MCP tools for Windows automation
+- 64 free MCP tools for Windows automation
 - Windows UI Automation (pywinauto)
 - Browser control and web scraping
 - Git operations and code analysis
@@ -156,7 +156,7 @@ vsce publish 0.1.0
 - [ ] Monitor GitHub Issues
 - [ ] Check marketplace ratings
 - [ ] Fix bugs quickly
-- [ ] Plan v19.0 with premium tools
+- [ ] Plan v1.0.0 with premium tools
 
 ---
 
@@ -164,9 +164,9 @@ vsce publish 0.1.0
 
 | Version | Release Type | Premium Tools |
 |---------|-------------|---------------|
-| 18.0-trial | Public Trial | ❌ Disabled |
-| 18.0-pro | Paid License | ✅ Enabled |
-| 19.0 | Feature Update | TBD |
+| 0.1.0-beta | Public Beta | ❌ Disabled |
+| 1.0.0-pro | Paid License | ✅ Enabled |
+| 1.1.0 | Feature Update | TBD |
 
 ---
 

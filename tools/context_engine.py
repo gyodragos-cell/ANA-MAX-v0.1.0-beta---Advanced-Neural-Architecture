@@ -3,15 +3,15 @@ ANA MAX - Context Intelligence Engine v2 (JARVIS Mode)
 tools/context_engine.py
 
 Trei piloni:
-  1. MEMORIE PE TERMEN LUNG  — SQLite via memory.py, învață din sesiuni trecute
-  2. COMUNICARE ACTIVĂ       — notificări Windows + TTS (pyttsx3) opțional
-  3. BUCLĂ DE FEEDBACK       — DA/NU la sugestii → confidența crește/scade
+  1. MEMORIE PE TERMEN LUNG  — SQLite via memory.py, invata din sesiuni trecute
+  2. COMUNICARE ACTIVA       — notificari Windows + TTS (pyttsx3) optional
+  3. BUCLA DE FEEDBACK       — DA/NU la sugestii → confidenta creste/scade
 
 Filozofie ANA MAX:
   - Win32 / psutil nativ, zero subprocess
   - Threading cu Lock
   - Logging silent (DEBUG recurent, INFO doar la pornire/oprire)
-  - Toate persistențele prin memory.py (Singleton)
+  - Toate persistentele prin memory.py (Singleton)
 """
 
 import json
@@ -25,16 +25,16 @@ from typing import Optional, Callable
 logger = logging.getLogger(__name__)
 
 # ── Configurare ───────────────────────────────────────────────────────────────
-OBSERVE_INTERVAL    = 2.0    # secunde între snapshot-uri
-PATTERN_MIN_COUNT   = 3      # apariții minime pentru a fi "pattern"
-SESSION_MEMORY      = 300    # snapshot-uri în RAM
-PREDICT_THRESHOLD   = 0.55   # confidență minimă pentru sugestie
-FEEDBACK_BOOST      = 0.08   # cât crește confidența la DA
-FEEDBACK_PENALTY    = 0.12   # cât scade la NU
+OBSERVE_INTERVAL    = 2.0    # secunde intre snapshot-uri
+PATTERN_MIN_COUNT   = 3      # aparitii minime pentru a fi "pattern"
+SESSION_MEMORY      = 300    # snapshot-uri in RAM
+PREDICT_THRESHOLD   = 0.55   # confidenta minima pentru sugestie
+FEEDBACK_BOOST      = 0.08   # cat creste confidenta la DA
+FEEDBACK_PENALTY    = 0.12   # cat scade la NU
 MAX_CONFIDENCE      = 0.97
 MIN_CONFIDENCE      = 0.10
-NOTIFY_COOLDOWN     = 30     # secunde între notificări pentru același intent
-LONG_TERM_KEEP_DAYS = 30     # zile de reținut în SQLite
+NOTIFY_COOLDOWN     = 30     # secunde intre notificari pentru acelasi intent
+LONG_TERM_KEEP_DAYS = 30     # zile de retinut in SQLite
 
 # ── State intern (Singleton-like) ─────────────────────────────────────────────
 _lock               = threading.Lock()
@@ -174,7 +174,7 @@ def _classify_activity(fg: str, windows: list[str], procs: list[str]) -> str:
 # ════════════════════════════════════════════════════════════════════════════════
 
 def _mem_store(key: str, value: dict, category: str = "context"):
-    """Salvează în SQLite prin memory.py (Singleton)."""
+    """Salveaza in SQLite prin memory.py (Singleton)."""
     try:
         from core.memory import Memory
         Memory().store(key=key, value=json.dumps(value), category=category)
@@ -183,7 +183,7 @@ def _mem_store(key: str, value: dict, category: str = "context"):
 
 
 def _mem_get(key: str) -> Optional[dict]:
-    """Citește din SQLite prin memory.py."""
+    """Citeste din SQLite prin memory.py."""
     try:
         from core.memory import Memory
         raw = Memory().retrieve(key=key)
@@ -194,20 +194,20 @@ def _mem_get(key: str) -> Optional[dict]:
 
 
 def _load_long_term_patterns():
-    """Încarcă pattern-urile salvate din sesiunile anterioare."""
+    """Incarca pattern-urile salvate din sesiunile anterioare."""
     global _learned_patterns
     try:
         data = _mem_get("context:patterns:v2")
         if data and isinstance(data, dict):
             _learned_patterns = data
-            logger.info("ContextEngine: %d pattern-uri încărcate din memorie",
+            logger.info("ContextEngine: %d pattern-uri incarcate din memorie",
                         len(_learned_patterns))
     except Exception as e:
         logger.debug("_load_long_term_patterns: %s", e)
 
 
 def _save_long_term_patterns():
-    """Persistează pattern-urile curente în SQLite."""
+    """Persisteaza pattern-urile curente in SQLite."""
     try:
         _mem_store("context:patterns:v2", _learned_patterns, category="patterns")
         logger.debug("pattern-uri salvate: %d", len(_learned_patterns))
@@ -216,14 +216,14 @@ def _save_long_term_patterns():
 
 
 def _save_session_summary(summary: dict):
-    """Salvează sumarul sesiunii cu timestamp unic."""
+    """Salveaza sumarul sesiunii cu timestamp unic."""
     key = f"context:session:{int(time.time())}"
     _mem_store(key, summary, category="session_history")
 
 
 def _learn_from_log():
     """
-    Analizează session_log și actualizează _learned_patterns.
+    Analizeaza session_log si actualizeaza _learned_patterns.
     Apelat periodic din observer loop.
     """
     global _learned_patterns
@@ -234,7 +234,7 @@ def _learn_from_log():
         if len(log) < 6:
             return
 
-        # Secvențe de 2 activități consecutive
+        # Secvente de 2 activitati consecutive
         for i in range(len(log) - 1):
             a1  = log[i].get("activity", "")
             a2  = log[i + 1].get("activity", "")
@@ -253,13 +253,13 @@ def _learn_from_log():
             p = _learned_patterns[key]
             p["count"]      += 1
             p["last_seen"]   = time.time()
-            p["next_activity"] = a2  # actualizăm cu ultima observație
+            p["next_activity"] = a2  # actualizam cu ultima observatie
 
-            # Ajustăm confidența în funcție de consistență
+            # Ajustam confidenta in functie de consistenta
             p["confidence"] = min(MAX_CONFIDENCE,
                                   0.55 + p["count"] * 0.04)
 
-        # Eliminăm pattern-urile foarte vechi (>LONG_TERM_KEEP_DAYS zile)
+        # Eliminam pattern-urile foarte vechi (>LONG_TERM_KEEP_DAYS zile)
         cutoff = time.time() - LONG_TERM_KEEP_DAYS * 86400
         _learned_patterns = {
             k: v for k, v in _learned_patterns.items()
@@ -271,13 +271,13 @@ def _learn_from_log():
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 3. COMUNICARE ACTIVĂ (Notificări Windows + TTS opțional)
+# 3. COMUNICARE ACTIVA (Notificari Windows + TTS optional)
 # ════════════════════════════════════════════════════════════════════════════════
 
 def _win_notify(title: str, message: str):
-    """Trimite o notificare nativă Windows (balloon tip sau toast)."""
+    """Trimite o notificare nativa Windows (balloon tip sau toast)."""
     try:
-        # Încearcă win10toast (mai modern)
+        # Incearca win10toast (mai modern)
         from win10toast import ToastNotifier
         ToastNotifier().show_toast(
             title, message,
@@ -300,7 +300,7 @@ def _win_notify(title: str, message: str):
 
 
 def _speak(text: str):
-    """TTS opțional — dacă pyttsx3 e instalat."""
+    """TTS optional — daca pyttsx3 e instalat."""
     global _tts_engine
     try:
         with _tts_lock:
@@ -319,7 +319,7 @@ def _notify_user(intent_key: str, title: str, message: str,
                  speak: bool = False):
     """
     Trimite notificare cu cooldown per intent_key.
-    Evită spam-ul dacă același intent se repetă rapid.
+    Evita spam-ul daca acelasi intent se repeta rapid.
     """
     now = time.time()
     last = _last_notify.get(intent_key, 0)
@@ -335,11 +335,11 @@ def _notify_user(intent_key: str, title: str, message: str,
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 4. PREDICȚIE INTENȚII
+# 4. PREDICTIE INTENTII
 # ════════════════════════════════════════════════════════════════════════════════
 
 def _detect_intents(obs: dict) -> list[dict]:
-    """Generează lista de intenții posibile din observația curentă."""
+    """Genereaza lista de intentii posibile din observatia curenta."""
     intents  = []
     fg       = obs.get("foreground", "").lower()
     clip     = obs.get("clipboard_preview", "").lower()
@@ -363,7 +363,7 @@ def _detect_intents(obs: dict) -> list[dict]:
         intents.append({
             "intent":     "web_search",
             "confidence": 0.72,
-            "title":      "ANA MAX — Căutare web",
+            "title":      "ANA MAX — Cautare web",
             "suggestion": f"Caut pe web: '{clip[:50]}'?",
             "action":     {"tool": "windows_uia_bridge",
                            "args": {"action": "search", "query": clip}},
@@ -374,7 +374,7 @@ def _detect_intents(obs: dict) -> list[dict]:
             "intent":     "organize_windows",
             "confidence": 0.68,
             "title":      "ANA MAX — Ferestre aglomerate",
-            "suggestion": f"{len(windows)} ferestre deschise. Aranjez automat în grid?",
+            "suggestion": f"{len(windows)} ferestre deschise. Aranjez automat in grid?",
             "action":     {"tool": "window_manager",
                            "args": {"action": "tile", "layout": "grid"}},
         })
@@ -383,13 +383,13 @@ def _detect_intents(obs: dict) -> list[dict]:
         intents.append({
             "intent":     "end_session",
             "confidence": 0.60,
-            "title":      "ANA MAX — Sesiune târzie",
-            "suggestion": "E târziu. Salvez sesiunea și minimizez tot?",
+            "title":      "ANA MAX — Sesiune tarzie",
+            "suggestion": "E tarziu. Salvez sesiunea si minimizez tot?",
             "action":     {"tool": "window_manager",
                            "args": {"action": "tile", "layout": "minimize_all"}},
         })
 
-    # ── Pattern-uri învățate ─────────────────────────────────────────────────
+    # ── Pattern-uri invatate ─────────────────────────────────────────────────
     pattern_key = f"{activity}|{fg[:40]}"
     if pattern_key in _learned_patterns:
         p    = _learned_patterns[pattern_key]
@@ -400,7 +400,7 @@ def _detect_intents(obs: dict) -> list[dict]:
                 "intent":     "learned_pattern",
                 "confidence": conf,
                 "title":      "ANA MAX — Pattern detectat",
-                "suggestion": (f"De {p['count']} ori după '{activity}' "
+                "suggestion": (f"De {p['count']} ori dupa '{activity}' "
                                f"ai trecut la '{next_act}'. Fac eu?"),
                 "action":     p.get("next_action"),
                 "pattern_key": pattern_key,
@@ -411,13 +411,13 @@ def _detect_intents(obs: dict) -> list[dict]:
 
 
 # ════════════════════════════════════════════════════════════════════════════════
-# 5. BUCLĂ DE FEEDBACK
+# 5. BUCLA DE FEEDBACK
 # ════════════════════════════════════════════════════════════════════════════════
 
 def apply_feedback(pattern_key: str, accepted: bool) -> dict:
     """
-    Utilizatorul a răspuns DA sau NU la o sugestie.
-    Ajustăm confidența pattern-ului corespunzător.
+    Utilizatorul a raspuns DA sau NU la o sugestie.
+    Ajustam confidenta pattern-ului corespunzator.
     """
     global _learned_patterns
     try:
@@ -431,11 +431,11 @@ def apply_feedback(pattern_key: str, accepted: bool) -> dict:
         if accepted:
             p["confidence"] = min(MAX_CONFIDENCE, old_c + FEEDBACK_BOOST)
             p["accepted"]   = p.get("accepted", 0) + 1
-            msg = f"Confidență crescută: {old_c:.2f} → {p['confidence']:.2f}"
+            msg = f"Confidenta crescuta: {old_c:.2f} → {p['confidence']:.2f}"
         else:
             p["confidence"] = max(MIN_CONFIDENCE, old_c - FEEDBACK_PENALTY)
             p["rejected"]   = p.get("rejected", 0) + 1
-            msg = f"Confidență scăzută: {old_c:.2f} → {p['confidence']:.2f}"
+            msg = f"Confidenta scazuta: {old_c:.2f} → {p['confidence']:.2f}"
 
         _learned_patterns[pattern_key] = p
         _save_long_term_patterns()
@@ -451,7 +451,7 @@ def apply_feedback(pattern_key: str, accepted: bool) -> dict:
 
 
 def register_feedback_callback(cb: Callable):
-    """Înregistrează un callback apelat după fiecare feedback."""
+    """Inregistreaza un callback apelat dupa fiecare feedback."""
     if cb not in _feedback_callbacks:
         _feedback_callbacks.append(cb)
 
@@ -463,7 +463,7 @@ def register_feedback_callback(cb: Callable):
 def _observer_loop():
     global _observer_active
     _load_long_term_patterns()
-    logger.info("ContextEngine v2: observare pornită (JARVIS mode)")
+    logger.info("ContextEngine v2: observare pornita (JARVIS mode)")
 
     tick = 0
     while _observer_active:
@@ -492,23 +492,23 @@ def _observer_loop():
 
             tick += 1
 
-            # La fiecare ~20 sec: imprimă intențiile și notifică
+            # La fiecare ~20 sec: imprima intentiile si notifica
             if tick % 10 == 0:
                 intents = _detect_intents(obs)
-                for intent in intents[:1]:   # doar cea mai sigură
+                for intent in intents[:1]:   # doar cea mai sigura
                     _notify_user(
                         intent_key=intent["intent"],
                         title=intent["title"],
                         message=intent["suggestion"],
-                        speak=False,         # pune True dacă ai pyttsx3
+                        speak=False,         # pune True daca ai pyttsx3
                     )
 
-            # La fiecare ~60 sec: învață și salvează
+            # La fiecare ~60 sec: invata si salveaza
             if tick % 30 == 0:
                 _learn_from_log()
                 _save_long_term_patterns()
 
-            # La fiecare ~10 min: salvează sumarul sesiunii
+            # La fiecare ~10 min: salveaza sumarul sesiunii
             if tick % 300 == 0:
                 _save_session_summary(_build_summary())
 
@@ -520,7 +520,7 @@ def _observer_loop():
 
         time.sleep(OBSERVE_INTERVAL)
 
-    # La oprire: salvăm tot
+    # La oprire: salvam tot
     _learn_from_log()
     _save_long_term_patterns()
     _save_session_summary(_build_summary())
@@ -546,7 +546,7 @@ def start_observing() -> dict:
 def stop_observing() -> dict:
     global _observer_active
     _observer_active = False
-    return {"success": True, "message": "Observare oprită."}
+    return {"success": True, "message": "Observare oprita."}
 
 
 def get_current_context() -> dict:
@@ -640,14 +640,14 @@ def _build_summary() -> dict:
 def get_session_summary() -> dict:
     summary = _build_summary()
     if not summary:
-        return {"success": True, "message": "Sesiune nouă, nicio observație încă."}
+        return {"success": True, "message": "Sesiune noua, nicio observatie inca."}
     return {"success": True, "summary": summary}
 
 
 def record_action(action_name: str, context: Optional[dict] = None) -> dict:
     """
-    Alte tool-uri apelează asta după ce execută o acțiune.
-    Îmbunătățește predicțiile viitoare.
+    Alte tool-uri apeleaza asta dupa ce executa o actiune.
+    Imbunatateste predictiile viitoare.
     """
     try:
         entry = {
@@ -671,13 +671,13 @@ def run(args: dict) -> dict:
     Entry point MCP.
 
     action:
-      'start'    — pornește observer
-      'stop'     — oprește observer
+      'start'    — porneste observer
+      'stop'     — opreste observer
       'context'  — context curent
-      'predict'  — predicție intenții
+      'predict'  — predictie intentii
       'summary'  — sumar sesiune
       'feedback' — DA/NU la o sugestie (pattern_key + accepted: bool)
-      'record'   — înregistrează o acțiune (action_name)
+      'record'   — inregistreaza o actiune (action_name)
     """
     action = args.get("action", "context")
 
@@ -699,4 +699,4 @@ def run(args: dict) -> dict:
         return record_action(args.get("action_name", "unknown"),
                              args.get("context"))
     else:
-        return {"success": False, "error": f"Acțiune necunoscută: '{action}'"}
+        return {"success": False, "error": f"Actiune necunoscuta: '{action}'"}

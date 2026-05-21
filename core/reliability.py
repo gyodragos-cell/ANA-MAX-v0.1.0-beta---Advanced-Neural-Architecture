@@ -1,7 +1,7 @@
 """
 A.N.A. v18.0 - Reliability Module
 =================================
-Backup, rollback, health tracking și circuit breaker pentru tools.
+Backup, rollback, health tracking si circuit breaker pentru tools.
 """
 
 import os
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class ToolHealth:
-    """Statistici de sănătate pentru un tool."""
+    """Statistici de sanatate pentru un tool."""
     name: str
     total_calls: int = 0
     success_count: int = 0
@@ -45,13 +45,13 @@ class ToolHealth:
     
     @property
     def is_healthy(self) -> bool:
-        """Circuit breaker: marchează unhealthy dacă >3 eșecuri consecutive."""
+        """Circuit breaker: marcheaza unhealthy daca >3 esecuri consecutive."""
         return self.consecutive_failures < 3
 
 
 class HealthTracker:
     """
-    Tracker global pentru sănătatea tool-urilor.
+    Tracker global pentru sanatatea tool-urilor.
     Singleton pentru a fi accesibil din orice tool.
     """
     _instance: Optional['HealthTracker'] = None
@@ -64,7 +64,7 @@ class HealthTracker:
         return cls._instance
     
     def record_success(self, tool_name: str, latency_ms: float) -> None:
-        """Înregistrează un succes pentru un tool."""
+        """Inregistreaza un succes pentru un tool."""
         if tool_name not in self._tools:
             self._tools[tool_name] = ToolHealth(name=tool_name)
         
@@ -78,7 +78,7 @@ class HealthTracker:
         logger.debug(f"Health: {tool_name} success (rate={health.success_rate:.1f}%)")
     
     def record_failure(self, tool_name: str, latency_ms: float, error: str) -> None:
-        """Înregistrează un eșec pentru un tool."""
+        """Inregistreaza un esec pentru un tool."""
         if tool_name not in self._tools:
             self._tools[tool_name] = ToolHealth(name=tool_name)
         
@@ -93,22 +93,22 @@ class HealthTracker:
         logger.warning(f"Health: {tool_name} FAILURE (consecutive={health.consecutive_failures}, error={error[:50]})")
     
     def get_health(self, tool_name: str) -> Optional[ToolHealth]:
-        """Obține statistici pentru un tool."""
+        """Obtine statistici pentru un tool."""
         return self._tools.get(tool_name)
     
     def get_all_health(self) -> Dict[str, ToolHealth]:
-        """Returnează toate statisticile."""
+        """Returneaza toate statisticile."""
         return self._tools.copy()
     
     def is_tool_healthy(self, tool_name: str) -> bool:
-        """Verifică dacă un tool este sănătos (circuit breaker)."""
+        """Verifica daca un tool este sanatos (circuit breaker)."""
         health = self._tools.get(tool_name)
         if health is None:
             return True  # Tool never used = healthy
         return health.is_healthy
     
     def reset_tool(self, tool_name: str) -> None:
-        """Resetează statistile pentru un tool."""
+        """Reseteaza statistile pentru un tool."""
         self._tools[tool_name] = ToolHealth(name=tool_name)
         self._last_reset_tool = tool_name
         logger.info(f"Health reset for {tool_name}")
@@ -129,7 +129,7 @@ class HealthTracker:
 
 class BackupManager:
     """
-    Manager pentru backup-uri automate înainte de operații riscante.
+    Manager pentru backup-uri automate inainte de operatii riscante.
     """
     
     def __init__(self, backup_dir: str = "backups"):
@@ -138,15 +138,15 @@ class BackupManager:
     
     def create_backup(self, file_path: str, category: str = "default") -> Optional[str]:
         """
-        Creează backup pentru un fișier.
-        Returnează calea backup-ului sau None dacă nu există fișierul.
+        Creeaza backup pentru un fisier.
+        Returneaza calea backup-ului sau None daca nu exista fisierul.
         """
         source = Path(file_path)
         if not source.exists():
             logger.debug(f"No backup needed: {file_path} doesn't exist")
             return None
         
-        # Creează structura: backups/category/YYYYMMDD_HHMMSS_filename
+        # Creeaza structura: backups/category/YYYYMMDD_HHMMSS_filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         safe_name = source.name.replace(".", "_")
         backup_name = f"{timestamp}_{safe_name}"
@@ -166,7 +166,7 @@ class BackupManager:
     
     def restore_backup(self, file_path: str, backup_path: str) -> bool:
         """
-        Restaurează un fișier din backup.
+        Restaureaza un fisier din backup.
         """
         backup = Path(backup_path)
         target = Path(file_path)
@@ -176,7 +176,7 @@ class BackupManager:
             return False
         
         try:
-            # Creează backup al fișierului curent (înainte de restore)
+            # Creeaza backup al fisierului curent (inainte de restore)
             if target.exists():
                 self.create_backup(file_path, category="pre_restore")
             
@@ -188,14 +188,14 @@ class BackupManager:
             return False
     
     def list_backups(self, category: str = "default") -> list:
-        """Listează toate backup-urile dintr-o categorie."""
+        """Listeaza toate backup-urile dintr-o categorie."""
         category_dir = self.backup_dir / category
         if not category_dir.exists():
             return []
         return sorted([str(f) for f in category_dir.iterdir()], reverse=True)
 
 
-# Instanță globală
+# Instanta globala
 backup_manager = BackupManager()
 
 
@@ -203,7 +203,7 @@ backup_manager = BackupManager()
 
 def with_backup(file_params: list = None):
     """
-    Decorator pentru backup automat înainte de operații pe fișiere.
+    Decorator pentru backup automat inainte de operatii pe fisiere.
     
     Usage:
         @with_backup(file_params=['file_path'])
@@ -211,7 +211,7 @@ def with_backup(file_params: list = None):
             ...
     
     Args:
-        file_params: lista cu numele parametrilor care conțin căi de fișiere
+        file_params: lista cu numele parametrilor care contin cai de fisiere
     """
     if file_params is None:
         file_params = []
@@ -219,10 +219,10 @@ def with_backup(file_params: list = None):
     def decorator(func: Callable) -> Callable:
         @wraps(func)
         def wrapper(*args, **kwargs):
-            # Găsește tool name
+            # Gaseste tool name
             tool_name = func.__qualname__.split('.')[-1] if '.' in func.__qualname__ else func.__name__
             
-            # Backup toate fișierele din parametri
+            # Backup toate fisierele din parametri
             backup_paths = {}
             for param_name in file_params:
                 if param_name in kwargs:
@@ -235,7 +235,7 @@ def with_backup(file_params: list = None):
                 result = func(*args, **kwargs)
                 return result
             except Exception as e:
-                # Rollback pe toate fișierele
+                # Rollback pe toate fisierele
                 for param_name, backup_path in backup_paths.items():
                     original_path = kwargs.get(param_name)
                     if original_path and backup_path:
@@ -249,13 +249,13 @@ def with_backup(file_params: list = None):
 
 def track_tool_health(func: Callable) -> Callable:
     """
-    Decorator pentru tracking automat al sănătății unui tool.
+    Decorator pentru tracking automat al sanatatii unui tool.
     
     Usage:
         def execute(self, **kwargs) -> ToolResult:
             @track_tool_health
             def _do_work():
-                # ... operații ...
+                # ... operatii ...
                 return result
             return _do_work()
     """
@@ -269,7 +269,7 @@ def track_tool_health(func: Callable) -> Callable:
             result = func(*args, **kwargs)
             latency = (time.time() - start_time) * 1000
             
-            # Verifică dacă rezultatul e succes sau eșec
+            # Verifica daca rezultatul e succes sau esec
             if hasattr(result, 'is_success'):
                 if result.is_success:
                     tracker.record_success(tool_name, latency)
@@ -290,8 +290,8 @@ def track_tool_health(func: Callable) -> Callable:
 
 def circuit_breaker(fallback_func: Optional[Callable] = None, threshold: int = 3):
     """
-    Decorator circuit breaker - dacă un tool eșuează de X ori consecutiv,
-    returnează fallback sau un rezultat de tip 'degraded'.
+    Decorator circuit breaker - daca un tool esueaza de X ori consecutiv,
+    returneaza fallback sau un rezultat de tip 'degraded'.
     
     Usage:
         @circuit_breaker(fallback_func=my_fallback, threshold=3)
@@ -329,40 +329,40 @@ class RecoveryHelper:
     @staticmethod
     def get_recovery_hint(error: str, operation: str = "") -> str:
         """
-        Returnează o sugestie de recovery bazată pe eroare.
+        Returneaza o sugestie de recovery bazata pe eroare.
         """
         error_lower = error.lower()
         
         # File system errors
         if "permission" in error_lower or "access denied" in error_lower:
-            return "Verifică permisiunile fișierului. Încearcă să rulezi cu drepturi de administrator."
+            return "Verifica permisiunile fisierului. Incearca sa rulezi cu drepturi de administrator."
         
         if "not found" in error_lower or "no such file" in error_lower:
-            return "Fișierul nu există. Verifică căalea și încearcă din nou."
+            return "Fisierul nu exista. Verifica caalea si incearca din nou."
         
         if "locked" in error_lower or "in use" in error_lower:
-            return "Fișierul este blocat de alt proces. Închide aplicația care îl folosește."
+            return "Fisierul este blocat de alt proces. Inchide aplicatia care il foloseste."
         
         # Network errors
         if "connection" in error_lower or "timeout" in error_lower:
-            return "Eroare de rețea. Verifică conexiunea la internet și încearcă din nou."
+            return "Eroare de retea. Verifica conexiunea la internet si incearca din nou."
         
         if "dns" in error_lower or "resolve" in error_lower:
-            return "Eroare DNS. Verifică setările de rețea."
+            return "Eroare DNS. Verifica setarile de retea."
         
         # System errors
         if "memory" in error_lower or "out of memory" in error_lower:
-            return "Memorie insuficientă. Închide alte aplicații și încearcă din nou."
+            return "Memorie insuficienta. Inchide alte aplicatii si incearca din nou."
         
         if "disk" in error_lower or "space" in error_lower:
-            return "Spațiu insuficient pe disc. Eliberează spațiu și încearcă din nou."
+            return "Spatiu insuficient pe disc. Elibereaza spatiu si incearca din nou."
         
         # Generic
-        return "Încearcă să restartezi ANA și să reexecuți operația."
+        return "Incearca sa restartezi ANA si sa reexecuti operatia."
     
     @staticmethod
     def get_error_code(error: str, operation: str = "") -> str:
-        """Generează un cod de eroare unic."""
+        """Genereaza un cod de eroare unic."""
         error_lower = error.lower()
         
         if "permission" in error_lower:

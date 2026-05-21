@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Web Tools
 ========================
-Instrumente pentru căutare web și acces internet.
+Instrumente pentru cautare web si acces internet.
 """
 
 import logging
@@ -38,31 +38,31 @@ logging.getLogger("duckduckgo_search.DDGS").propagate = False
 
 class WebTool(Tool):
     """
-    Tool pentru căutare web și acces internet.
-    Folosește DuckDuckGo pentru căutări anonime.
+    Tool pentru cautare web si acces internet.
+    Foloseste DuckDuckGo pentru cautari anonime.
     """
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="web_search",
-            description="Caută informații pe web folosind DuckDuckGo (anonim).",
+            description="Cauta informatii pe web folosind DuckDuckGo (anonim).",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea de executat",
+                    description="Operatiunea de executat",
                     type="string",
                     required=True,
                     choices=["search", "news", "images"]
                 ),
                 ToolParameter(
                     name="query",
-                    description="Interogarea de căutare",
+                    description="Interogarea de cautare",
                     type="string",
                     required=True
                 ),
                 ToolParameter(
                     name="max_results",
-                    description="Numărul maxim de rezultate (implicit: 5)",
+                    description="Numarul maxim de rezultate (implicit: 5)",
                     type="integer",
                     required=False,
                     default=5
@@ -73,11 +73,11 @@ class WebTool(Tool):
         )
     
     def execute(self, operation: str, query: str, **kwargs) -> ToolResult:
-        """Execută operațiunea web."""
+        """Executa operatiunea web."""
         if not HAS_DDGS:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error="Biblioteca duckduckgo-search nu este instalată. Rulează: pip install duckduckgo-search"
+                error="Biblioteca duckduckgo-search nu este instalata. Ruleaza: pip install duckduckgo-search"
             )
         
         operations = {
@@ -89,13 +89,13 @@ class WebTool(Tool):
         if operation not in operations:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Operațiune necunoscută: {operation}"
+                error=f"Operatiune necunoscuta: {operation}"
             )
         
         return operations[operation](query, **kwargs)
     
     def _search(self, query: str, max_results: int = 5, **kwargs) -> ToolResult:
-        """Căutare text pe web."""
+        """Cautare text pe web."""
         try:
             with DDGS() as ddgs:
                 results = []
@@ -109,11 +109,11 @@ class WebTool(Tool):
             if not results:
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
-                    data="Nu am găsit rezultate pentru această căutare.",
+                    data="Nu am gasit rezultate pentru aceasta cautare.",
                     message="Niciun rezultat"
                 )
             
-            # Formatează rezultatele
+            # Formateaza rezultatele
             formatted = []
             for i, r in enumerate(results, 1):
                 formatted.append(f"[{i}] {r['title']}\n{r['body']}\nURL: {r['url']}")
@@ -121,16 +121,16 @@ class WebTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="\n\n".join(formatted),
-                message=f"Găsite {len(results)} rezultate"
+                message=f"Gasite {len(results)} rezultate"
             )
         except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la căutare: {e}"
+                error=f"Eroare la cautare: {e}"
             )
     
     def _news(self, query: str, max_results: int = 5, **kwargs) -> ToolResult:
-        """Căutare știri."""
+        """Cautare stiri."""
         try:
             with DDGS() as ddgs:
                 results = []
@@ -145,7 +145,7 @@ class WebTool(Tool):
             if not results:
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
-                    data="Nu am găsit știri pentru această căutare.",
+                    data="Nu am gasit stiri pentru aceasta cautare.",
                     message="Niciun rezultat"
                 )
             
@@ -156,16 +156,16 @@ class WebTool(Tool):
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="\n\n".join(formatted),
-                message=f"Găsite {len(results)} știri"
+                message=f"Gasite {len(results)} stiri"
             )
         except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la căutare știri: {e}"
+                error=f"Eroare la cautare stiri: {e}"
             )
     
     def _images(self, query: str, max_results: int = 5, **kwargs) -> ToolResult:
-        """Căutare imagini."""
+        """Cautare imagini."""
         try:
             with DDGS() as ddgs:
                 results = []
@@ -179,29 +179,29 @@ class WebTool(Tool):
             if not results:
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
-                    data="Nu am găsit imagini pentru această căutare.",
+                    data="Nu am gasit imagini pentru aceasta cautare.",
                     message="Niciun rezultat"
                 )
             
             formatted = []
             for i, r in enumerate(results, 1):
-                formatted.append(f"[{i}] {r['title']}\nURL: {r['url']}\nSursă: {r['source']}")
+                formatted.append(f"[{i}] {r['title']}\nURL: {r['url']}\nSursa: {r['source']}")
             
             return ToolResult(
                 status=ToolStatus.SUCCESS,
                 data="\n\n".join(formatted),
-                message=f"Găsite {len(results)} imagini"
+                message=f"Gasite {len(results)} imagini"
             )
         except Exception as e:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Eroare la căutare imagini: {e}"
+                error=f"Eroare la cautare imagini: {e}"
             )
 
 
-# Funcție simplă pentru compatibilitate cu codul vechi
+# Functie simpla pentru compatibilitate cu codul vechi
 def web_search(query: str, max_results: int = 3) -> str:
-    """Funcție simplă de căutare web (pentru compatibilitate)."""
+    """Functie simpla de cautare web (pentru compatibilitate)."""
     tool = WebTool()
     result = tool.execute("search", query, max_results=max_results)
     return str(result)

@@ -24,14 +24,14 @@ logger = logging.getLogger(__name__)
 
 class ForegroundUISnapshotTool(Tool):
     """
-    Tool pentru capturarea stării UI a ferestrei active.
-    Returnează JSON mic, curat, optimizat pentru agenți AI.
+    Tool pentru capturarea starii UI a ferestrei active.
+    Returneaza JSON mic, curat, optimizat pentru agenti AI.
     """
     
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="foreground_ui_snapshot",
-            description="Capturează starea UI a ferestrei active: titlu, controale vizibile, erori detectate, acțiuni sugerate. Optimizat pentru agenți AI.",
+            description="Captureaza starea UI a ferestrei active: titlu, controale vizibile, erori detectate, actiuni sugerate. Optimizat pentru agenti AI.",
             parameters=[
                 ToolParameter(
                     name="include_text",
@@ -42,7 +42,7 @@ class ForegroundUISnapshotTool(Tool):
                 ),
                 ToolParameter(
                     name="max_elements",
-                    description="Număr maxim de elemente per categorie (default: 20)",
+                    description="Numar maxim de elemente per categorie (default: 20)",
                     type="string",
                     required=False,
                     default="20"
@@ -52,7 +52,7 @@ class ForegroundUISnapshotTool(Tool):
         )
 
     def execute(self, **kwargs) -> ToolResult:
-        """Execută snapshot UI foreground."""
+        """Executa snapshot UI foreground."""
         try:
             include_text = kwargs.get("include_text", "true").lower() == "true"
             max_elements = int(kwargs.get("max_elements", "20"))
@@ -75,7 +75,7 @@ class ForegroundUISnapshotTool(Tool):
             )
 
     def _capture_foreground_ui(self, include_text: bool = True, max_elements: int = 20) -> Dict[str, Any]:
-        """Capturează UI state de la fereastra activă."""
+        """Captureaza UI state de la fereastra activa."""
         try:
             from pywinauto import Desktop
             from pywinauto import application
@@ -179,7 +179,7 @@ class ForegroundUISnapshotTool(Tool):
         return any(keyword in text_lower for keyword in error_keywords)
 
     def _suggest_actions(self, buttons: List[str], errors: List[str], inputs: List[dict]) -> List[Dict[str, str]]:
-        """Sugerează acțiuni bazate pe UI state."""
+        """Sugereaza actiuni bazate pe UI state."""
         actions = []
         
         # If errors detected, suggest dismissal

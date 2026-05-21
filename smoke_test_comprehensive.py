@@ -2,18 +2,18 @@
 """
 ANA MAX - Comprehensive Smoke Test
 ====================================
-Verifică complet funcționalitatea sistemului înainte de utilizare.
+Verifica complet functionalitatea sistemului inainte de utilizare.
 
 Checks:
-✅ main.py pornește
-✅ 61 tools se încarcă
-✅ SQLite memory DB se conectează
-✅ Vector Memory index funcționează
-✅ Swarm orchestrator se inițializează
-✅ MCP server ascultă pe port
-✅ Cel puțin 1 tool din fiecare categorie merge
-✅ Logging funcționează
-✅ Config file se citește corect
+✅ main.py porneste
+✅ 61 tools se incarca
+✅ SQLite memory DB se conecteaza
+✅ Vector Memory index functioneaza
+✅ Swarm orchestrator se initializeaza
+✅ MCP server asculta pe port
+✅ Cel putin 1 tool din fiecare categorie merge
+✅ Logging functioneaza
+✅ Config file se citeste corect
 
 Author: ANA MAX Team (2026-05-19)
 """
@@ -63,7 +63,7 @@ print("  ANA MAX - COMPREHENSIVE SMOKE TEST")
 print("="*60 + "\n")
 
 # ============================================================
-# TEST 1: main.py pornește
+# TEST 1: main.py porneste
 # ============================================================
 print("[1/9] Main Process Startup...")
 try:
@@ -78,7 +78,7 @@ except Exception as e:
     log_test("main.py startup", False, str(e))
 
 # ============================================================
-# TEST 2: 61 tools se încarcă
+# TEST 2: 61 tools se incarca
 # ============================================================
 print("\n[2/9] Tool Loading...")
 try:
@@ -107,7 +107,7 @@ except Exception as e:
     log_test("Tool loading", False, str(e))
 
 # ============================================================
-# TEST 3: SQLite memory DB se conectează
+# TEST 3: SQLite memory DB se conecteaza
 # ============================================================
 print("\n[3/9] SQLite Memory Database...")
 try:
@@ -130,7 +130,7 @@ except Exception as e:
     log_test("SQLite memory DB", False, str(e))
 
 # ============================================================
-# TEST 4: Vector Memory index funcționează
+# TEST 4: Vector Memory index functioneaza
 # ============================================================
 print("\n[4/9] Vector Memory Index...")
 try:
@@ -161,7 +161,7 @@ except Exception as e:
     log_test("Vector Memory index", False, str(e))
 
 # ============================================================
-# TEST 5: Swarm orchestrator se inițializează
+# TEST 5: Swarm orchestrator se initializeaza
 # ============================================================
 print("\n[5/9] Swarm Orchestrator...")
 try:
@@ -192,7 +192,7 @@ except Exception as e:
     log_test("Swarm orchestrator", False, str(e))
 
 # ============================================================
-# TEST 6: MCP server ascultă pe port
+# TEST 6: MCP server asculta pe port
 # ============================================================
 print("\n[6/9] MCP Server Port...")
 try:
@@ -217,7 +217,7 @@ except Exception as e:
     log_test("MCP server port", False, str(e))
 
 # ============================================================
-# TEST 7: Cel puțin 1 tool din fiecare categorie merge
+# TEST 7: Cel putin 1 tool din fiecare categorie merge
 # ============================================================
 print("\n[7/9] Tool Categories Coverage...")
 try:
@@ -264,7 +264,7 @@ except Exception as e:
     log_test("Tool categories", False, str(e))
 
 # ============================================================
-# TEST 8: Logging funcționează
+# TEST 8: Logging functioneaza
 # ============================================================
 print("\n[8/9] Logging System...")
 try:
@@ -304,7 +304,7 @@ except Exception as e:
     log_test("Logging system", False, str(e))
 
 # ============================================================
-# TEST 9: Config file se citește corect
+# TEST 9: Config file se citeste corect
 # ============================================================
 print("\n[9/9] Configuration File...")
 try:

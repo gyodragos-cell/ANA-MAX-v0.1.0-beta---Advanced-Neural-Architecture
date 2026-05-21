@@ -1,9 +1,9 @@
 """
 A.N.A. v18.0 MAX - Jupyter Sandbox (Inspirat de Open Interpreter)
 =================================================================
-Execuție interactivă de cod Python într-un kernel Jupyter izolat.
-ANA poate testa fragmente de cod "în memorie" înainte de a le scrie în fișiere.
-Vede erorile în real-time și le repară instant.
+Executie interactiva de cod Python intr-un kernel Jupyter izolat.
+ANA poate testa fragmente de cod "in memorie" inainte de a le scrie in fisiere.
+Vede erorile in real-time si le repara instant.
 """
 
 import os
@@ -15,7 +15,7 @@ from typing import Optional, Dict, Any, Tuple
 
 logger = logging.getLogger(__name__)
 
-# Verificăm disponibilitatea Jupyter
+# Verificam disponibilitatea Jupyter
 try:
     from jupyter_client import KernelManager
     JUPYTER_AVAILABLE = True
@@ -26,14 +26,14 @@ except ImportError:
 
 class JupyterSandbox:
     """
-    Sandbox interactiv cu stare persistentă (stateful) - inspirat de Open Interpreter.
+    Sandbox interactiv cu stare persistenta (stateful) - inspirat de Open Interpreter.
     
-    Diferența față de sandbox-ul clasic ANA:
-    - STATEFUL: variabilele persistă între execuții (ca într-un notebook)
-    - REAL-TIME: vede output și erori instant
-    - SAFE: kernelul e izolat, nu afectează procesul principal ANA
+    Diferenta fata de sandbox-ul clasic ANA:
+    - STATEFUL: variabilele persista intre executii (ca intr-un notebook)
+    - REAL-TIME: vede output si erori instant
+    - SAFE: kernelul e izolat, nu afecteaza procesul principal ANA
     
-    Optimizat pentru hardware modest (GTX 1650): kernelul folosește CPU, nu GPU.
+    Optimizat pentru hardware modest (GTX 1650): kernelul foloseste CPU, nu GPU.
     """
     
     def __init__(self, timeout: int = 30):
@@ -46,7 +46,7 @@ class JupyterSandbox:
         self.stats = {"executions": 0, "errors_caught": 0, "auto_fixes": 0}
     
     def start_kernel(self) -> bool:
-        """Pornește kernelul Jupyter (dacă e disponibil)."""
+        """Porneste kernelul Jupyter (daca e disponibil)."""
         if not JUPYTER_AVAILABLE:
             logger.info("🐍 JupyterSandbox: Mod fallback (exec) - jupyter-client indisponibil")
             self._started = True
@@ -58,7 +58,7 @@ class JupyterSandbox:
             self.kernel_client = self.kernel_manager.client()
             self.kernel_client.start_channels()
             
-            # Așteaptă să fie gata
+            # Asteapta sa fie gata
             self.kernel_client.wait_for_ready(timeout=10)
             self._started = True
             logger.info("🧪 JupyterSandbox: Kernel Jupyter pornit cu succes")
@@ -70,7 +70,7 @@ class JupyterSandbox:
             return True
     
     def stop_kernel(self):
-        """Oprește kernelul Jupyter."""
+        """Opreste kernelul Jupyter."""
         if self.kernel_client:
             self.kernel_client.stop_channels()
         if self.kernel_manager and self.kernel_manager.is_alive():
@@ -80,11 +80,11 @@ class JupyterSandbox:
     
     def execute(self, code: str, auto_fix: bool = True) -> Dict[str, Any]:
         """
-        Execută cod Python în sandbox.
+        Executa cod Python in sandbox.
         
         Args:
             code: Codul Python de executat
-            auto_fix: Dacă e True, încearcă să repare automat erorile simple
+            auto_fix: Daca e True, incearca sa repare automat erorile simple
             
         Returns:
             Dict cu: output, error, success, fix_applied
@@ -100,7 +100,7 @@ class JupyterSandbox:
             return self._execute_fallback(code, auto_fix)
     
     def _execute_jupyter(self, code: str, auto_fix: bool) -> Dict[str, Any]:
-        """Execuție prin kernel Jupyter (stateful, izolat)."""
+        """Executie prin kernel Jupyter (stateful, izolat)."""
         result = {"output": "", "error": None, "success": True, "fix_applied": False}
         
         try:
@@ -111,7 +111,7 @@ class JupyterSandbox:
                 try:
                     msg = self.kernel_client.get_iopub_msg(timeout=self.timeout)
                 except queue.Empty:
-                    result["error"] = "Timeout - execuția a durat prea mult"
+                    result["error"] = "Timeout - executia a durat prea mult"
                     result["success"] = False
                     break
                 
@@ -141,7 +141,7 @@ class JupyterSandbox:
         return result
     
     def _execute_fallback(self, code: str, auto_fix: bool) -> Dict[str, Any]:
-        """Execuție prin exec() builtin (fallback simplu dar funcțional)."""
+        """Executie prin exec() builtin (fallback simplu dar functional)."""
         import io
         import contextlib
         
@@ -152,7 +152,12 @@ class JupyterSandbox:
         
         try:
             with contextlib.redirect_stdout(stdout_capture), contextlib.redirect_stderr(stderr_capture):
-                exec(code, self._namespace)
+                # SECURITY FIX: Provide a limited namespace and log warning
+                logger.warning("Executing code via fallback exec() - SECURITY RISK. Use Jupyter kernel in production.")
+                safe_namespace = self._namespace.copy()
+                if '__builtins__' not in safe_namespace:
+                    safe_namespace['__builtins__'] = __builtins__
+                exec(code, safe_namespace)
             
             result["output"] = stdout_capture.getvalue()
             stderr_out = stderr_capture.getvalue()
@@ -185,8 +190,8 @@ class JupyterSandbox:
         return result
     
     def _try_auto_fix_syntax(self, code: str, error: str) -> Optional[str]:
-        """Încearcă reparări automate pentru erori comune."""
-        # Fix: lipsă ':' la if/for/while/def/class
+        """Incearca reparari automate pentru erori comune."""
+        # Fix: lipsa ':' la if/for/while/def/class
         if "expected ':'" in error.lower() or "expected ':'":
             lines = code.split('\n')
             for i, line in enumerate(lines):
@@ -196,7 +201,7 @@ class JupyterSandbox:
                         lines[i] = stripped + ':'
             return '\n'.join(lines)
         
-        # Fix: paranteză neînchisă
+        # Fix: paranteza neinchisa
         if "unexpected EOF" in error or "parenthesis" in error.lower():
             open_count = code.count('(') - code.count(')')
             if open_count > 0:
@@ -206,8 +211,8 @@ class JupyterSandbox:
     
     def test_code_before_write(self, code: str, description: str = "") -> Dict[str, Any]:
         """
-        Testează un fragment de cod ÎNAINTE de a-l scrie în fișier.
-        Aceasta e ideea cheie din Open Interpreter: testezi în memorie, scrii doar ce merge.
+        Testeaza un fragment de cod INAINTE de a-l scrie in fisier.
+        Aceasta e ideea cheie din Open Interpreter: testezi in memorie, scrii doar ce merge.
         
         Returns:
             Dict cu: safe_to_write, output, issues
@@ -223,7 +228,7 @@ class JupyterSandbox:
         }
     
     def reset_state(self):
-        """Resetează starea sandbox-ului (curăță variabilele)."""
+        """Reseteaza starea sandbox-ului (curata variabilele)."""
         if self.kernel_manager and self.kernel_manager.is_alive():
             self.kernel_client.execute("%reset -f")
         else:

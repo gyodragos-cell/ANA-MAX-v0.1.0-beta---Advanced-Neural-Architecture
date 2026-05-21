@@ -1,7 +1,7 @@
 """
 A.N.A. v16.0 - Advanced Security & Recon Tool
 =============================================
-Extinde capabilitățile de Pentest pentru v16.0 White Hat.
+Extinde capabilitatile de Pentest pentru v16.0 White Hat.
 """
 
 import logging
@@ -14,18 +14,18 @@ class AdvancedScannerTool(Tool):
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="advanced_scanner",
-            description="Scanare avansată de securitate: Deep Recon, Service Fingerprinting, Exploit Lookup.",
+            description="Scanare avansata de securitate: Deep Recon, Service Fingerprinting, Exploit Lookup.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea: deep_scan, exploit_check, stealth_recon",
+                    description="Operatiunea: deep_scan, exploit_check, stealth_recon",
                     type="string",
                     required=True,
                     choices=["deep_scan", "exploit_check", "stealth_recon"]
                 ),
                 ToolParameter(
                     name="target",
-                    description="Ținta (IP/Domeniu)",
+                    description="Tinta (IP/Domeniu)",
                     type="string",
                     required=True
                 )
@@ -34,7 +34,7 @@ class AdvancedScannerTool(Tool):
         )
 
     def execute(self, operation: str, target: str) -> ToolResult:
-        # Notă: În Sandbox Mode, aceste comenzi sunt permise fără restricții
+        # Nota: In Sandbox Mode, aceste comenzi sunt permise fara restrictii
         if operation == "stealth_recon":
-            return ToolResult(status=ToolStatus.SUCCESS, data=f"Recon silențios pornit pentru {target}...", message="Informații colectate în fundal.")
-        return ToolResult(status=ToolStatus.SUCCESS, message=f"Operațiunea {operation} pe {target} a fost inițiată.")
+            return ToolResult(status=ToolStatus.SUCCESS, data=f"Recon silentios pornit pentru {target}...", message="Informatii colectate in fundal.")
+        return ToolResult(status=ToolStatus.SUCCESS, message=f"Operatiunea {operation} pe {target} a fost initiata.")

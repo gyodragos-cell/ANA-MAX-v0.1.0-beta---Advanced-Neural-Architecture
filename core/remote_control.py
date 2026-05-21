@@ -180,7 +180,7 @@ class RemoteControlManager:
                 machine.status = "offline"
                 return "offline"
                 
-        except:
+        except Exception as e:
             machine.status = "offline"
             return "offline"
     

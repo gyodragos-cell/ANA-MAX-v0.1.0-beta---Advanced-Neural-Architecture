@@ -1,8 +1,8 @@
 """
 A.N.A. v15.1 - Safety & Ethics Protocol
 ======================================
-Definește limitele etice și de siguranță ale prototipului.
-Prevenirea utilizării malițioase și asigurarea caracterului educațional.
+Defineste limitele etice si de siguranta ale prototipului.
+Prevenirea utilizarii malitioase si asigurarea caracterului educational.
 """
 
 import logging
@@ -20,11 +20,11 @@ class SafetyProtocol:
         ]
         self.is_prototype = True
         self.educational_focus = True
-        # Citește sandbox_mode din config, default True pentru teste
+        # Citeste sandbox_mode din config, default True pentru teste
         self.sandbox_mode = config.get('safety.sandbox_mode', True)
 
     def validate_request(self, message: str) -> Dict[str, Any]:
-        """Verifică dacă cererea încalcă protocolul de siguranță."""
+        """Verifica daca cererea incalca protocolul de siguranta."""
         if self.sandbox_mode:
             return {"safe": True, "reason": None}
             
@@ -32,10 +32,10 @@ class SafetyProtocol:
         
         for topic in self.restricted_topics:
             if topic.replace("_", " ") in msg_lower:
-                logger.warning(f"⚠️ Protocol Siguranță: Topic restricționat detectat: {topic}")
+                logger.warning(f"⚠️ Protocol Siguranta: Topic restrictionat detectat: {topic}")
                 return {
                     "safe": False,
-                    "reason": f"Acest task implică un subiect restricționat ({topic}) conform protocolului de siguranță ANA Prototip."
+                    "reason": f"Acest task implica un subiect restrictionat ({topic}) conform protocolului de siguranta ANA Prototip."
                 }
         
         return {"safe": True, "reason": None}

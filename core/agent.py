@@ -539,7 +539,7 @@ class ANAAgent:
             Path(target).mkdir(parents=True, exist_ok=True)
             results.append(f"Folder creat: {target}")
 
-        if ("sterge" in lowered or "șterge" in lowered or "delete" in lowered or "remove" in lowered) and "folder" in lowered:
+        if ("sterge" in lowered or "sterge" in lowered or "delete" in lowered or "remove" in lowered) and "folder" in lowered:
             shutil.rmtree(target, ignore_errors=True)
             results.append(f"Folder sters: {target}")
 

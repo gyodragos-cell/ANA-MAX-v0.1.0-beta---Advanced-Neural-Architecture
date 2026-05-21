@@ -6,7 +6,7 @@ Vector database pentru memory-ul ANA cu search semantic ultra-rapid.
 Implementare lightweight folosind FAISS sau HNSWLib.
 
 Features:
-- Vector embeddings pentru conversații și fapte
+- Vector embeddings pentru conversatii si fapte
 - HNSW index pentru search 150x+ mai rapid
 - Hybrid search (semantic + keyword)
 - Auto-clustering de pattern-uri
@@ -56,7 +56,7 @@ logger = logging.getLogger(__name__)
 class SimpleEmbeddingModel:
     """
     Lightweight embedding model (fallback when no GPU/ML libraries available).
-    Folosește TF-IDF + dimensionality reduction pentru semantic search.
+    Foloseste TF-IDF + dimensionality reduction pentru semantic search.
     """
     
     def __init__(self, dim: int = 128):

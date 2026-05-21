@@ -1,7 +1,7 @@
 """
 A.N.A. v15.0 - Privacy Tools
 ============================
-Instrumente pentru protecția privacy-ului.
+Instrumente pentru protectia privacy-ului.
 """
 
 import os
@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 
 class PrivacyTool(Tool):
     """
-    Tool pentru protecția privacy-ului (Ghost Protocol).
-    Detectează, blochează și curăță servicii de telemetrie.
+    Tool pentru protectia privacy-ului (Ghost Protocol).
+    Detecteaza, blocheaza si curata servicii de telemetrie.
     """
     
     # Domenii de telemetrie de blocat
@@ -48,7 +48,7 @@ class PrivacyTool(Tool):
         "WMPNetworkSvc",
     ]
     
-    # Căi pentru curățare
+    # Cai pentru curatare
     CLEANUP_PATHS = [
         "%APPDATA%/Cursor/logs",
         "%APPDATA%/Code/logs",
@@ -65,29 +65,29 @@ class PrivacyTool(Tool):
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
             name="privacy_shield",
-            description="Protejează anonimitatea Operatorului. Detectează, blochează sau curăță servicii de telemetrie și obfuschează date corporate.",
+            description="Protejeaza anonimitatea Operatorului. Detecteaza, blocheaza sau curata servicii de telemetrie si obfuscheaza date corporate.",
             parameters=[
                 ToolParameter(
                     name="operation",
-                    description="Operațiunea de executat",
+                    description="Operatiunea de executat",
                     type="string",
                     required=True,
                     choices=["scan", "block", "clean", "status", "obfuscate", "stealth_mode"]
                 ),
                 ToolParameter(
                     name="text",
-                    description="Textul de obfuscat (pentru operațiunea 'obfuscate')",
+                    description="Textul de obfuscat (pentru operatiunea 'obfuscate')",
                     type="string",
                     required=False
                 )
             ],
             category="privacy",
-            requires_confirmation=True,  # Operațiuni sensibile
+            requires_confirmation=True,  # Operatiuni sensibile
             dangerous=False
         )
 
     def execute(self, operation: str, text: Optional[str] = None) -> ToolResult:
-        """Execută operațiunea de privacy."""
+        """Executa operatiunea de privacy."""
         if operation == "scan":
             return self._scan_telemetry()
         elif operation == "block":
@@ -103,11 +103,11 @@ class PrivacyTool(Tool):
         else:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Operațiune necunoscută: {operation}"
+                error=f"Operatiune necunoscuta: {operation}"
             )
 
     def _obfuscate_corporate_data(self, text: str) -> ToolResult:
-        """Înlocuiește datele corporate sensibile cu placeholder-e."""
+        """Inlocuieste datele corporate sensibile cu placeholder-e."""
         if not text:
             return ToolResult(status=ToolStatus.ERROR, error="Nu a fost furnizat text pentru obfuscare.")
         
@@ -119,21 +119,21 @@ class PrivacyTool(Tool):
         return ToolResult(
             status=ToolStatus.SUCCESS,
             data=obfuscated,
-            message="Datele corporate au fost obfuscate pentru siguranță."
+            message="Datele corporate au fost obfuscate pentru siguranta."
         )
 
     def _toggle_stealth_mode(self) -> ToolResult:
-        """Dezactivează logarea conversațiilor pentru sesiune (Mod Coleg Invizibil)."""
+        """Dezactiveaza logarea conversatiilor pentru sesiune (Mod Coleg Invizibil)."""
         import os
         stealth_file = "logs/.stealth_active"
         try:
             if os.path.exists(stealth_file):
                 os.remove(stealth_file)
-                msg = "Modul Stealth DEZACTIVAT. Conversațiile vor fi salvate."
+                msg = "Modul Stealth DEZACTIVAT. Conversatiile vor fi salvate."
             else:
                 with open(stealth_file, "w") as f:
                     f.write("active")
-                msg = "Modul Stealth ACTIVAT. Nicio conversație nu va fi salvată în baza de date locală."
+                msg = "Modul Stealth ACTIVAT. Nicio conversatie nu va fi salvata in baza de date locala."
             
             return ToolResult(
                 status=ToolStatus.SUCCESS,
@@ -144,10 +144,10 @@ class PrivacyTool(Tool):
             return ToolResult(status=ToolStatus.ERROR, error=f"Nu am putut schimba modul stealth: {e}")
     
     def _scan_telemetry(self) -> ToolResult:
-        """Scanează sistemul pentru servicii de telemetrie."""
+        """Scaneaza sistemul pentru servicii de telemetrie."""
         findings = []
         
-        # Verifică servicii Windows
+        # Verifica servicii Windows
         if HAS_PSUTIL and os.name == 'nt':
             try:
                 for service in psutil.win_service_iter():
@@ -157,7 +157,7 @@ class PrivacyTool(Tool):
             except Exception as e:
                 logger.warning(f"Nu pot scana servicii: {e}")
         
-        # Verifică fișier hosts pentru blocări existente
+        # Verifica fisier hosts pentru blocari existente
         hosts_path = self._get_hosts_path()
         if hosts_path and os.path.exists(hosts_path):
             try:
@@ -165,40 +165,40 @@ class PrivacyTool(Tool):
                     content = f.read()
                     blocked = [d for d in self.TELEMETRY_DOMAINS if d in content]
                     if blocked:
-                        findings.append(f"Domenii deja blocate în hosts: {len(blocked)}")
+                        findings.append(f"Domenii deja blocate in hosts: {len(blocked)}")
                     else:
-                        findings.append("⚠️ Niciun domeniu de telemetrie blocat în hosts!")
+                        findings.append("⚠️ Niciun domeniu de telemetrie blocat in hosts!")
             except Exception as e:
                 logger.warning(f"Nu pot citi hosts: {e}")
         
-        # Verifică existența folderelor de log
+        # Verifica existenta folderelor de log
         for path_template in self.CLEANUP_PATHS:
             path = os.path.expandvars(path_template)
             if os.path.exists(path):
                 size = self._get_dir_size(path)
-                findings.append(f"Log găsit: {path} ({size})")
+                findings.append(f"Log gasit: {path} ({size})")
         
         if not findings:
-            findings.append("Nicio problemă de telemetrie detectată!")
+            findings.append("Nicio problema de telemetrie detectata!")
         
         return ToolResult(
             status=ToolStatus.SUCCESS,
             data="\n".join(findings),
-            message="Scanare completă"
+            message="Scanare completa"
         )
     
     def _block_telemetry(self) -> ToolResult:
-        """Blochează domeniile de telemetrie în fișierul hosts."""
+        """Blocheaza domeniile de telemetrie in fisierul hosts."""
         hosts_path = self._get_hosts_path()
         
         if not hosts_path:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error="Nu pot determina calea către fișierul hosts"
+                error="Nu pot determina calea catre fisierul hosts"
             )
         
         try:
-            # Citește conținutul existent
+            # Citeste continutul existent
             existing_content = ""
             if os.path.exists(hosts_path):
                 with open(hosts_path, 'r') as f:
@@ -210,7 +210,7 @@ class PrivacyTool(Tool):
                 with open(backup_path, 'w') as f:
                     f.write(existing_content)
             
-            # Verifică ce domenii trebuie adăugate
+            # Verifica ce domenii trebuie adaugate
             domains_to_add = [
                 d for d in self.TELEMETRY_DOMAINS 
                 if d not in existing_content
@@ -220,10 +220,10 @@ class PrivacyTool(Tool):
                 return ToolResult(
                     status=ToolStatus.SUCCESS,
                     data="Toate domeniile sunt deja blocate!",
-                    message="Nimic de făcut"
+                    message="Nimic de facut"
                 )
             
-            # Adaugă domeniile noi
+            # Adauga domeniile noi
             with open(hosts_path, 'a') as f:
                 f.write("\n\n# A.N.A. GHOST PROTOCOL - PRIVACY BLOCK\n")
                 f.write(f"# Added by A.N.A. Privacy Shield\n")
@@ -239,7 +239,7 @@ class PrivacyTool(Tool):
         except PermissionError:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error="Lipsesc drepturile de administrator! Rulează ca Admin."
+                error="Lipsesc drepturile de administrator! Ruleaza ca Admin."
             )
         except Exception as e:
             return ToolResult(
@@ -248,7 +248,7 @@ class PrivacyTool(Tool):
             )
     
     def _clean_telemetry(self) -> ToolResult:
-        """Curăță log-urile de telemetrie."""
+        """Curata log-urile de telemetrie."""
         cleaned = []
         errors = []
         
@@ -271,31 +271,31 @@ class PrivacyTool(Tool):
         
         result_text = []
         if cleaned:
-            result_text.append(f"Curățate {len(cleaned)} locații:")
+            result_text.append(f"Curatate {len(cleaned)} locatii:")
             result_text.extend([f"  ✓ {p}" for p in cleaned])
         if errors:
-            result_text.append(f"\nErori la {len(errors)} locații:")
+            result_text.append(f"\nErori la {len(errors)} locatii:")
             result_text.extend([f"  ✗ {e}" for e in errors])
         
         if not cleaned and not errors:
-            result_text.append("Nicio locație de curățat găsită.")
+            result_text.append("Nicio locatie de curatat gasita.")
         
         return ToolResult(
             status=ToolStatus.SUCCESS if cleaned else ToolStatus.ERROR,
             data="\n".join(result_text),
-            message=f"Curățate {len(cleaned)} locații"
+            message=f"Curatate {len(cleaned)} locatii"
         )
     
     def _get_status(self) -> ToolResult:
-        """Obține statusul curent al protecției privacy."""
+        """Obtine statusul curent al protectiei privacy."""
         status_lines = ["=== A.N.A. Privacy Status ===\n"]
         
-        # Verifică Stealth Mode real
+        # Verifica Stealth Mode real
         import os
         stealth_active = os.path.exists("logs/.stealth_active")
         status_lines.append(f"Stealth Mode: {'ACTIV' if stealth_active else 'INACTIV'}")
 
-        # Verifică hosts
+        # Verifica hosts
         hosts_path = self._get_hosts_path()
         if hosts_path and os.path.exists(hosts_path):
             try:
@@ -305,13 +305,13 @@ class PrivacyTool(Tool):
                 total = len(self.TELEMETRY_DOMAINS)
                 status_lines.append(f"Domenii blocate: {blocked_count}/{total}")
                 if blocked_count == total:
-                    status_lines.append("✓ Protecție completă în hosts")
+                    status_lines.append("✓ Protectie completa in hosts")
                 else:
-                    status_lines.append("⚠️ Protecție parțială - rulează 'block'")
-            except:
+                    status_lines.append("⚠️ Protectie partiala - ruleaza 'block'")
+            except Exception as e:
                 status_lines.append("⚠️ Nu pot verifica hosts")
         
-        # Verifică servicii
+        # Verifica servicii
         if HAS_PSUTIL and os.name == 'nt':
             active_telemetry = 0
             try:
@@ -323,7 +323,7 @@ class PrivacyTool(Tool):
                     status_lines.append(f"⚠️ {active_telemetry} servicii de telemetrie active")
                 else:
                     status_lines.append("✓ Niciun serviciu de telemetrie activ")
-            except:
+            except Exception as e:
                 pass
         
         return ToolResult(
@@ -332,14 +332,14 @@ class PrivacyTool(Tool):
         )
     
     def _get_hosts_path(self) -> Optional[str]:
-        """Returnează calea către fișierul hosts."""
+        """Returneaza calea catre fisierul hosts."""
         if os.name == 'nt':
             return r"C:\Windows\System32\drivers\etc\hosts"
         else:
             return "/etc/hosts"
     
     def _get_dir_size(self, path: str) -> str:
-        """Calculează dimensiunea unui director."""
+        """Calculeaza dimensiunea unui director."""
         try:
             total = 0
             for dirpath, dirnames, filenames in os.walk(path):
@@ -347,7 +347,7 @@ class PrivacyTool(Tool):
                     fp = os.path.join(dirpath, f)
                     try:
                         total += os.path.getsize(fp)
-                    except:
+                    except Exception as e:
                         pass
             
             if total < 1024:
@@ -356,5 +356,5 @@ class PrivacyTool(Tool):
                 return f"{total / 1024:.1f} KB"
             else:
                 return f"{total / (1024 * 1024):.1f} MB"
-        except:
+        except Exception as e:
             return "N/A"

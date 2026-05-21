@@ -1,41 +1,41 @@
 """
 ANA MAX – memory_cortex.py
 ===========================
-Stratul de memorie care stă ÎNTRE tine și orice LLM.
+Stratul de memorie care sta INTRE tine si orice LLM.
 
-Problema pe care o rezolvă:
-  Toate AI-urile (Claude, GPT, Gemini, Ollama) uită după fiecare sesiune.
-  Repetă aceleași greșeli. Nu știu cine ești, ce preferi, ce ai corectat.
+Problema pe care o rezolva:
+  Toate AI-urile (Claude, GPT, Gemini, Ollama) uita dupa fiecare sesiune.
+  Repeta aceleasi greseli. Nu stiu cine esti, ce preferi, ce ai corectat.
 
-Soluția:
-  memory_cortex.py interceptează ORICE prompt înainte să ajungă la LLM și
-  injectează automat:
-    • Greșelile pe care LLM-ul le-a mai făcut (și fix-urile tale)
-    • Preferințele tale de lucru (detectate automat din feedback)
+Solutia:
+  memory_cortex.py intercepteaza ORICE prompt inainte sa ajunga la LLM si
+  injecteaza automat:
+    • Greselile pe care LLM-ul le-a mai facut (si fix-urile tale)
+    • Preferintele tale de lucru (detectate automat din feedback)
     • Contextul proiectului curent
     • Fapte despre tine pe care le-ai spus explicit
-    • Patterns de succes — ce a funcționat bine în trecut
+    • Patterns de succes — ce a functionat bine in trecut
 
-  Rezultat: LLM-ul "pare că își amintește" — chiar dacă el uită de fiecare dată.
+  Rezultat: LLM-ul "pare ca isi aminteste" — chiar daca el uita de fiecare data.
 
 Categorii de memorie:
-  1. EPISODIC   — ce s-a întâmplat (erori, corecții, conversații importante)
-  2. SEMANTIC   — fapte stabile (cine ești, ce proiecte ai, preferințe)
+  1. EPISODIC   — ce s-a intamplat (erori, corectii, conversatii importante)
+  2. SEMANTIC   — fapte stabile (cine esti, ce proiecte ai, preferinte)
   3. PROCEDURAL — cum faci lucrurile (fluxuri de lucru, comenzi preferate)
-  4. ERROR_LOG  — greșeli LLM + fix-urile tale (cel mai important)
+  4. ERROR_LOG  — greseli LLM + fix-urile tale (cel mai important)
 
-Integrare în main.py:
+Integrare in main.py:
     from tools.memory_cortex import MemoryCortex
 
     cortex = MemoryCortex(db_path="ana_memory.db")
 
-    # În loc să trimiți direct la LLM:
+    # In loc sa trimiti direct la LLM:
     # response = llm.generate(prompt)
 
-    # Folosești cortex ca intermediar:
+    # Folosesti cortex ca intermediar:
     response = cortex.ask(prompt, llm_fn=your_llm_function)
 
-    # Dacă răspunsul e greșit, corectezi:
+    # Daca raspunsul e gresit, corectezi:
     cortex.correct(original_prompt, bad_response, correct_response)
 """
 
@@ -50,22 +50,22 @@ from typing import Any, Callable, Dict, List, Optional
 logger = logging.getLogger("ANA.MemoryCortex")
 
 # ── Constante ─────────────────────────────────────────────────────────────────
-MAX_CONTEXT_MEMORIES   = 10    # câte memorii injectăm per prompt
-MAX_ERRORS_INJECTED    = 5     # câte greșeli anterioare injectăm
+MAX_CONTEXT_MEMORIES   = 10    # cate memorii injectam per prompt
+MAX_ERRORS_INJECTED    = 5     # cate greseli anterioare injectam
 SIMILARITY_THRESHOLD   = 0.3   # prag pentru "prompt similar"
-MEMORY_DECAY_DAYS      = 90    # memoriile foarte vechi și nefolosite se arhivează
+MEMORY_DECAY_DAYS      = 90    # memoriile foarte vechi si nefolosite se arhiveaza
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 class MemoryCortex:
     """
-    Stratul de memorie universal. Funcționează cu orice LLM.
+    Stratul de memorie universal. Functioneaza cu orice LLM.
 
     Parametri:
         db_path     : SQLite-ul ANA MAX existent
-        user_name   : cum să te numească ANA (opțional)
-        project     : proiectul curent (opțional, detectat automat)
-        verbose     : afișează ce memorii injectează (util la debug)
+        user_name   : cum sa te numeasca ANA (optional)
+        project     : proiectul curent (optional, detectat automat)
+        verbose     : afiseaza ce memorii injecteaza (util la debug)
     """
 
     def __init__(
@@ -81,16 +81,16 @@ class MemoryCortex:
         self.verbose   = verbose
 
         self._session_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self._session_context: List[dict] = []  # conversația curentă
+        self._session_context: List[dict] = []  # conversatia curenta
 
         self._ensure_tables()
-        logger.info("✅ MemoryCortex inițializat.")
+        logger.info("✅ MemoryCortex initializat.")
 
     # ── DB Setup ──────────────────────────────────────────────────────────────
     def _ensure_tables(self):
         with sqlite3.connect(self.db_path) as conn:
             conn.executescript("""
-                -- Memoria episodică: ce s-a întâmplat
+                -- Memoria episodica: ce s-a intamplat
                 CREATE TABLE IF NOT EXISTS cortex_episodic (
                     id          INTEGER PRIMARY KEY AUTOINCREMENT,
                     timestamp   TEXT NOT NULL,
@@ -104,7 +104,7 @@ class MemoryCortex:
                     last_used   TEXT
                 );
 
-                -- Memoria semantică: fapte stabile despre user și proiect
+                -- Memoria semantica: fapte stabile despre user si proiect
                 CREATE TABLE IF NOT EXISTS cortex_semantic (
                     id          INTEGER PRIMARY KEY AUTOINCREMENT,
                     category    TEXT NOT NULL,
@@ -116,7 +116,7 @@ class MemoryCortex:
                     UNIQUE(category, key)
                 );
 
-                -- Memoria procedurală: fluxuri și comenzi care funcționează
+                -- Memoria procedurala: fluxuri si comenzi care functioneaza
                 CREATE TABLE IF NOT EXISTS cortex_procedural (
                     id          INTEGER PRIMARY KEY AUTOINCREMENT,
                     task_type   TEXT NOT NULL,
@@ -127,7 +127,7 @@ class MemoryCortex:
                     notes       TEXT
                 );
 
-                -- Error log: greșelile LLM + fix-urile tale (CORE)
+                -- Error log: greselile LLM + fix-urile tale (CORE)
                 CREATE TABLE IF NOT EXISTS cortex_errors (
                     id              INTEGER PRIMARY KEY AUTOINCREMENT,
                     timestamp       TEXT NOT NULL,
@@ -140,7 +140,7 @@ class MemoryCortex:
                     tags            TEXT
                 );
 
-                -- Index pentru căutare rapidă
+                -- Index pentru cautare rapida
                 CREATE INDEX IF NOT EXISTS idx_episodic_hash 
                     ON cortex_episodic(prompt_hash);
                 CREATE INDEX IF NOT EXISTS idx_errors_type 
@@ -155,18 +155,18 @@ class MemoryCortex:
         context_tags: Optional[List[str]] = None,
     ) -> str:
         """
-        Trimite un prompt la LLM cu memoria injectată automat.
+        Trimite un prompt la LLM cu memoria injectata automat.
 
         Parametri:
-            prompt      : întrebarea / comanda ta originală
-            llm_fn      : funcția care apelează LLM-ul tău
-                          trebuie să accepte un string și să returneze un string
+            prompt      : intrebarea / comanda ta originala
+            llm_fn      : functia care apeleaza LLM-ul tau
+                          trebuie sa accepte un string si sa returneze un string
                           Exemplu: lambda p: ollama_generate(p)
-            context_tags: taguri opționale pentru filtrarea memoriei
+            context_tags: taguri optionale pentru filtrarea memoriei
                           Exemplu: ["python", "window_manager"]
 
-        Returnează:
-            Răspunsul LLM (string)
+        Returneaza:
+            Raspunsul LLM (string)
 
         Exemplu:
             def my_llm(prompt):
@@ -177,12 +177,12 @@ class MemoryCortex:
 
             response = cortex.ask("Cum repari o eroare de timeout?", my_llm)
         """
-        # 1. Construim prompt-ul îmbogățit cu memorie
+        # 1. Construim prompt-ul imbogatit cu memorie
         enriched_prompt = self._enrich_prompt(prompt, context_tags)
 
         if self.verbose:
             injected_lines = enriched_prompt.count("\n") - prompt.count("\n")
-            logger.info(f"Prompt îmbogățit cu {injected_lines} linii de memorie.")
+            logger.info(f"Prompt imbogatit cu {injected_lines} linii de memorie.")
 
         # 2. Trimitem la LLM
         start = time.time()
@@ -194,10 +194,10 @@ class MemoryCortex:
 
         elapsed = time.time() - start
 
-        # 3. Salvăm în memorie episodică
+        # 3. Salvam in memorie episodica
         self._save_episode(prompt, response, elapsed)
 
-        # 4. Adăugăm în contextul sesiunii curente
+        # 4. Adaugam in contextul sesiunii curente
         self._session_context.append({
             "role": "user", "content": prompt,
             "timestamp": datetime.now().isoformat()
@@ -209,7 +209,7 @@ class MemoryCortex:
 
         return response
 
-    # ── Corectare greșeli ─────────────────────────────────────────────────────
+    # ── Corectare greseli ─────────────────────────────────────────────────────
     def correct(
         self,
         original_prompt: str,
@@ -219,20 +219,20 @@ class MemoryCortex:
         tags: Optional[List[str]] = None,
     ):
         """
-        Înregistrează o greșeală a LLM-ului și răspunsul corect.
-        Data viitoare când apare un prompt similar, ANA va ști să evite greșeala.
+        Inregistreaza o greseala a LLM-ului si raspunsul corect.
+        Data viitoare cand apare un prompt similar, ANA va sti sa evite greseala.
 
         Parametri:
             original_prompt  : ce ai cerut
-            bad_response     : ce a răspuns greșit LLM-ul
-            correct_response : răspunsul corect (dat de tine)
-            error_type       : categoria greșelii (ex: "cod_python", "factual", "ton")
+            bad_response     : ce a raspuns gresit LLM-ul
+            correct_response : raspunsul corect (dat de tine)
+            error_type       : categoria greselii (ex: "cod_python", "factual", "ton")
             tags             : taguri pentru grupare
 
         Exemplu:
             cortex.correct(
-                original_prompt="Scrie o funcție de screenshot",
-                bad_response="import PIL...",  # a folosit PIL deși tu folosești mss
+                original_prompt="Scrie o functie de screenshot",
+                bad_response="import PIL...",  # a folosit PIL desi tu folosesti mss
                 correct_response="import mss...",
                 error_type="library_preference",
                 tags=["python", "screenshot"]
@@ -241,7 +241,7 @@ class MemoryCortex:
         tags_str = json.dumps(tags or [])
 
         with sqlite3.connect(self.db_path) as conn:
-            # Verificăm dacă această greșeală există deja
+            # Verificam daca aceasta greseala exista deja
             existing = conn.execute(
                 """SELECT id, times_repeated FROM cortex_errors
                    WHERE error_type = ? AND bad_response = ?
@@ -250,7 +250,7 @@ class MemoryCortex:
             ).fetchone()
 
             if existing:
-                # Incrementăm contorul — LLM a repetat greșeala!
+                # Incrementam contorul — LLM a repetat greseala!
                 conn.execute(
                     """UPDATE cortex_errors
                        SET times_repeated = times_repeated + 1,
@@ -260,7 +260,7 @@ class MemoryCortex:
                 )
                 times = existing[1] + 1
                 logger.warning(
-                    f"⚠️ LLM a repetat aceeași greșeală de {times} ori! "
+                    f"⚠️ LLM a repetat aceeasi greseala de {times} ori! "
                     f"Tip: {error_type}"
                 )
             else:
@@ -280,7 +280,7 @@ class MemoryCortex:
                     )
                 )
 
-            # Marcăm episodul original ca corectat
+            # Marcam episodul original ca corectat
             prompt_hash = self._hash(original_prompt)
             conn.execute(
                 """UPDATE cortex_episodic
@@ -289,9 +289,9 @@ class MemoryCortex:
                 (correct_response[:500], prompt_hash)
             )
 
-        logger.info(f"✅ Corecție înregistrată: {error_type}")
+        logger.info(f"✅ Corectie inregistrata: {error_type}")
 
-    # ── Învață fapte despre user ──────────────────────────────────────────────
+    # ── Invata fapte despre user ──────────────────────────────────────────────
     def remember(
         self,
         key: str,
@@ -300,12 +300,12 @@ class MemoryCortex:
         confidence: float = 1.0,
     ):
         """
-        Salvează un fapt permanent despre tine sau proiectul tău.
+        Salveaza un fapt permanent despre tine sau proiectul tau.
 
         Exemplu:
             cortex.remember("limbaj_preferat", "Python")
             cortex.remember("editor", "VS Code")
-            cortex.remember("stil_cod", "fără comentarii în exces")
+            cortex.remember("stil_cod", "fara comentarii in exces")
             cortex.remember("proiect_activ", "ANA MAX")
             cortex.remember("librarie_screenshot", "mss, nu PIL")
         """
@@ -321,15 +321,15 @@ class MemoryCortex:
             )
         logger.info(f"💾 Memorat: [{category}] {key} = {value}")
 
-    # ── Învață pattern de succes ──────────────────────────────────────────────
+    # ── Invata pattern de succes ──────────────────────────────────────────────
     def learned_success(self, task_type: str, pattern: str, notes: str = ""):
         """
-        Marchează un pattern ca funcționând bine.
+        Marcheaza un pattern ca functionand bine.
 
         Exemplu:
             cortex.learned_success(
                 task_type="debug_python",
-                pattern="întotdeauna verifică mai întâi ImportError înainte de RuntimeError",
+                pattern="intotdeauna verifica mai intai ImportError inainte de RuntimeError",
                 notes="salvat din sesiunea de debug din 15 mai"
             )
         """
@@ -357,12 +357,12 @@ class MemoryCortex:
     # ── Enrich prompt ─────────────────────────────────────────────────────────
     def _enrich_prompt(self, prompt: str, tags: Optional[List[str]] = None) -> str:
         """
-        Construiește prompt-ul îmbogățit cu toate memoriile relevante.
+        Construieste prompt-ul imbogatit cu toate memoriile relevante.
         Acesta e nucleul — ce face memory_cortex unic.
         """
         sections = []
 
-        # ── 1. Identitate și preferințe ───────────────────────────────────────
+        # ── 1. Identitate si preferinte ───────────────────────────────────────
         user_facts = self._get_semantic("user_preference")
         project_facts = self._get_semantic("project")
         tech_facts = self._get_semantic("tech_preference")
@@ -374,20 +374,20 @@ class MemoryCortex:
                 f"[CONTEXT UTILIZATOR]\n{facts_text}"
             )
 
-        # ── 2. Greșeli anterioare ale LLM-ului ────────────────────────────────
+        # ── 2. Greseli anterioare ale LLM-ului ────────────────────────────────
         errors = self._get_relevant_errors(prompt)
         if errors:
             err_lines = []
             for e in errors[:MAX_ERRORS_INJECTED]:
-                times_str = f" (repetată de {e['times_repeated']} ori!)" if e['times_repeated'] > 1 else ""
+                times_str = f" (repetata de {e['times_repeated']} ori!)" if e['times_repeated'] > 1 else ""
                 err_lines.append(
-                    f"  ❌ GREȘEALĂ ANTERIOARĂ{times_str}: {e['error_type']}\n"
+                    f"  ❌ GRESEALA ANTERIOARA{times_str}: {e['error_type']}\n"
                     f"     Context: {e['prompt_context'][:100]}\n"
-                    f"     Răspuns GREȘIT: {e['bad_response'][:150]}\n"
-                    f"     Răspuns CORECT: {e['correct_response'][:150]}"
+                    f"     Raspuns GRESIT: {e['bad_response'][:150]}\n"
+                    f"     Raspuns CORECT: {e['correct_response'][:150]}"
                 )
             sections.append(
-                "[GREȘELI ANTERIOARE — EVITĂ-LE]\n" + "\n".join(err_lines)
+                "[GRESELI ANTERIOARE — EVITA-LE]\n" + "\n".join(err_lines)
             )
 
         # ── 3. Pattern-uri de succes relevante ────────────────────────────────
@@ -398,7 +398,7 @@ class MemoryCortex:
                 for p in patterns[:3]
             ]
             sections.append(
-                "[ABORDĂRI CARE AU FUNCȚIONAT]\n" + "\n".join(pat_lines)
+                "[ABORDARI CARE AU FUNCTIONAT]\n" + "\n".join(pat_lines)
             )
 
         # ── 4. Contextul sesiunii curente (ultimele 3 schimburi) ──────────────
@@ -409,7 +409,7 @@ class MemoryCortex:
                 role = "Tu" if msg["role"] == "user" else "ANA"
                 ctx_lines.append(f"  {role}: {msg['content'][:200]}")
             sections.append(
-                "[CONTEXTUL CONVERSAȚIEI CURENTE]\n" + "\n".join(ctx_lines)
+                "[CONTEXTUL CONVERSATIEI CURENTE]\n" + "\n".join(ctx_lines)
             )
 
         # ── 5. Episoade similare din trecut ───────────────────────────────────
@@ -422,23 +422,23 @@ class MemoryCortex:
                     correction_note = f"\n     → Corectat la: {ep['correction'][:100]}"
                 sim_lines.append(
                     f"  [{ep['timestamp'][:10]}] Prompt similar: {ep['prompt'][:120]}"
-                    f"\n     Răspuns dat: {ep['response'][:120]}{correction_note}"
+                    f"\n     Raspuns dat: {ep['response'][:120]}{correction_note}"
                 )
             sections.append(
-                "[SITUAȚII SIMILARE DIN TRECUT]\n" + "\n".join(sim_lines)
+                "[SITUATII SIMILARE DIN TRECUT]\n" + "\n".join(sim_lines)
             )
 
-        # ── Asamblăm prompt-ul final ──────────────────────────────────────────
+        # ── Asamblam prompt-ul final ──────────────────────────────────────────
         if not sections:
-            return prompt  # nu avem memorie încă — prompt simplu
+            return prompt  # nu avem memorie inca — prompt simplu
 
         memory_block = "\n\n".join(sections)
 
-        enriched = f"""[MEMORIA ANA MAX — FOLOSEȘTE ACESTE INFORMAȚII]
+        enriched = f"""[MEMORIA ANA MAX — FOLOSESTE ACESTE INFORMATII]
 {memory_block}
-[SFÂRȘITUL MEMORIEI]
+[SFARSITUL MEMORIEI]
 
-Ținând cont de tot ce știi despre utilizator și de greșelile anterioare, răspunde la:
+Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspunde la:
 
 {prompt}"""
 
@@ -457,9 +457,9 @@ class MemoryCortex:
         return [{"key": r[0], "value": r[1], "confidence": r[2]} for r in rows]
 
     def _get_relevant_errors(self, prompt: str) -> List[dict]:
-        """Returnează greșelile anterioare relevante pentru prompt-ul curent."""
+        """Returneaza greselile anterioare relevante pentru prompt-ul curent."""
         with sqlite3.connect(self.db_path) as conn:
-            # Luăm toate erorile și le filtrăm pe cuvinte cheie
+            # Luam toate erorile si le filtram pe cuvinte cheie
             rows = conn.execute(
                 """SELECT error_type, prompt_context, bad_response,
                           correct_response, times_repeated
@@ -473,21 +473,21 @@ class MemoryCortex:
         for row in rows:
             context_words = set((row[1] or "").lower().split())
             overlap = len(prompt_words & context_words)
-            if overlap > 0 or row[4] > 1:  # relevant sau greșeală repetată
+            if overlap > 0 or row[4] > 1:  # relevant sau greseala repetata
                 scored.append({
                     "error_type": row[0],
                     "prompt_context": row[1] or "",
                     "bad_response": row[2] or "",
                     "correct_response": row[3] or "",
                     "times_repeated": row[4],
-                    "score": overlap + (row[4] * 2),  # greșelile repetate au prioritate
+                    "score": overlap + (row[4] * 2),  # greselile repetate au prioritate
                 })
 
         scored.sort(key=lambda x: x["score"], reverse=True)
         return scored[:MAX_ERRORS_INJECTED]
 
     def _get_relevant_patterns(self, prompt: str) -> List[dict]:
-        """Returnează pattern-urile de succes relevante."""
+        """Returneaza pattern-urile de succes relevante."""
         with sqlite3.connect(self.db_path) as conn:
             rows = conn.execute(
                 """SELECT task_type, pattern, success_count, notes
@@ -511,7 +511,7 @@ class MemoryCortex:
         return relevant[:3]
 
     def _get_similar_episodes(self, prompt: str) -> List[dict]:
-        """Găsește episoade similare din trecut pe baza cuvintelor cheie."""
+        """Gaseste episoade similare din trecut pe baza cuvintelor cheie."""
         prompt_words = [w for w in prompt.lower().split() if len(w) > 4]
         if not prompt_words:
             return []
@@ -603,22 +603,22 @@ class MemoryCortex:
         print(f"Memorii episodice:          {stats['episodic_memories']}")
         print(f"Fapte cunoscute:            {stats['known_facts']}")
         print(f"Pattern-uri de succes:      {stats['success_patterns']}")
-        print(f"Greșeli LLM înregistrate:   {stats['llm_errors_caught']}")
-        print(f"De câte ori LLM a repetat:  {stats['times_llm_repeated_error']}")
-        print(f"Corecții aplicate:          {stats['corrections_applied']}")
+        print(f"Greseli LLM inregistrate:   {stats['llm_errors_caught']}")
+        print(f"De cate ori LLM a repetat:  {stats['times_llm_repeated_error']}")
+        print(f"Corectii aplicate:          {stats['corrections_applied']}")
         if stats["top_repeated_errors"]:
-            print("\nTop greșeli repetate:")
+            print("\nTop greseli repetate:")
             for e in stats["top_repeated_errors"]:
                 print(f"  ⚠️  {e['type']}: repetat de {e['times']} ori")
         print("="*60 + "\n")
 
     def forget(self, category: str = None, older_than_days: int = None):
         """
-        Șterge memorii selectiv.
+        Sterge memorii selectiv.
 
         Exemplu:
-            cortex.forget(category="user_preference")  # șterge preferințele
-            cortex.forget(older_than_days=30)           # șterge ce e mai vechi de 30 zile
+            cortex.forget(category="user_preference")  # sterge preferintele
+            cortex.forget(older_than_days=30)           # sterge ce e mai vechi de 30 zile
         """
         with sqlite3.connect(self.db_path) as conn:
             if category:
@@ -631,7 +631,7 @@ class MemoryCortex:
                     "DELETE FROM cortex_episodic WHERE timestamp < ? AND corrected = 0",
                     (cutoff,)
                 )
-        logger.info(f"Memorie ștearsă: category={category}, older_than={older_than_days}d")
+        logger.info(f"Memorie stearsa: category={category}, older_than={older_than_days}d")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -640,7 +640,7 @@ class MemoryCortex:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    # Inițializare
+    # Initializare
     cortex = MemoryCortex(
         db_path="ana_memory.db",
         user_name="<YOUR_NAME>",
@@ -648,15 +648,15 @@ if __name__ == "__main__":
         verbose=True,
     )
 
-    # Spune-i ce știi deja despre tine
+    # Spune-i ce stii deja despre tine
     cortex.remember("limbaj_preferat", "Python 3.11")
     cortex.remember("editor", "VS Code + Cursor")
     cortex.remember("proiect_activ", "ANA MAX — Windows AI Agent")
     cortex.remember("librarie_screenshot", "mss (nu PIL sau pyautogui)")
-    cortex.remember("stil_cod", "comentarii clare, fără over-engineering")
+    cortex.remember("stil_cod", "comentarii clare, fara over-engineering")
     cortex.remember("os", "Windows 11")
 
-    # Funcție LLM — înlocuiește cu Ollama, Claude API, etc.
+    # Functie LLM — inlocuieste cu Ollama, Claude API, etc.
     def my_llm(prompt: str) -> str:
         try:
             import requests
@@ -669,36 +669,36 @@ if __name__ == "__main__":
         except Exception as e:
             return f"[LLM indisponibil: {e}]"
 
-    # Exemplu de întrebare normală
-    print("\n--- Test 1: întrebare simplă ---")
+    # Exemplu de intrebare normala
+    print("\n--- Test 1: intrebare simpla ---")
     response = cortex.ask(
-        "Scrie o funcție Python care face screenshot la ecran",
+        "Scrie o functie Python care face screenshot la ecran",
         llm_fn=my_llm,
     )
-    print(f"Răspuns: {response[:300]}")
+    print(f"Raspuns: {response[:300]}")
 
-    # Simulare greșeală: LLM a folosit PIL în loc de mss
-    print("\n--- Test 2: înregistrare greșeală ---")
+    # Simulare greseala: LLM a folosit PIL in loc de mss
+    print("\n--- Test 2: inregistrare greseala ---")
     cortex.correct(
-        original_prompt="Scrie o funcție Python care face screenshot la ecran",
+        original_prompt="Scrie o functie Python care face screenshot la ecran",
         bad_response="import PIL\nfrom PIL import ImageGrab\nimg = ImageGrab.grab()",
         correct_response="import mss\nwith mss.mss() as sct:\n    sct.shot()",
         error_type="library_preference",
         tags=["screenshot", "python"]
     )
 
-    # Data viitoare, când ceri din nou screenshot, LLM va ști să evite PIL
-    print("\n--- Test 3: același topic — greșeala e injectată în memorie ---")
+    # Data viitoare, cand ceri din nou screenshot, LLM va sti sa evite PIL
+    print("\n--- Test 3: acelasi topic — greseala e injectata in memorie ---")
     response2 = cortex.ask(
-        "Am nevoie de cod pentru a captura ecranul în Python",
+        "Am nevoie de cod pentru a captura ecranul in Python",
         llm_fn=my_llm,
     )
-    print(f"Răspuns: {response2[:300]}")
+    print(f"Raspuns: {response2[:300]}")
 
     # Pattern de succes
     cortex.learned_success(
         task_type="debug_python",
-        pattern="verifică întotdeauna ImportError înainte de a rula codul",
+        pattern="verifica intotdeauna ImportError inainte de a rula codul",
     )
 
     # Raport final
