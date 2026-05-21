@@ -6,6 +6,8 @@
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
 ![Tools](https://img.shields.io/badge/tools-64-blueviolet)
 
+[![Vezi Demo Live](https://img.shields.io/badge/%F0%9F%9A%80_Vezi_Demo_Live-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+
 ANA MAX is a Windows-first MCP runtime that gives AI agents situational
 awareness before they act: files, git state, terminal output, desktop vision,
 Windows UI automation, memory, runtime instrumentation, and smoke-test
@@ -69,11 +71,7 @@ when they work as careful engineering collaborators, not blind code generators.
 
 ## Demo
 
-Website:
-
-```text
-https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/
-```
+**[Website — Live Demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)**
 
 Watch the local demo video:
 
