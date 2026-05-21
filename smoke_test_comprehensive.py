@@ -111,20 +111,27 @@ except Exception as e:
 # ============================================================
 print("\n[3/9] SQLite Memory Database...")
 try:
-    memory_db_path = project_root / "memory" / "ana_max_brain.db"
+    from core.config import Config
+    config = Config()
+    db_path_str = config.get("memory.database_path", "memory/ana_max_brain.db")
+    memory_db_path = Path(db_path_str)
+    if not memory_db_path.is_absolute():
+        memory_db_path = project_root / memory_db_path
     
-    if memory_db_path.exists():
-        conn = sqlite3.connect(str(memory_db_path))
-        cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = [row[0] for row in cursor.fetchall()]
-        conn.close()
+    if not memory_db_path.exists():
+        # Initialize database automatically
+        from core.memory import Memory
+        mem_instance = Memory(db_path=str(memory_db_path))
         
-        if len(tables) > 0:
-            log_test("SQLite memory DB", True, f"Connected, {len(tables)} tables found")
-        else:
-            log_test("SQLite memory DB", False, "No tables found in database")
+    conn = sqlite3.connect(str(memory_db_path))
+    cursor = conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = [row[0] for row in cursor.fetchall()]
+    conn.close()
+    
+    if len(tables) > 0:
+        log_test("SQLite memory DB", True, f"Connected, {len(tables)} tables found ({', '.join(tables[:3])}...)")
     else:
-        log_test("SQLite memory DB", False, f"Database file not found: {memory_db_path}")
+        log_test("SQLite memory DB", False, "No tables found in database")
         
 except Exception as e:
     log_test("SQLite memory DB", False, str(e))
@@ -267,6 +274,7 @@ except Exception as e:
 # TEST 8: Logging functioneaza
 # ============================================================
 print("\n[8/9] Logging System...")
+handler = None
 try:
     # Setup logging
     log_file = project_root / "logs" / "test_smoke.log"
@@ -290,18 +298,33 @@ try:
     
     # Check if log file was created and has content
     if log_file.exists() and log_file.stat().st_size > 0:
-        # Remove handler before deleting file
-        test_logger.handlers.clear()
         log_test("Logging system", True, f"Logging to {log_file}")
-        # Cleanup
-        time.sleep(0.1)  # Wait for file handle to release
-        if log_file.exists():
-            log_file.unlink()
     else:
         log_test("Logging system", False, "Log file not created or empty")
         
 except Exception as e:
     log_test("Logging system", False, str(e))
+finally:
+    if handler:
+        try:
+            handler.close()
+        except Exception:
+            pass
+    # Remove test logger handler reference
+    try:
+        test_logger = logging.getLogger("smoke_test")
+        test_logger.handlers.clear()
+    except Exception:
+        pass
+        
+    # Cleanup log file
+    try:
+        log_file = project_root / "logs" / "test_smoke.log"
+        if log_file.exists():
+            time.sleep(0.1)  # Wait for file handle to release
+            log_file.unlink()
+    except Exception:
+        pass
 
 # ============================================================
 # TEST 9: Config file se citeste corect

@@ -63,6 +63,8 @@ class SimpleEmbeddingModel:
         self.dim = dim
         self.vocabulary = {}
         self.idf = {}
+        self.doc_freq = {}
+        self.total_docs = 0
         self._lock = threading.Lock()
     
     def _tokenize(self, text: str) -> List[str]:
@@ -103,33 +105,36 @@ class SimpleEmbeddingModel:
     def update_vocabulary(self, texts: List[str]):
         """Update vocabulary and IDF scores."""
         with self._lock:
-            doc_freq = {}
-            total_docs = len(texts)
-            
             for text in texts:
+                self.total_docs += 1
                 tokens = set(self._tokenize(text))
                 for token in tokens:
-                    self.vocabulary[token] = self.vocabulary.get(token, 0) + 1
-                    doc_freq[token] = doc_freq.get(token, 0) + 1
+                    if token not in self.vocabulary:
+                        self.vocabulary[token] = len(self.vocabulary)
+                    self.doc_freq[token] = self.doc_freq.get(token, 0) + 1
             
             # Update IDF
-            for token, freq in doc_freq.items():
-                self.idf[token] = np.log((1 + total_docs) / (1 + freq)) + 1
+            for token in self.vocabulary:
+                freq = self.doc_freq.get(token, 1)
+                self.idf[token] = float(np.log((1 + self.total_docs) / (1 + freq)) + 1)
     
     def encode(self, text: str) -> np.ndarray:
-        """Encode text to vector using TF-IDF."""
+        """Encode text to vector using TF-IDF and Feature Hashing."""
         if not HAS_NUMPY:
-            # Fallback: return random vector (not ideal but works)
+            # Fallback: return random vector of self.dim
             import random
-            return [random.gauss(0, 1) for _ in range(self.dim)]
+            random.seed(int(hashlib.md5(text.encode('utf-8')).hexdigest(), 16) & 0xffffffff)
+            vec = [random.gauss(0, 1) for _ in range(self.dim)]
+            norm = sum(x*x for x in vec) ** 0.5
+            if norm > 0:
+                vec = [x / norm for x in vec]
+            return np.array(vec, dtype=np.float32)
         
         tokens = self._tokenize(text)
+        vector = np.zeros(self.dim, dtype=np.float32)
         
-        # If vocabulary is empty, return zero vector
-        if len(self.vocabulary) == 0:
-            return np.zeros(self.dim, dtype=np.float32)
-        
-        vector = np.zeros(len(self.vocabulary), dtype=np.float32)
+        if not tokens:
+            return vector
         
         # Calculate TF-IDF
         token_counts = {}
@@ -137,27 +142,20 @@ class SimpleEmbeddingModel:
             token_counts[token] = token_counts.get(token, 0) + 1
         
         for token, count in token_counts.items():
-            if token in self.vocabulary:
-                tf = count / len(tokens) if tokens else 0
-                idf = self.idf.get(token, 1.0)
-                vector[self.vocabulary[token]] = tf * idf
-        
+            # Stable hashing to self.dim index
+            h = int(hashlib.md5(token.encode('utf-8')).hexdigest(), 16)
+            index = h % self.dim
+            
+            tf = count / len(tokens)
+            # Default IDF to 1.0 if not in vocabulary/idf
+            idf = self.idf.get(token, 1.0)
+            vector[index] += tf * idf
+            
         # Normalize
         norm = np.linalg.norm(vector)
         if norm > 0:
             vector = vector / norm
-        
-        # Dimensionality reduction if needed
-        if len(vector) > self.dim:
-            # Simple pooling: split into chunks and take max
-            chunk_size = len(vector) // self.dim
-            reduced = np.zeros(self.dim, dtype=np.float32)
-            for i in range(self.dim):
-                start = i * chunk_size
-                end = start + chunk_size if i < self.dim - 1 else len(vector)
-                reduced[i] = np.max(vector[start:end])
-            vector = reduced
-        
+            
         return vector.astype(np.float32)
     
     def encode_batch(self, texts: List[str]) -> np.ndarray:
@@ -201,6 +199,45 @@ class VectorMemoryCortex:
         
         logger.info(f"Vector Memory Cortex initialized (dim={index_dim}, "
                    f"engine={'FAISS' if HAS_FAISS else 'HNSW' if HAS_HNSW else 'Simple'})")
+        
+        # Load existing memories from database to populate index & vocabulary
+        self._load_existing_memories()
+
+    def _load_existing_memories(self):
+        """Load all existing memories from database and build vector index."""
+        # Query memories ordered by rowid to ensure alignment with insertion order
+        with self._lock:
+            try:
+                cursor = self._conn.execute("SELECT id, content FROM memories ORDER BY rowid")
+                rows = cursor.fetchall()
+            except sqlite3.OperationalError as e:
+                # Table might not exist yet if database is empty/new
+                logger.warning(f"Could not load existing memories: {e}")
+                return
+            
+        if not rows:
+            return
+            
+        logger.info(f"Loading {len(rows)} existing memories from database...")
+        
+        # 1. Update vocabulary for all existing contents first to build IDF properly
+        contents = [row['content'] for row in rows]
+        self.embedding_model.update_vocabulary(contents)
+        
+        # 2. Encode and add each memory to index
+        for row in rows:
+            memory_id = row['id']
+            content = row['content']
+            vector = self.embedding_model.encode(content)
+            
+            if HAS_FAISS:
+                vector_2d = vector.reshape(1, -1)
+                faiss.normalize_L2(vector_2d)
+                self.index.add(vector_2d)
+            elif HAS_HNSW:
+                self.index.add_items(vector.reshape(1, -1), [hash(memory_id)])
+            else:
+                self.index.append((memory_id, vector))
     
     def _init_vector_index(self):
         """Initialize vector search index."""
