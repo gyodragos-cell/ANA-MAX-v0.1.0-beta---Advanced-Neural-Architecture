@@ -35,6 +35,10 @@ quick checks, lists tools, and starts the Flask MCP server.
 - `ToolResult`
 - `ToolRegistry`
 
+All public MCP entry points must route tool calls through
+`ToolRegistry.execute()`. Do not call a tool instance directly from MCP bridge
+code, because that can skip parameter validation, logging, and premium gates.
+
 `core/license_manager.py` owns Free/Pro licensing. Runtime access is enforced
 inside `ToolRegistry.execute()`, so premium tools are blocked even if called
 through HTTP/MCP.
@@ -90,6 +94,21 @@ observe -> decide -> act -> verify -> learn
 ```
 
 See `docs/LOCAL_QA_LAB_VISION.md`.
+
+Browser workflow note: Chrome is the preferred visible external browser target
+on Windows. `browser_control` operation `open_external` launches a normal
+Chrome window that can stay open after a one-shot tool call exits.
+Playwright-backed operation `open` is for automation sessions, may use bundled
+Chromium first, and remains persistent while the ANA MAX server process is
+running.
+
+For agent IDE positioning, demos, and outreach language, see
+`docs/AGENT_IDE_SUPER_TOOLS_PLAN.md`. The public story should focus on three
+flagship workflows before tool count:
+
+- desktop reasoning;
+- runtime diagnostics;
+- adaptive agent IDE flow.
 
 ## Premium Gates
 

@@ -13,8 +13,11 @@ Utilizare:
 import sys
 import time
 import tempfile
+import asyncio
+import json
 from pathlib import Path
 from unittest import TestCase, main
+from unittest.mock import patch
 
 # Asigura-te ca proiectul este in path
 PROJECT_ROOT = Path(__file__).parent.parent
@@ -165,6 +168,124 @@ class TestToolRegistryBasic(TestCase):
         ]:
             result = registry.execute(tool_name, **params)
             self.assertTrue(result.is_success, result.error)
+
+    def test_browser_control_supports_external_chrome_launch(self):
+        """Browser tool should support a persistent external Chrome launch."""
+        from tools.browser_control import BrowserControlTool
+
+        definition = BrowserControlTool().get_definition()
+        operation = next(
+            param for param in definition.parameters if param.name == "operation"
+        )
+        browser_path = next(
+            param for param in definition.parameters if param.name == "browser_path"
+        )
+
+        self.assertIn("open_external", operation.choices)
+        self.assertFalse(browser_path.required)
+
+    def test_browser_runtime_prefers_chrome_before_brave(self):
+        """Chrome should be preferred for Windows browser workflows."""
+        from core.browser_runtime import BrowserAutomationRuntime
+
+        candidates = [str(path) for path in BrowserAutomationRuntime._candidate_browser_paths()]
+        chrome_index = next(i for i, path in enumerate(candidates) if "Chrome" in path)
+        brave_index = next(i for i, path in enumerate(candidates) if "Brave" in path)
+
+        self.assertLess(chrome_index, brave_index)
+
+    def test_browser_open_external_reports_invalid_explicit_path(self):
+        """Explicit invalid browser paths should fail instead of falling back silently."""
+        from tools.browser_control import BrowserControlTool
+        from tools.base import ToolStatus
+
+        result = BrowserControlTool().execute(
+            operation="open_external",
+            url="https://example.com/",
+            browser_path=r"C:\missing\chrome.exe",
+        )
+
+        self.assertEqual(result.status, ToolStatus.ERROR)
+        self.assertIn("does not exist", result.error)
+        self.assertFalse(result.data["opened"])
+
+    def test_browser_open_external_reports_system_fallback_failure(self):
+        """A failed system fallback should be an error result."""
+        from tools.browser_control import BrowserControlTool
+        from tools.base import ToolStatus
+
+        with patch("tools.browser_control.Path.exists", return_value=False), patch(
+            "tools.browser_control.webbrowser.open", return_value=False
+        ):
+            result = BrowserControlTool().execute(
+                operation="open_external",
+                url="https://example.com/",
+            )
+
+        self.assertEqual(result.status, ToolStatus.ERROR)
+        self.assertFalse(result.data["opened"])
+
+    def test_browser_open_external_allows_system_fallback_success(self):
+        """System browser fallback can still succeed when Chrome is unavailable."""
+        from tools.browser_control import BrowserControlTool
+        from tools.base import ToolStatus
+
+        with patch("tools.browser_control.Path.exists", return_value=False), patch(
+            "tools.browser_control.webbrowser.open", return_value=True
+        ):
+            result = BrowserControlTool().execute(
+                operation="open_external",
+                url="https://example.com/",
+            )
+
+        self.assertEqual(result.status, ToolStatus.SUCCESS)
+        self.assertTrue(result.data["opened"])
+        self.assertEqual(result.data["mode"], "system_default")
+
+    def test_core_mcp_server_exposes_real_tool_schema(self):
+        """Legacy MCP bridge should expose the same callable tool schema."""
+        import core.mcp_server as mcp
+        from main import _register_all_tools
+
+        _register_all_tools()
+        mcp._mcp_server = None
+        server = mcp.get_mcp_server()
+        browser = server.tools["browser_control"]
+        operation = browser["inputSchema"]["properties"]["operation"]
+
+        self.assertIn("open_external", operation["enum"])
+        self.assertIn("browser_path", browser["inputSchema"]["properties"])
+
+    def test_core_mcp_server_uses_registry_license_gate(self):
+        """MCP tool calls must go through ToolRegistry license checks."""
+        import core.license_manager as lm
+        import core.mcp_server as mcp
+        from core.license_manager import LicenseManager
+        from main import _register_all_tools
+
+        _register_all_tools()
+        mcp._mcp_server = None
+        with tempfile.TemporaryDirectory() as tmp:
+            lm._license_manager = LicenseManager(str(Path(tmp) / ".license"))
+            server = mcp.get_mcp_server()
+            response = asyncio.run(
+                server.handle_request(
+                    {
+                        "jsonrpc": "2.0",
+                        "id": 1,
+                        "method": "tools/call",
+                        "params": {
+                            "name": "live_desktop_viewer",
+                            "arguments": {"operation": "status"},
+                        },
+                    }
+                )
+            )
+        lm._license_manager = None
+
+        payload = json.loads(response["result"]["content"][0]["text"])
+        self.assertFalse(payload["success"])
+        self.assertEqual(payload["status"], "blocked")
 
     def test_workspace_situational_awareness_snapshot(self):
         """WorkGraph snapshot should be compact, read-only, and useful."""

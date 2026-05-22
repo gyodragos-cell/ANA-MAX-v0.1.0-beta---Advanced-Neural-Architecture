@@ -16,6 +16,12 @@ they act: files, git state, terminal output, desktop vision, Windows UI
 automation, memory, runtime instrumentation, voice feedback, and smoke-test
 verification.
 
+For agent IDE workflows, the short version is:
+
+```text
+Super tools for local AI coding agents.
+```
+
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
 
@@ -72,6 +78,36 @@ hands, ears, memory, and verification. See
 - It keeps public docs and shell-facing examples ASCII-only so Windows consoles
   and weaker agents can parse them reliably.
 
+## Agent IDE Super Tools
+
+ANA MAX is meant to act as a local tool layer for agent IDEs and coding agents.
+The strongest public story is not the number of tools. It is three reliable
+workflows:
+
+- desktop reasoning: observe the real Windows desktop or app state before
+  acting;
+- runtime diagnostics: use local evidence, logs, tests, and authorized Frida
+  instrumentation when static inspection is not enough;
+- adaptive IDE flow: connect through MCP, inspect workspace state, make a
+  focused change, and verify before handoff.
+
+For visible external browser workflows on Windows, ANA MAX prefers Chrome. The
+`browser_control` tool supports `open_external` for launching a normal Chrome
+window that stays open after the tool call exits. Operation `open` uses a
+Playwright automation session, which may use bundled Chromium first and stays
+alive while the ANA server process is running.
+
+Use this positioning when explaining the project:
+
+```text
+Local-first runtime orchestration and adaptive desktop tooling for agent IDE
+workflows on Windows.
+```
+
+See [`docs/AGENT_IDE_SUPER_TOOLS_PLAN.md`](docs/AGENT_IDE_SUPER_TOOLS_PLAN.md)
+for the stabilization plan, demo package, observability priorities, and
+security posture.
+
 ## AI Collaboration Acknowledgement
 
 This project was built and repaired through a human-led engineering workflow.
@@ -117,6 +153,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 $env:MCP_API_KEY = "change-me"
+$env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 python main.py
 
 # Launch the voice engine

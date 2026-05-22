@@ -17,6 +17,45 @@ from core.config import config
 logger = logging.getLogger(__name__)
 
 
+def _schema_from_tool_definition(definition) -> Dict[str, Any]:
+    """Build MCP JSON schema from the public ToolDefinition."""
+    input_schema = {"type": "object", "properties": {}, "required": []}
+    for param in definition.parameters:
+        prop = {"type": param.type if param.type != "any" else "string"}
+        if param.description:
+            prop["description"] = param.description
+        if param.choices:
+            prop["enum"] = param.choices
+        if param.default is not None:
+            prop["default"] = param.default
+        input_schema["properties"][param.name] = prop
+        if param.required:
+            input_schema["required"].append(param.name)
+    return input_schema
+
+
+def _tool_result_payload(result) -> Dict[str, Any]:
+    """Convert a ToolResult into a stable MCP-safe payload."""
+    status = getattr(result, "status", None)
+    return {
+        "success": bool(getattr(result, "is_success", False)),
+        "status": getattr(status, "value", str(status or "")),
+        "data": getattr(result, "data", None),
+        "message": getattr(result, "message", ""),
+        "error": getattr(result, "error", None),
+    }
+
+
+def _make_registry_handler(tool_name: str) -> Callable:
+    """Route MCP tool calls through ToolRegistry for validation and licensing."""
+    def handler(**kwargs):
+        from tools.base import registry
+
+        result = registry.execute(tool_name, **kwargs)
+        return _tool_result_payload(result)
+    return handler
+
+
 class MCPServer:
     """MCP Server pentru ANA MAX."""
     
@@ -85,7 +124,7 @@ class MCPServer:
         try:
             if asyncio.iscoroutinefunction(func): res = await func(**args)
             else: res = func(**args)
-            return {"content": [{"type": "text", "text": json.dumps(res, indent=2)}]}
+            return {"content": [{"type": "text", "text": json.dumps(res, indent=2, default=str)}]}
         except Exception as e:
             return {"content": [{"type": "text", "text": f"Error: {str(e)}"}], "isError": True}
 
@@ -163,45 +202,11 @@ class AdalBridge:
             for tool_name, tool_instance in list(registry._tools.items()):
                 try:
                     definition = tool_instance.get_definition()
-                    # Build JSON Schema from parameters
-                    inputSchema = {"type": "object", "properties": {}, "required": []}
-                    for p in definition.parameters:
-                        prop = {"type": p.type}
-                        if p.description:
-                            prop["description"] = p.description
-                        if p.choices:
-                            prop["enum"] = p.choices
-                        if p.default is not None:
-                            prop["default"] = p.default
-                        inputSchema["properties"][p.name] = prop
-                        if p.required:
-                            inputSchema["required"].append(p.name)
-
-                    if not inputSchema["required"]:
-                        inputSchema["required"] = []
-
-                    # Capture tool instance in closure safely
-                    def make_handler(_tool=tool_instance):
-                        def handler(**kwargs):
-                            res = _tool.execute(**kwargs)
-                            if isinstance(res, dict):
-                                return res
-                            try:
-                                return {
-                                    "status": getattr(res, "status").value if hasattr(res, "status") else "error",
-                                    "data": getattr(res, "data", None),
-                                    "message": getattr(res, "message", ""),
-                                    "error": getattr(res, "error", None),
-                                }
-                            except Exception as e:
-                                return {"status": "error", "data": None, "message": str(res), "error": str(e)}
-                        return handler
-
                     self.mcp_server.register_tool(
                         name=definition.name,
                         description=definition.description,
-                        schema=inputSchema,
-                        function=make_handler()
+                        schema=_schema_from_tool_definition(definition),
+                        function=_make_registry_handler(definition.name)
                     )
                 except Exception as e:
                     logger.warning(f"Failed to register tool {tool_name}: {e}")
@@ -274,19 +279,11 @@ def get_mcp_server() -> MCPServer:
             for tool_name, tool_instance in registry._tools.items():
                 try:
                     definition = tool_instance.get_definition()
-                    # Create handler with default arg to capture current tool_instance
-                    def make_handler(_tool=tool_instance):
-                        def handler(**kwargs):
-                            result = _tool.execute(**kwargs)
-                            if hasattr(result, 'data') and result.data:
-                                return result.data
-                            return result.message if result.message else str(result)
-                        return handler
                     _mcp_server.register_tool(
                         name=definition.name,
                         description=definition.description,
-                        schema={"type": "object", "properties": {}, "required": []},
-                        function=make_handler()
+                        schema=_schema_from_tool_definition(definition),
+                        function=_make_registry_handler(definition.name)
                     )
                 except Exception as e:
                     logger.warning("Failed to register tool %s: %s", str(tool_name), str(e))

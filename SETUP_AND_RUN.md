@@ -34,6 +34,7 @@ MCP authentication is enabled by default.
 
 ```powershell
 $env:MCP_API_KEY = "change-me"
+$env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 python main.py
 ```
 
@@ -69,6 +70,45 @@ editing code, run tests before claiming a fix, and use Frida only for
 authorized runtime instrumentation.
 
 See `docs/LOCAL_QA_LAB_VISION.md`.
+
+## Agent IDE Connection
+
+ANA MAX exposes the same local MCP runtime to the VS Code extension and to any
+agent IDE that can call MCP over HTTP.
+
+Default endpoint:
+
+```text
+http://127.0.0.1:8765/mcp
+```
+
+Required header:
+
+```text
+Authorization: Bearer change-me
+```
+
+Recommended agent flow:
+
+```text
+tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
+```
+
+For the three flagship workflows, see
+`docs/AGENT_IDE_SUPER_TOOLS_PLAN.md`.
+
+## Browser Workflows
+
+Chrome is recommended for visible local browser workflows on Windows:
+
+```powershell
+$env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+```
+
+Use `browser_control` operation `open_external` when a normal visible Chrome
+window should stay open after a one-shot tool call exits. Use operation `open`
+for Playwright automation sessions; those sessions may use bundled Chromium
+first and stay alive while the ANA MAX server process is running.
 
 ## Troubleshooting
 

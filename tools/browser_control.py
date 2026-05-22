@@ -4,7 +4,9 @@ Visible browser launch and lightweight inspection helpers.
 
 from __future__ import annotations
 
+import os
 import re
+import subprocess
 import time
 import logging
 import webbrowser
@@ -46,7 +48,7 @@ class BrowserControlTool(Tool):
                     type="string",
                     required=True,
                     choices=[
-                    "open", "inspect", "navigate", "click", "type", "press", "read",
+                    "open", "open_external", "inspect", "navigate", "click", "type", "press", "read",
                     "screenshot", "screenshot_base64", "debug_feedback", "close", "status",
                     "evaluate", "evaluate_on_selector",
                     "scroll", "hover", "select_option", "upload_file",
@@ -195,6 +197,13 @@ class BrowserControlTool(Tool):
                     required=False,
                     default="",
                 ),
+                ToolParameter(
+                    name="browser_path",
+                    description="Calea browserului pentru open_external",
+                    type="string",
+                    required=False,
+                    default="",
+                ),
             ],
             category="browser",
             requires_confirmation=False,
@@ -220,6 +229,7 @@ class BrowserControlTool(Tool):
         mock_status = int(kwargs.get("mock_status", 200) or 200)
         timeout_ms = int(kwargs.get("timeout_ms", 10000) or 10000)
         file_path = kwargs.get("file_path", "")
+        browser_path = kwargs.get("browser_path", "")
 
         try:
             runtime = get_browser_runtime()
@@ -230,6 +240,23 @@ class BrowserControlTool(Tool):
                     return ToolResult(status=ToolStatus.ERROR, error=f"URL invalid: {url}")
                 data = runtime.open(normalized_url, visible=visible, new_session=new_session, wait_seconds=wait_seconds)
                 return ToolResult(status=ToolStatus.SUCCESS, data=data, message=f"Browser deschis la {normalized_url}")
+
+            if operation == "open_external":
+                normalized_url = self._normalize_url(url)
+                if not normalized_url:
+                    return ToolResult(status=ToolStatus.ERROR, error=f"URL invalid: {url}")
+                data = self._open_external_browser(normalized_url, browser_path=browser_path)
+                if not data.get("opened"):
+                    return ToolResult(
+                        status=ToolStatus.ERROR,
+                        data=data,
+                        error=data.get("error", "Browser extern nu a putut fi deschis"),
+                    )
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data=data,
+                    message=f"Browser extern deschis la {normalized_url}",
+                )
 
             if operation == "navigate":
                 normalized_url = self._normalize_url(url)
@@ -398,6 +425,53 @@ class BrowserControlTool(Tool):
             return ToolResult(status=ToolStatus.ERROR, error=f"Browser control failed: {exc}")
 
         return ToolResult(status=ToolStatus.ERROR, error=f"Operatie browser necunoscuta: {operation}")
+
+    def _open_external_browser(self, url: str, browser_path: str = "") -> dict:
+        explicit_browser_path = bool(browser_path)
+        browser = Path(
+            browser_path
+            or os.environ.get("ANA_BROWSER_PATH", "")
+            or r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+        )
+
+        if browser.exists():
+            proc = subprocess.Popen(
+                [str(browser), "--new-window", url],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+            )
+            return {
+                "url": url,
+                "opened": True,
+                "mode": "external_process",
+                "browser_path": str(browser),
+                "pid": proc.pid,
+                "automation_ready": False,
+                "stays_open_after_tool_exit": True,
+            }
+
+        if explicit_browser_path:
+            return {
+                "url": url,
+                "opened": False,
+                "mode": "external_process",
+                "browser_path": str(browser),
+                "automation_ready": False,
+                "stays_open_after_tool_exit": False,
+                "error": f"Browser path does not exist: {browser}",
+            }
+
+        opened = webbrowser.open(url)
+        return {
+            "url": url,
+            "opened": bool(opened),
+            "mode": "system_default",
+            "browser_path": "",
+            "automation_ready": False,
+            "stays_open_after_tool_exit": True,
+            "error": "" if opened else "System default browser did not open the URL",
+        }
 
     def _inspect(self, url: str, wait_seconds: int = 3, screenshot_path: str = "") -> ToolResult:
         if HAS_PLAYWRIGHT:

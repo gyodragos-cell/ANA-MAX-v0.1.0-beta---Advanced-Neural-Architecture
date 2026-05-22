@@ -46,6 +46,23 @@
   public videos should be hosted externally, then linked from the site.
 - Linked the current public YouTube demo from README, the website, and the
   video map.
+- Added `docs/AGENT_IDE_SUPER_TOOLS_PLAN.md` to frame ANA MAX as local-first
+  super tools for agent IDE workflows: desktop reasoning, runtime diagnostics,
+  adaptive IDE flow, observability, and security posture.
+- Updated the README, setup guide, and VS Code extension metadata to align the
+  public message around 64 loaded tools, MCP auth, local-first orchestration,
+  and agent IDE integration.
+- Replaced the stale `docs/README.md` with an ASCII-only public documentation
+  index that points to the release map, local lab vision, agent IDE plan,
+  WorkGraph architecture, demo blueprint, and licensing notes.
+- Updated browser workflow behavior so ANA MAX prefers Chrome before Brave on
+  Windows and added `browser_control` operation `open_external` for launching a
+  normal visible browser window that stays open after one-shot tool calls.
+- Documented optional `ANA_BROWSER_PATH` for Chrome-based browser workflows and
+  added smoke tests for the browser launch contract.
+- Hardened the legacy MCP bridge so registered tools expose real parameter
+  schemas and all tool calls route through `ToolRegistry.execute()` for
+  validation, logging, and premium-gate enforcement.
 
 ## Verification Baseline
 

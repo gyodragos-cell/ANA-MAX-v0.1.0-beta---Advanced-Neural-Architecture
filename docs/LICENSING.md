@@ -23,7 +23,7 @@ The Pro version unlocks **4 additional premium tools**:
 - `live_desktop_viewer` - Real-time desktop streaming
 - `desktop_control` - Full desktop automation
 - `windows_insight` - Advanced system monitoring
-- `windows_deep_sight` - "God View" system analysis
+- `windows_deep_sight` - Deep system analysis
 
 ## How to Activate a Pro License
 

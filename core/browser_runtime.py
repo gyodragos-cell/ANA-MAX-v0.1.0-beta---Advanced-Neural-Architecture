@@ -681,11 +681,14 @@ class BrowserAutomationRuntime:
 
     @staticmethod
     def _candidate_browser_paths() -> List[Path]:
+        # Chrome is the most reliable target for ANA's browser workflows on
+        # Windows because it exposes predictable process and automation behavior.
         return [
-            Path(r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"),
             Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
+            Path(r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"),
             Path(r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"),
             Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"),
+            Path(r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"),
         ]
 
 

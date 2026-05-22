@@ -513,7 +513,7 @@
           <g class="wg-node active" data-node="clients" tabindex="0" role="button" aria-label="MCP clients">
             <rect class="box2" x="230" y="18" width="300" height="58" rx="8"/>
             <text class="t" x="380" y="42" text-anchor="middle">MCP Clients</text>
-            <text class="s" x="380" y="62" text-anchor="middle">Claude / Cursor / Windsurf</text>
+            <text class="s" x="380" y="62" text-anchor="middle">Agent IDEs / coding assistants</text>
           </g>
           <line class="l active" data-edge="clients server" x1="380" y1="76" x2="380" y2="108"/>
 
@@ -565,7 +565,7 @@
         </svg>
         <div class="wg-detail" id="wg-detail" aria-live="polite">
           <strong id="wg-title">MCP Clients</strong>
-          <p id="wg-desc">The coding assistant asks for real observations instead of guessing. Cursor, Windsurf, Antigravity, OpenCode, or Codex can call ANA through MCP.</p>
+          <p id="wg-desc">The coding assistant asks for real observations instead of guessing. Agent IDEs and local coding assistants can call ANA through MCP.</p>
           <code id="wg-test">Ask the agent to inspect first, then edit only after a tool result.</code>
           <div class="wg-controls" aria-label="Runtime WorkGraph navigation">
             <button type="button" id="wg-prev">Previous</button>
@@ -748,7 +748,7 @@ python -m unittest discover -s tests -v</pre>
 var workGraphDetails = {
   clients: {
     title: "MCP Clients",
-    desc: "The coding assistant asks for real observations instead of guessing. Cursor, Windsurf, Antigravity, OpenCode, or Codex can call ANA through MCP.",
+    desc: "The coding assistant asks for real observations instead of guessing. Agent IDEs and local coding assistants can call ANA through MCP.",
     test: "Ask the agent to inspect first, then edit only after a tool result.",
     edges: ["clients server"]
   },

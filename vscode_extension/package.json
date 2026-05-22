@@ -1,7 +1,7 @@
 {
   "name": "advanced-neural-architecture",
   "displayName": "ANA MAX - Advanced Neural Architecture",
-  "description": "AI-powered Windows automation with 43+ MCP tools including Vision AI (screenshot + OCR), desktop control, UI testing, and intelligent code operations. Free with optional Pro license.",
+  "description": "Windows-first MCP runtime with 64 loaded tools for local agent IDE workflows, desktop awareness, runtime diagnostics, and verification.",
   "version": "0.2.0",
   "repository": {
     "type": "git",
@@ -23,9 +23,10 @@
     "MCP",
     "Windows",
     "Automation",
-    "Desktop Control",
+    "Desktop Awareness",
     "UI Testing",
-    "Free",
+    "Agent IDE",
+    "Local First",
     "Neural Architecture"
   ],
   "license": "MIT",
@@ -35,7 +36,8 @@
     "package": "vsce package"
   },
   "devDependencies": {
-    "@types/vscode": "^1.80.0"
+    "@types/vscode": "^1.80.0",
+    "@vscode/vsce": "^3.9.1"
   },
   "main": "./src/extension.js",
   "contributes": {
