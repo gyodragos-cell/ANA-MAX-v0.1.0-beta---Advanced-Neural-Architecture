@@ -25,6 +25,7 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "docs" / "README.md",
             PROJECT_ROOT / "docs" / "AI_COLLABORATION_AND_TOOLS.md",
             PROJECT_ROOT / "docs" / "PROJECT_MAP_AI_GUIDE.md",
+            PROJECT_ROOT / "docs" / "ROADMAP.md",
             PROJECT_ROOT / "docs" / "AGENT_IDE_SUPER_TOOLS_PLAN.md",
             PROJECT_ROOT / "docs" / "USER_EXTENSION_INSTALL_AND_ETHICS.md",
             PROJECT_ROOT / "docs" / "ANA_WORKGRAPH_ARCHITECTURE.md",

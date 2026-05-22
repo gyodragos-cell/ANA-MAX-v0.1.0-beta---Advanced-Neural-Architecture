@@ -62,6 +62,29 @@ ANA MAX tries to be useful to any capable AI agent by giving it local Windows
 context through MCP tools: desktop state, files, terminal output, git status,
 logs, OCR, UI Automation, and verification.
 
+## Responsible QA Mindset
+
+ANA MAX tools are meant to make AI agents more careful, not more reckless. A
+good agent should use tools to observe real evidence, reproduce issues safely,
+separate facts from guesses, and help developers fix problems.
+
+Good use:
+
+```text
+find a weakness -> verify it safely -> report it privately -> help confirm the fix
+```
+
+Bad use:
+
+```text
+find a weakness -> exploit it silently -> publish risky steps -> hide the evidence
+```
+
+The private lab can test stronger workflows than the public release. Keep those
+experiments private until they are safe, documented, tested, and useful for
+authorized QA. Public docs should teach discipline and verification, not expose
+abuse recipes.
+
 Safe public wording:
 
 ```text

@@ -89,6 +89,9 @@
   GitHub URLs, old tool counts, and mojibake.
 - Cleaned quick MCP, dependency, and VS Code publishing guides so public agent
   handoffs use current auth, tool counts, and canonical links.
+- Added responsible QA and white-hat reporting language to the README, AI
+  collaboration guide, and roadmap while keeping private lab capabilities out
+  of the public release.
 
 ## Verification Baseline
 

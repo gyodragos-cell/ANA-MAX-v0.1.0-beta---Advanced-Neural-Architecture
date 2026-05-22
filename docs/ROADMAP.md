@@ -1,21 +1,44 @@
-# ANA MAX - Project Roadmap & Development Status
+# ANA MAX - Project Roadmap And Development Status
 
-**Version:** 18.0.0-BETA  
-**Status:** Active Development (Not Production Ready)  
-**Last Updated:** 2026-05-17  
-**License:** MIT (Open Source Framework)
+**Public release:** v0.1.0-beta / VS Code extension v0.2.0  
+**Status:** Clean public release with active private lab development  
+**Last updated:** 2026-05-22  
+**License:** MIT
 
 ---
 
 ## Project Vision
 
-ANA MAX is an **advanced neural architecture** for Windows that provides AI-driven desktop automation through a **Model Context Protocol (MCP)** server with 64+ tools. 
+ANA MAX is a Windows-first local MCP runtime that gives AI agents practical QA
+senses: workspace observation, desktop context, terminal output, git state,
+browser workflows, UI automation, logs, voice feedback, and verification.
+
+The public release is intentionally conservative. Private lab experiments may
+be stronger than what is published here, but they stay private until they are
+safe, documented, tested, and useful for authorized QA.
 
 **Target Use Cases:**
 - Privacy-first desktop automation
 - Local AI agent frameworks
 - Research & development platform
 - OS-level copilot infrastructure
+- White-hat QA and responsible bug reporting
+
+## Responsible QA Direction
+
+ANA MAX is not meant to help users exploit weaknesses silently. It is meant to
+help users and agents find real problems, verify them safely, report them
+responsibly, and confirm that developers fixed them.
+
+Preferred workflow:
+
+```text
+observe -> reproduce safely -> document impact -> report privately -> verify fix
+```
+
+This is the line between useful QA tooling and reckless automation. The public
+release should make that discipline obvious to new users and to AI agents that
+help them install or connect the project.
 
 ---
 

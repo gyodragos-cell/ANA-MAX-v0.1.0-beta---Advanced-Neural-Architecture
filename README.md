@@ -112,6 +112,23 @@ and local repair work. It is not a black-hat hacking kit.
 Use it only on systems you own or are explicitly allowed to test. The purpose
 is to help users and agents observe, diagnose, fix, verify, and learn.
 
+## Responsible QA And Reporting
+
+ANA MAX is meant to help users and AI agents find real problems responsibly.
+The goal is not to exploit a weakness for private advantage. The goal is to
+observe evidence, verify the behavior, write a clear report, and help
+developers fix it.
+
+Clean workflow:
+
+```text
+observe evidence -> reproduce safely -> document impact -> report privately -> verify the fix
+```
+
+Private lab experiments may be stronger than the public release. They should
+stay private until they are safe, documented, tested, and useful for legitimate
+QA. The public release should show the discipline, not expose risky recipes.
+
 ## Why It Exists
 
 Most agents lose time because they guess from partial context. ANA MAX is built
