@@ -52,6 +52,21 @@ from core.config import config  # noqa: E402
 config.load(str(CONFIG_PATH))
 
 
+def _is_vscode_agent_session() -> bool:
+    """Return True when VS Code marks this terminal command as agent-run."""
+    value = os.environ.get("VSCODE_AGENT", "")
+    return value.strip().lower() not in {"", "0", "false", "no"}
+
+
+def _compact_agent_output() -> bool:
+    return _is_vscode_agent_session()
+
+
+def _print_tool_load(message: str) -> None:
+    if not _compact_agent_output():
+        print(message)
+
+
 def _load_tool_class(module_path: str, class_name: str):
     mod = __import__(module_path, fromlist=[class_name])
     return getattr(mod, class_name)
@@ -211,9 +226,9 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name}")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name}")
         except Exception as e:
-            print(f"  [!] {class_name} skip: {e}")
+            _print_tool_load(f"  [!] {class_name} skip: {e}")
 
     for module_path, class_name in optional_modules:
         try:
@@ -224,7 +239,7 @@ def _register_all_tools():
                 tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (optional)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (optional)")
         except Exception as e:
             logging.getLogger(__name__).warning("Optional tool skipped %s.%s: %s", module_path, class_name, e)
 
@@ -235,9 +250,9 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (NEW)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (NEW)")
         except Exception as e:
-            print(f"  [!] {class_name} skip: {e}")
+            _print_tool_load(f"  [!] {class_name} skip: {e}")
     
     # Windows Deep Sight tool (2026-05-13)
     try:
@@ -245,7 +260,7 @@ def _register_all_tools():
         tool_instance = tool_class()
         registry.register(tool_instance)
         loaded += 1
-        print(f"  [OK] {tool_instance.get_definition().name} (GOD VIEW)")
+        _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (GOD VIEW)")
     except Exception as e:
         logging.getLogger(__name__).warning("Deep Sight tool skipped: %s", e)
 
@@ -256,7 +271,7 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (DESKTOP CONTROL)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (DESKTOP CONTROL)")
         except Exception as e:
             logging.getLogger(__name__).warning("Desktop tool skipped %s.%s: %s", module_path, class_name, e)
 
@@ -266,7 +281,7 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (VOICE)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (VOICE)")
         except Exception as e:
             logging.getLogger(__name__).warning("Voice tool skipped %s.%s: %s", module_path, class_name, e)
 
@@ -290,7 +305,7 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (RUFLO-INTEGRATION)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (RUFLO-INTEGRATION)")
         except Exception as e:
             logging.getLogger(__name__).warning("Advanced tool skipped %s.%s: %s", module_path, class_name, e)
     
@@ -301,7 +316,7 @@ def _register_all_tools():
             tool_instance = tool_class()
             registry.register(tool_instance)
             loaded += 1
-            print(f"  [OK] {tool_instance.get_definition().name} (UI-TARS-INTEGRATION)")
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (UI-TARS-INTEGRATION)")
         except Exception as e:
             logging.getLogger(__name__).warning("UI-TARS tool skipped %s.%s: %s", module_path, class_name, e)
     
@@ -320,7 +335,7 @@ def _register_all_tools():
                 instance = AdapterClass()
                 registry.register(instance)
                 loaded += 1
-                print(f"  [OK] {instance.get_definition().name} (AI CORE)")
+                _print_tool_load(f"  [OK] {instance.get_definition().name} (AI CORE)")
             except Exception as e:
                 logging.getLogger(__name__).warning(
                     "AI Core adapter skipped %s: %s", AdapterClass.__name__, e
@@ -468,7 +483,9 @@ def _start_mcp_server(host: str, port: int):
             "version": "18.0-MAX",
             "tools_count": len(tools),
             "tools": sorted(tools),
-            "mcp_ready": True
+            "mcp_ready": True,
+            "vscode_agent": _is_vscode_agent_session(),
+            "output_profile": "compact" if _compact_agent_output() else "normal",
         })
 
     @app.route('/tools', methods=['GET'])
@@ -766,16 +783,26 @@ def main() -> int:
 
     args = _build_parser().parse_args()
     _configure_logging(args.debug)
-    _print_banner()
+    agent_session = _is_vscode_agent_session()
+    if agent_session:
+        logging.getLogger(__name__).info("VS Code agent session detected; compact output enabled")
+    else:
+        _print_banner()
 
     # Creeaza directoare necesare
     for d in ["logs", "memory", "backups", "generated_bots"]:
         (BASE_DIR / d).mkdir(parents=True, exist_ok=True)
 
     # Inregistreaza TOATE tool-urile
-    print("\n  Incarcare tool-uri...")
+    if agent_session:
+        print("ANA MAX: loading tools")
+    else:
+        print("\n  Incarcare tool-uri...")
     loaded = _register_all_tools()
-    print(f"  {loaded} tool-uri incarcate.\n")
+    if agent_session:
+        print(f"ANA MAX: {loaded} tools loaded")
+    else:
+        print(f"  {loaded} tool-uri incarcate.\n")
 
     if args.list_tools:
         _list_tools()

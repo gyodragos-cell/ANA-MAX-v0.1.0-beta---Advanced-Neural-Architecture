@@ -96,7 +96,7 @@ def _kill_port(port: int):
             pass
 
 
-def _health_check(timeout: int = HEALTH_TIMEOUT) -> bool:
+def _mcp_tools_list(timeout: int = HEALTH_TIMEOUT) -> Optional[list[dict]]:
     import urllib.request
     payload = json.dumps({
         "jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}
@@ -112,11 +112,23 @@ def _health_check(timeout: int = HEALTH_TIMEOUT) -> bool:
             )
             with urllib.request.urlopen(req, timeout=3) as resp:
                 data = json.loads(resp.read())
-                if "result" in data:
-                    return True
+                tools = data.get("result", {}).get("tools")
+                if isinstance(tools, list):
+                    return tools
         except Exception:
             time.sleep(1)
-    return False
+    return None
+
+
+def _health_check(timeout: int = HEALTH_TIMEOUT) -> bool:
+    return _mcp_tools_list(timeout=timeout) is not None
+
+
+def _tool_count(timeout: int = 3) -> Optional[int]:
+    tools = _mcp_tools_list(timeout=timeout)
+    if tools is None:
+        return None
+    return len(tools)
 
 
 def _load_state() -> dict:
@@ -219,6 +231,9 @@ def main():
             _log("Port ocupat. Verific daca e un server ANA MAX functional...")
             if _health_check(timeout=5):
                 _log(f"Server ANA MAX deja activ la http://{host}:{port}")
+                count = _tool_count()
+                if count is not None:
+                    _log(f"  Tool-uri disponibile: {count}")
                 sys.exit(0)
             # Not our server, give up
             _log(f"Port {port} e ocupat de alt proces si nu poate fi oprit (posibil system/elevated).")
@@ -261,7 +276,11 @@ def main():
             _save_state(state)
 
             _log(f"\n  ANA MAX ruleaza la http://{host}:{port}")
-            _log(f"  Tool-uri disponibile: 46+")
+            count = _tool_count()
+            if count is not None:
+                _log(f"  Tool-uri disponibile: {count}")
+            else:
+                _log("  Tool-uri disponibile: health-check OK, count unavailable")
             return
 
         _log(f"  Serverul nu raspunde. Incerc din nou...")

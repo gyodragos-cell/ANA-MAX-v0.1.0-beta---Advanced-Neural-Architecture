@@ -20,6 +20,7 @@ class ToolHealthcheckTool(Tool):
             ("tools.code", "CodeTool"),
             ("tools.web", "WebTool"),
             ("tools.system", "SystemTool"),
+            ("tools.tool_healthcheck", "ToolHealthcheckTool"),
             ("tools.conversation_learning_tool", "ConversationLearningTool"),
             ("tools.session_log_miner_tool", "SessionLogMinerTool"),
             ("tools.memory_tool", "MemoryTool"),
@@ -31,6 +32,7 @@ class ToolHealthcheckTool(Tool):
             ("tools.smart_search_tool", "SmartSearchTool"),
             ("tools.debugger_tool", "DebuggerTool"),
             ("tools.codebase_understanding_tool", "CodebaseUnderstandingTool"),
+            ("tools.workspace_situational_awareness", "WorkspaceSituationalAwarenessTool"),
             ("tools.browser_control", "BrowserControlTool"),
             ("tools.science_tool", "ScienceTool"),
             ("tools.mitm_analyzer_tool", "MITMAnalyzerTool"),
@@ -58,7 +60,7 @@ class ToolHealthcheckTool(Tool):
                     type="string",
                     required=False,
                     default="safe",
-                    choices=["safe", "all"],
+                    choices=["safe", "all", "offline_lab"],
                 )
             ],
             category="system",
@@ -66,23 +68,39 @@ class ToolHealthcheckTool(Tool):
 
     def execute(self, scope: str = "safe", **kwargs: Any) -> ToolResult:
         self._ensure_registry()
+        legacy_operation = kwargs.get("operation")
+        if legacy_operation in {"summary", "status"} and scope == "safe":
+            scope = "safe"
 
         safe_checks: List[tuple[str, Dict[str, Any]]] = [
             ("file_operations", {"operation": "list", "path": "."}),
             ("system_control", {"operation": "vitals"}),
             ("smart_search", {"action": "stats", "project_path": "."}),
-            ("codebase_understanding", {"action": "semantic_search", "query": "main server", "project_path": "."}),
+            ("workspace_situational_awareness", {"path": ".", "max_files": 10}),
         ]
 
         optional_checks: List[tuple[str, Dict[str, Any]]] = [
+            ("codebase_understanding", {"action": "semantic_search", "query": "main server", "project_path": "."}),
             ("qa_testing", {"operation": "generate_tests", "target": "def add(a, b): return a + b"}),
             ("debugger", {"traceback_text": "ValueError: test error"}),
             ("science_research", {"operation": "simulate_model", "params": "{\"samples\": 5, \"low\": 0, \"high\": 1}"}),
         ]
 
+        offline_lab_checks: List[tuple[str, Dict[str, Any]]] = [
+            ("file_operations", {"operation": "list", "path": "."}),
+            ("system_control", {"operation": "vitals"}),
+            ("smart_search", {"action": "stats", "project_path": "."}),
+            ("workspace_situational_awareness", {"path": ".", "max_files": 10}),
+            ("foreground_ui_snapshot", {"include_text": "false", "max_elements": "8", "timeout": 15}),
+            ("desktop_capture", {"operation": "get_windows", "timeout": 20}),
+            ("edge_tts_voice", {"operation": "status"}),
+        ]
+
         checks = list(safe_checks)
         if scope == "all":
             checks.extend(optional_checks)
+        elif scope == "offline_lab":
+            checks = offline_lab_checks
 
         results = []
         ok = 0

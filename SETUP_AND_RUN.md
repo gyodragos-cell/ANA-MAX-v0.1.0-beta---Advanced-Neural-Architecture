@@ -35,6 +35,24 @@ ANA MAX: Start MCP Server
 ANA MAX: Call Tool
 ```
 
+The extension reads these VS Code settings:
+
+```json
+{
+  "anaMax.mcpApiKey": "change-me",
+  "anaMax.mcpHost": "127.0.0.1",
+  "anaMax.mcpPort": 8765
+}
+```
+
+When the server is started from VS Code, `anaMax.mcpApiKey` is passed as
+`MCP_API_KEY`. Tool calls from the extension send the matching Bearer token.
+
+VS Code 1.121+ sets `VSCODE_AGENT` for terminal commands launched by an agent.
+ANA MAX detects it automatically and uses compact startup output for agent
+sessions. Human-launched terminals keep normal output. The `/health` endpoint
+reports `vscode_agent` and `output_profile`.
+
 Beginner guide:
 
 ```text

@@ -121,7 +121,7 @@ security posture.
 This project was built and repaired through a human-led engineering workflow.
 Dragos owns the vision, direction, testing, and final decisions.
 
-OpenAI Codex has been an important AI coding collaborator for this release:
+OpenAI Codex has been the main AI coding collaborator for this release:
 
 - helped turn a noisy experimental workspace into a cleaner public release;
 - helped repair MCP, voice, desktop diagnostic, and release-hygiene workflows;
@@ -130,8 +130,22 @@ OpenAI Codex has been an important AI coding collaborator for this release:
 - helped document the project in a way that engineers can verify instead of
   trusting hype.
 
+Official link:
+
+- OpenAI Codex: https://openai.com/codex/
+
+Qoder is also credited as a useful agentic coding workflow tool and source of
+lab assistance/inspiration.
+
+Official links:
+
+- Qoder: https://qoder.com/
+
 The goal of this acknowledgement is simple: show that AI tools can be useful
 when they work as careful engineering collaborators, not blind code generators.
+
+For more detail, see
+[`docs/AI_COLLABORATION_AND_TOOLS.md`](docs/AI_COLLABORATION_AND_TOOLS.md).
 
 ## Demo
 
@@ -206,6 +220,24 @@ Then run:
 ANA MAX: Start MCP Server
 ANA MAX: Call Tool
 ```
+
+The extension uses these VS Code settings:
+
+```json
+{
+  "anaMax.mcpApiKey": "change-me",
+  "anaMax.mcpHost": "127.0.0.1",
+  "anaMax.mcpPort": 8765
+}
+```
+
+`anaMax.mcpApiKey` is passed to the server as `MCP_API_KEY` and sent as the
+Bearer token when the extension calls local MCP endpoints.
+
+VS Code 1.121+ marks agent-launched terminal commands with `VSCODE_AGENT`.
+ANA MAX detects that signal and switches startup output to a compact
+agent-readable profile. Manual terminal runs keep the normal human-readable
+output. Check `/health` for `vscode_agent` and `output_profile`.
 
 For a beginner-friendly walkthrough, see
 [`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`](docs/USER_EXTENSION_INSTALL_AND_ETHICS.md).

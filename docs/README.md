@@ -6,6 +6,8 @@ release.
 Start here:
 
 - `PROJECT_MAP_AI_GUIDE.md` - source-of-truth project map for agents.
+- `AI_COLLABORATION_AND_TOOLS.md` - credits and practical guidance for Codex,
+  Qoder, and agent-assisted development.
 - `LOCAL_QA_LAB_VISION.md` - local/offline QA lab and private workstation
   vision.
 - `AGENT_IDE_SUPER_TOOLS_PLAN.md` - positioning and flagship workflow plan for

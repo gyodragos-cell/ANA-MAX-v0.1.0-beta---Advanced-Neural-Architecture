@@ -320,6 +320,24 @@ class TestToolRegistryBasic(TestCase):
         self.assertTrue(result.data["workspace"]["available"])
         self.assertNotIn("repo_path", result.data["workspace"])
 
+    def test_tool_healthcheck_safe_scope_stays_offline(self):
+        """Safe healthcheck must avoid semantic search model/network loading."""
+        from tools.base import ToolResult, ToolStatus
+        from tools.tool_healthcheck import ToolHealthcheckTool
+
+        calls = []
+
+        def fake_execute(name, **params):
+            calls.append((name, params))
+            return ToolResult(status=ToolStatus.SUCCESS, data={}, message="ok")
+
+        with patch("tools.tool_healthcheck.registry.execute", side_effect=fake_execute):
+            result = ToolHealthcheckTool().execute(operation="summary")
+
+        self.assertTrue(result.is_success)
+        self.assertNotIn("codebase_understanding", [name for name, _ in calls])
+        self.assertIn("workspace_situational_awareness", [name for name, _ in calls])
+
 
 class TestConfig(TestCase):
     """Teste pentru config."""

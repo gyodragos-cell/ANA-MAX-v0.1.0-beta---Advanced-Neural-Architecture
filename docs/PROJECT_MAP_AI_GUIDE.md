@@ -47,6 +47,17 @@ through HTTP/MCP.
 the public release. Set `ANA_MCP_KEY` or `MCP_API_KEY` before using `/execute`,
 `/tools`, `/mcp`, `/events`, or `/mcp/stream`.
 
+The VS Code extension must pass the same token when it starts the server or
+calls tools. Its public settings are `anaMax.mcpApiKey`, `anaMax.mcpHost`, and
+`anaMax.mcpPort`.
+
+VS Code 1.121+ sets `VSCODE_AGENT` for terminal commands launched by an agent.
+When ANA MAX sees this environment variable, `main.py` keeps startup output
+compact for agent readability while preserving normal output for human-run
+terminals, and `ToolRegistry.execute()` suppresses rich terminal panels during
+agent-run tool calls. The `/health` endpoint reports `vscode_agent` and
+`output_profile` so IDE integrations can verify the runtime mode.
+
 ## Tool Ownership
 
 New user-facing capabilities belong in `tools/`, not in `core/`.
@@ -72,6 +83,9 @@ Tool quality beats tool count:
   cases where static and structural inspection cannot answer the question.
 - Do not use powerful tools by habit. Choose the smallest useful tool and verify
   the result.
+- `tool_healthcheck` safe scope must stay offline and avoid semantic search
+  model or network loading. Use `scope=all` only when heavier optional checks
+  are intended.
 
 ## Local QA Lab Vision
 
@@ -207,3 +221,7 @@ The expected public baseline is:
 
 If the numbers change, update this file, `AGENTS.md`, README/docs, and tests in
 the same change.
+
+Operational note: after changing tool registration or startup behavior, restart
+the running MCP server before trusting `/tools` or MCP `tools/list`; an existing
+process keeps its old in-memory registry.

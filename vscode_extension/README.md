@@ -15,6 +15,30 @@ instrumentation, and verification.
 5. Run: `ANA MAX: Start MCP Server`
 6. Use tools: `ANA MAX: Call Tool`
 
+## MCP Auth Settings
+
+The public release requires MCP authentication. The extension uses these VS Code
+settings:
+
+```json
+{
+  "anaMax.mcpApiKey": "change-me",
+  "anaMax.mcpHost": "127.0.0.1",
+  "anaMax.mcpPort": 8765
+}
+```
+
+When you start the server from VS Code, `anaMax.mcpApiKey` is passed as
+`MCP_API_KEY`. Tool calls from the extension send:
+
+```text
+Authorization: Bearer change-me
+```
+
+VS Code 1.121+ sets `VSCODE_AGENT` for terminal commands launched by an agent.
+ANA MAX detects it automatically and keeps startup output compact for agent
+sessions. Manual runs keep the normal output.
+
 ## Install From VSIX
 
 If the extension is not installed yet, install the included VSIX from the repo

@@ -19,6 +19,7 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "videos.html",
             PROJECT_ROOT / ".env.example",
             PROJECT_ROOT / "docs" / "README.md",
+            PROJECT_ROOT / "docs" / "AI_COLLABORATION_AND_TOOLS.md",
             PROJECT_ROOT / "docs" / "PROJECT_MAP_AI_GUIDE.md",
             PROJECT_ROOT / "docs" / "AGENT_IDE_SUPER_TOOLS_PLAN.md",
             PROJECT_ROOT / "docs" / "USER_EXTENSION_INSTALL_AND_ETHICS.md",
@@ -27,6 +28,7 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "docs" / "LOCAL_QA_LAB_VISION.md",
             PROJECT_ROOT / "vscode_extension" / "README.md",
             PROJECT_ROOT / "vscode_extension" / "package.json",
+            PROJECT_ROOT / "vscode_extension" / "src" / "extension.js",
             PROJECT_ROOT / "assets" / "VIDEO_MAP.md",
             PROJECT_ROOT / "assets" / "videos" / "README.md",
         ]
@@ -39,7 +41,6 @@ class TestPublicDocsHygiene(TestCase):
             ".qoder",
             ".kiro",
             "Jules",
-            "Qoder",
             "Kiro",
         ]
 
@@ -56,6 +57,30 @@ class TestPublicDocsHygiene(TestCase):
     def test_env_example_documents_required_public_auth(self):
         content = (PROJECT_ROOT / ".env.example").read_text(encoding="utf-8")
         self.assertIn("MCP_API_KEY=", content)
+
+    def test_vscode_extension_sends_mcp_auth(self):
+        package_json = (PROJECT_ROOT / "vscode_extension" / "package.json").read_text(encoding="utf-8")
+        extension_js = (PROJECT_ROOT / "vscode_extension" / "src" / "extension.js").read_text(encoding="utf-8")
+
+        self.assertIn("anaMax.mcpApiKey", package_json)
+        self.assertIn("Authorization", extension_js)
+        self.assertIn("Bearer ${mcpConfig.apiKey}", extension_js)
+        self.assertIn("MCP_API_KEY", extension_js)
+
+    def test_vscode_agent_mode_is_documented(self):
+        main_py = (PROJECT_ROOT / "main.py").read_text(encoding="utf-8")
+        tool_base = (PROJECT_ROOT / "tools" / "base.py").read_text(encoding="utf-8")
+        readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+        setup = (PROJECT_ROOT / "SETUP_AND_RUN.md").read_text(encoding="utf-8")
+        project_map = (PROJECT_ROOT / "docs" / "PROJECT_MAP_AI_GUIDE.md").read_text(encoding="utf-8")
+
+        self.assertIn("VSCODE_AGENT", main_py)
+        self.assertIn("VSCODE_AGENT", tool_base)
+        self.assertIn("vscode_agent", main_py)
+        self.assertIn("output_profile", main_py)
+        self.assertIn("VSCODE_AGENT", readme)
+        self.assertIn("VSCODE_AGENT", setup)
+        self.assertIn("VSCODE_AGENT", project_map)
 
     def test_website_does_not_embed_large_local_videos(self):
         for name in ("index.html", "videos.html"):

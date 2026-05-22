@@ -11,8 +11,14 @@ import concurrent.futures
 from enum import Enum
 import logging
 import inspect
+import os
 
 logger = logging.getLogger(__name__)
+
+
+def _is_vscode_agent_session() -> bool:
+    value = os.environ.get("VSCODE_AGENT", "")
+    return value.strip().lower() not in {"", "0", "false", "no"}
 
 
 def _summarize_value(value: Any, max_len: int = 120) -> str:
@@ -311,19 +317,20 @@ class ToolRegistry:
         except Exception as exc:
             logger.warning("Premium access check failed for %s: %s", name, exc)
             
-        # UI v17: Rich Feedback
-        try:
-            from rich.console import Console
-            from rich.panel import Panel
-            console = Console()
-            clean_params = {k: (v if len(str(v)) < 100 else f"<{type(v).__name__} len={len(str(v))}>") for k, v in kwargs.items()}
-            console.print(Panel(
-                f"[bold cyan]Tool execution:[/bold cyan] [bold yellow]{name}[/bold yellow]\n[dim]Params: {clean_params}[/dim]",
-                border_style="blue",
-                padding=(0, 2)
-            ))
-        except (ImportError, UnicodeEncodeError, OSError):
-            pass 
+        # UI v17: Rich Feedback. Suppress panels in VS Code agent terminals.
+        if not _is_vscode_agent_session():
+            try:
+                from rich.console import Console
+                from rich.panel import Panel
+                console = Console()
+                clean_params = {k: (v if len(str(v)) < 100 else f"<{type(v).__name__} len={len(str(v))}>") for k, v in kwargs.items()}
+                console.print(Panel(
+                    f"[bold cyan]Tool execution:[/bold cyan] [bold yellow]{name}[/bold yellow]\n[dim]Params: {clean_params}[/dim]",
+                    border_style="blue",
+                    padding=(0, 2)
+                ))
+            except (ImportError, UnicodeEncodeError, OSError):
+                pass
             
         logger.info("TOOL START name=%s args=%s", name, _summarize_kwargs(kwargs))
         result = tool.safe_execute(**kwargs)

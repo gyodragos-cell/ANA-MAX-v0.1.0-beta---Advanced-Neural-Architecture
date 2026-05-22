@@ -69,6 +69,17 @@
 - Added homepage install guidance for non-Git users, including ZIP download,
   VSIX install, MCP start commands, and explicit white-hat/authorized-use
   positioning.
+- Updated the VS Code extension to honor `anaMax.mcpApiKey`,
+  `anaMax.mcpHost`, and `anaMax.mcpPort`, pass the MCP API key to `main.py`,
+  and send the matching Bearer token when calling `/execute`.
+- Added VS Code 1.121 agent-awareness: when `VSCODE_AGENT` is present,
+  `main.py` uses compact startup output and `/health` reports `vscode_agent`
+  plus `output_profile` for IDE integrations.
+- Added public AI collaboration credits and guidance for OpenAI Codex and
+  Qoder, including official links and safe non-sponsorship wording.
+- Hardened the first bug-hunt pass: `tool_healthcheck` safe scope now stays
+  offline, launcher startup reports the live MCP tool count instead of the old
+  `46+` text, and tests protect safe healthcheck behavior.
 
 ## Verification Baseline
 
