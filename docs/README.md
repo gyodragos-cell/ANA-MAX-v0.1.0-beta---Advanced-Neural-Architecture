@@ -19,6 +19,8 @@ Start here:
   install guide and ethical-use rules.
 - `ANA_WORKGRAPH_ARCHITECTURE.md` - observation-first architecture notes.
 - `ANA_MAX_WOW_DEMO.md` - 90-second public demo blueprint.
+- `MINT_CONDITION_CHECKLIST.md` - final release-polish checklist for keeping
+  GitHub clean.
 - `LICENSING.md` - Free/Pro licensing overview.
 
 Current public baseline:

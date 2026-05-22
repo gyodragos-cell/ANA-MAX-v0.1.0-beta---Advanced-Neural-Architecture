@@ -98,6 +98,8 @@
 - Clarified that live third-party testing requires explicit authorization and
   that strong server-side findings belong in private responsible-disclosure
   reports, not public abuse recipes.
+- Added a public mint-condition checklist for release polish, verification, and
+  clean agent handoff.
 
 ## Verification Baseline
 
