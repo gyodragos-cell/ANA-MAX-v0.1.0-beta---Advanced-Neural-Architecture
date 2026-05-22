@@ -226,6 +226,11 @@ OpenAI Codex has been the main AI coding collaborator for this release:
 - helped document the project in a way that engineers can verify instead of
   trusting hype.
 
+In this workflow, Codex has been especially useful as a project-map analyst:
+understanding intent, connecting documentation with implementation, finding
+stale public links, and helping other AI agents understand how to connect ANA
+MAX safely.
+
 Official link:
 
 - OpenAI Codex: https://openai.com/codex/
@@ -239,6 +244,9 @@ Official links:
 
 The goal of this acknowledgement is simple: show that AI tools can be useful
 when they work as careful engineering collaborators, not blind code generators.
+Strict safety behavior is part of that value: ANA MAX is for clean users,
+authorized QA, and responsible red-team work, not for manipulating agents into
+unsafe tasks.
 
 For more detail, see
 [`docs/AI_COLLABORATION_AND_TOOLS.md`](docs/AI_COLLABORATION_AND_TOOLS.md).

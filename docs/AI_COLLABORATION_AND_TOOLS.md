@@ -14,10 +14,17 @@ OpenAI Codex has been the main AI coding collaborator for this release.
 How Codex helped:
 
 - codebase analysis and project-map thinking;
+- intent-aware analysis: reading the project as a connected map instead of a
+  pile of files;
 - focused code edits and release hygiene;
 - verification planning and test execution;
 - documentation cleanup and public-safe wording;
 - keeping the mother lab and public release connected through sync rules.
+
+In this project workflow, Codex has been especially useful as a project-map
+analyst. It helps connect intent, documentation, implementation, tests, and
+release boundaries so the public repo stays understandable for users and for
+other AI agents that may help them install or connect ANA MAX.
 
 Official link:
 
@@ -29,6 +36,11 @@ Recommended use:
 Use Codex as a careful analyst and coding partner. Ask it to inspect first,
 make small changes, run checks, and explain what changed.
 ```
+
+Codex is also strict about safety. That is useful for ANA MAX: the project is
+intended to attract clean users, QA testers, red-teamers with permission, and
+developers who want reliable local tools. It should not be optimized for users
+trying to manipulate agents into unsafe work.
 
 ## Additional Agentic Coding Tool
 

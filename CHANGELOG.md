@@ -92,6 +92,9 @@
 - Added responsible QA and white-hat reporting language to the README, AI
   collaboration guide, and roadmap while keeping private lab capabilities out
   of the public release.
+- Expanded the AI collaboration acknowledgement to describe Codex as a
+  project-map analyst and to explain why strict safety behavior is valuable for
+  clean users and authorized QA.
 
 ## Verification Baseline
 
