@@ -455,13 +455,13 @@
   <main>
     <section class="hero" id="architecture">
       <div class="intro">
-        <div class="badge">privacy-first hybrid / local tools / MCP auth on</div>
-        <h2>Give AI agents situational awareness before they act.</h2>
+        <div class="badge">local QA lab / offline agents / MCP auth on</div>
+        <h2>Give local AI agents eyes, hands, and verification.</h2>
         <p class="lead">
-          ANA MAX is a Windows-first MCP runtime for agents that need to see the
+          ANA MAX is a Windows-first MCP runtime for QA labs, private
+          workstations, offline LLMs, and AI coding agents that need to see the
           workspace, inspect the desktop, use focused tools, instrument runtime
-          behavior when needed, and verify the result. The goal is simple:
-          turn slow guessing into observed, testable work.
+          behavior when needed, speak status, and verify the result.
         </p>
         <div class="actions">
           <a class="button" href="#demo">Watch demo</a>
@@ -563,12 +563,13 @@
     </section>
 
     <section class="promise" aria-label="Why ANA MAX is different">
-      <h3>Not another tool list. A workflow for agents that should not guess.</h3>
+      <h3>Not another tool list. A workflow for local agents that should not guess.</h3>
       <p>
         ANA MAX combines local/offline privacy, optional online models, desktop
-        vision, Windows UI/API awareness, git state, tests, memory, and safe
-        runtime instrumentation. Frida is used only for authorized dynamic
-        analysis when static inspection is not enough.
+        vision, Windows UI/API awareness, git state, tests, memory, voice, and
+        safe runtime instrumentation. It is meant for QA testers, lab operators,
+        and AI agents that must work from local facts without exposing private
+        work.
       </p>
       <div class="promise-grid">
         <div class="promise-item">
@@ -592,23 +593,31 @@
 
     <section class="demo" id="demo" aria-label="ANA MAX demo video">
       <div class="demo-layout">
-        <video controls preload="metadata" src="demo_ana_max.mp4">
-          Your browser cannot play this video. Open demo_ana_max.mp4 from the repository.
-        </video>
+        <div class="codebox">
+          <div class="codebar">
+            <span>Public demo policy</span>
+          </div>
+          <pre>Do not store large videos in git.
+Host demos on YouTube or GitHub Releases.
+Link the public demo here.
+Keep the repository source-only and public-safe.</pre>
+        </div>
         <div>
-          <div class="badge">real workflow demo</div>
-          <h3>See ANA MAX work before reading the docs.</h3>
+          <div class="badge">local lab workflow</div>
+          <h3>See what the tools prove.</h3>
           <p>
-            The fastest way to understand the project is to watch the agent
-            observe the workspace, use tools, and verify the result.
+            The fastest way to understand ANA MAX is to watch an agent observe
+            the workspace, use local tools, avoid repeated mistakes, and verify
+            the result.
           </p>
           <ol>
-            <li>Observe the desktop and project state.</li>
-            <li>Use focused tools instead of guessing.</li>
-            <li>Run smoke checks and report facts.</li>
+            <li>Observe the desktop, logs, terminal, and project state.</li>
+            <li>Use focused tools for QA, debug, and offline work.</li>
+            <li>Run smoke checks, speak status, and report facts.</li>
           </ol>
           <p>
             Use the <a href="docs/ANA_MAX_WOW_DEMO.md">90-second proof script</a>
+            and the <a href="docs/LOCAL_QA_LAB_VISION.md">local QA lab vision</a>
             to record a sharper public demo.
           </p>
         </div>

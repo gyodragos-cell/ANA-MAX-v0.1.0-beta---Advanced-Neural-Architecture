@@ -12,10 +12,13 @@ Allowed:
   `vscode_extension/`, `tests/`, `docs/`.
 - Public documentation that matches the code currently present in this repo.
 - Template configuration such as `.env.example`.
+- Small public-safe assets for the website.
 
 Not allowed:
 - `.env`, `.license`, API keys, local databases, memory stores, logs,
   screenshots with private content, local shortcuts, private MCP configs.
+- Large local video files. Host demos on YouTube, GitHub Releases, or another
+  external video host and link them from README/site pages.
 - Private workspace paths, private IDE setup, or local machine-specific
   instructions.
 - Documentation for tools that are not present and executable in this release.
@@ -65,6 +68,28 @@ Tool quality beats tool count:
   cases where static and structural inspection cannot answer the question.
 - Do not use powerful tools by habit. Choose the smallest useful tool and verify
   the result.
+
+## Local QA Lab Vision
+
+ANA MAX is designed for local QA labs, private workstations, offline LLM
+setups, and AI coding agents that need real Windows context without exposing
+private work. The core value is giving a local model practical senses:
+
+- eyes: `desktop_capture`, `foreground_ui_snapshot`, `windows_uia_bridge`,
+  `ocr_tool`;
+- hands: file, terminal, git, edit, and controlled desktop tools;
+- ears: logs, terminal output, tests, health checks, and runtime errors;
+- memory: AI Core context and local lessons;
+- instrumentation: `frida_instrument` only for authorized runtime work when
+  normal inspection is not enough.
+
+The public message should stay factual:
+
+```text
+observe -> decide -> act -> verify -> learn
+```
+
+See `docs/LOCAL_QA_LAB_VISION.md`.
 
 ## Premium Gates
 

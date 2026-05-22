@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ANA MAX – Test Videos</title>
+  <title>ANA MAX - Test Videos</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     :root {
@@ -27,7 +27,7 @@
     .nav a:hover { border-color:var(--line2); color:var(--text); }
     .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:24px; margin-top:32px; }
     .video-card { background:rgba(17,24,39,0.82); border:1px solid var(--line); border-radius:8px; padding:20px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
-    .video-card video { width:100%; aspect-ratio:16/9; border:1px solid var(--line); border-radius:8px; background:#050914; display:block; }
+    .video-link { width:100%; aspect-ratio:16/9; border:1px solid var(--line); border-radius:8px; background:#050914; display:grid; place-items:center; color:var(--text); text-decoration:none; font-weight:700; }
     .video-card h3 { margin:16px 0 8px; font-size:18px; color:var(--blue); }
     .video-card p { margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
     footer { margin-top:38px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
@@ -58,28 +58,27 @@
 
     <main>
       <div class="intro-header">
-        <h2>System & Voice Capabilities Showcase</h2>
-        <p>Real-world testing sessions demonstrating agent automation, dynamic tool execution, and voice-assisted environmental feedback.</p>
+        <h2>System And Voice Capability Demos</h2>
+        <p>Public demos should be hosted outside git. Use this page to link YouTube or GitHub Release videos that show local tools, QA workflows, and offline agent value.</p>
       </div>
 
       <section class="gallery" id="videos">
-        <!-- Video entries -->
         <div class="video-card">
-          <video controls preload="metadata" src="assets/videos/video_07.mp4"></video>
-          <h3>Voice Demo: Marina Beaucete</h3>
-          <p>A full, interactive demo with voice commentary showcasing the agent's real-time computer vision capabilities, UI capture, and verbal output of its observations.</p>
+          <a class="video-link" href="https://www.youtube.com/watch?v=D10jW9jueDI" target="_blank" rel="noreferrer">Open YouTube demo</a>
+          <h3>Live Desktop Reasoning Demo</h3>
+          <p>Shows ANA MAX observing a real desktop session, using local tools, and explaining what the agent can verify instead of guessing.</p>
         </div>
 
         <div class="video-card">
-          <video controls preload="metadata" src="assets/videos/video_09.mp4"></video>
-          <h3>Voice Demo: Rihana Session</h3>
-          <p>Demonstrates the agent describing what it sees on the desktop using real-time voice feedback, resolving alignment and interpretation parameters dynamically.</p>
+          <a class="video-link" href="docs/ANA_MAX_WOW_DEMO.md">90-second demo script</a>
+          <h3>Recommended Short Demo</h3>
+          <p>Record one short video that proves observe, act, verify, voice feedback, and local QA value without exposing private data.</p>
         </div>
 
         <div class="video-card">
-          <video controls preload="metadata" src="assets/videos/video_06.mp4"></video>
-          <h3>Tool Execution & Browser Test</h3>
-          <p>Shows the agent running browser automation and executing internal tools. Demonstrates real-world trial constraints and how the agent reacts to environment delays and partial execution paths.</p>
+          <a class="video-link" href="docs/LOCAL_QA_LAB_VISION.md">Local QA lab vision</a>
+          <h3>Offline Lab Use Case</h3>
+          <p>Explains why tools matter for agents in private labs, offline Ollama setups, QA testing, and environments where data cannot leave the machine.</p>
         </div>
       </section>
     </main>
@@ -91,3 +90,4 @@
   </div>
 </body>
 </html>
+

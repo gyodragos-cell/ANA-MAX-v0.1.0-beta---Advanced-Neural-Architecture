@@ -50,6 +50,11 @@ backups/
 config/keys/
 data/*.db
 generated_bots/
+*.mp4
+*.mov
+*.mkv
+*.webm
+assets/videos/*.mp4
 *.bak
 *.tmp
 desktop.ini

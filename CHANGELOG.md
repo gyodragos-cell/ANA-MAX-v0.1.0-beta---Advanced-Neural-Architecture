@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.1.0-beta — Current Clean Release
+## v0.1.0-beta - Current Clean Release
 
 - Restored a clean public release boundary: private integration setup notes are
   not part of this repository.
@@ -30,14 +30,20 @@
 - Repaired `index.html` for the public website: removed mojibake/emoji, aligned
   tool counts with the release baseline, documented MCP auth, and added it to
   release hygiene tests.
-- Added a first-page demo section to `index.html` and documented
-  `demo_ana_max.mp4` in the README so users can see the workflow before reading
-  the architecture notes.
+- Added a first-page demo section to `index.html` so users can understand the
+  workflow before reading the architecture notes.
 - Repositioned the public website and README around ANA MAX as a privacy-first
   hybrid situational-awareness runtime: observe, instrument when needed, act,
   verify, and learn.
 - Added `docs/ANA_MAX_WOW_DEMO.md`, a 90-second public demo blueprint that
   explains how to show ANA MAX as a situational-awareness runtime for agents.
+- Reframed the public README and website around the local QA lab vision:
+  offline agents, private workstations, Ollama-style local models, voice
+  feedback, and tool-assisted observe-act-verify work.
+- Added `docs/LOCAL_QA_LAB_VISION.md` to explain why ANA tools matter when
+  internet access is blocked or data cannot leave the machine.
+- Removed large demo videos from git tracking and documented the rule that
+  public videos should be hosted externally, then linked from the site.
 
 ## Verification Baseline
 
@@ -52,3 +58,4 @@ Expected:
 - Quick test: `3 PASS / 0 FAIL`
 - Tool list: 64 loaded tools
 - Unit tests: all tests passing
+

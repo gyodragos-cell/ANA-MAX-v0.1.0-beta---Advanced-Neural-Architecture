@@ -52,6 +52,24 @@ curl -X POST http://127.0.0.1:8765/mcp `
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
+## Local QA Lab Mode
+
+ANA MAX can be used with local/offline models when project data cannot leave
+the machine. Configure a local backend such as Ollama in `config/settings.yaml`
+and keep cloud API keys unset in private labs.
+
+Typical local workflow:
+
+```text
+observe -> decide -> act -> verify -> learn
+```
+
+Use the smallest useful tool: inspect UI before clicking, read logs before
+editing code, run tests before claiming a fix, and use Frida only for
+authorized runtime instrumentation.
+
+See `docs/LOCAL_QA_LAB_VISION.md`.
+
 ## Troubleshooting
 
 If Python cannot import project modules, run commands from the repo root.

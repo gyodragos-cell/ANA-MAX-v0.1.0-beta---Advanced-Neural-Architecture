@@ -8,9 +8,10 @@
 
 [![Vezi Demo Live](https://img.shields.io/badge/%F0%9F%9A%80_Vezi_Demo_Live-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
 
-ANA MAX is a Windows-first MCP runtime that gives AI agents situational
-awareness before they act: files, git state, terminal output, desktop vision,
-Windows UI automation, memory, runtime instrumentation, and smoke-test
+ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
+offline LLMs, and AI coding agents that need real situational awareness before
+they act: files, git state, terminal output, desktop vision, Windows UI
+automation, memory, runtime instrumentation, voice feedback, and smoke-test
 verification.
 
 This repository is the clean public release. It must stay public-safe,
@@ -20,7 +21,7 @@ repeatable, and boring in the best possible way.
 
 Most agents lose time because they guess from partial context. ANA MAX is built
 to help agents observe the real workspace first, pick the smallest useful tool,
-act, and verify the result.
+act, verify the result, and remember useful lessons.
 
 The intended workflow is:
 
@@ -28,9 +29,10 @@ The intended workflow is:
 observe -> instrument when needed -> act -> verify -> learn
 ```
 
-This can turn long manual debugging or UI inspection work into a focused agent
-workflow, especially when the agent can see the desktop, inspect Windows UI/API
-state, use git and tests, and use Frida for authorized runtime instrumentation.
+This can turn long manual debugging, QA, UI inspection, and local automation
+work into a focused agent workflow, especially when the agent can see the
+desktop, inspect Windows UI/API state, use git and tests, speak status aloud,
+and use Frida for authorized runtime instrumentation.
 
 ANA MAX is privacy-first and hybrid:
 
@@ -39,6 +41,22 @@ ANA MAX is privacy-first and hybrid:
 - MCP auth is enabled by default;
 - private memory, logs, screenshots, tokens, and license files do not belong in
   the public release.
+
+## Local QA Lab Vision
+
+ANA MAX is designed for environments where data should stay on the machine:
+
+- QA labs that need repeatable desktop observations, logs, and smoke checks;
+- AI coding agents working with local projects and local evidence;
+- offline Ollama-style model setups where tools provide the missing senses;
+- security or reverse-engineering labs where Frida is used only with
+  authorization and only when runtime instrumentation is really needed;
+- private workstations where screenshots, memory, logs, and tokens must not be
+  uploaded to a cloud service.
+
+The important idea is simple: a local model can reason, but tools give it eyes,
+hands, ears, memory, and verification. See
+[`docs/LOCAL_QA_LAB_VISION.md`](docs/LOCAL_QA_LAB_VISION.md).
 
 ## What Makes It Different
 
@@ -71,13 +89,9 @@ when they work as careful engineering collaborators, not blind code generators.
 
 ## Demo
 
-**[Website — Live Demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)**
+**[Website - Live Demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)**
 
-Watch the local demo video:
-
-```text
-demo_ana_max.mp4
-```
+Video demos should be hosted outside git, for example on YouTube or GitHub Releases, then linked from this README and the website. Large `.mp4` files do not belong in the repository.
 
 The demo should prove the core workflow quickly: observe the workspace, choose
 focused tools, act, run smoke checks, and verify the result. Keep the public
@@ -213,3 +227,4 @@ release works.
 
 MIT. Use automated desktop control only on machines you own or are allowed to
 operate.
+

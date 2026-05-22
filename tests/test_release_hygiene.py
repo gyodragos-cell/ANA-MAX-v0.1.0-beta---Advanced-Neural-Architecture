@@ -16,10 +16,14 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "AGENTS.md",
             PROJECT_ROOT / "CHANGELOG.md",
             PROJECT_ROOT / "index.html",
+            PROJECT_ROOT / "videos.html",
             PROJECT_ROOT / ".env.example",
             PROJECT_ROOT / "docs" / "PROJECT_MAP_AI_GUIDE.md",
             PROJECT_ROOT / "docs" / "ANA_WORKGRAPH_ARCHITECTURE.md",
             PROJECT_ROOT / "docs" / "ANA_MAX_WOW_DEMO.md",
+            PROJECT_ROOT / "docs" / "LOCAL_QA_LAB_VISION.md",
+            PROJECT_ROOT / "assets" / "VIDEO_MAP.md",
+            PROJECT_ROOT / "assets" / "videos" / "README.md",
         ]
         forbidden = [
             "\u00e2",
@@ -47,3 +51,9 @@ class TestPublicDocsHygiene(TestCase):
     def test_env_example_documents_required_public_auth(self):
         content = (PROJECT_ROOT / ".env.example").read_text(encoding="utf-8")
         self.assertIn("MCP_API_KEY=", content)
+
+    def test_website_does_not_embed_large_local_videos(self):
+        for name in ("index.html", "videos.html"):
+            content = (PROJECT_ROOT / name).read_text(encoding="utf-8")
+            self.assertNotIn("<video", content)
+            self.assertNotIn(".mp4", content)
