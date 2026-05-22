@@ -16,6 +16,8 @@ Use ANA MAX for:
 Do not use ANA MAX for:
 
 - systems you do not own or do not have permission to test;
+- live third-party applications outside a written agreement or official bug
+  bounty scope;
 - stealing data, bypassing access controls, spying, persistence, or malware;
 - harassment, credential theft, account abuse, or destructive automation;
 - pretending a demo is authorized security work when it is not.

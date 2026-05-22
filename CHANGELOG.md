@@ -95,6 +95,9 @@
 - Expanded the AI collaboration acknowledgement to describe Codex as a
   project-map analyst and to explain why strict safety behavior is valuable for
   clean users and authorized QA.
+- Clarified that live third-party testing requires explicit authorization and
+  that strong server-side findings belong in private responsible-disclosure
+  reports, not public abuse recipes.
 
 ## Verification Baseline
 

@@ -129,6 +129,11 @@ Private lab experiments may be stronger than the public release. They should
 stay private until they are safe, documented, tested, and useful for legitimate
 QA. The public release should show the discipline, not expose risky recipes.
 
+Do not run live pentests against third-party applications unless you have a
+clear authorization path, such as a written agreement or an official bug bounty
+scope. Strong findings belong in private reports to the maintainers, not in
+public posts that teach abuse.
+
 ## Why It Exists
 
 Most agents lose time because they guess from partial context. ANA MAX is built

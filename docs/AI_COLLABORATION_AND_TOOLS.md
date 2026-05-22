@@ -97,6 +97,11 @@ experiments private until they are safe, documented, tested, and useful for
 authorized QA. Public docs should teach discipline and verification, not expose
 abuse recipes.
 
+For live third-party applications, use only authorized scopes. If a tool finds
+a possible server-side or workflow weakness, keep the technical details private,
+write a clear responsible-disclosure report, and give the maintainers enough
+evidence to reproduce and fix it safely.
+
 Safe public wording:
 
 ```text
