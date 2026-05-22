@@ -61,6 +61,20 @@ Publish only when you are ready:
 The helper does not store tokens. Use `vsce login` first, or set `VSCE_PAT`
 only in the current shell when publishing.
 
+If publishing fails with `Personal Access Token verification has failed`, open:
+
+```text
+https://marketplace.visualstudio.com/manage/publishers/
+```
+
+Create or select the correct publisher, generate a new Marketplace PAT for that
+publisher, then run:
+
+```powershell
+vsce login <publisher-id>
+.\scripts\publish_vscode_extension.ps1 -Publish
+```
+
 ## Verify The VSIX
 
 ```powershell

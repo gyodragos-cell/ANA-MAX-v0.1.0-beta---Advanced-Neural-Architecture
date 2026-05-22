@@ -104,6 +104,8 @@
   agents, with clear operator responsibility for lawful and authorized use.
 - Added a safe VS Code extension publish helper that packages, verifies, and
   optionally publishes the VSIX without storing marketplace tokens.
+- Hardened the publish helper so Marketplace authentication failures stop the
+  script instead of looking successful.
 
 ## Verification Baseline
 
