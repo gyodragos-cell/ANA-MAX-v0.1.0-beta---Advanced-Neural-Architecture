@@ -38,6 +38,29 @@ Expected output:
 advanced-neural-architecture-0.2.0.vsix
 ```
 
+## Automated Helper
+
+From the repository root, the safe helper packages and verifies the VSIX:
+
+```powershell
+.\scripts\publish_vscode_extension.ps1
+```
+
+Install the generated VSIX locally:
+
+```powershell
+.\scripts\publish_vscode_extension.ps1 -InstallLocal
+```
+
+Publish only when you are ready:
+
+```powershell
+.\scripts\publish_vscode_extension.ps1 -Publish
+```
+
+The helper does not store tokens. Use `vsce login` first, or set `VSCE_PAT`
+only in the current shell when publishing.
+
 ## Verify The VSIX
 
 ```powershell

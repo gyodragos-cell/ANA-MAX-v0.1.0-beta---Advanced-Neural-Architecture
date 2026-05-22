@@ -57,6 +57,13 @@ cd vscode_extension
 npm.cmd run package
 ```
 
+Or use the safe helper from the repository root:
+
+```powershell
+.\scripts\publish_vscode_extension.ps1
+.\scripts\publish_vscode_extension.ps1 -Publish
+```
+
 Verify the VSIX:
 
 ```powershell

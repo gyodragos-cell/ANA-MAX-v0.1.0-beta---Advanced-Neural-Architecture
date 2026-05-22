@@ -102,6 +102,8 @@
   clean agent handoff.
 - Added public positioning for ANA MAX as a local multi-tool runtime for AI
   agents, with clear operator responsibility for lawful and authorized use.
+- Added a safe VS Code extension publish helper that packages, verifies, and
+  optionally publishes the VSIX without storing marketplace tokens.
 
 ## Verification Baseline
 
