@@ -184,6 +184,17 @@ Recommended agent flow:
 tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
 ```
 
+If you are an AI agent helping a user connect ANA MAX, keep these facts fixed:
+
+- public repo: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
+- expected tool list: `64 loaded tools`
+- default server: `http://127.0.0.1:8765/mcp`
+- required auth header: `Authorization: Bearer change-me`
+- VS Code setting: `anaMax.mcpApiKey` must match `MCP_API_KEY`
+
+Do not use private lab paths, old repository aliases, or hidden local setup
+notes. Read `docs/PROJECT_MAP_AI_GUIDE.md` before changing files.
+
 For the three flagship workflows, see
 `docs/AGENT_IDE_SUPER_TOOLS_PLAN.md`.
 

@@ -7,6 +7,13 @@ must read this file before making code or documentation changes.
 
 This repository is public-safe. Do not copy private workspace data here.
 
+Canonical public repository URL:
+`https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
+
+Do not shorten it to `https://github.com/gyodragos-cell/ANA-MAX`; that path is
+not the public release repository and can leave documentation or extension
+links pointing at an empty location.
+
 Allowed:
 - Release-ready source code: `main.py`, `core/`, `tools/`, `plugins/`,
   `vscode_extension/`, `tests/`, `docs/`.

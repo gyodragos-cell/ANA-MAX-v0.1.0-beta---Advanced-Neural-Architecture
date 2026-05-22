@@ -293,5 +293,5 @@ def check_premium_access(tool_name: str) -> Tuple[bool, str]:
     return False, (
         f"Tool-ul '{tool_name}' este premium. "
         "Ai nevoie de o licenta Pro pentru a-l folosi. "
-        "Viziteaza https://github.com/gyodragos-cell/ANA-MAX pentru mai multe informatii."
+        "Visit https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture for more information."
     )

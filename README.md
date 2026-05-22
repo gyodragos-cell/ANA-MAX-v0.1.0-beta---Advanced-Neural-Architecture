@@ -1,6 +1,6 @@
 # ANA MAX
 
-![Build Status](https://github.com/YOUR_USERNAME/ana-max/actions/workflows/ci.yml/badge.svg)
+![Build Status](https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/actions/workflows/ci.yml/badge.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Platform Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
@@ -64,6 +64,27 @@ If you are an AI agent or coding assistant, read first:
 ```text
 docs/PROJECT_MAP_AI_GUIDE.md
 ```
+
+## For AI Agents Helping Users
+
+Many users will ask an AI coding agent to install, connect, or test ANA MAX.
+Treat this repository as the clean public release and keep the workflow simple:
+
+```text
+read the project map -> install dependencies -> set MCP_API_KEY -> start main.py -> verify tools/list -> explain the result
+```
+
+Use the canonical repository URL everywhere:
+
+```text
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+```
+
+Do not invent private setup steps, local paths, hidden keys, or missing tools.
+If a user is new to Git, prefer the ZIP install path. If a user is using VS
+Code, install the included VSIX and make sure `anaMax.mcpApiKey` matches
+`MCP_API_KEY`. Always verify with `python main.py --test` and `python main.py
+--list-tools` before saying the setup is complete.
 
 ## What This Is Not
 

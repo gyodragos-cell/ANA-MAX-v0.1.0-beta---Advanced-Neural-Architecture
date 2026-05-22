@@ -80,6 +80,15 @@
 - Hardened the first bug-hunt pass: `tool_healthcheck` safe scope now stays
   offline, launcher startup reports the live MCP tool count instead of the old
   `46+` text, and tests protect safe healthcheck behavior.
+- Fixed stale public repository links in the VS Code extension documentation
+  command, licensing docs, and premium-license message.
+- Added agent-facing install guidance so Codex, Windsurf, Cursor, Qoder, and
+  other coding agents can connect users to the public repo and MCP runtime
+  without private lab paths or stale aliases.
+- Replaced stale legacy install/publish docs that still referenced placeholder
+  GitHub URLs, old tool counts, and mojibake.
+- Cleaned quick MCP, dependency, and VS Code publishing guides so public agent
+  handoffs use current auth, tool counts, and canonical links.
 
 ## Verification Baseline
 

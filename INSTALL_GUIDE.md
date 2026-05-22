@@ -1,138 +1,100 @@
-﻿# ANA MAX - Installation Guide
+# ANA MAX Installation Guide
 
-## Prerequisites
+This legacy guide is kept as a short pointer for users and AI agents. The
+source of truth for setup is `SETUP_AND_RUN.md`.
 
-### 1. Python 3.9+ (REQUIRED)
-Download from: https://www.python.org/downloads/
+## Requirements
 
-**IMPORTANT:** Check "Add Python to PATH" during installation!
+- Windows 10 or Windows 11
+- Python 3.10 or newer
+- VS Code, if you want to use the included extension
+- Git, optional; ZIP download is fine for beginners
 
-### 2. Microsoft Visual C++ Build Tools (REQUIRED for Frida)
-Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+Optional tools:
 
-Install "Desktop development with C++" workload.
+- Android platform tools for ADB workflows
+- Frida only for authorized runtime instrumentation
+- Chrome for visible browser workflows
 
-### 3. Android Debug Bridge - ADB (OPTIONAL - for Android tools)
-Download from: https://developer.android.com/studio/releases/platform-tools
+## Simple Install
 
-Add to PATH or place in system32.
+If you are new to Git:
 
----
+1. Open the public repository.
+2. Click `Code`.
+3. Click `Download ZIP`.
+4. Extract the ZIP.
+5. Open the extracted folder in VS Code or PowerShell.
 
-## Installation Steps
+Public repository:
 
-### Step 1: Install Python Dependencies
+```text
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+```
 
-Open PowerShell in ANA_MAX folder:
+Install dependencies:
 
-`powershell
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-`
+```
 
-**If you get errors with Frida:**
-`powershell
-# Install Visual C++ Build Tools first
-# Then retry:
-pip install frida
-`
+## Start
 
-### Step 2: Install Frida Server (for Android tools - OPTIONAL)
+MCP authentication is enabled by default:
 
-If you want to use Android instrumentation:
-
-1. Connect your Android device
-2. Download frida-server: https://github.com/frida/frida/releases
-3. Push to device:
-`ash
-adb push frida-server /data/local/tmp/
-adb shell "chmod 755 /data/local/tmp/frida-server"
-adb shell "/data/local/tmp/frida-server &"
-`
-
-### Step 3: Configure Environment
-
-`powershell
-# Copy example config
-copy .env.example .env
-
-# Edit .env with your API keys
-notepad .env
-`
-
-### Step 4: Start ANA MAX
-
-`powershell
+```powershell
+$env:MCP_API_KEY = "change-me"
 python main.py
-`
+```
 
-You should see:
-`
-42 tool-uri incarcate.
-MCP Server: http://127.0.0.1:8765
-`
+Expected:
 
-### Step 5: Connect MCP Client
+```text
+MCP server: http://127.0.0.1:8765
+64 loaded tools
+```
 
-In your MCP-compatible client (VS Code with Cline/RooCode):
-- Server URL: http://127.0.0.1:8765
-- Protocol: HTTP MCP
+## Verify
 
----
+Run these from the repository root:
 
-## Troubleshooting
+```powershell
+python -m compileall -q main.py core tools vscode_extension
+python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v
+```
 
-### Error: "frida not found"
-- Install Visual C++ Build Tools
-- Re-run: pip install frida
+Expected:
 
-### Error: "pywinauto import failed"
-- Run: pip install pywinauto
+```text
+3 PASS / 0 FAIL
+64 loaded tools
+all tests passing
+```
 
-### Error: "ADB not found"
-- Download ADB from Android SDK
-- Add to system PATH
+## VS Code Extension
 
-### Calculator automation not working
-- Make sure Calculator app is open
-- Try: python -c "import pywinauto; print('OK')"
+Install the included VSIX:
 
----
+```powershell
+code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+```
 
-## System Requirements
+Then use:
 
-- **OS:** Windows 10/11 (64-bit)
-- **RAM:** 4GB minimum, 8GB recommended
-- **Disk:** 500MB free space
-- **Python:** 3.9 or higher
+```text
+ANA MAX: Start MCP Server
+ANA MAX: Call Tool
+```
 
----
+Make sure the VS Code setting `anaMax.mcpApiKey` matches `MCP_API_KEY`.
 
-## What's Included in Trial
+## Help
 
-### ✅ Free Features (42 tools):
-- Code editing & search
-- Web scraping & browser control
-- UI Automation (Calculator, Notepad, etc.)
-- System monitoring
-- Git operations
-- Network diagnostics
-- Security auditing
-- Terminal execution
-- File operations
-
-### ❌ Premium Features (5 tools - requires license):
-- Desktop Capture (AI screenshots)
-- Live Desktop Viewer (real-time streaming)
-- Desktop Control (full desktop automation)
-- Windows Insight (advanced system monitoring)
-- Windows Deep Sight (God View system analysis)
-
-To unlock premium features, contact: YOUR_EMAIL@example.com
-
----
-
-## Need Help?
-
-- GitHub Issues: https://github.com/YOUR_USERNAME/ana-max/issues
-- Documentation: docs/ folder
-- Video Demo: teste tooluri.mp4
+- Main setup guide: `SETUP_AND_RUN.md`
+- Beginner extension guide: `docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`
+- Public repo: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
+- Issues: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues`

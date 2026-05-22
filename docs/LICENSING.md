@@ -172,9 +172,9 @@ manager.deactivate()
 
 ## Purchasing a License
 
-To purchase a Pro license, visit: https://github.com/gyodragos-cell/ANA-MAX
+To purchase a Pro license, visit: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
 
 ## Support
 
 For licensing issues, please open an issue at:
-https://github.com/gyodragos-cell/ANA-MAX/issues
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues

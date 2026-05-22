@@ -13,6 +13,10 @@ class TestPublicDocsHygiene(TestCase):
         files = [
             PROJECT_ROOT / "README.md",
             PROJECT_ROOT / "SETUP_AND_RUN.md",
+            PROJECT_ROOT / "INSTALL_GUIDE.md",
+            PROJECT_ROOT / "PUBLISH_CHECKLIST.md",
+            PROJECT_ROOT / "QUICK_MCP_TEST.md",
+            PROJECT_ROOT / "DEPENDENCIES.md",
             PROJECT_ROOT / "AGENTS.md",
             PROJECT_ROOT / "CHANGELOG.md",
             PROJECT_ROOT / "index.html",
@@ -26,7 +30,9 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "docs" / "ANA_WORKGRAPH_ARCHITECTURE.md",
             PROJECT_ROOT / "docs" / "ANA_MAX_WOW_DEMO.md",
             PROJECT_ROOT / "docs" / "LOCAL_QA_LAB_VISION.md",
+            PROJECT_ROOT / "docs" / "LICENSING.md",
             PROJECT_ROOT / "vscode_extension" / "README.md",
+            PROJECT_ROOT / "vscode_extension" / "PUBLISH_GUIDE.md",
             PROJECT_ROOT / "vscode_extension" / "package.json",
             PROJECT_ROOT / "vscode_extension" / "src" / "extension.js",
             PROJECT_ROOT / "assets" / "VIDEO_MAP.md",
@@ -87,3 +93,28 @@ class TestPublicDocsHygiene(TestCase):
             content = (PROJECT_ROOT / name).read_text(encoding="utf-8")
             self.assertNotIn("<video", content)
             self.assertNotIn(".mp4", content)
+
+    def test_public_repo_links_use_canonical_repository(self):
+        canonical = "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture"
+        stale = "https://github.com/gyodragos-cell/ANA-MAX"
+        files = [
+            PROJECT_ROOT / "core" / "license_manager.py",
+            PROJECT_ROOT / "docs" / "LICENSING.md",
+            PROJECT_ROOT / "docs" / "USER_EXTENSION_INSTALL_AND_ETHICS.md",
+            PROJECT_ROOT / "vscode_extension" / "package.json",
+            PROJECT_ROOT / "vscode_extension" / "src" / "extension.js",
+            PROJECT_ROOT / "vscode_extension" / "README.md",
+            PROJECT_ROOT / "index.html",
+            PROJECT_ROOT / "INSTALL_GUIDE.md",
+            PROJECT_ROOT / "PUBLISH_CHECKLIST.md",
+            PROJECT_ROOT / "QUICK_MCP_TEST.md",
+            PROJECT_ROOT / "DEPENDENCIES.md",
+            PROJECT_ROOT / "vscode_extension" / "PUBLISH_GUIDE.md",
+        ]
+
+        for path in files:
+            content = path.read_text(encoding="utf-8")
+            self.assertIn(canonical, content, f"{path.relative_to(PROJECT_ROOT)} does not link the public repo")
+            self.assertNotIn(stale + " ", content, f"{path.relative_to(PROJECT_ROOT)} uses a stale repo link")
+            self.assertNotIn(stale + "\n", content, f"{path.relative_to(PROJECT_ROOT)} uses a stale repo link")
+            self.assertNotIn(stale + "/issues", content, f"{path.relative_to(PROJECT_ROOT)} uses a stale issues link")

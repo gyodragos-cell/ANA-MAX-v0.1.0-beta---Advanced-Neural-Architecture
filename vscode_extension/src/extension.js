@@ -6,6 +6,33 @@ const http = require('http');
 let mcpProcess = null;
 let statusBarItem = null;
 
+function getMcpConfig() {
+    const config = vscode.workspace.getConfiguration('anaMax');
+    const configuredApiKey = config.get('mcpApiKey') || '';
+    const envApiKey = process.env.ANA_MCP_KEY || process.env.MCP_API_KEY || '';
+    return {
+        host: config.get('mcpHost') || '127.0.0.1',
+        port: config.get('mcpPort') || 8765,
+        apiKey: configuredApiKey && configuredApiKey !== 'change-me'
+            ? configuredApiKey
+            : envApiKey || configuredApiKey || 'change-me'
+    };
+}
+
+function buildJsonRequestOptions(pathName, method = 'POST') {
+    const mcpConfig = getMcpConfig();
+    return {
+        hostname: mcpConfig.host,
+        port: mcpConfig.port,
+        path: pathName,
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${mcpConfig.apiKey}`
+        }
+    };
+}
+
 function resolvePythonCommand() {
     const candidates = process.platform === 'win32'
         ? ['python', 'py', 'python3']
@@ -74,8 +101,17 @@ function activate(context) {
 
         const pythonArgs = pythonCmd === 'py' ? ['-3', scriptPath] : [scriptPath];
 
+        const mcpConfig = getMcpConfig();
+        const env = {
+            ...process.env,
+            MCP_API_KEY: mcpConfig.apiKey,
+            ANA_MCP_KEY: process.env.ANA_MCP_KEY || mcpConfig.apiKey,
+            MCP_HOST: mcpConfig.host,
+            MCP_PORT: String(mcpConfig.port)
+        };
+
         // Start the server using Python
-        mcpProcess = spawn(pythonCmd, pythonArgs, { cwd: projectPath });
+        mcpProcess = spawn(pythonCmd, pythonArgs, { cwd: projectPath, env });
 
         mcpProcess.on('error', (error) => {
             vscode.window.showErrorMessage(`Could not start MCP: ${error.message}`);
@@ -98,7 +134,7 @@ function activate(context) {
             updateStatusBar(false);
         });
 
-        vscode.window.showInformationMessage('ANA MAX MCP Server started on http://127.0.0.1:8765');
+        vscode.window.showInformationMessage(`ANA MAX MCP Server started on http://${mcpConfig.host}:${mcpConfig.port}`);
         updateStatusBar(true);
     });
 
@@ -129,16 +165,8 @@ function activate(context) {
             params: {}
         });
 
-        const options = {
-            hostname: '127.0.0.1',
-            port: 8765,
-            path: '/execute',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': Buffer.byteLength(postData)
-            }
-        };
+        const options = buildJsonRequestOptions('/execute');
+        options.headers['Content-Length'] = Buffer.byteLength(postData);
 
         const req = http.request(options, (res) => {
             let data = '';
@@ -158,9 +186,10 @@ function activate(context) {
 
     // Command to check license status
     let checkLicenseCmd = vscode.commands.registerCommand('anaMax.checkLicense', async () => {
+        const mcpConfig = getMcpConfig();
         const options = {
-            hostname: '127.0.0.1',
-            port: 8765,
+            hostname: mcpConfig.host,
+            port: mcpConfig.port,
             path: '/health',
             method: 'GET'
         };
@@ -175,17 +204,17 @@ function activate(context) {
                     const toolCount = health.tools_count || 0;
                     
                     let message = `ANA MAX Status:\n`;
-                    message += `• Server: ${health.status || 'unknown'}\n`;
-                    message += `• License: ${licenseType.toUpperCase()}\n`;
-                    message += `• Tools: ${toolCount} available\n`;
-                    message += `• Version: ${health.version || 'unknown'}\n\n`;
+                    message += `- Server: ${health.status || 'unknown'}\n`;
+                    message += `- License: ${licenseType.toUpperCase()}\n`;
+                    message += `- Tools: ${toolCount} available\n`;
+                    message += `- Version: ${health.version || 'unknown'}\n\n`;
                     
                     if (licenseType === 'free') {
                         message += `Upgrade to Pro for premium tools:\n`;
-                        message += `• live_desktop_viewer\n`;
-                        message += `• desktop_control\n`;
-                        message += `• windows_insight\n`;
-                        message += `• windows_deep_sight`;
+                        message += `- live_desktop_viewer\n`;
+                        message += `- desktop_control\n`;
+                        message += `- windows_insight\n`;
+                        message += `- windows_deep_sight`;
                     } else {
                         message += `All premium tools unlocked!`;
                     }
@@ -210,7 +239,7 @@ function activate(context) {
             { label: 'Licensing Guide (docs/LICENSING.md)', path: 'docs/LICENSING.md' },
             { label: 'Installation Guide (INSTALL_GUIDE.md)', path: 'INSTALL_GUIDE.md' },
             { label: 'README.md', path: 'README.md' },
-            { label: 'GitHub Repository', path: 'https://github.com/gyodragos-cell/ANA-MAX' },
+            { label: 'GitHub Repository', path: 'https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture' },
             { label: 'Web Interface (index.html)', path: 'index.html' }
         ];
 

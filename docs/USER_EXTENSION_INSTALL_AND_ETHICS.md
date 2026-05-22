@@ -61,6 +61,25 @@ Alternative VS Code method:
 3. Choose `Install from VSIX`.
 4. Select `vscode_extension\advanced-neural-architecture-0.2.0.vsix`.
 
+## If An AI Agent Helps You
+
+It is normal to ask Codex, Windsurf, Cursor, Qoder, or another coding agent to
+help with installation and connection. Give the agent this rule:
+
+```text
+Use the public repo, set the MCP key, start main.py, list tools, run tests, and report only verified facts.
+```
+
+The correct public repository is:
+
+```text
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+```
+
+The agent should not use private lab paths, old repository aliases, local
+shortcuts, hidden tokens, or forum guesses. If something fails, it should show
+the command, the error, and the next safe fix.
+
 ## Install With Git
 
 Use this path if you already know Git.

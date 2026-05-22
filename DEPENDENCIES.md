@@ -1,135 +1,89 @@
-# 📦 ANA MAX - Dependencies Guide
+# ANA MAX Dependencies Guide
 
-## ✅ Required (Installed Automatically)
+Install the required Python packages from the repository root:
 
-These are installed by `install.bat` or `pip install -r requirements.txt`:
+Public repository:
 
-```bash
+```text
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+```
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-**Includes:**
-- Flask, requests, pydantic (MCP Server)
-- pywinauto, psutil (Desktop Automation)
-- selenium, beautifulsoup4 (Web & Browser)
-- watchdog, chardet (Code Intelligence)
-- frida, cryptography (Security Tools)
-- pyyaml, colorama, Pillow (Utilities)
-- **pywin32** (Window & Clipboard Management)
-- **mss** (Screenshots for OCR)
+## Required Runtime Groups
 
----
+- MCP server: Flask, requests, pydantic
+- Windows automation: pywinauto, pywin32, psutil
+- Browser and web helpers: selenium, beautifulsoup4
+- Code and file utilities: watchdog, chardet, pyyaml, colorama
+- Vision helpers: Pillow, mss
+- Security and instrumentation: cryptography, frida
 
-## 🎯 Optional Dependencies
+## Optional OCR
 
-### 1. **OCR Support** (Choose ONE)
+PaddleOCR:
 
-#### Option A: PaddleOCR (Recommended - More Accurate)
-```bash
+```powershell
 pip install paddleocr paddlepaddle
 ```
-- ✅ More accurate
-- ✅ Better for complex layouts
-- ⚠️ First run downloads ~100MB models
-- ⚠️ Slower on CPU (~2-5 sec per screenshot)
 
-#### Option B: Tesseract (Faster, Lighter)
-```bash
+Tesseract:
+
+```powershell
 pip install pytesseract
 ```
-- ⚠️ Requires Tesseract.exe installed separately
-- Download from: https://github.com/UB-Mannheim/tesseract/wiki
-- Add to PATH after installation
 
----
+Tesseract also needs the Windows executable:
 
-### 2. **Voice & Notifications** (Context Engine)
-
-For JARVIS-like voice and Windows notifications:
-
-```bash
-pip install pyttsx3 win10toast
+```text
+https://github.com/UB-Mannheim/tesseract/wiki
 ```
 
-- **pyttsx3**: Text-to-speech voice (offline)
-- **win10toast**: Beautiful Windows 10/11 toast notifications
+## Optional Voice
 
----
-
-### 3. **Android Tools** (Optional)
-
-**ADB** (Android Debug Bridge):
-- Download from: https://developer.android.com/studio/releases/platform-tools
-- Add to PATH
-
-**Frida** (already in requirements.txt):
-- ⚠️ Requires Visual C++ Build Tools
-- Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
-- Install "Desktop development with C++" workload
-
----
-
-## 🔒 Premium Features
-
-### Desktop Eyes (God View)
-- **Status:** Premium (disabled in trial)
-- **Dependencies:** Already included (psutil, frida)
-- **Activation:** Uncomment line 237 in `main.py` (requires Pro license)
-
----
-
-## 🚀 Quick Setup
-
-### Minimal Setup (51 Tools)
-```bash
-install.bat
-```
-
-### Full Setup (with OCR + Voice)
-```bash
-install.bat
-pip install paddleocr paddlepaddle
-pip install pyttsx3 win10toast
-```
-
----
-
-## ❓ Troubleshooting
-
-### Frida Installation Fails
-```
-ERROR: Could not build wheels for frida
-```
-**Solution:** Install Visual C++ Build Tools
-
-### PaddleOCR Too Slow
-- Use `use_angle_cls=False` in ocr_tool.py (already set)
-- Consider switching to Tesseract for faster results
-
-### Tesseract Not Found
-**Solution:** Add Tesseract to PATH:
 ```powershell
-[Environment]::SetEnvironmentVariable(
-    "Path", 
-    $env:Path + ";C:\Program Files\Tesseract-OCR", 
-    "Machine"
-)
+pip install pyttsx3 win10toast
 ```
 
----
+The release-safe `edge_tts_voice` tool reports disabled cleanly if optional TTS
+dependencies are not available.
 
-## 📊 Feature Matrix
+## Optional Android And Frida
 
-| Feature | Minimal | Full | Premium |
-|---------|---------|------|---------|
-| 51 MCP Tools | ✅ | ✅ | ✅ |
-| AI Core (9 tools) | ✅ | ✅ | ✅ |
-| Desktop Control | ✅ | ✅ | ✅ |
-| OCR | ❌ | ✅ | ✅ |
-| Voice/Notifications | ❌ | ✅ | ✅ |
-| Desktop Eyes (God View) | ❌ | ❌ | ✅ |
+ADB:
 
----
+```text
+https://developer.android.com/studio/releases/platform-tools
+```
 
-**Version:** 0.1.0-beta  
-**Last Updated:** 2026-05-15
+Frida on Windows may need Microsoft Visual C++ Build Tools:
+
+```text
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+```
+
+Use Frida only for authorized runtime instrumentation when static inspection is
+not enough.
+
+## Public Baseline
+
+```text
+64 loaded tools
+4 premium-gated desktop control tools
+9 AI Core adapters
+desktop_capture is free Vision AI
+```
+
+Verify:
+
+```powershell
+python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v
+```
+
+For setup steps, see `SETUP_AND_RUN.md`.

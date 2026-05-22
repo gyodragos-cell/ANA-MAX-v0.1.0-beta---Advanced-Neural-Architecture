@@ -1,174 +1,92 @@
-# 📋 GitHub & Marketplace Publish Checklist
+# GitHub And Marketplace Publish Checklist
 
-## Pre-Release (Local Verification)
+This file is ASCII-only and public-safe. Do not add private workspace paths,
+tokens, local shortcuts, screenshots with private content, or unpublished lab
+notes.
 
-- [ ] `python main.py --test` → 3/3 PASS
-- [ ] `python main.py --list-tools` → 64 tools listed
-- [ ] `npm pack --dry-run` in `vscode_extension/` → ✅ valid
-- [ ] `.env` not in repo (check `.gitignore`)
-- [ ] `.env.example` has placeholders only
-- [ ] No API keys in code comments
-- [ ] `README.md` is up-to-date
+Canonical public repository:
 
----
-
-## GitHub Repository Setup
-
-### 1. Create GitHub Repository
-```
-https://github.com/YOUR_USERNAME/ana-max
+```text
+https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
 ```
 
-### 2. Configure Repository Settings
-- [ ] Description: "AI-powered Windows automation with 64 MCP tools"
-- [ ] Topics: `mcp`, `windows-automation`, `ai-tools`, `desktop-control`, `python`
-- [ ] Make Public
-- [ ] Add license: MIT
+## Pre-Release Verification
 
-### 3. Push Code
-```powershell
-cd ANA_MAX_GitHub_Release
+- [ ] `python -m compileall -q main.py core tools vscode_extension`
+- [ ] `python main.py --test` reports `3 PASS / 0 FAIL`
+- [ ] `python main.py --list-tools` reports `64 loaded tools`
+- [ ] `python -m unittest discover -s tests -v` passes
+- [ ] `.env` and `.license` are not tracked
+- [ ] `.env.example` contains placeholders only
+- [ ] No API keys, local database files, logs, or private memory stores are in
+      the release
+- [ ] Public docs use the canonical repository URL
+- [ ] Large videos are hosted externally and linked from docs/site pages
 
-git init
-git add .
-git commit -m "Initial release: ANA MAX v0.1.0-beta with 64 tools"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/ana-max.git
-git push -u origin main
-```
+## GitHub Release
 
-### 4. Create Release
-- [ ] Go to GitHub → Releases → Draft new release
 - [ ] Tag: `v0.1.0-beta`
-- [ ] Title: `ANA MAX v0.1.0-beta - Beta Release (64 Tools)`
-- [ ] Description:
-```
-## Features
-- 64 free MCP tools for Windows automation
-- Windows UI Automation (pywinauto)
-- Browser control and web scraping
-- Git operations and code analysis
-- Terminal with persistent session
-- Network diagnostics and security audit
+- [ ] Title: `ANA MAX v0.1.0-beta - Clean Public Release`
+- [ ] Description mentions the current public baseline:
 
-## What's Included (FREE)
-✅ File operations, code tools, web search
-✅ System monitoring, git control
-✅ Browser automation, terminal
-✅ Windows UI Automation
-✅ Security audit, smart search
-✅ ADB for Android, Frida instrumentation
-
-## What's NOT Included (Premium)
-❌ Desktop capture (requires license)
-❌ Live desktop viewer (premium)
-❌ Desktop control advanced (pro)
-❌ Windows Deep Sight (God View)
-
-See INSTALL_GUIDE.md for full setup.
-```
-- [ ] Attach `ana-max-18.0-trial.zip`
-- [ ] Publish Release
-
----
-
-## VS Code Marketplace
-
-### Prerequisites
-```powershell
-npm install -g vsce
+```text
+64 loaded tools
+4 premium-gated desktop control tools
+9 AI Core adapters
+MCP auth enabled by default
+desktop_capture is free Vision AI
 ```
 
-### 1. Create Publisher Account
-- [ ] https://marketplace.visualstudio.com/manage/publishers
-- [ ] Create new publisher (e.g., `your-name`)
-- [ ] Generate PAT (Personal Access Token)
+- [ ] Attach only public-safe release artifacts
+- [ ] Do not attach private lab archives or local data
 
-### 2. Update Extension Metadata
-Edit `vscode_extension/package.json`:
-```json
-{
-  "publisher": "your-name",
-  "name": "ana-max",
-  "displayName": "ANA MAX - Advanced Neural Architecture",
-  "version": "0.1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/YOUR_USERNAME/ana-max"
-  }
-}
-```
+## VS Code Extension
 
-### 3. Package & Publish
+Before packaging:
+
+- [ ] `vscode_extension/package.json` has repository, homepage, and bugs links
+      pointing to the canonical public repository
+- [ ] `anaMax.mcpApiKey`, `anaMax.mcpHost`, and `anaMax.mcpPort` are documented
+- [ ] `vscode_extension/src/extension.js` sends the Bearer token for tool calls
+- [ ] `ANA MAX: Open Documentation` opens the canonical public repository
+
+Package:
+
 ```powershell
 cd vscode_extension
-
-# Login to publisher
-vsce login your-name
-
-# Package
-vsce package
-
-# Publish
-vsce publish
-
-# Or publish specific version
-vsce publish 0.1.0
+npm.cmd run package
 ```
 
-### 4. Verify in Marketplace
-- [ ] Search "ana-max" in VS Code Extensions
-- [ ] Install and test locally
-- [ ] Check page: marketplace.visualstudio.com/items?itemName=your-name.ana-max
+Verify the VSIX:
 
----
+```powershell
+python -m zipfile -l .\advanced-neural-architecture-0.2.0.vsix
+```
 
-## Documentation Checklist
+## Documentation
 
-### Root Files
-- [ ] `README.md` - Overview & quick start
-- [ ] `SETUP_AND_RUN.md` - Detailed setup guide
-- [ ] `INSTALL_GUIDE.md` - Installation instructions
-- [ ] `CHANGELOG.md` - Version history
-- [ ] `LICENSE` - MIT license
-- [ ] `.env.example` - Environment template
+- [ ] `README.md`
+- [ ] `SETUP_AND_RUN.md`
+- [ ] `INSTALL_GUIDE.md`
+- [ ] `docs/PROJECT_MAP_AI_GUIDE.md`
+- [ ] `docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`
+- [ ] `docs/AI_COLLABORATION_AND_TOOLS.md`
+- [ ] `CHANGELOG.md`
+- [ ] `assets/VIDEO_MAP.md`
 
-### Code Documentation
-- [ ] `core/` - Core logic documented
-- [ ] `tools/` - Tool-specific READMEs
-- [ ] `docs/PROJECT_MAP_AI_GUIDE.md` - Architecture
+## Agent Handoff
 
-### Extension Documentation
-- [ ] `vscode_extension/README.md` - Extension guide
+Tell AI agents to:
 
----
+```text
+read docs/PROJECT_MAP_AI_GUIDE.md
+use the canonical public repository URL
+set MCP_API_KEY
+start main.py
+run tools/list
+run the verification commands
+report failures plainly
+```
 
-## Announce Release
-
-- [ ] Post on GitHub Discussions
-- [ ] Tweet/LinkedIn: "ANA MAX released with 42 free tools for Windows automation"
-- [ ] Add to Awesome lists (awesome-mcp, awesome-windows-automation)
-
----
-
-## Post-Launch Monitoring
-
-- [ ] Monitor GitHub Issues
-- [ ] Check marketplace ratings
-- [ ] Fix bugs quickly
-- [ ] Plan v1.0.0 with premium tools
-
----
-
-## Versioning Strategy
-
-| Version | Release Type | Premium Tools |
-|---------|-------------|---------------|
-| 0.1.0-beta | Public Beta | ❌ Disabled |
-| 1.0.0-pro | Paid License | ✅ Enabled |
-| 1.1.0 | Feature Update | TBD |
-
----
-
-**Current Status:** Ready for GitHub release ✅
-**Next:** Deploy to GitHub + VS Code Marketplace
+Do not tell agents to use private lab folders, old repo aliases, missing tools,
+or hidden setup files.

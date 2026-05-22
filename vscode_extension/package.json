@@ -41,6 +41,26 @@
   },
   "main": "./src/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "ANA MAX",
+      "properties": {
+        "anaMax.mcpApiKey": {
+          "type": "string",
+          "default": "change-me",
+          "description": "Bearer token sent to the local ANA MAX MCP server. Must match MCP_API_KEY or ANA_MCP_KEY."
+        },
+        "anaMax.mcpHost": {
+          "type": "string",
+          "default": "127.0.0.1",
+          "description": "ANA MAX MCP server host."
+        },
+        "anaMax.mcpPort": {
+          "type": "number",
+          "default": 8765,
+          "description": "ANA MAX MCP server port."
+        }
+      }
+    },
     "commands": [
       {
         "command": "anaMax.startMCP",
