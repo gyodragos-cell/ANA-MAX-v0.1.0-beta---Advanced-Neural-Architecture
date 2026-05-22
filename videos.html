@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANA MAX – Test Videos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg: #0b1020;
+      --panel: #111827;
+      --line: rgba(125, 154, 190, 0.22);
+      --line2: rgba(84, 175, 255, 0.45);
+      --text: #eef4ff;
+      --muted: #9fb0c7;
+      --blue: #4ea1ff;
+    }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 20% 0%,rgba(78,161,255,0.14),transparent 30%), linear-gradient(180deg,#0b1020 0%,#090d18 100%); color:var(--text); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .shell { width:min(1180px,calc(100% - 32px)); margin:0 auto; padding:28px 0 56px; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px; }
+    .brand { display:flex; align-items:center; gap:12px; min-width:0; }
+    .mark { width:38px; height:38px; border:1px solid var(--line2); border-radius:8px; display:grid; place-items:center; color:var(--blue); font-weight:800; box-shadow:0 0 24px rgba(78,161,255,0.18); }
+    .brand h1 { margin:0; font-size:20px; }
+    .brand p { margin:2px 0 0; color:var(--muted); font-size:13px; }
+    .nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
+    .nav a { border:1px solid var(--line); background:rgba(17,24,39,0.8); color:var(--muted); border-radius:8px; padding:8px 12px; font-size:13px; text-decoration:none; cursor:pointer; }
+    .nav a:hover { border-color:var(--line2); color:var(--text); }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:24px; margin-top:32px; }
+    .video-card { background:rgba(17,24,39,0.82); border:1px solid var(--line); border-radius:8px; padding:20px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    .video-card video { width:100%; aspect-ratio:16/9; border:1px solid var(--line); border-radius:8px; background:#050914; display:block; }
+    .video-card h3 { margin:16px 0 8px; font-size:18px; color:var(--blue); }
+    .video-card p { margin:0; color:var(--muted); font-size:14px; line-height:1.6; }
+    footer { margin-top:38px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .intro-header { margin-bottom: 24px; }
+    .intro-header h2 { font-size: 28px; margin: 0 0 8px 0; color: var(--text); }
+    .intro-header p { margin: 0; color: var(--muted); font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark">A</div>
+        <div>
+          <h1>ANA MAX</h1>
+          <p>Advanced Neural Architecture</p>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#architecture">Architecture</a>
+        <a href="index.html#demo">Demo</a>
+        <a href="videos.html">Videos</a>
+        <a href="docs/ANA_MAX_WOW_DEMO.md">Wow Demo</a>
+        <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="intro-header">
+        <h2>System & Voice Capabilities Showcase</h2>
+        <p>Real-world testing sessions demonstrating agent automation, dynamic tool execution, and voice-assisted environmental feedback.</p>
+      </div>
+
+      <section class="gallery" id="videos">
+        <!-- Video entries -->
+        <div class="video-card">
+          <video controls preload="metadata" src="assets/videos/video_07.mp4"></video>
+          <h3>Voice Demo: Marina Beaucete</h3>
+          <p>A full, interactive demo with voice commentary showcasing the agent's real-time computer vision capabilities, UI capture, and verbal output of its observations.</p>
+        </div>
+
+        <div class="video-card">
+          <video controls preload="metadata" src="assets/videos/video_09.mp4"></video>
+          <h3>Voice Demo: Rihana Session</h3>
+          <p>Demonstrates the agent describing what it sees on the desktop using real-time voice feedback, resolving alignment and interpretation parameters dynamically.</p>
+        </div>
+
+        <div class="video-card">
+          <video controls preload="metadata" src="assets/videos/video_06.mp4"></video>
+          <h3>Tool Execution & Browser Test</h3>
+          <p>Shows the agent running browser automation and executing internal tools. Demonstrates real-world trial constraints and how the agent reacts to environment delays and partial execution paths.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>ANA MAX v0.2.0-beta / 64 loaded tools / MCP auth on</span>
+      <span><a href="docs/PROJECT_MAP_AI_GUIDE.md">Project map</a> / <a href="SETUP_AND_RUN.md">Setup</a></span>
+    </footer>
+  </div>
+</body>
+</html>

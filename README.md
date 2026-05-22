@@ -97,6 +97,9 @@ python -m venv .venv
 pip install -r requirements.txt
 $env:MCP_API_KEY = "change-me"
 python main.py
+
+# Launch the voice engine
+scripts\ana_voice.bat
 ```
 
 ANA MAX starts on `http://127.0.0.1:8765` by default.
