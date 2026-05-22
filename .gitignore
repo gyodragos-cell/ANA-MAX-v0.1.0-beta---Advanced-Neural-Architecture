@@ -36,6 +36,7 @@ ENV/
 # Node / VS Code extension
 node_modules/
 vscode_extension/node_modules/
+ana-ai.ana-mistral-chat-1.0.0/
 
 # ANA MAX Specific
 memory/*.db
