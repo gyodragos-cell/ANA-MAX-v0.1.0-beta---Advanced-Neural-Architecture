@@ -10,6 +10,8 @@ Start here:
   vision.
 - `AGENT_IDE_SUPER_TOOLS_PLAN.md` - positioning and flagship workflow plan for
   agent IDE integrations.
+- `USER_EXTENSION_INSTALL_AND_ETHICS.md` - beginner-friendly VS Code extension
+  install guide and ethical-use rules.
 - `ANA_WORKGRAPH_ARCHITECTURE.md` - observation-first architecture notes.
 - `ANA_MAX_WOW_DEMO.md` - 90-second public demo blueprint.
 - `LICENSING.md` - Free/Pro licensing overview.

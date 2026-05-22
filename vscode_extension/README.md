@@ -9,10 +9,35 @@ instrumentation, and verification.
 ## Quick Start
 
 1. Install Python 3.9+ from https://python.org
-2. Clone repository: `git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git`
-3. Install dependencies: `pip install -r requirements.txt`
-4. Open in VS Code and run: `ANA MAX: Start MCP Server`
-5. Use tools: `ANA MAX: Call Tool`
+2. Download the ANA MAX repository ZIP from GitHub, or clone it with Git.
+3. Open the ANA MAX folder in VS Code.
+4. Install dependencies: `pip install -r requirements.txt`
+5. Run: `ANA MAX: Start MCP Server`
+6. Use tools: `ANA MAX: Call Tool`
+
+## Install From VSIX
+
+If the extension is not installed yet, install the included VSIX from the repo
+root:
+
+```powershell
+code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+```
+
+Or use VS Code:
+
+```text
+Extensions -> ... -> Install from VSIX
+```
+
+Select:
+
+```text
+vscode_extension\advanced-neural-architecture-0.2.0.vsix
+```
+
+For users who do not know Git yet, use the ZIP download path documented in
+`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`.
 
 ## Features
 
@@ -61,6 +86,12 @@ tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
 
 ANA MAX is not meant to be a blind automation pile. Use the observation tools
 before write or control tools, and run verification before handoff.
+
+## Ethical Use
+
+ANA MAX is for white-hat, authorized red-team, QA, education, debugging, and
+repair work. Use it only on systems you own or are allowed to test. It is not a
+black-hat hacking kit.
 
 ## Links
 

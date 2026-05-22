@@ -25,6 +25,14 @@ Super tools for local AI coding agents.
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
 
+## Ethical Use
+
+ANA MAX is for white-hat, red-team with permission, QA, education, debugging,
+and local repair work. It is not a black-hat hacking kit.
+
+Use it only on systems you own or are explicitly allowed to test. The purpose
+is to help users and agents observe, diagnose, fix, verify, and learn.
+
 ## Why It Exists
 
 Most agents lose time because they guess from partial context. ANA MAX is built
@@ -176,6 +184,31 @@ curl -X POST http://127.0.0.1:8765/mcp `
   -H "Authorization: Bearer change-me" `
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
+
+## VS Code Extension
+
+For users who do not know Git yet, download the repository ZIP from GitHub,
+extract it, open the folder in VS Code, then install the included VSIX:
+
+```powershell
+code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+```
+
+You can also install it from VS Code:
+
+```text
+Extensions -> ... -> Install from VSIX
+```
+
+Then run:
+
+```text
+ANA MAX: Start MCP Server
+ANA MAX: Call Tool
+```
+
+For a beginner-friendly walkthrough, see
+[`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`](docs/USER_EXTENSION_INSTALL_AND_ETHICS.md).
 
 ## Verification
 

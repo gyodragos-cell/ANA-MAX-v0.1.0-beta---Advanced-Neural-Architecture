@@ -11,6 +11,36 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Install The VS Code Extension
+
+If you downloaded the project as a ZIP from GitHub, extract it first and open
+the extracted folder in VS Code.
+
+Install the included VSIX:
+
+```powershell
+code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+```
+
+Or use the VS Code UI:
+
+```text
+Extensions -> ... -> Install from VSIX
+```
+
+After installing, use the command palette:
+
+```text
+ANA MAX: Start MCP Server
+ANA MAX: Call Tool
+```
+
+Beginner guide:
+
+```text
+docs/USER_EXTENSION_INSTALL_AND_ETHICS.md
+```
+
 ## Verify
 
 ```powershell
@@ -70,6 +100,18 @@ editing code, run tests before claiming a fix, and use Frida only for
 authorized runtime instrumentation.
 
 See `docs/LOCAL_QA_LAB_VISION.md`.
+
+## Ethical Use
+
+ANA MAX is for white-hat, authorized red-team, QA, education, debugging, and
+repair workflows. Do not use it against systems, accounts, networks, or devices
+that you do not own or do not have permission to test.
+
+Simple rule:
+
+```text
+own it or have written permission before you test it
+```
 
 ## Agent IDE Connection
 

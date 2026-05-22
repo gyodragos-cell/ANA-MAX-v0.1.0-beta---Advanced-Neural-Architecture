@@ -63,6 +63,9 @@
 - Hardened the legacy MCP bridge so registered tools expose real parameter
   schemas and all tool calls route through `ToolRegistry.execute()` for
   validation, logging, and premium-gate enforcement.
+- Added beginner-friendly VS Code extension install instructions and
+  white-hat/authorized-use guidance for users who are new to Git, MCP, and
+  local AI tooling.
 
 ## Verification Baseline
 
