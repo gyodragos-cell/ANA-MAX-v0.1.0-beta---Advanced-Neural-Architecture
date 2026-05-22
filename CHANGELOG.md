@@ -66,6 +66,9 @@
 - Added beginner-friendly VS Code extension install instructions and
   white-hat/authorized-use guidance for users who are new to Git, MCP, and
   local AI tooling.
+- Added homepage install guidance for non-Git users, including ZIP download,
+  VSIX install, MCP start commands, and explicit white-hat/authorized-use
+  positioning.
 
 ## Verification Baseline
 

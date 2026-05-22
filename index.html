@@ -457,6 +457,7 @@
       <a href="#architecture">Architecture</a>
       <a href="#demo">Demo</a>
       <a href="videos.html">Videos</a>
+      <a href="#tab-install" onclick="showTab('install')">Install</a>
       <a href="#tab-mcp" onclick="showTab('mcp')">MCP</a>
       <a href="#tab-license" onclick="showTab('license')">License</a>
       <a href="docs/ANA_MAX_WOW_DEMO.md">Wow Demo</a>
@@ -479,6 +480,7 @@
           <a class="button demo-hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
           <a class="button demo-hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
           <a class="button secondary" href="docs/ANA_MAX_WOW_DEMO.md">90s proof script</a>
+          <a class="button secondary" href="#tab-install" onclick="showTab('install')">Install extension</a>
           <a class="button secondary" href="#tab-mcp" onclick="showTab('mcp')">Connect MCP</a>
           <a class="button secondary" href="#tab-checks" onclick="showTab('checks')">Run checks</a>
         </div>
@@ -584,6 +586,11 @@
         and AI agents that must work from local facts without exposing private
         work.
       </p>
+      <p>
+        This is white-hat and authorized red-team tooling for repair, QA,
+        education, and private labs. It is not a black-hat hacking kit. Use it
+        only on systems you own or are allowed to test.
+      </p>
       <div class="promise-grid">
         <div class="promise-item">
           <strong>Observe</strong>
@@ -647,12 +654,71 @@ Keep the repository source-only and public-safe.</pre>
     </section>
 
     <div class="tabs" role="tablist">
-      <button class="tab active" type="button" onclick="showTab('mcp')">MCP setup</button>
+      <button class="tab active" type="button" onclick="showTab('install')">Install extension</button>
+      <button class="tab" type="button" onclick="showTab('mcp')">MCP setup</button>
       <button class="tab" type="button" onclick="showTab('license')">Licensing</button>
       <button class="tab" type="button" onclick="showTab('checks')">Verification</button>
     </div>
 
-    <section class="section active" id="tab-mcp">
+    <section class="section active" id="tab-install">
+      <div class="grid">
+        <div class="card">
+          <h3>If you do not know Git</h3>
+          <p>Download the repository ZIP from GitHub, extract it, then open the extracted folder in VS Code. The AI agent can help with the steps, but these are the commands it will run.</p>
+        </div>
+        <div class="card">
+          <h3>Install the extension</h3>
+          <p>Use the included VSIX file. In VS Code you can also use <code>Extensions -> ... -> Install from VSIX</code>.</p>
+        </div>
+        <div class="card">
+          <h3>Ethical use</h3>
+          <p>Use ANA MAX for QA, debugging, education, repair, and authorized security work. Own it or have written permission before you test it.</p>
+        </div>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Install dependencies after ZIP extract</span>
+          <button class="copy" type="button" onclick="copyBlock('zip')">copy</button>
+        </div>
+        <pre id="code-zip">python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Install VS Code extension from VSIX</span>
+          <button class="copy" type="button" onclick="copyBlock('vsix')">copy</button>
+        </div>
+        <pre id="code-vsix">code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Git path for engineers</span>
+          <button class="copy" type="button" onclick="copyBlock('gitinstall')">copy</button>
+        </div>
+        <pre id="code-gitinstall">git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git
+cd ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Next commands in VS Code</span>
+        </div>
+        <pre>ANA MAX: Start MCP Server
+ANA MAX: Call Tool</pre>
+      </div>
+      <div class="codebox">
+        <div class="codebar">
+          <span>Beginner guide</span>
+        </div>
+        <pre>docs/USER_EXTENSION_INSTALL_AND_ETHICS.md</pre>
+      </div>
+    </section>
+
+    <section class="section" id="tab-mcp">
       <div class="grid">
         <div class="card">
           <h3>Local server</h3>
