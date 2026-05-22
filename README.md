@@ -94,7 +94,8 @@ when they work as careful engineering collaborators, not blind code generators.
 Current public video:
 
 ```text
-https://youtu.be/D10jW9jueDI
+https://www.youtube.com/watch?v=yIWILEd6glU
+https://youtu.be/2Ft9eRO7GzM
 ```
 
 Video demos should be hosted outside git, for example on YouTube or GitHub Releases, then linked from this README and the website. Large `.mp4` files do not belong in the repository.
