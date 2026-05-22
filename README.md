@@ -16,6 +16,14 @@ they act: files, git state, terminal output, desktop vision, Windows UI
 automation, memory, runtime instrumentation, voice feedback, and smoke-test
 verification.
 
+Plain version:
+
+```text
+ANA MAX is a local helper layer for AI agents.
+It gives an agent tools to look at your project, inspect the Windows desktop,
+run checks, and verify work before it claims the job is done.
+```
+
 For agent IDE workflows, the short version is:
 
 ```text
@@ -24,6 +32,56 @@ Super tools for local AI coding agents.
 
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
+
+## Start Here If You Are New
+
+You do not need to be a senior engineer to understand the goal.
+
+ANA MAX does three practical things:
+
+1. It observes: files, git status, terminal output, visible windows, screenshots,
+   and UI structure.
+2. It acts through tools: file operations, tests, browser control, desktop
+   helpers, diagnostics, and MCP calls.
+3. It verifies: quick checks, tool health, smoke tests, and clear pass/fail
+   output.
+
+If you are new to Git, download the ZIP from GitHub instead of cloning. Then
+read this file:
+
+```text
+SETUP_AND_RUN.md
+```
+
+If you use VS Code, start with:
+
+```text
+docs/USER_EXTENSION_INSTALL_AND_ETHICS.md
+```
+
+If you are an AI agent or coding assistant, read first:
+
+```text
+docs/PROJECT_MAP_AI_GUIDE.md
+```
+
+## What This Is Not
+
+ANA MAX is not a magic autopilot and it is not a replacement for judgment. It
+does not make private data safe to publish. It does not give permission to test
+systems you do not own.
+
+Good use:
+
+```text
+observe local evidence -> make a focused change -> run checks -> explain result
+```
+
+Bad use:
+
+```text
+guess -> edit many files -> skip verification -> hide failures
+```
 
 ## Ethical Use
 

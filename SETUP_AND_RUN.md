@@ -5,11 +5,37 @@ must not contain diacritics, smart quotes, emoji, or mojibake.
 
 ## Install
 
+If you are new to Git, use the simple path:
+
+1. Open the GitHub page.
+2. Click `Code`.
+3. Click `Download ZIP`.
+4. Extract the ZIP.
+5. Open the extracted folder in VS Code or PowerShell.
+
+Then run these commands from the extracted folder:
+
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
+
+If you already know Git, clone the repository and run the same commands from
+the repo root.
+
+## What Success Looks Like
+
+These are the important signs:
+
+```text
+python main.py --test        -> 3 PASS / 0 FAIL
+python main.py --list-tools  -> 64 loaded tools
+server URL                   -> http://127.0.0.1:8765
+```
+
+If your result is different, do not guess. Read the error message, then run the
+verification commands below.
 
 ## Install The VS Code Extension
 
@@ -85,6 +111,10 @@ $env:MCP_API_KEY = "change-me"
 $env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 python main.py
 ```
+
+Keep this terminal open while you use the VS Code extension or another MCP
+client. If you change tool registration or update the code, stop and restart
+the server so the tool list is fresh.
 
 Server:
 
@@ -173,6 +203,16 @@ first and stay alive while the ANA MAX server process is running.
 ## Troubleshooting
 
 If Python cannot import project modules, run commands from the repo root.
+
+If the VS Code extension cannot call tools, check that:
+
+- `python main.py` is still running.
+- `MCP_API_KEY` matches `anaMax.mcpApiKey`.
+- The server URL is `http://127.0.0.1:8765`.
+- The request includes `Authorization: Bearer change-me`.
+
+If `tools/list` shows an old tool count after an update, restart `python
+main.py`. A running MCP server keeps its in-memory registry until it restarts.
 
 If premium tools return a blocked result, activate a valid license. This is
 expected behavior for:

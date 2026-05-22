@@ -5,6 +5,9 @@ release.
 
 Start here:
 
+- `../README.md` - plain overview, ethics, quick start, and verification.
+- `../SETUP_AND_RUN.md` - first install path for ZIP users, Git users, VS Code,
+  and MCP clients.
 - `PROJECT_MAP_AI_GUIDE.md` - source-of-truth project map for agents.
 - `AI_COLLABORATION_AND_TOOLS.md` - credits and practical guidance for Codex,
   Qoder, and agent-assisted development.
@@ -43,3 +46,11 @@ Documentation rules:
 - Do not document tools that are not present and executable in this clean
   release.
 - Prefer exact workflow proof over broad claims.
+
+Reader order:
+
+```text
+new user -> README.md -> SETUP_AND_RUN.md -> USER_EXTENSION_INSTALL_AND_ETHICS.md
+developer -> README.md -> PROJECT_MAP_AI_GUIDE.md -> verification commands
+AI agent -> PROJECT_MAP_AI_GUIDE.md -> inspect files -> edit -> verify
+```
