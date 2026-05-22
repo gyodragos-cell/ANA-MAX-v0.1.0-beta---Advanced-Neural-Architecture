@@ -7,6 +7,8 @@
 ![Tools](https://img.shields.io/badge/tools-64-blueviolet)
 
 [![Vezi Demo Live](https://img.shields.io/badge/%F0%9F%9A%80_Vezi_Demo_Live-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+[![Watch Demo 1](https://img.shields.io/badge/Watch_Demo_1-YouTube-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=yIWILEd6glU)
+[![Watch Demo 2](https://img.shields.io/badge/Watch_Demo_2-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/2Ft9eRO7GzM)
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before
@@ -91,12 +93,10 @@ when they work as careful engineering collaborators, not blind code generators.
 
 **[Website - Live Demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)**
 
-Current public video:
+Current public videos:
 
-```text
-https://www.youtube.com/watch?v=yIWILEd6glU
-https://youtu.be/2Ft9eRO7GzM
-```
+- **[Watch Demo 1 on YouTube](https://www.youtube.com/watch?v=yIWILEd6glU)**
+- **[Watch Demo 2 on YouTube](https://youtu.be/2Ft9eRO7GzM)**
 
 Video demos should be hosted outside git, for example on YouTube or GitHub Releases, then linked from this README and the website. Large `.mp4` files do not belong in the repository.
 
