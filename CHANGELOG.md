@@ -44,6 +44,8 @@
   internet access is blocked or data cannot leave the machine.
 - Removed large demo videos from git tracking and documented the rule that
   public videos should be hosted externally, then linked from the site.
+- Linked the current public YouTube demo from README, the website, and the
+  video map.
 
 ## Verification Baseline
 

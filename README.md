@@ -91,6 +91,12 @@ when they work as careful engineering collaborators, not blind code generators.
 
 **[Website - Live Demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)**
 
+Current public video:
+
+```text
+https://youtu.be/D10jW9jueDI
+```
+
 Video demos should be hosted outside git, for example on YouTube or GitHub Releases, then linked from this README and the website. Large `.mp4` files do not belong in the repository.
 
 The demo should prove the core workflow quickly: observe the workspace, choose

@@ -6,6 +6,6 @@ Current public demo link:
 
 | Label | URL | Notes |
 |-------|-----|-------|
-| Live Desktop Reasoning Demo | https://www.youtube.com/watch?v=D10jW9jueDI | Early public demo candidate. Keep it unlisted or public before sharing from GitHub. |
+| Live Desktop Reasoning Demo | https://youtu.be/D10jW9jueDI | Public demo showing the current live desktop reasoning workflow. |
 
 Add future links here instead of committing `.mp4` files.
