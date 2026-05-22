@@ -100,6 +100,8 @@
   reports, not public abuse recipes.
 - Added a public mint-condition checklist for release polish, verification, and
   clean agent handoff.
+- Added public positioning for ANA MAX as a local multi-tool runtime for AI
+  agents, with clear operator responsibility for lawful and authorized use.
 
 ## Verification Baseline
 

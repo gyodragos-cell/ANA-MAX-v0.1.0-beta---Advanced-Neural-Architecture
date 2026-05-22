@@ -18,6 +18,12 @@ Even shorter:
 Super tools for local AI coding agents.
 ```
 
+Expanded:
+
+```text
+A local multi-tool runtime for AI agents: observe, diagnose, act, verify, and learn on a real Windows machine.
+```
+
 ## Target Users
 
 The strongest users are:

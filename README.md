@@ -30,6 +30,12 @@ For agent IDE workflows, the short version is:
 Super tools for local AI coding agents.
 ```
 
+Another way to say it:
+
+```text
+A local multi-tool runtime for AI agents: observe, diagnose, act, verify, and learn on a real Windows machine.
+```
+
 This repository is the clean public release. It must stay public-safe,
 repeatable, and boring in the best possible way.
 
@@ -178,6 +184,9 @@ hands, ears, memory, and verification. See
 ## What Makes It Different
 
 - It gives agents situational awareness, not just file access.
+- It acts like a local agent toolkit: different tools for setup, debugging, QA,
+  desktop observation, browser checks, voice status, and authorized runtime
+  diagnostics.
 - It combines desktop vision, Windows UI automation, code tools, git, memory,
   and verification in one workflow.
 - It supports authorized runtime instrumentation with Frida when static
@@ -186,6 +195,10 @@ hands, ears, memory, and verification. See
   premium-gated.
 - It keeps public docs and shell-facing examples ASCII-only so Windows consoles
   and weaker agents can parse them reliably.
+
+ANA MAX is open source, but responsibility stays with the operator. Use it for
+your own systems, private labs, education, QA, and authorized testing. Do not
+use it to attack systems or accounts you do not own or have permission to test.
 
 ## Agent IDE Super Tools
 
