@@ -37,7 +37,7 @@ The strongest users are:
 
 ## What To Prove First
 
-Do not lead with 64 tools. Lead with three workflows that work end to end.
+Do not lead with raw tool count alone. Lead with three workflows that work end to end.
 
 ### Workflow 1: Desktop Reasoning
 
