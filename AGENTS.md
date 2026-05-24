@@ -24,6 +24,8 @@ and verification commands.
   `windows_insight`, `windows_insight_tool`, `windows_deep_sight`.
 - Keep documentation counts aligned with the release map:
   `71 loaded tools, 4 premium-gated tool families, 7 AI Core adapters`.
+- Use the current public wording when a page needs a version label:
+  `18.0-MAX-lab.audit.2026-05-24`.
 
 ## Release Sync Rule
 
@@ -36,6 +38,8 @@ surface in the same change:
 - `CHANGELOG.md`
 - `.env.example` when environment variables or auth behavior change
 - tests that protect the behavior or release hygiene
+- `index.html` when public positioning, release counts, or website sections
+  change
 
 Do not leave users behind with stale commands, stale tool counts, stale premium
 gates, or missing environment variables.

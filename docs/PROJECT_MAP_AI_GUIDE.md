@@ -32,6 +32,16 @@ Not allowed:
 
 ## Current Architecture
 
+Current public wording:
+
+```text
+Version: 18.0-MAX-lab.audit.2026-05-24
+Tools: 71 loaded tools
+AI Core adapters: 7
+Premium-gated families: 4
+Workflow: observe -> decide -> act -> verify
+```
+
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.
 
@@ -113,6 +123,10 @@ The public message should stay factual:
 ```text
 observe -> decide -> act -> verify -> learn
 ```
+
+The public website must stay aligned with the same message. It may be visually
+premium, but it must not publish private lab logs, memory, screenshots, local
+paths, or claims about tools that are not present in this release.
 
 See `docs/LOCAL_QA_LAB_VISION.md`.
 

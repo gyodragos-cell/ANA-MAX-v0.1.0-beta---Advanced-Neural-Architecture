@@ -1,8 +1,13 @@
-# ANA MAX - Project Roadmap And Development Status
+# ANA MAX - Public Roadmap And Development Status
 
-**Public release:** v0.1.0-beta / VS Code extension v0.2.0  
-**Status:** Clean public release with active private lab development  
-**Last updated:** 2026-05-22  
+**Public release wording:** 18.0-MAX-lab.audit.2026-05-24
+
+**Repository release:** v0.1.0-beta / VS Code extension v0.2.0
+
+**Status:** Clean public release with active private lab development
+
+**Last updated:** 2026-05-24
+
 **License:** MIT
 
 ---
@@ -17,12 +22,143 @@ The public release is intentionally conservative. Private lab experiments may
 be stronger than what is published here, but they stay private until they are
 safe, documented, tested, and useful for authorized QA.
 
-**Target Use Cases:**
-- Privacy-first desktop automation
-- Local AI agent frameworks
-- Research & development platform
-- OS-level copilot infrastructure
-- White-hat QA and responsible bug reporting
+Public operating loop:
+
+```text
+observe -> decide -> act -> verify -> learn
+```
+
+## Current Public Baseline
+
+```text
+71 loaded tools
+7 AI Core adapters
+4 premium-gated tool families
+3 PASS / 0 FAIL quick test
+```
+
+Premium-gated families remain:
+
+- `live_desktop_viewer`
+- `desktop_control` and `desktop_control_tool`
+- `windows_insight` and `windows_insight_tool`
+- `windows_deep_sight`
+
+`desktop_capture` is free Vision AI in this release.
+
+## What Was Repaired
+
+- Promoted `ocr_tool` and `window_manager` to direct Tool classes.
+- Reduced the AI Core adapter count to 7 by removing adapter coverage for tools
+  that now have direct Tool classes.
+- Strengthened registry execution behavior with stricter parameter validation,
+  compact errors, confirmation handling, and quieter agent-facing output.
+- Kept runtime premium checks in `ToolRegistry.execute()` so CLI, HTTP, and MCP
+  calls share the same gate.
+- Updated the public website to reflect the 2026-05-24 audit baseline.
+
+## What Was Optimized
+
+- `tool_healthcheck` safe scope stays compact, offline, and suitable for quick
+  agent checks.
+- Observation tools are now framed around factual workspace and desktop state
+  before an agent acts.
+- Public documentation now uses one current count model: 71 tools, 7 AI Core
+  adapters, and 4 premium-gated tool families.
+- Public-facing pages stay ASCII-safe for Windows consoles and weaker agents.
+
+## What Was Added
+
+Latest public-safe tools:
+
+- `file_patch`
+- `project_navigator`
+- `error_radar`
+- `uia_click`
+- `uia_type`
+- `vision_region_capture`
+- `vision_find_element`
+
+Latest public website sections:
+
+- WOW hero for ANA MAX - Advanced Neural Architecture
+- Release highlights for the 71-tool audit baseline
+- Core capabilities
+- Architecture overview
+- Tool categories
+- Why ANA MAX
+- Roadmap highlights
+- Credits and AI collaboration
+- Footer with GitHub, license, version, and last updated date
+
+## Roadmap Phases
+
+### Phase 1: Clean And Current
+
+Goal: keep the public release synchronized with the actual code.
+
+- [x] Publish 71-tool baseline.
+- [x] Document 7 AI Core adapters.
+- [x] Document 4 premium-gated tool families.
+- [x] Keep the website and README aligned with public release wording.
+- [ ] Continue removing stale counts and old release language when found.
+
+### Phase 2: Observation First
+
+Goal: make agents gather compact facts before they act.
+
+- [x] Keep `workspace_situational_awareness` compact and relevant.
+- [x] Keep `tool_healthcheck` safe scope offline.
+- [ ] Improve `desktop_capture` window capture reliability.
+- [ ] Add output limits and selector hardening to `windows_uia_bridge`.
+- [ ] Add more controlled tests for `vision_region_capture` and
+  `vision_find_element`.
+
+### Phase 3: Agent Reliability
+
+Goal: reduce blind actions and improve predictable recovery.
+
+- [x] Strengthen registry parameter validation.
+- [x] Add confirmation behavior for higher-risk UI tools.
+- [ ] Add broader MCP-level regression tests.
+- [ ] Add reliability scoring for core tools.
+- [ ] Improve error recovery and retry guidance.
+
+### Phase 4: Public Release Hygiene
+
+Goal: keep public ANA MAX clean, safe, and easy to verify.
+
+- [x] Keep private logs, memory, screenshots, local paths, `.env`, and license
+  files out of the repository.
+- [x] Keep public docs ASCII-safe.
+- [x] Document canonical public repository links.
+- [ ] Add release checklist automation for docs count drift.
+- [ ] Keep public website claims tied to executable tools.
+
+## Recommendations
+
+- Prioritize tool quality over new tool count.
+- Treat observation tools as the front door for agent workflows.
+- Add MCP-level tests for the new utility and UIA/vision tools.
+- Keep premium/internal wording clear and avoid publishing lab-only behavior.
+- Keep every public claim verifiable from the repository root.
+
+## Verification Baseline
+
+Run from the repository root:
+
+```powershell
+python -m compileall -q main.py core tools vscode_extension
+python main.py --test
+python main.py --list-tools
+python -m unittest discover -s tests -v
+```
+
+Expected:
+
+- `python main.py --test`: `3 PASS / 0 FAIL`
+- `python main.py --list-tools`: 71 loaded tools
+- `python -m unittest discover -s tests -v`: all tests passing
 
 ## Responsible QA Direction
 
@@ -36,258 +172,17 @@ Preferred workflow:
 observe -> reproduce safely -> document impact -> report privately -> verify fix
 ```
 
-This is the line between useful QA tooling and reckless automation. The public
-release should make that discipline obvious to new users and to AI agents that
-help them install or connect the project.
-
----
-
-## Current State: Honest Assessment
-
-### What Works (Production-Ready)
-**15+ Stable Tools:**
-- `file_operations` - File read/write/search/edit
-- `desktop_capture` - Screenshot capture
-- `qa_testing` - Edge case analysis & test generation
-- `system_control` - System information
-- `terminal` - Command execution
-- `git_operations` - Git integration
-- `browser_control` - Browser automation
-- `code_search` - Codebase search
-- `smart_search` - Intelligent search
-- `clipboard_manager` - Clipboard intelligence
-- `windows_uia_bridge` - UI automation (pywinauto)
-- `web_scraper` - Web content extraction
-- `codebase_understanding` - Code analysis
-- `tool_healthcheck` - Tool monitoring
-- `ana_memory` - Persistent memory
-
-### What Needs Work (In Development)
-**Requires Stabilization:**
-- `windows_deep_sight` - God view (process monitoring timeout issues)
-- `ocr_tool` - OCR (PaddleOCR argument compatibility)
-- `live_desktop_viewer` - Live streaming (experimental)
-- `desktop_control` - Full desktop automation (needs testing)
-- `windows_insight` - System diagnostics (needs refinement)
-
-### Known Issues (QA Analysis Results)
-
-**Total Bugs Found:** 11 (as of 2026-05-17)
-
-| Severity | Count | Status |
-|----------|-------|--------|
-| CRITICAL | 2 | Known, Not Fixed |
-| HIGH | 4 | 2 Fixed, 2 Pending |
-| MEDIUM | 3 | Pending |
-| LOW | 2 | Pending |
-
-#### Critical Issues
-1. **jupyter_sandbox.py** - Uses `exec()` - Remote Code Execution risk
-2. **.env file** - API keys exposed in plain text (should use .env.example)
-
-#### High Priority (Fixed)
-3. **ocr_tool** - `show_log` argument bug -> Fixed (changed to `quiet=True`)
-4. **windows_deep_sight** - Tool hangs/timeout -> Fixed (process limit added)
-
-#### High Priority (Pending)
-5. **25+ bare except clauses** - Hides critical errors
-6. **Hardcoded Windows paths** - Cross-platform compatibility issues
-
-#### Medium Priority
-7. **qa_tool.py** - TODO markers unresolved (lines 76, 82)
-8. **25+ while True: loops** - Potential infinite loops
-9. **Learning System** - ANA doesn't auto-learn from errors
-
-#### Low Priority
-10. **Cache mechanisms** - No expiration (memory leak potential)
-11. **subprocess.Popen** - Calls without input sanitization
-
----
-
-## Development Roadmap
-
-### Phase 1: Infrastructure Stabilization (Current)
-**Timeline:** Q2-Q3 2026  
-**Goal:** Make 15 core tools production-ready
-
-- [x] Fix ocr_tool PaddleOCR compatibility
-- [x] Fix windows_deep_sight timeout issues
-- [ ] Implement proper sandbox for code execution
-- [ ] Add permission layer for tool access
-- [ ] Remove dangerous `exec()` calls
-- [ ] Implement proper error logging
-- [ ] Replace hardcoded paths with `pathlib`
-- [ ] Add shell-independent execution
-- [ ] Fix 25+ bare except clauses
-- [ ] Resolve TODO markers in qa_tool
-
-### Phase 2: Agent Planning & Intelligence
-**Timeline:** Q4 2026  
-**Goal:** Smart orchestration and self-recovery
-
-- [ ] Agent planning module
-- [ ] Reflection loops
-- [ ] Evaluator/reviewer agents
-- [ ] Context compression
-- [ ] Task decomposition
-- [ ] Retry logic with exponential backoff
-- [ ] Self-evaluation system
-- [ ] Error recovery patterns
-
-### Phase 3: Tool Quality Over Quantity
-**Timeline:** Q1 2027  
-**Goal:** 10 ultra-stable tools > 52 unstable ones
-
-- [ ] Tool reliability scoring
-- [ ] Automatic tool health monitoring
-- [ ] Intelligent tool routing
-- [ ] Context-aware tool selection
-- [ ] Tool chaining optimization
-- [ ] Performance benchmarking
-- [ ] Automated testing pipeline
-
-### Phase 4: Specialized Frameworks
-**Timeline:** Q2-Q4 2027  
-**Goal:** Become competitive in niche areas
-
-Potential Specializations:
-- Autonomous coding workflows
-- Research agents
-- OS-level copilots
-- Tool orchestration framework
-- Local-first agents
-- Privacy-first agents
-- MCP runtime layer
-
----
-
-## Architectural Decisions
-
-### Why Not Production-Ready Yet?
-
-ANA MAX is currently a **research/experimental framework**. Here's what companies expect from mature systems:
-
-**What We Have:**
-- 64 tools
-- Desktop automation capabilities
-- MCP server integration
-- Local-first architecture
-
-**What Needs Work:**
-- **Reliability:** 10 ultra-stable tools > 64 unstable ones
-- **Security:** Sandboxing, permission layers, input sanitization
-- **Orchestration:** Intelligent tool routing, error recovery
-- **Planning:** Agent reasoning, reflection, self-evaluation
-
-**Industry Standard (What Companies Look For):**
-- reliability
-- tool chaining
-- context routing
-- error recovery
-- planning & reflection
-
----
-
-## Security Considerations
-
-### Current Security Posture
-
-**WARNING:** This framework is NOT designed for production environments with untrusted inputs.
-
-**Known Security Risks:**
-1. `exec()` usage in jupyter_sandbox.py (RCE risk)
-2. `subprocess.Popen` calls without sanitization
-3. API keys potentially exposed in .env files
-4. No permission layer for tool access
-5. No input validation on some tools
-
-**Security Improvements Planned:**
-- [ ] Implement proper sandboxing
-- [ ] Add permission layer
-- [ ] Remove all `exec()` calls
-- [ ] Sanitize all subprocess inputs
-- [ ] Implement input validation
-- [ ] Add audit logging
-
----
-
-## Potential & Vision
-
-### If We Stabilize The Infrastructure:
-
-**Rating:** 9/10 potential
-
-**Key Areas:**
-1. Stabilize system (15 core tools)
-2. Secure runtime (sandbox, permissions)
-3. Optimize orchestration (intelligent routing)
-4. Reduce tool chaos (quality over quantity)
-5. Improve planning/reflection (agent intelligence)
-
-### Target Markets
-
-1. **Privacy-first organizations** - Local AI, no cloud dependencies
-2. **Research institutions** - Open-source agent framework
-3. **Developers** - Desktop automation toolkit
-4. **Enterprises** - Internal tool orchestration platform
-5. **Education** - AI learning platform
-
----
-
-## Technical Debt
-
-### Code Quality Issues
-
-**Hardcoded Paths:**
-```python
-# Bad
-"C:\\Users\\<USERNAME>\\Documents"
-
-# Good
-from pathlib import Path
-BASE_DIR = Path.home()
-```
-
-**Platform-Dependent Code:**
-- Replace `shell=True` with shell-independent execution
-- Use `os.environ` for environment variables
-- Implement platform detection
-- Use `pathlib` for all path operations
-
-**Error Handling:**
-- Replace bare `except:` with specific exception handling
-- Implement proper logging
-- Add error recovery mechanisms
-
----
-
-## Contributing
-
-This is an **open research project**. Contributions welcome in:
-
-1. **Tool stabilization** - Fix bugs, improve reliability
-2. **Security** - Implement sandboxing, permissions
-3. **Documentation** - Improve guides, examples
-4. **Testing** - Add test coverage, edge cases
-5. **Performance** - Optimize tool execution
+Use ANA MAX only on systems you own or are explicitly allowed to test.
 
 ---
 
 ## Resources
 
-- [ANA WorkGraph Architecture](ANA_WORKGRAPH_ARCHITECTURE.md) - Future vision
-- [AI Rules](AI_RULES.md) - Development guidelines
-- [Project Map](PROJECT_MAP_AI_GUIDE.md) - Technical overview
+- [Project Map](PROJECT_MAP_AI_GUIDE.md)
+- [Local QA Lab Vision](LOCAL_QA_LAB_VISION.md)
+- [Agent IDE Super Tools Plan](AGENT_IDE_SUPER_TOOLS_PLAN.md)
+- [ANA WorkGraph Architecture](ANA_WORKGRAPH_ARCHITECTURE.md)
 
 ---
 
-## License
-
-MIT License - See LICENSE file for details
-
----
-
-**Disclaimer:** ANA MAX is a research/experimental framework. It is NOT production-ready and should NOT be used in environments with untrusted inputs without proper security review.
-
-**Last Reviewed:** 2026-05-17  
-**Next Review:** 2026-06-01
+MIT License - See LICENSE file for details.

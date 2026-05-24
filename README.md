@@ -4,11 +4,21 @@
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Platform Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
-![Tools](https://img.shields.io/badge/tools-64-blueviolet)
+![Tools](https://img.shields.io/badge/tools-71-blueviolet)
 
-[![Vezi Demo Live](https://img.shields.io/badge/%F0%9F%9A%80_Vezi_Demo_Live-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+[![Live Site](https://img.shields.io/badge/Live_Site-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
 [![Watch Demo 1](https://img.shields.io/badge/Watch_Demo_1-YouTube-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=yIWILEd6glU)
 [![Watch Demo 2](https://img.shields.io/badge/Watch_Demo_2-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/2Ft9eRO7GzM)
+
+Public release wording:
+
+```text
+Version: 18.0-MAX-lab.audit.2026-05-24
+Tools: 71 loaded tools
+AI Core adapters: 7
+Premium-gated families: 4
+Workflow: observe -> decide -> act -> verify
+```
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before
@@ -184,11 +194,16 @@ hands, ears, memory, and verification. See
 ## What Makes It Different
 
 - It gives agents situational awareness, not just file access.
+- It reflects the current public audit baseline: 71 loaded tools, 7 AI Core
+  adapters, and 4 premium-gated tool families.
 - It acts like a local agent toolkit: different tools for setup, debugging, QA,
   desktop observation, browser checks, voice status, and authorized runtime
   diagnostics.
 - It combines desktop vision, Windows UI automation, code tools, git, memory,
   and verification in one workflow.
+- It adds public-safe precision tools from the latest audit:
+  `file_patch`, `project_navigator`, `error_radar`, `uia_click`, `uia_type`,
+  `vision_region_capture`, and `vision_find_element`.
 - It supports authorized runtime instrumentation with Frida when static
   inspection is not enough.
 - It treats `desktop_capture` as free Vision AI and keeps deep desktop control

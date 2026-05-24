@@ -1,5 +1,19 @@
 # Changelog
 
+## 18.0-MAX-lab.audit.2026-05-24 - Public Website Upgrade
+
+- Rebuilt `index.html` into a premium public GitHub Pages presentation for ANA
+  MAX - Advanced Neural Architecture.
+- Added public site sections for release highlights, core capabilities,
+  architecture overview, tool categories, Why ANA MAX, roadmap highlights,
+  credits, and verification.
+- Aligned website and docs with the current public baseline: `71 loaded tools`,
+  `7 AI Core adapters`, `4 premium-gated tool families`, and `3 PASS / 0 FAIL`
+  quick healthcheck behavior.
+- Updated README, project map, roadmap, and agent rules so public-facing
+  documentation uses the same release wording and counts.
+- Kept the work limited to public documentation and website content.
+
 ## v0.1.0-beta - Current Clean Release
 
 - Synced the public-safe tool audit subset from the mother lab: added

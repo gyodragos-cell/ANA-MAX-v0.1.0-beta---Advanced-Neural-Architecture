@@ -7,40 +7,51 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; }
   :root {
-    --bg: #0b1020;
-    --panel: #111827;
-    --panel2: #172033;
-    --line: rgba(125, 154, 190, 0.22);
-    --line2: rgba(84, 175, 255, 0.45);
-    --text: #eef4ff;
-    --muted: #9fb0c7;
-    --blue: #4ea1ff;
-    --green: #39d98a;
-    --amber: #f7b955;
-    --red: #ff6b6b;
-    --violet: #a78bfa;
+    --ink: #f7f3ea;
+    --muted: #b8c0bc;
+    --dim: #7f8d88;
+    --bg: #070908;
+    --panel: rgba(20, 24, 22, 0.88);
+    --panel2: rgba(32, 38, 35, 0.82);
+    --line: rgba(247, 243, 234, 0.16);
+    --line-strong: rgba(61, 220, 185, 0.52);
+    --mint: #3ddcb9;
+    --amber: #f4b84a;
+    --coral: #ff6b5f;
+    --steel: #8bb8ff;
+    --shadow: rgba(0, 0, 0, 0.44);
   }
+  html { scroll-behavior: smooth; }
   body {
     margin: 0;
     min-height: 100vh;
     background:
-      radial-gradient(circle at 20% 0%, rgba(78, 161, 255, 0.14), transparent 30%),
-      linear-gradient(180deg, #0b1020 0%, #090d18 100%);
-    color: var(--text);
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      linear-gradient(90deg, rgba(247, 243, 234, 0.035) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(247, 243, 234, 0.028) 1px, transparent 1px),
+      linear-gradient(145deg, #070908 0%, #11130f 44%, #17120d 100%);
+    background-size: 56px 56px, 56px 56px, auto;
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   a { color: inherit; }
   .shell {
     width: min(1180px, calc(100% - 32px));
     margin: 0 auto;
-    padding: 28px 0 56px;
   }
   .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(18px);
+    background: rgba(7, 9, 8, 0.76);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 28px;
+    gap: 18px;
+    min-height: 74px;
   }
   .brand {
     display: flex;
@@ -51,885 +62,496 @@
   .mark {
     width: 38px;
     height: 38px;
-    border: 1px solid var(--line2);
+    border: 1px solid var(--line-strong);
     border-radius: 8px;
     display: grid;
     place-items: center;
-    color: var(--blue);
-    font-weight: 800;
-    box-shadow: 0 0 24px rgba(78, 161, 255, 0.18);
+    color: var(--mint);
+    font-weight: 850;
+    box-shadow: 0 0 28px rgba(61, 220, 185, 0.18);
   }
-  .brand h1 {
-    margin: 0;
-    font-size: 20px;
-    letter-spacing: 0;
-  }
-  .brand p {
-    margin: 2px 0 0;
-    color: var(--muted);
-    font-size: 13px;
-  }
+  .brand strong { display: block; font-size: 15px; }
+  .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
   .nav {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
     justify-content: flex-end;
   }
-  .nav a, .tab, .copy {
+  .nav a, .button, .copy {
     border: 1px solid var(--line);
-    background: rgba(17, 24, 39, 0.8);
-    color: var(--muted);
+    background: rgba(20, 24, 22, 0.76);
+    color: var(--ink);
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 9px 12px;
     font-size: 13px;
     text-decoration: none;
-    cursor: pointer;
   }
-  .nav a:hover, .tab:hover, .copy:hover {
-    border-color: var(--line2);
-    color: var(--text);
+  .nav a:hover, .button:hover, .copy:hover {
+    border-color: var(--line-strong);
+    color: #ffffff;
   }
   .hero {
+    position: relative;
+    min-height: 690px;
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
-    gap: 22px;
-    align-items: stretch;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
   }
-  .intro {
-    min-height: 520px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(120deg, rgba(7, 9, 8, 0.97) 8%, rgba(7, 9, 8, 0.72) 46%, rgba(7, 9, 8, 0.92) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 700'%3E%3Crect width='1200' height='700' fill='%23070908'/%3E%3Cg fill='none' stroke='%233ddcb9' stroke-opacity='.26'%3E%3Cpath d='M60 550h200l90-120h170l80-110h220l110-150h210'/%3E%3Cpath d='M120 190h180l80 95h170l105 135h170l85 90h170'/%3E%3Cpath d='M180 470h180l60-80h230l75-120h150l90-90'/%3E%3C/g%3E%3Cg fill='%23f7f3ea' fill-opacity='.12'%3E%3Crect x='82' y='522' width='170' height='54' rx='8'/%3E%3Crect x='336' y='398' width='186' height='58' rx='8'/%3E%3Crect x='594' y='288' width='202' height='58' rx='8'/%3E%3Crect x='914' y='136' width='210' height='58' rx='8'/%3E%3Crect x='128' y='160' width='184' height='58' rx='8'/%3E%3Crect x='642' y='400' width='188' height='58' rx='8'/%3E%3C/g%3E%3Cg fill='%233ddcb9' fill-opacity='.85'%3E%3Ccircle cx='260' cy='550' r='5'/%3E%3Ccircle cx='520' cy='428' r='5'/%3E%3Ccircle cx='800' cy='318' r='5'/%3E%3Ccircle cx='936' cy='168' r='5'/%3E%3Ccircle cx='300' cy='190' r='5'/%3E%3Ccircle cx='828' cy='510' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    background-position: center;
+    background-size: cover;
   }
-  .badge {
-    width: fit-content;
-    border: 1px solid rgba(57, 217, 138, 0.35);
-    color: var(--green);
-    background: rgba(57, 217, 138, 0.08);
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 92px 0 76px;
+    max-width: 880px;
+  }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(61, 220, 185, 0.42);
     border-radius: 8px;
-    padding: 7px 10px;
+    padding: 8px 10px;
+    background: rgba(61, 220, 185, 0.08);
+    color: var(--mint);
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 12px;
   }
-  .intro h2 {
-    margin: 20px 0 14px;
-    font-size: clamp(42px, 8vw, 78px);
-    line-height: 0.95;
+  h1 {
+    margin: 22px 0 16px;
+    font-size: clamp(46px, 8vw, 92px);
+    line-height: 0.94;
     letter-spacing: 0;
   }
-  .intro .lead {
-    margin: 0 0 22px;
-    max-width: 650px;
+  .lead {
+    margin: 0;
+    max-width: 720px;
     color: var(--muted);
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: 20px;
+    line-height: 1.58;
+  }
+  .tagline {
+    margin-top: 24px;
+    color: var(--amber);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 15px;
   }
   .actions {
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
-  }
-  .button {
-    border: 1px solid var(--line2);
-    background: rgba(78, 161, 255, 0.14);
-    color: var(--text);
-    border-radius: 8px;
-    padding: 11px 14px;
-    font-weight: 650;
-    text-decoration: none;
-  }
-  .button.demo-hot {
-    border-color: rgba(255, 107, 107, 0.9);
-    background: #c81e1e;
-    color: #ffffff;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 10px 28px rgba(200,30,30,0.26);
-  }
-  .button.demo-hot:hover,
-  .button.demo-hot:focus {
-    background: #ef4444;
-    border-color: #ffb4b4;
-    color: #ffffff;
-  }
-  .button.secondary {
-    border-color: var(--line);
-    background: rgba(17, 24, 39, 0.76);
-    color: var(--muted);
-  }
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
-    margin-top: 28px;
-  }
-  .stat, .panel, .card, .codebox, .demo, .promise {
-    background: rgba(17, 24, 39, 0.82);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-  }
-  .stat {
-    padding: 15px;
-  }
-  .stat strong {
-    display: block;
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    color: var(--blue);
-    font-size: 26px;
-  }
-  .stat span {
-    display: block;
-    margin-top: 4px;
-    color: var(--muted);
-    font-size: 12px;
-  }
-  .panel {
-    min-height: 520px;
-    padding: 18px;
-    overflow: hidden;
-  }
-  .panel-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .panel-head h3 {
-    margin: 0;
-    font-size: 14px;
-  }
-  .panel-head span {
-    color: var(--muted);
-    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    font-size: 12px;
-  }
-  svg {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-  .wg-node {
-    cursor: pointer;
-    transform-box: fill-box;
-    transform-origin: center;
-    transition: transform 160ms ease, filter 160ms ease;
-  }
-  .wg-node rect {
-    transition: stroke 160ms ease, stroke-width 160ms ease, fill 160ms ease;
-  }
-  .wg-node:hover,
-  .wg-node.active {
-    transform: scale(1.045);
-    filter: drop-shadow(0 0 14px rgba(78, 161, 255, 0.26));
-  }
-  .wg-node.active rect {
-    stroke: var(--green);
-    stroke-width: 2.4;
-    fill: rgba(57, 217, 138, 0.13);
-  }
-  .wg-node:focus {
-    outline: none;
-  }
-  .wg-node:focus rect {
-    stroke: var(--amber);
-    stroke-width: 2.4;
-  }
-  .l.active {
-    stroke: var(--green);
-    stroke-width: 2.6;
-  }
-  .l {
-    cursor: pointer;
-    transition: stroke 160ms ease, stroke-width 160ms ease;
-  }
-  .wg-detail {
-    margin-top: 14px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: rgba(23, 32, 51, 0.62);
-    padding: 14px;
-  }
-  .wg-detail strong {
-    display: block;
-    color: var(--green);
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
-  .wg-detail p {
-    margin: 0 0 10px;
-    color: var(--muted);
-    line-height: 1.5;
-    font-size: 13px;
-  }
-  .wg-detail code {
-    color: var(--text);
-    background: rgba(11, 16, 32, 0.7);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 6px 8px;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-  .wg-controls {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .wg-controls button {
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    background: rgba(78, 161, 255, 0.12);
-    color: var(--text);
-    cursor: pointer;
-    font-weight: 700;
-    padding: 8px 11px;
-  }
-  .wg-controls button:hover,
-  .wg-controls button:focus {
-    border-color: var(--blue);
-    outline: none;
-  }
-  .tabs {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 30px 0 14px;
-  }
-  .tab.active {
-    color: var(--blue);
-    border-color: var(--line2);
-    background: rgba(78, 161, 255, 0.12);
-  }
-  .section { display: none; }
-  .section.active { display: block; }
-  .demo {
     margin-top: 30px;
-    padding: 18px;
   }
-  .demo-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
-    gap: 18px;
-    align-items: center;
+  .button.primary {
+    border-color: var(--line-strong);
+    background: rgba(61, 220, 185, 0.14);
+    color: #ffffff;
+    font-weight: 750;
   }
-  .demo video {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #050914;
+  .button.hot {
+    border-color: rgba(255, 107, 95, 0.85);
+    background: rgba(255, 107, 95, 0.18);
+    color: #ffffff;
   }
-  .demo h3 {
-    margin: 0 0 8px;
-    font-size: 22px;
-  }
-  .demo p {
-    margin: 0 0 12px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-  .demo ol {
-    margin: 0;
-    padding-left: 20px;
-    color: var(--muted);
-    line-height: 1.7;
-    font-size: 14px;
-  }
-  .promise {
-    margin-top: 18px;
-    padding: 18px;
-  }
-  .promise h3 {
-    margin: 0 0 8px;
-    font-size: 20px;
-  }
-  .promise p {
-    margin: 0 0 14px;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-  .promise-grid {
+  .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
+    margin-top: 42px;
+    max-width: 920px;
   }
-  .promise-item {
+  .metric, .panel, .tile, .codebox, .phase, .credit {
+    background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 12px;
-    background: rgba(23, 32, 51, 0.58);
+    box-shadow: 0 18px 55px var(--shadow);
   }
-  .promise-item strong {
+  .metric { padding: 16px; }
+  .metric strong {
     display: block;
-    margin-bottom: 5px;
-    color: var(--text);
-    font-size: 13px;
+    color: var(--mint);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 28px;
   }
-  .promise-item span {
+  .metric span { color: var(--muted); font-size: 12px; }
+  section.band { padding: 70px 0; border-bottom: 1px solid var(--line); }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1.04;
+  }
+  .section-head p {
+    margin: 0;
+    max-width: 560px;
     color: var(--muted);
-    font-size: 12px;
-    line-height: 1.45;
+    line-height: 1.6;
   }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .card {
-    padding: 16px;
-  }
-  .card h3 {
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tile, .phase, .credit { padding: 18px; }
+  .tile h3, .phase h3, .credit h3 {
     margin: 0 0 8px;
-    font-size: 15px;
+    font-size: 16px;
   }
-  .card p, .card li {
+  .tile p, .tile li, .phase p, .credit p {
     color: var(--muted);
     line-height: 1.55;
     font-size: 13px;
   }
-  .card ul {
-    margin: 10px 0 0;
-    padding-left: 18px;
-  }
-  .codebox {
-    margin-top: 12px;
-    overflow: hidden;
-  }
-  .codebar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(23, 32, 51, 0.82);
-  }
-  .codebar span {
-    color: var(--muted);
+  .tile ul { margin: 10px 0 0; padding-left: 18px; }
+  .label {
+    display: inline-flex;
+    margin-bottom: 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 5px 8px;
+    color: var(--amber);
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    font-size: 12px;
+    font-size: 11px;
+  }
+  .icon {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    color: var(--mint);
+    margin-bottom: 12px;
+    font-weight: 800;
+  }
+  .architecture {
+    background:
+      linear-gradient(180deg, rgba(61, 220, 185, 0.045), transparent 52%),
+      rgba(247, 243, 234, 0.02);
+  }
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 22px;
+  }
+  .flow-step {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    background: rgba(20, 24, 22, 0.72);
+    min-height: 122px;
+  }
+  .flow-step strong { display: block; color: var(--mint); margin-bottom: 8px; }
+  .flow-step span { color: var(--muted); font-size: 13px; line-height: 1.5; }
+  .diagram {
+    margin-top: 18px;
+    padding: 18px;
+    background: rgba(8, 10, 9, 0.72);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow-x: auto;
   }
   pre {
     margin: 0;
-    padding: 14px;
-    overflow-x: auto;
-    color: #dce9ff;
+    color: #f2efe7;
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 12px;
-    line-height: 1.6;
+    line-height: 1.65;
   }
-  code {
+  .codebox { overflow: hidden; }
+  .codebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel2);
+    color: var(--muted);
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-    color: #dce9ff;
+    font-size: 12px;
   }
+  .codebox pre { padding: 14px; overflow-x: auto; }
+  .copy { cursor: pointer; padding: 6px 9px; color: var(--muted); }
+  .why {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .statement {
+    padding: 24px;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+    background: rgba(61, 220, 185, 0.09);
+  }
+  .statement p { color: var(--muted); line-height: 1.65; margin: 12px 0 0; }
   footer {
-    margin-top: 38px;
+    padding: 28px 0 42px;
     color: var(--muted);
     font-size: 13px;
+  }
+  .footer-inner {
     display: flex;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
   }
-  @media (max-width: 900px) {
-    .hero, .grid, .demo-layout, .promise-grid { grid-template-columns: 1fr; }
-    .intro, .panel { min-height: auto; }
+  @media (max-width: 920px) {
+    .metrics, .grid, .grid.two, .grid.four, .flow, .why { grid-template-columns: 1fr; }
+    .section-head { display: block; }
+    .section-head p { margin-top: 12px; }
+    .hero { min-height: auto; }
   }
-  @media (max-width: 620px) {
-    .topbar { align-items: flex-start; flex-direction: column; }
+  @media (max-width: 680px) {
+    .topbar-inner { align-items: flex-start; flex-direction: column; padding: 14px 0; }
     .nav { justify-content: flex-start; }
-    .stats { grid-template-columns: 1fr; }
+    .hero-content { padding: 60px 0 54px; }
   }
 </style>
 </head>
 <body>
-<div class="shell">
   <header class="topbar">
-    <div class="brand">
-      <div class="mark">A</div>
-      <div>
-        <h1>ANA MAX</h1>
-        <p>Advanced Neural Architecture</p>
-      </div>
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top" aria-label="ANA MAX home">
+        <span class="mark">A</span>
+        <span>
+          <strong>ANA MAX</strong>
+          <span>Advanced Neural Architecture</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#new">New</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#tools">Tools</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="videos.html">Videos</a>
+        <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
     </div>
-    <nav class="nav" aria-label="Primary">
-      <a href="#architecture">Architecture</a>
-      <a href="#demo">Demo</a>
-      <a href="videos.html">Videos</a>
-      <a href="#tab-install" onclick="showTab('install')">Install</a>
-      <a href="#tab-mcp" onclick="showTab('mcp')">MCP</a>
-      <a href="#tab-license" onclick="showTab('license')">License</a>
-      <a href="docs/ANA_MAX_WOW_DEMO.md">Wow Demo</a>
-      <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
-    </nav>
   </header>
 
-  <main>
-    <section class="hero" id="architecture">
-      <div class="intro">
-        <div class="badge">local QA lab / offline agents / MCP auth on</div>
-        <h2>Give local AI agents eyes, hands, and verification.</h2>
+  <main id="top">
+    <section class="hero" aria-label="ANA MAX hero">
+      <div class="shell hero-content">
+        <span class="kicker">18.0-MAX-lab.audit.2026-05-24 / public release</span>
+        <h1>ANA MAX - Advanced Neural Architecture</h1>
         <p class="lead">
-          ANA MAX is a Windows-first MCP runtime for QA labs, private
-          workstations, offline LLMs, and AI coding agents that need to see the
-          workspace, inspect the desktop, use focused tools, instrument runtime
-          behavior when needed, speak status, and verify the result.
+          A Windows-first agent runtime with real desktop control, vision, UIA,
+          and tool orchestration.
         </p>
+        <div class="tagline">Observe -> Decide -> Act -> Verify</div>
         <div class="actions">
-          <a class="button demo-hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
-          <a class="button demo-hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
-          <a class="button secondary" href="docs/ANA_MAX_WOW_DEMO.md">90s proof script</a>
-          <a class="button secondary" href="#tab-install" onclick="showTab('install')">Install extension</a>
-          <a class="button secondary" href="#tab-mcp" onclick="showTab('mcp')">Connect MCP</a>
-          <a class="button secondary" href="#tab-checks" onclick="showTab('checks')">Run checks</a>
+          <a class="button primary" href="#new">Explore release</a>
+          <a class="button hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
+          <a class="button hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
+          <a class="button" href="docs/PROJECT_MAP_AI_GUIDE.md">Read project map</a>
         </div>
-        <div class="stats" aria-label="Release stats">
-          <div class="stat"><strong>71</strong><span>loaded tools</span></div>
-          <div class="stat"><strong>4</strong><span>premium capabilities</span></div>
-          <div class="stat"><strong>7</strong><span>AI Core adapters</span></div>
-        </div>
-      </div>
-
-      <div class="panel" aria-label="Architecture diagram">
-        <div class="panel-head">
-          <h3>Runtime WorkGraph</h3>
-          <span>observe -> act -> verify</span>
-        </div>
-        <svg viewBox="0 0 760 560" role="img" aria-label="ANA MAX architecture diagram">
-          <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M2 1 L8 5 L2 9" fill="none" stroke="#4ea1ff" stroke-width="1.5"/>
-            </marker>
-            <style>
-              .box { fill: rgba(17,24,39,.92); stroke: rgba(84,175,255,.45); stroke-width: 1.3; }
-              .box2 { fill: rgba(57,217,138,.09); stroke: rgba(57,217,138,.55); stroke-width: 1.3; }
-              .box3 { fill: rgba(247,185,85,.1); stroke: rgba(247,185,85,.58); stroke-width: 1.3; }
-              .box4 { fill: rgba(167,139,250,.1); stroke: rgba(167,139,250,.55); stroke-width: 1.3; }
-              .t { fill: #eef4ff; font: 700 16px system-ui, sans-serif; }
-              .s { fill: #9fb0c7; font: 12px ui-monospace, Consolas, monospace; }
-              .l { stroke: rgba(84,175,255,.55); stroke-width: 1.4; marker-end: url(#arrow); }
-            </style>
-          </defs>
-
-          <g class="wg-node active" data-node="clients" tabindex="0" role="button" aria-label="MCP clients">
-            <rect class="box2" x="230" y="18" width="300" height="58" rx="8"/>
-            <text class="t" x="380" y="42" text-anchor="middle">MCP Clients</text>
-            <text class="s" x="380" y="62" text-anchor="middle">Agent IDEs / coding assistants</text>
-          </g>
-          <line class="l active" data-edge="clients server" x1="380" y1="76" x2="380" y2="108"/>
-
-          <g class="wg-node" data-node="server" tabindex="0" role="button" aria-label="MCP server">
-            <rect class="box" x="190" y="108" width="380" height="70" rx="8"/>
-            <text class="t" x="380" y="136" text-anchor="middle">main.py MCP Server</text>
-            <text class="s" x="380" y="158" text-anchor="middle">Flask / JSON-RPC 2.0 / auth required</text>
-          </g>
-          <line class="l" data-edge="server registry" x1="380" y1="178" x2="380" y2="210"/>
-
-          <g class="wg-node" data-node="registry" tabindex="0" role="button" aria-label="Tool registry and license gate">
-            <rect class="box3" x="210" y="210" width="340" height="62" rx="8"/>
-            <text class="t" x="380" y="235" text-anchor="middle">Tool Registry + License Gate</text>
-            <text class="s" x="380" y="255" text-anchor="middle">64 tools / runtime premium blocking</text>
-          </g>
-
-          <line class="l" data-edge="registry desktop" x1="300" y1="272" x2="145" y2="328"/>
-          <line class="l" data-edge="registry devtools" x1="350" y1="272" x2="300" y2="328"/>
-          <line class="l" data-edge="registry aicore" x1="410" y1="272" x2="460" y2="328"/>
-          <line class="l" data-edge="registry aicore" x1="460" y1="272" x2="615" y2="328"/>
-
-          <g class="wg-node" data-node="desktop" tabindex="0" role="button" aria-label="Desktop eyes">
-            <rect class="box2" x="40" y="328" width="210" height="76" rx="8"/>
-            <text class="t" x="145" y="356" text-anchor="middle">Desktop Eyes</text>
-            <text class="s" x="145" y="378" text-anchor="middle">capture / UIA / OCR</text>
-          </g>
-
-          <g class="wg-node" data-node="devtools" tabindex="0" role="button" aria-label="Developer tools">
-            <rect class="box" x="270" y="328" width="210" height="76" rx="8"/>
-            <text class="t" x="375" y="356" text-anchor="middle">Developer Tools</text>
-            <text class="s" x="375" y="378" text-anchor="middle">files / git / tests / shell</text>
-          </g>
-
-          <g class="wg-node" data-node="aicore" tabindex="0" role="button" aria-label="AI core">
-            <rect class="box4" x="500" y="328" width="210" height="76" rx="8"/>
-            <text class="t" x="605" y="356" text-anchor="middle">AI Core</text>
-            <text class="s" x="605" y="378" text-anchor="middle">memory / context / orchestration</text>
-          </g>
-
-          <line class="l" data-edge="desktop discipline" x1="145" y1="404" x2="380" y2="456"/>
-          <line class="l" data-edge="devtools discipline" x1="375" y1="404" x2="380" y2="456"/>
-          <line class="l" data-edge="aicore discipline" x1="605" y1="404" x2="380" y2="456"/>
-
-          <g class="wg-node" data-node="discipline" tabindex="0" role="button" aria-label="WorkGraph discipline">
-            <rect class="box3" x="180" y="456" width="400" height="66" rx="8"/>
-            <text class="t" x="380" y="482" text-anchor="middle">WorkGraph Discipline</text>
-            <text class="s" x="380" y="504" text-anchor="middle">observe first / choose useful tools / verify result</text>
-          </g>
-        </svg>
-        <div class="wg-detail" id="wg-detail" aria-live="polite">
-          <strong id="wg-title">MCP Clients</strong>
-          <p id="wg-desc">The coding assistant asks for real observations instead of guessing. Agent IDEs and local coding assistants can call ANA through MCP.</p>
-          <code id="wg-test">Ask the agent to inspect first, then edit only after a tool result.</code>
-          <div class="wg-controls" aria-label="Runtime WorkGraph navigation">
-            <button type="button" id="wg-prev">Previous</button>
-            <button type="button" id="wg-next">Next</button>
-          </div>
+        <div class="metrics" aria-label="Current release metrics">
+          <div class="metric"><strong>71</strong><span>loaded public tools</span></div>
+          <div class="metric"><strong>7</strong><span>AI Core adapters</span></div>
+          <div class="metric"><strong>4</strong><span>premium-gated families</span></div>
+          <div class="metric"><strong>3/0</strong><span>quick healthcheck PASS</span></div>
         </div>
       </div>
     </section>
 
-    <section class="promise" aria-label="Why ANA MAX is different">
-      <h3>Not another tool list. A workflow for local agents that should not guess.</h3>
-      <p>
-        ANA MAX combines local/offline privacy, optional online models, desktop
-        vision, Windows UI/API awareness, git state, tests, memory, voice, and
-        safe runtime instrumentation. It is meant for QA testers, lab operators,
-        and AI agents that must work from local facts without exposing private
-        work.
-      </p>
-      <p>
-        This is white-hat and authorized red-team tooling for repair, QA,
-        education, and private labs. It is not a black-hat hacking kit. Use it
-        only on systems you own or are allowed to test.
-      </p>
-      <div class="promise-grid">
-        <div class="promise-item">
-          <strong>Observe</strong>
-          <span>Read files, git state, terminal output, UIA, screenshots, and logs before acting.</span>
+    <section class="band" id="new">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Release Highlights</h2>
+          <p>
+            The current public release is aligned with the 2026-05-24 lab audit:
+            71 loaded tools, stronger registry behavior, safer gates, and a
+            clearer observation-first operating model.
+          </p>
         </div>
-        <div class="promise-item">
-          <strong>Instrument</strong>
-          <span>Use Frida or Windows inspection for authorized runtime facts when the task needs it.</span>
-        </div>
-        <div class="promise-item">
-          <strong>Act</strong>
-          <span>Edit code, run commands, control UI, and coordinate tools through MCP.</span>
-        </div>
-        <div class="promise-item">
-          <strong>Verify</strong>
-          <span>Run smoke tests and report what passed or failed instead of hiding uncertainty.</span>
+        <div class="grid four">
+          <article class="tile">
+            <span class="label">7 new tools</span>
+            <h3>Agent utilities and precision tools</h3>
+            <p><code>file_patch</code>, <code>project_navigator</code>, <code>error_radar</code>, <code>uia_click</code>, <code>uia_type</code>, <code>vision_region_capture</code>, and <code>vision_find_element</code> are now part of the clean public release.</p>
+          </article>
+          <article class="tile">
+            <span class="label">registry</span>
+            <h3>Stronger execution contract</h3>
+            <p>The ToolRegistry path now emphasizes strict parameter validation, compact errors, confirmation handling, and stable agent-readable results.</p>
+          </article>
+          <article class="tile">
+            <span class="label">observe</span>
+            <h3>Sharper observation layer</h3>
+            <p>`desktop_capture`, `ocr_tool`, `window_manager`, UIA snapshots, and workspace awareness are positioned as facts-first tools before action.</p>
+          </article>
+          <article class="tile">
+            <span class="label">health</span>
+            <h3>Offline healthcheck path</h3>
+            <p>The safe healthcheck profile stays compact and avoids heavy network or model loading unless the operator asks for broader checks.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="demo" id="demo" aria-label="ANA MAX demo video">
-      <div class="demo-layout">
+    <section class="band" id="capabilities">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Core Capabilities</h2>
+          <p>ANA MAX gives local agents practical senses for Windows workstations and private QA labs.</p>
+        </div>
+        <div class="grid">
+          <article class="tile"><span class="icon">DV</span><h3>Desktop Vision</h3><p>Capture visible state, inspect foreground context, OCR text, and verify what is actually on screen.</p></article>
+          <article class="tile"><span class="icon">UI</span><h3>UI Automation</h3><p>Use Windows UIA structure, window management, confirmation-gated clicks, and controlled typing workflows.</p></article>
+          <article class="tile"><span class="icon">TO</span><h3>Tool Orchestration</h3><p>Expose focused tools through MCP with schemas, validation, runtime gates, and consistent result objects.</p></article>
+          <article class="tile"><span class="icon">FP</span><h3>File And Project Navigation</h3><p>Read, search, patch, and navigate projects without copying private lab state into the public release.</p></article>
+          <article class="tile"><span class="icon">ER</span><h3>Error Radar</h3><p>Detect dirty git state, test failures, suspicious output, and common handoff risks before claiming success.</p></article>
+          <article class="tile"><span class="icon">OF</span><h3>Observation-First Architecture</h3><p>The expected loop is simple: collect facts, decide narrowly, act, verify, then report what happened.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band architecture" id="architecture">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Architecture Overview</h2>
+          <p>ANA MAX is not just a list of tools. It is a local runtime contract for agents that need evidence before they act.</p>
+        </div>
+        <div class="flow" aria-label="ANA MAX operating loop">
+          <div class="flow-step"><strong>Observe</strong><span>Files, git status, terminal output, desktop capture, UIA, OCR, and workspace awareness.</span></div>
+          <div class="flow-step"><strong>Decide</strong><span>Select the smallest useful tool and respect public-safe boundaries.</span></div>
+          <div class="flow-step"><strong>Act</strong><span>Patch files, run commands, navigate projects, or use controlled desktop operations.</span></div>
+          <div class="flow-step"><strong>Verify</strong><span>Run smoke checks, healthchecks, tests, and error scans with compact output.</span></div>
+          <div class="flow-step"><strong>Learn</strong><span>Keep stable context through AI Core adapters and documented handoff rules.</span></div>
+        </div>
+        <div class="diagram">
+<pre>MCP client
+  -> main.py authenticated server
+  -> ToolRegistry validation and license gate
+  -> observation tools | file tools | UIA tools | system tools | AI Core
+  -> compact ToolResult
+  -> verify before handoff</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="tools">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Tool Categories</h2>
+          <p>The public site shows only clean release capabilities, not private lab-only experiments.</p>
+        </div>
+        <div class="grid">
+          <article class="tile"><h3>Vision Tools</h3><ul><li><code>desktop_capture</code></li><li><code>ocr_tool</code></li><li><code>vision_region_capture</code></li><li><code>vision_find_element</code></li><li><code>foreground_ui_snapshot</code></li></ul></article>
+          <article class="tile"><h3>UIA Tools</h3><ul><li><code>windows_uia_bridge</code></li><li><code>window_manager</code></li><li><code>uia_click</code></li><li><code>uia_type</code></li><li><code>clipboard_manager</code></li></ul></article>
+          <article class="tile"><h3>File Tools</h3><ul><li><code>file_operations</code></li><li><code>file_patch</code></li><li><code>edit</code></li><li><code>grep_content</code></li><li><code>glob_search</code></li></ul></article>
+          <article class="tile"><h3>Project Tools</h3><ul><li><code>project_navigator</code></li><li><code>code_search</code></li><li><code>code_tools</code></li><li><code>codebase_understanding</code></li><li><code>git_operations</code></li></ul></article>
+          <article class="tile"><h3>System Tools</h3><ul><li><code>terminal</code></li><li><code>system_control</code></li><li><code>network_diag</code></li><li><code>browser_control</code></li><li><code>edge_tts_voice</code></li></ul></article>
+          <article class="tile"><h3>Observation Tools</h3><ul><li><code>workspace_situational_awareness</code></li><li><code>tool_healthcheck</code></li><li><code>error_radar</code></li><li><code>smart_search</code></li><li><code>privacy_shield</code></li></ul></article>
+          <article class="tile"><h3>Premium/Internal Tools</h3><ul><li><code>live_desktop_viewer</code></li><li><code>desktop_control</code> family</li><li><code>windows_insight</code> family</li><li><code>windows_deep_sight</code></li></ul></article>
+          <article class="tile"><h3>AI Core Adapters</h3><ul><li><code>context_engine</code></li><li><code>proactive_interrupt</code></li><li><code>self_evolving_tool</code></li><li><code>memory_cortex</code></li><li><code>ana_orchestrator</code></li><li><code>context_bridge</code></li><li><code>clipboard_manager</code></li></ul></article>
+          <article class="tile"><h3>Authorized Diagnostics</h3><ul><li><code>security_audit</code></li><li><code>frida_instrument</code></li><li><code>adb_operations</code></li><li><code>apk_analyzer</code></li><li><code>mitm_analyzer</code></li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="why">
+      <div class="shell why">
+        <div class="statement">
+          <span class="label">why ANA MAX</span>
+          <h2>Local agents should see the computer before touching it.</h2>
+          <p>
+            ANA MAX is built for private Windows environments where agents need
+            real desktop context, real UI automation, real vision, real tool
+            orchestration, and local-first operation.
+          </p>
+        </div>
+        <div class="grid two">
+          <article class="tile"><h3>Real Desktop Context</h3><p>Agents can observe visible state, UI structure, and foreground workflow before acting.</p></article>
+          <article class="tile"><h3>Real UI Automation</h3><p>UIA and controlled desktop tools support practical Windows workflows with confirmation boundaries.</p></article>
+          <article class="tile"><h3>Real Vision</h3><p>Screenshot, OCR, region capture, and template matching support visual verification.</p></article>
+          <article class="tile"><h3>Local-First Privacy</h3><p>The public release is designed for private workstations, offline-capable labs, and clean public hygiene.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="roadmap">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Roadmap Highlights</h2>
+          <p>The public roadmap now tracks reliability, observation quality, agent safety, and release hygiene.</p>
+        </div>
+        <div class="grid four">
+          <article class="phase"><span class="label">Phase 1</span><h3>Clean And Current</h3><p>Keep the public release synchronized with real tool counts, gates, and verification results.</p></article>
+          <article class="phase"><span class="label">Phase 2</span><h3>Observation First</h3><p>Improve desktop capture, UIA selection, OCR quality, region capture, and compact workspace snapshots.</p></article>
+          <article class="phase"><span class="label">Phase 3</span><h3>Agent Reliability</h3><p>Strengthen registry validation, error recovery, tool health, and safe confirmation behavior.</p></article>
+          <article class="phase"><span class="label">Phase 4</span><h3>Public Release Hygiene</h3><p>Keep private lab data out, document only executable tools, and make every handoff verifiable.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="credits">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Credits And AI Collaboration</h2>
+          <p>ANA MAX is human-led and AI-assisted. The public release credits the tools that helped shape, inspect, and document it.</p>
+        </div>
+        <div class="grid four">
+          <article class="credit"><h3>Qoder</h3><p>Agentic coding workflow assistance and lab inspiration.</p></article>
+          <article class="credit"><h3>Codex</h3><p>Release engineering, project-map analysis, repairs, verification, and public documentation cleanup.</p></article>
+          <article class="credit"><h3>Copilot</h3><p>Developer assistance and code-facing collaboration inside the IDE workflow.</p></article>
+          <article class="credit"><h3>Agent IDE</h3><p>The target environment for observation-first local agent workflows.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="verify">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Verification Baseline</h2>
+          <p>Release claims should be checked from the repository root before handoff.</p>
+        </div>
         <div class="codebox">
           <div class="codebar">
-            <span>Public demo policy</span>
+            <span>public release checks</span>
+            <button class="copy" type="button" onclick="copyBlock('verify')">copy</button>
           </div>
-          <pre>Public video:
-https://www.youtube.com/watch?v=yIWILEd6glU
-https://youtu.be/2Ft9eRO7GzM
-
-Do not store large videos in git.
-Host future demos on YouTube or GitHub Releases.
-Keep the repository source-only and public-safe.</pre>
-        </div>
-        <div>
-          <div class="badge">local lab workflow</div>
-          <h3>See what the tools prove.</h3>
-          <p>
-            The fastest way to understand ANA MAX is to watch an agent observe
-            the workspace, use local tools, avoid repeated mistakes, and verify
-            the result.
-          </p>
-          <ol>
-            <li>Observe the desktop, logs, terminal, and project state.</li>
-            <li>Use focused tools for QA, debug, and offline work.</li>
-            <li>Run smoke checks, speak status, and report facts.</li>
-          </ol>
-          <p>
-            Use the <a href="docs/ANA_MAX_WOW_DEMO.md">90-second proof script</a>
-            and the <a href="docs/LOCAL_QA_LAB_VISION.md">local QA lab vision</a>
-            to record a sharper public demo.
-          </p>
-          <p>
-            Current public demos:
-            <a href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">demo 1</a>
-            and
-            <a href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">demo 2</a>.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <div class="tabs" role="tablist">
-      <button class="tab active" type="button" onclick="showTab('install')">Install extension</button>
-      <button class="tab" type="button" onclick="showTab('mcp')">MCP setup</button>
-      <button class="tab" type="button" onclick="showTab('license')">Licensing</button>
-      <button class="tab" type="button" onclick="showTab('checks')">Verification</button>
-    </div>
-
-    <section class="section active" id="tab-install">
-      <div class="grid">
-        <div class="card">
-          <h3>If you do not know Git</h3>
-          <p>Download the repository ZIP from GitHub, extract it, then open the extracted folder in VS Code. The AI agent can help with the steps, but these are the commands it will run.</p>
-        </div>
-        <div class="card">
-          <h3>Install the extension</h3>
-          <p>Use the included VSIX file. In VS Code you can also use <code>Extensions -> ... -> Install from VSIX</code>.</p>
-        </div>
-        <div class="card">
-          <h3>Ethical use</h3>
-          <p>Use ANA MAX for QA, debugging, education, repair, and authorized security work. Own it or have written permission before you test it.</p>
-        </div>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Install dependencies after ZIP extract</span>
-          <button class="copy" type="button" onclick="copyBlock('zip')">copy</button>
-        </div>
-        <pre id="code-zip">python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt</pre>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Install VS Code extension from VSIX</span>
-          <button class="copy" type="button" onclick="copyBlock('vsix')">copy</button>
-        </div>
-        <pre id="code-vsix">code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix</pre>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Git path for engineers</span>
-          <button class="copy" type="button" onclick="copyBlock('gitinstall')">copy</button>
-        </div>
-        <pre id="code-gitinstall">git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git
-cd ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix</pre>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Next commands in VS Code</span>
-        </div>
-        <pre>ANA MAX: Start MCP Server
-ANA MAX: Call Tool</pre>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Beginner guide</span>
-        </div>
-        <pre>docs/USER_EXTENSION_INSTALL_AND_ETHICS.md</pre>
-      </div>
-    </section>
-
-    <section class="section" id="tab-mcp">
-      <div class="grid">
-        <div class="card">
-          <h3>Local server</h3>
-          <p>ANA MAX starts on <code>http://127.0.0.1:8765</code>. MCP requests go to <code>/mcp</code>.</p>
-        </div>
-        <div class="card">
-          <h3>Auth required</h3>
-          <p>Set <code>MCP_API_KEY</code> or <code>ANA_MCP_KEY</code>, then send <code>Authorization: Bearer ...</code>.</p>
-        </div>
-        <div class="card">
-          <h3>Public hygiene</h3>
-          <p>No private memory, logs, databases, screenshots, local paths, tokens, or license files belong in the public release.</p>
-        </div>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Start ANA MAX</span>
-          <button class="copy" type="button" onclick="copyBlock('start')">copy</button>
-        </div>
-        <pre id="code-start">$env:MCP_API_KEY = "change-me"
-python main.py</pre>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>List tools through MCP</span>
-          <button class="copy" type="button" onclick="copyBlock('curl')">copy</button>
-        </div>
-        <pre id="code-curl">curl -X POST http://127.0.0.1:8765/mcp `
-  -H "Content-Type: application/json" `
-  -H "Authorization: Bearer change-me" `
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'</pre>
-      </div>
-    </section>
-
-    <section class="section" id="tab-license">
-      <div class="grid" id="license">
-        <div class="card">
-          <h3>Free Vision AI</h3>
-          <p><code>desktop_capture</code> is free in this release and can be used for observe and verify workflows.</p>
-        </div>
-        <div class="card">
-          <h3>Premium capabilities</h3>
-          <p>Premium desktop automation and deep Windows inspection are blocked at runtime without a valid Pro license.</p>
-          <ul>
-            <li><code>live_desktop_viewer</code></li>
-            <li><code>desktop_control</code> and <code>desktop_control_tool</code></li>
-            <li><code>windows_insight</code> and <code>windows_insight_tool</code></li>
-            <li><code>windows_deep_sight</code></li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Activation</h3>
-          <p>Use <code>python activate_license.py --key YOUR_KEY</code>, then restart ANA MAX.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="tab-checks">
-      <div class="grid" id="checks">
-        <div class="card">
-          <h3>Expected smoke</h3>
-          <p><code>python main.py --test</code> should report <code>3 PASS / 0 FAIL</code>.</p>
-        </div>
-        <div class="card">
-          <h3>Expected tools</h3>
-          <p><code>python main.py --list-tools</code> should report <code>71 loaded tools</code>.</p>
-        </div>
-        <div class="card">
-          <h3>Expected tests</h3>
-          <p><code>python -m unittest discover -s tests -v</code> should pass all tests.</p>
-        </div>
-      </div>
-      <div class="codebox">
-        <div class="codebar">
-          <span>Release verification</span>
-          <button class="copy" type="button" onclick="copyBlock('verify')">copy</button>
-        </div>
-        <pre id="code-verify">python -m compileall -q main.py core tools vscode_extension
+<pre id="code-verify">python -m compileall -q main.py core tools vscode_extension
 python main.py --test
 python main.py --list-tools
 python -m unittest discover -s tests -v</pre>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>ANA MAX v0.2.0-beta / 71 loaded tools / MCP auth on</span>
-    <span><a href="docs/PROJECT_MAP_AI_GUIDE.md">Project map</a> / <a href="SETUP_AND_RUN.md">Setup</a></span>
+    <div class="shell footer-inner">
+      <span>ANA MAX 18.0-MAX-lab.audit.2026-05-24 / MIT License / Last updated 2026-05-24</span>
+      <span>
+        <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
+        / <a href="LICENSE">License</a>
+        / <a href="docs/ROADMAP.md">Roadmap</a>
+      </span>
+    </div>
   </footer>
-</div>
 
 <script>
-var workGraphDetails = {
-  clients: {
-    title: "MCP Clients",
-    desc: "The coding assistant asks for real observations instead of guessing. Agent IDEs and local coding assistants can call ANA through MCP.",
-    test: "Ask the agent to inspect first, then edit only after a tool result.",
-    edges: ["clients server"]
-  },
-  server: {
-    title: "main.py MCP Server",
-    desc: "The local server receives JSON-RPC requests, checks auth, and routes the request to ANA tools.",
-    test: "python main.py --test",
-    edges: ["clients server", "server registry"]
-  },
-  registry: {
-    title: "Tool Registry + License Gate",
-    desc: "The registry exposes tool schemas and blocks premium capabilities at runtime when the license is missing.",
-    test: "python main.py --list-tools",
-    edges: ["server registry", "registry desktop", "registry devtools", "registry aicore"]
-  },
-  desktop: {
-    title: "Desktop Eyes",
-    desc: "ANA can capture the screen, inspect Windows UIA controls, run OCR, and verify what is actually visible.",
-    test: "Use desktop_capture before desktop_control.",
-    edges: ["registry desktop", "desktop discipline"]
-  },
-  devtools: {
-    title: "Developer Tools",
-    desc: "ANA reads files, checks git state, runs terminal commands, executes tests, and edits only after evidence.",
-    test: "python -m compileall -q main.py core tools",
-    edges: ["registry devtools", "devtools discipline"]
-  },
-  aicore: {
-    title: "AI Core",
-    desc: "Memory, context, orchestration, and proactive checks help the agent remember the task and avoid blind work.",
-    test: "Use workspace_situational_awareness before large changes.",
-    edges: ["registry aicore", "aicore discipline"]
-  },
-  discipline: {
-    title: "WorkGraph Discipline",
-    desc: "The workflow is observe, choose the right tool, act narrowly, verify, then explain what passed or failed.",
-    test: "Observe -> act -> verify -> report.",
-    edges: ["desktop discipline", "devtools discipline", "aicore discipline"]
-  }
-};
-var workGraphOrder = ["clients", "server", "registry", "desktop", "devtools", "aicore", "discipline"];
-var activeWorkGraphNode = "clients";
-
-function selectWorkGraphNode(name) {
-  var detail = workGraphDetails[name];
-  if (!detail) return;
-  activeWorkGraphNode = name;
-
-  document.querySelectorAll(".wg-node").forEach(function (node) {
-    node.classList.toggle("active", node.getAttribute("data-node") === name);
-  });
-  document.querySelectorAll(".l").forEach(function (edge) {
-    var edgeName = edge.getAttribute("data-edge");
-    edge.classList.toggle("active", detail.edges.indexOf(edgeName) !== -1);
-  });
-
-  document.getElementById("wg-title").textContent = detail.title;
-  document.getElementById("wg-desc").textContent = detail.desc;
-  document.getElementById("wg-test").textContent = detail.test;
-}
-
-function moveWorkGraph(step) {
-  var index = workGraphOrder.indexOf(activeWorkGraphNode);
-  var nextIndex = (index + step + workGraphOrder.length) % workGraphOrder.length;
-  selectWorkGraphNode(workGraphOrder[nextIndex]);
-}
-
-document.querySelectorAll(".wg-node").forEach(function (node) {
-  node.addEventListener("click", function () {
-    selectWorkGraphNode(node.getAttribute("data-node"));
-  });
-  node.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      selectWorkGraphNode(node.getAttribute("data-node"));
-    }
-  });
-});
-
-document.querySelectorAll(".l").forEach(function (edge) {
-  edge.addEventListener("click", function () {
-    var edgeName = edge.getAttribute("data-edge") || "";
-    var target = edgeName.split(" ")[1];
-    selectWorkGraphNode(target);
-  });
-});
-
-document.getElementById("wg-prev").addEventListener("click", function () {
-  moveWorkGraph(-1);
-});
-
-document.getElementById("wg-next").addEventListener("click", function () {
-  moveWorkGraph(1);
-});
-
-function showTab(name) {
-  document.querySelectorAll(".tab").forEach(function (tab) {
-    var action = tab.getAttribute("onclick") || "";
-    tab.classList.toggle("active", action.indexOf("'" + name + "'") !== -1);
-  });
-  document.querySelectorAll(".section").forEach(function (section) {
-    section.classList.toggle("active", section.id === "tab-" + name);
-  });
-}
-
-function showTabFromHash() {
-  var hash = window.location.hash || "";
-  if (hash.indexOf("#tab-") === 0) {
-    showTab(hash.replace("#tab-", ""));
-  }
-}
-
-showTabFromHash();
-window.addEventListener("hashchange", showTabFromHash);
-
 function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);
@@ -957,7 +579,7 @@ function copyBlock(name) {
   if (!el) return;
   copyText(el.innerText).then(function () {
     document.querySelectorAll(".copy").forEach(function (button) {
-      if (button.getAttribute("onclick").includes("'" + name + "'")) {
+      if ((button.getAttribute("onclick") || "").indexOf("'" + name + "'") !== -1) {
         var old = button.textContent;
         button.textContent = "copied";
         setTimeout(function () { button.textContent = old; }, 1200);
