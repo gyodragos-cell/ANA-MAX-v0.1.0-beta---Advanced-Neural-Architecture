@@ -135,6 +135,37 @@ class TestToolExecution(TestCase):
         self.assertFalse(result.is_success)
         self.assertIsNotNone(result.error)
 
+    def test_parameter_type_validation(self):
+        """Registry validation should reject invalid parameter types."""
+        from tools.base import registry
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        result = registry.execute("project_navigator", operation="find", path="tools", pattern="*.py", limit="bad")
+
+        self.assertFalse(result.is_success)
+        self.assertIn("Invalid type", result.error)
+
+    def test_file_patch_preview(self):
+        """file_patch should default to preview-only exact patching."""
+        from tools.base import registry
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        result = registry.execute(
+            "file_patch",
+            path="README.md",
+            old_text="ANA MAX is a Windows-first MCP runtime",
+            new_text="ANA MAX is a Windows-first MCP runtime",
+            preview_only=True,
+        )
+
+        self.assertTrue(result.is_success, result.error)
+        self.assertTrue(result.data["preview_only"])
+        self.assertGreaterEqual(result.data["matches"], 1)
+
 
 class TestToolDefinitions(TestCase):
     """Teste pentru definitiile tool-urilor."""

@@ -7,8 +7,13 @@ Suporta PaddleOCR (recomandat) sau Tesseract (fallback)
 """
 
 import logging
+import contextlib
+import importlib.util
+import io
 from typing import Dict, Any
 from pathlib import Path
+
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
 
@@ -37,21 +42,34 @@ def run(args: Dict[str, Any]) -> Dict[str, Any]:
 
 def _check_engine() -> Dict[str, Any]:
     """Check OCR engine availability."""
-    try:
-        engine, backend = _get_engine()
+    paddle_available = importlib.util.find_spec("paddleocr") is not None
+    tesseract_available = importlib.util.find_spec("pytesseract") is not None
+    pillow_available = importlib.util.find_spec("PIL") is not None
+
+    if paddle_available and pillow_available:
         return {
             "status": "success",
             "available": True,
-            "backend": backend,
-            "message": f"OCR engine loaded: {backend}"
+            "backend": "paddle",
+            "loaded": _ocr_engine is not None,
+            "message": "OCR engine available: paddle"
         }
-    except Exception as e:
+
+    if tesseract_available and pillow_available:
         return {
-            "status": "error",
-            "available": False,
-            "error": str(e),
-            "message": "OCR engine not available. Install: pip install paddleocr paddlepaddle pillow"
+            "status": "success",
+            "available": True,
+            "backend": "tesseract",
+            "loaded": _ocr_engine is not None,
+            "message": "OCR engine available: tesseract"
         }
+
+    return {
+        "status": "error",
+        "available": False,
+        "error": "No OCR engine available",
+        "message": "Install paddleocr/paddlepaddle/pillow or pytesseract/pillow"
+    }
 
 
 def _get_engine():
@@ -65,11 +83,12 @@ def _get_engine():
     try:
         from paddleocr import PaddleOCR
         logger.info("Loading PaddleOCR engine...")
-        _ocr_engine = PaddleOCR(
-            use_angle_cls=False,  # Faster for straight text
-            lang='en',
-            quiet=True  # Suppress verbose logging
-        )
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            _ocr_engine = PaddleOCR(
+                use_angle_cls=False,  # Faster for straight text
+                lang='en'
+                # No quiet/show_log parameter in PaddleOCR 3.5.0
+            )
         _ocr_backend = "paddle"
         logger.info("PaddleOCR loaded successfully")
         return _ocr_engine, _ocr_backend
@@ -181,11 +200,16 @@ def _perform_ocr(img) -> Dict[str, Any]:
     """Perform OCR on PIL Image."""
     try:
         engine, backend = _get_engine()
-        
+
         if backend == "paddle":
+            # PaddleOCR 3.5.0 requires numpy array, not PIL Image
+            import numpy as np
+            img_array = np.array(img)
+
             # PaddleOCR returns list of [box, (text, confidence)]
-            result = engine.ocr(img, cls=False)
-            
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                result = engine.ocr(img_array)
+
             texts = []
             confidence_scores = []
             
@@ -225,3 +249,28 @@ def _perform_ocr(img) -> Dict[str, Any]:
     
     except Exception as e:
         return {"status": "error", "error": str(e)}
+
+
+class OcrTool(Tool):
+    """Standard Tool wrapper for OCR operations."""
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="ocr_tool",
+            description="OCR on screen, region, file or clipboard using PaddleOCR or Tesseract.",
+            parameters=[
+                ToolParameter("action", "check, screen, file, clipboard, region", "string", True, choices=["check", "screen", "file", "clipboard", "region"]),
+                ToolParameter("image_path", "Path to image file", "string", False),
+                ToolParameter("x", "Region X coordinate", "integer", False),
+                ToolParameter("y", "Region Y coordinate", "integer", False),
+                ToolParameter("width", "Region width", "integer", False),
+                ToolParameter("height", "Region height", "integer", False),
+            ],
+            category="desktop",
+        )
+
+    def execute(self, **kwargs: Any) -> ToolResult:
+        result = run(kwargs)
+        if result.get("status") == "success":
+            return ToolResult(status=ToolStatus.SUCCESS, data=result, message=result.get("message", "OCR complete"))
+        return ToolResult(status=ToolStatus.ERROR, error=result.get("error", "OCR failed"), data=result)

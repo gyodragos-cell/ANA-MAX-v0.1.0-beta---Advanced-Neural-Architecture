@@ -172,6 +172,9 @@ def _register_all_tools():
         ("tools.codebase_understanding_tool", "CodebaseUnderstandingTool"),
         ("tools.browser_control", "BrowserControlTool"),
         ("tools.terminal_tool", "TerminalTool"),
+        ("tools.file_patch_tool", "FilePatchTool"),
+        ("tools.project_navigator_tool", "ProjectNavigatorTool"),
+        ("tools.error_radar_tool", "ErrorRadarTool"),
         ("tools.todo_tool", "TodoWriteTool"),
         ("tools.edit_tool", "EditTool"),
         ("tools.system_optimization_tool", "SystemOptimizationTool"),
@@ -210,7 +213,13 @@ def _register_all_tools():
         ("tools.desktop_control_tool", "DesktopControlTool"),
         ("tools.windows_insight_tool", "WindowsInsightTool"),
         ("tools.windows_uia_bridge", "WindowsUiaBridgeTool"),
+        ("tools.window_manager", "WindowManagerTool"),
+        ("tools.ocr_tool", "OcrTool"),
+        ("tools.uia_click_tool", "UiaClickTool"),
+        ("tools.uia_type_tool", "UiaTypeTool"),
         ("tools.foreground_ui_snapshot", "ForegroundUISnapshotTool"),  # NEW: Structural Eyes
+        ("tools.vision_region_capture_tool", "VisionRegionCaptureTool"),
+        ("tools.vision_find_element_tool", "VisionFindElementTool"),
     ]
 
     voice_tools = [

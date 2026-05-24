@@ -2,6 +2,21 @@
 
 ## v0.1.0-beta - Current Clean Release
 
+- Synced the public-safe tool audit subset from the mother lab: added
+  `file_patch`, `project_navigator`, `error_radar`, `uia_click`, `uia_type`,
+  `vision_region_capture`, and `vision_find_element`.
+- Strengthened `ToolRegistry`/`Tool.safe_execute()` with stricter parameter
+  type validation, compact errors, confirmation handling, and quiet default
+  tool execution for agent-friendly output.
+- Promoted `ocr_tool` and `window_manager` to direct Tool classes, reducing the
+  AI Core adapter count to 7 while keeping the same public tool names.
+- Updated `tool_healthcheck` safe/offline coverage for the new compact utility
+  and observation tools.
+- Updated public release counts to `71 loaded tools`, `4 premium-gated tool
+  families`, and `7 AI Core adapters`.
+- Added regression coverage for the public tool count, new utility tools,
+  confirmation gating, `file_patch` preview behavior, and parameter type
+  validation.
 - Restored a clean public release boundary: private integration setup notes are
   not part of this repository.
 - Added runtime premium gating in `ToolRegistry.execute()` so premium tools are
@@ -50,7 +65,7 @@
   super tools for agent IDE workflows: desktop reasoning, runtime diagnostics,
   adaptive IDE flow, observability, and security posture.
 - Updated the README, setup guide, and VS Code extension metadata to align the
-  public message around 64 loaded tools, MCP auth, local-first orchestration,
+  public message around 71 loaded tools, MCP auth, local-first orchestration,
   and agent IDE integration.
 - Replaced the stale `docs/README.md` with an ASCII-only public documentation
   index that points to the release map, local lab vision, agent IDE plan,
@@ -118,6 +133,6 @@ python -m unittest discover -s tests -v
 
 Expected:
 - Quick test: `3 PASS / 0 FAIL`
-- Tool list: 64 loaded tools
+- Tool list: 71 loaded tools
 - Unit tests: all tests passing
 

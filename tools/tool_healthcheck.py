@@ -34,11 +34,19 @@ class ToolHealthcheckTool(Tool):
             ("tools.codebase_understanding_tool", "CodebaseUnderstandingTool"),
             ("tools.workspace_situational_awareness", "WorkspaceSituationalAwarenessTool"),
             ("tools.browser_control", "BrowserControlTool"),
+            ("tools.file_patch_tool", "FilePatchTool"),
+            ("tools.project_navigator_tool", "ProjectNavigatorTool"),
+            ("tools.error_radar_tool", "ErrorRadarTool"),
             ("tools.science_tool", "ScienceTool"),
             ("tools.mitm_analyzer_tool", "MITMAnalyzerTool"),
             ("tools.network_pentest_tool", "NetworkPentestTool"),
             ("tools.hardware_scanner_tool", "HardwareScannerTool"),
-            ("tools.bug_bounty_tool", "BugBountyTool"),
+            ("tools.window_manager", "WindowManagerTool"),
+            ("tools.ocr_tool", "OcrTool"),
+            ("tools.uia_click_tool", "UiaClickTool"),
+            ("tools.uia_type_tool", "UiaTypeTool"),
+            ("tools.vision_region_capture_tool", "VisionRegionCaptureTool"),
+            ("tools.vision_find_element_tool", "VisionFindElementTool"),
         ]
 
         for module_path, class_name in tool_modules:
@@ -77,6 +85,8 @@ class ToolHealthcheckTool(Tool):
             ("system_control", {"operation": "vitals"}),
             ("smart_search", {"action": "stats", "project_path": "."}),
             ("workspace_situational_awareness", {"path": ".", "max_files": 10}),
+            ("project_navigator", {"operation": "find", "path": "tools", "pattern": "base.py", "limit": 3}),
+            ("error_radar", {"scope": "quick", "limit": 5}),
         ]
 
         optional_checks: List[tuple[str, Dict[str, Any]]] = [
@@ -93,6 +103,8 @@ class ToolHealthcheckTool(Tool):
             ("workspace_situational_awareness", {"path": ".", "max_files": 10}),
             ("foreground_ui_snapshot", {"include_text": "false", "max_elements": "8", "timeout": 15}),
             ("desktop_capture", {"operation": "get_windows", "timeout": 20}),
+            ("window_manager", {"action": "list", "timeout": 10}),
+            ("ocr_tool", {"action": "check", "timeout": 10}),
             ("edge_tts_voice", {"operation": "status"}),
         ]
 

@@ -30,7 +30,7 @@ These are the important signs:
 
 ```text
 python main.py --test        -> 3 PASS / 0 FAIL
-python main.py --list-tools  -> 64 loaded tools
+python main.py --list-tools  -> 71 loaded tools
 server URL                   -> http://127.0.0.1:8765
 ```
 
@@ -98,7 +98,7 @@ Expected:
 
 ```text
 3 PASS / 0 FAIL
-64 loaded tools
+71 loaded tools
 all tests passing
 ```
 
@@ -187,7 +187,7 @@ tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
 If you are an AI agent helping a user connect ANA MAX, keep these facts fixed:
 
 - public repo: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
-- expected tool list: `64 loaded tools`
+- expected tool list: `71 loaded tools`
 - default server: `http://127.0.0.1:8765/mcp`
 - required auth header: `Authorization: Bearer change-me`
 - VS Code setting: `anaMax.mcpApiKey` must match `MCP_API_KEY`

@@ -378,7 +378,7 @@ python -m unittest discover -s tests -v
 Expected baseline:
 
 - `python main.py --test`: `3 PASS / 0 FAIL`
-- `python main.py --list-tools`: 64 loaded tools
+- `python main.py --list-tools`: 71 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 ## Tool Model
@@ -390,7 +390,9 @@ Core tool behavior is owned by `tools/base.py`.
 | Category | Status | Example Tools |
 |----------|--------|---------------|
 | **Core Utilities** | Stable | `file_operations`, `code_tools`, `git_operations` |
+| **Agent Utilities** | Stable | `file_patch`, `project_navigator`, `error_radar` |
 | **Desktop Eyes** | Stable | `desktop_capture`, `windows_uia_bridge`, `ocr_tool` |
+| **Desktop Precision** | Experimental | `uia_click`, `uia_type`, `vision_region_capture`, `vision_find_element` |
 | **AI Core Modules** | Experimental | `context_engine`, `self_evolving_tool` |
 | **Deep Windows API** | Premium / Pro | `desktop_control`, `windows_deep_sight` |
 
@@ -428,7 +430,7 @@ Good:
 
 ```text
 3 PASS / 0 FAIL
-64 loaded tools
+71 loaded tools
 Authorization: Bearer change-me
 ```
 

@@ -27,6 +27,9 @@ from tools.ana_context_tool import AnaContextTool
 from tools.tool_healthcheck import ToolHealthcheckTool
 from tools.workspace_situational_awareness import WorkspaceSituationalAwarenessTool
 from tools.terminal_tool import TerminalTool
+from tools.file_patch_tool import FilePatchTool
+from tools.project_navigator_tool import ProjectNavigatorTool
+from tools.error_radar_tool import ErrorRadarTool
 from tools.todo_tool import TodoWriteTool
 from tools.edit_tool import EditTool
 from tools.system_optimization_tool import SystemOptimizationTool
@@ -126,6 +129,26 @@ except Exception:
     WindowsUiaBridgeTool = None  # type: ignore
 
 try:
+    from tools.window_manager import WindowManagerTool
+except Exception:
+    WindowManagerTool = None  # type: ignore
+
+try:
+    from tools.ocr_tool import OcrTool
+except Exception:
+    OcrTool = None  # type: ignore
+
+try:
+    from tools.uia_click_tool import UiaClickTool
+except Exception:
+    UiaClickTool = None  # type: ignore
+
+try:
+    from tools.uia_type_tool import UiaTypeTool
+except Exception:
+    UiaTypeTool = None  # type: ignore
+
+try:
     from tools.windows_deep_sight import WindowsDeepSightTool
 except Exception:
     WindowsDeepSightTool = None  # type: ignore
@@ -134,6 +157,16 @@ try:
     from tools.foreground_ui_snapshot import ForegroundUISnapshotTool
 except Exception:
     ForegroundUISnapshotTool = None  # type: ignore
+
+try:
+    from tools.vision_region_capture_tool import VisionRegionCaptureTool
+except Exception:
+    VisionRegionCaptureTool = None  # type: ignore
+
+try:
+    from tools.vision_find_element_tool import VisionFindElementTool
+except Exception:
+    VisionFindElementTool = None  # type: ignore
 
 # Voice tools (2026-05-14)
 try:
@@ -186,14 +219,17 @@ __all__ = [
     'QATool', 'MemoryTool', 'SmartSearchTool', 'DebuggerTool',
     'CodebaseUnderstandingTool', 'ConversationLearningTool',
     'SessionLogMinerTool', 'AnaContextTool', 'ToolHealthcheckTool', 'WorkspaceSituationalAwarenessTool',
-    'TerminalTool', 'WebAIBridgeTool', 'AutonomousTool', 'ScienceTool',
+    'TerminalTool', 'FilePatchTool', 'ProjectNavigatorTool', 'ErrorRadarTool',
+    'WebAIBridgeTool', 'AutonomousTool', 'ScienceTool',
     'AdaLTool', 'AdvancedScannerTool', 'TodoWriteTool', 'EditTool', 'TaskTool', 'SystemOptimizationTool',
     'MITMAnalyzerTool', 'NetworkPentestTool', 'HardwareScannerTool',
     # Mobile tools
     'ADBTool', 'FridaTool', 'APKAnalyzerTool', 'CodeSearchTool', 'WebScraperTool',
     # Desktop control
     'DesktopCaptureTool', 'LiveDesktopViewerTool', 'DesktopControlTool',
-    'WindowsInsightTool', 'WindowsUiaBridgeTool', 'WindowsDeepSightTool', 'ForegroundUISnapshotTool',
+    'WindowsInsightTool', 'WindowsUiaBridgeTool', 'WindowManagerTool', 'OcrTool',
+    'UiaClickTool', 'UiaTypeTool', 'WindowsDeepSightTool', 'ForegroundUISnapshotTool',
+    'VisionRegionCaptureTool', 'VisionFindElementTool',
     # Voice tools
     'EdgeTTSVoice', 'VoiceCommentary',
     # Ruflo Integration

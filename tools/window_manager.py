@@ -10,6 +10,8 @@ import ctypes
 from ctypes import wintypes
 from typing import Any, Dict, List, Optional
 
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
 
 user32 = ctypes.windll.user32
 
@@ -116,3 +118,25 @@ def run(args: Dict[str, Any]) -> Dict[str, Any]:
         return {"status": "error", "error": "Tile is not implemented in the clean release"}
 
     return {"status": "error", "error": f"Unknown action: {action}"}
+
+
+class WindowManagerTool(Tool):
+    """Standard Tool wrapper for native Win32 window management."""
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="window_manager",
+            description="Window management: list, snap, move, focus, minimize, maximize, close windows.",
+            parameters=[
+                ToolParameter("action", "Action to perform", "string", True, choices=["list", "snap", "move", "focus", "minimize", "maximize", "close", "tile"]),
+                ToolParameter("title", "Partial window title; defaults to active window for window actions", "string", False),
+                ToolParameter("position", "Snap position", "string", False, choices=["left", "right", "top", "bottom"]),
+            ],
+            category="desktop",
+        )
+
+    def execute(self, **kwargs: Any) -> ToolResult:
+        result = run(kwargs)
+        if result.get("status") == "success":
+            return ToolResult(status=ToolStatus.SUCCESS, data=result, message=result.get("message", "Window action complete"))
+        return ToolResult(status=ToolStatus.ERROR, error=result.get("error", "Window action failed"), data=result)

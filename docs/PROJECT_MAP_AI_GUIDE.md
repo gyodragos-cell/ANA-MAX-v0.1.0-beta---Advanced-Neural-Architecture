@@ -151,7 +151,8 @@ in isolated `LicenseManager` tests.
 Core utilities:
 - `ana_identity`, `file_operations`, `code_tools`, `web_search`,
   `system_control`, `tool_healthcheck`, `workspace_situational_awareness`,
-  `git_operations`, `terminal`, `todowrite`, `edit`, `task`,
+  `git_operations`, `terminal`, `file_patch`, `project_navigator`,
+  `error_radar`, `todowrite`, `edit`, `task`,
   `autonomous_engine`.
 
 Security, network, and analysis:
@@ -161,14 +162,16 @@ Security, network, and analysis:
 
 Desktop, vision, and voice:
 - `desktop_capture`, `windows_uia_bridge`, `foreground_ui_snapshot`,
-  `ocr_tool`, `window_manager`, `clipboard_manager`, `edge_tts_voice`.
+  `ocr_tool`, `window_manager`, `uia_click`, `uia_type`,
+  `vision_region_capture`, `vision_find_element`, `clipboard_manager`,
+  `edge_tts_voice`.
 - Premium: `live_desktop_viewer`, `desktop_control`, `windows_insight`,
   `windows_deep_sight`.
 
 AI Core:
 - `context_engine`, `proactive_interrupt`, `self_evolving_tool`,
   `memory_cortex`, `ana_orchestrator`, `context_bridge`,
-  `window_manager`, `clipboard_manager`, `ocr_tool`.
+  `clipboard_manager`.
 
 Advanced memory and orchestration:
 - `vector_memory`, `swarm_orchestrator`, `vision_fallback`,
@@ -223,7 +226,7 @@ python -m unittest discover -s tests -v
 
 The expected public baseline is:
 - `python main.py --test`: `3 PASS / 0 FAIL`
-- `python main.py --list-tools`: 64 loaded tools
+- `python main.py --list-tools`: 71 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 If the numbers change, update this file, `AGENTS.md`, README/docs, and tests in

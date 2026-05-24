@@ -33,6 +33,62 @@ def _summarize_kwargs(kwargs: Dict[str, Any]) -> Dict[str, str]:
     return {key: _summarize_value(value) for key, value in kwargs.items()}
 
 
+def _compact_error(error: Any, max_len: int = 500) -> str:
+    text = str(error or "").replace("\r", " ").replace("\n", " ").strip()
+    if len(text) > max_len:
+        return text[: max_len - 3] + "..."
+    return text
+
+
+def _is_bool_like(value: Any) -> bool:
+    if isinstance(value, bool):
+        return True
+    if isinstance(value, (int, float)):
+        return value in {0, 1}
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "0", "true", "false", "yes", "no", "on", "off"}
+    return False
+
+
+def _matches_param_type(value: Any, expected: str) -> bool:
+    expected = (expected or "string").lower()
+    if value is None or expected == "any":
+        return True
+    if expected == "string":
+        return isinstance(value, str)
+    if expected == "integer":
+        if isinstance(value, bool):
+            return False
+        if isinstance(value, int):
+            return True
+        if isinstance(value, str):
+            try:
+                int(value.strip())
+                return True
+            except ValueError:
+                return False
+        return False
+    if expected == "number":
+        if isinstance(value, bool):
+            return False
+        if isinstance(value, (int, float)):
+            return True
+        if isinstance(value, str):
+            try:
+                float(value.strip())
+                return True
+            except ValueError:
+                return False
+        return False
+    if expected == "boolean":
+        return _is_bool_like(value)
+    if expected in {"array", "list"}:
+        return isinstance(value, list)
+    if expected in {"object", "dict"}:
+        return isinstance(value, dict)
+    return True
+
+
 class ToolStatus(Enum):
     """Status pentru rezultatul unui tool."""
     SUCCESS = "success"
@@ -150,6 +206,11 @@ class Tool(ABC):
     def requires_confirmation(self) -> bool:
         """Daca necesita confirmare inainte de executie."""
         return self.get_definition().requires_confirmation
+
+    @property
+    def run_in_worker_thread(self) -> bool:
+        """Whether safe_execute may wrap this tool in a worker thread."""
+        return True
     
     def validate_params(self, **kwargs) -> Optional[str]:
         """Valideaza parametrii. Returneaza eroare sau None daca e OK."""
@@ -157,11 +218,14 @@ class Tool(ABC):
         
         for param in definition.parameters:
             if param.required and param.name not in kwargs:
-                return f"Parametrul '{param.name}' este obligatoriu"
+                return f"Missing required parameter: {param.name}"
             
             if param.choices and param.name in kwargs:
                 if kwargs[param.name] not in param.choices:
-                    return f"Valoarea '{kwargs[param.name]}' nu e valida pentru '{param.name}'. Optiuni: {param.choices}"
+                    return f"Invalid value for {param.name}: {kwargs[param.name]!r}. Choices: {param.choices}"
+
+            if param.name in kwargs and not _matches_param_type(kwargs[param.name], param.type):
+                return f"Invalid type for {param.name}: expected {param.type}, got {type(kwargs[param.name]).__name__}"
         
         return None
     
@@ -177,28 +241,38 @@ class Tool(ABC):
         
         # Verifica confirmare
         if self.requires_confirmation:
-            return ToolResult(
-                status=ToolStatus.REQUIRES_CONFIRMATION,
-                message=f"Tool-ul '{self.name}' necesita confirmare"
-            )
+            if not kwargs.get("confirm", False):
+                return ToolResult(
+                    status=ToolStatus.REQUIRES_CONFIRMATION,
+                    message=f"Tool requires confirmation: call {self.name} with confirm=True"
+                )
         
         # Executie cu timeout
         timeout = kwargs.get('timeout', 60) # Default 60s
         try:
+            if not self.run_in_worker_thread:
+                result = self.execute(**kwargs)
+                if not isinstance(result, ToolResult):
+                    result = ToolResult(status=ToolStatus.SUCCESS, data=result)
+                return result
+
             with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
                 future = executor.submit(self.execute, **kwargs)
-                return future.result(timeout=timeout)
+                result = future.result(timeout=timeout)
+                if not isinstance(result, ToolResult):
+                    result = ToolResult(status=ToolStatus.SUCCESS, data=result)
+                return result
         except (concurrent.futures.TimeoutError, TimeoutError):
             logger.error(f"Timeout in {self.name} (> {timeout}s)")
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Timeout: Operatiunea {self.name} a durat prea mult (> {timeout}s)"
+                error=f"Timeout: {self.name} exceeded {timeout}s"
             )
         except Exception as e:
             logger.error(f"Eroare in {self.name}: {e}")
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=str(e)
+                error=_compact_error(e)
             )
 
 
@@ -300,7 +374,7 @@ class ToolRegistry:
         if not tool:
             return ToolResult(
                 status=ToolStatus.ERROR,
-                error=f"Tool-ul '{name}' nu exista"
+                error=f"Unknown tool: {name}"
             )
 
         try:
@@ -317,8 +391,8 @@ class ToolRegistry:
         except Exception as exc:
             logger.warning("Premium access check failed for %s: %s", name, exc)
             
-        # UI v17: Rich Feedback. Suppress panels in VS Code agent terminals.
-        if not _is_vscode_agent_session():
+        # UI v17: Rich Feedback. Disabled by default for agent-friendly output.
+        if os.environ.get("ANA_TOOL_STDOUT", "").strip().lower() in {"1", "true", "yes", "on"}:
             try:
                 from rich.console import Console
                 from rich.panel import Panel

@@ -26,9 +26,9 @@ Start here:
 Current public baseline:
 
 ```text
-64 loaded tools
+71 loaded tools
 4 premium-gated tool families in the public message
-9 AI Core adapters
+7 AI Core adapters
 ```
 
 Required verification:

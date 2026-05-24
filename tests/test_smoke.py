@@ -117,9 +117,25 @@ class TestToolRegistryBasic(TestCase):
             "web_search",
             "desktop_capture",
             "workspace_situational_awareness",
+            "file_patch",
+            "project_navigator",
+            "error_radar",
+            "uia_click",
+            "uia_type",
+            "vision_region_capture",
+            "vision_find_element",
         ]
         for tool in expected_tools:
             self.assertIn(tool, tools, f"Tool-ul {tool} ar trebui sa existe")
+
+    def test_public_tool_count_baseline(self):
+        """Public release should keep its documented tool count aligned."""
+        from main import _register_all_tools
+        from tools.base import registry
+
+        registry.reset()
+        _register_all_tools()
+        self.assertEqual(len(registry.list_tools()), 71)
     
     def test_registry_get_tool(self):
         """Testeaza obtinerea unui tool din registry."""
@@ -337,6 +353,26 @@ class TestToolRegistryBasic(TestCase):
         self.assertTrue(result.is_success)
         self.assertNotIn("codebase_understanding", [name for name, _ in calls])
         self.assertIn("workspace_situational_awareness", [name for name, _ in calls])
+        self.assertIn("project_navigator", [name for name, _ in calls])
+        self.assertIn("error_radar", [name for name, _ in calls])
+
+    def test_new_public_tools_are_compact_and_safe(self):
+        """New public utility tools should import and perform non-mutating checks."""
+        from tools.base import registry
+
+        if not registry.list_tools():
+            from main import _register_all_tools
+            _register_all_tools()
+
+        nav = registry.execute("project_navigator", operation="find", path="tools", pattern="base.py", limit=3)
+        self.assertTrue(nav.is_success, nav.error)
+
+        radar = registry.execute("error_radar", scope="quick", limit=3)
+        self.assertTrue(radar.is_success, radar.error)
+        self.assertEqual(radar.data["schema"], "ana.error_radar.v1")
+
+        confirm = registry.execute("uia_click", window_title="x", element_title="y")
+        self.assertEqual(confirm.status.value, "requires_confirmation")
 
 
 class TestConfig(TestCase):

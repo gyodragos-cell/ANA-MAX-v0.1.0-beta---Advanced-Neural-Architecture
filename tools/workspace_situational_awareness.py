@@ -146,7 +146,7 @@ class WorkspaceSituationalAwarenessTool(Tool):
                 ToolParameter(
                     name="max_files",
                     description="Maximum changed files to include.",
-                    type="integer",
+                    type="any",
                     required=False,
                     default=30,
                 ),
