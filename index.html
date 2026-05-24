@@ -352,7 +352,9 @@
   <main id="top">
     <section class="hero" aria-label="ANA MAX hero">
       <div class="shell hero-content">
-        <span class="kicker">18.0-MAX-lab.audit.2026-05-24 / public release</span>
+        <!-- # PATCH_START v20_final -->
+        <span class="kicker">v20.0.0-alpha / public release</span>
+        <!-- # PATCH_END v20_final -->
         <h1>ANA MAX - Advanced Neural Architecture</h1>
         <p class="lead">
           A Windows-first agent runtime with real desktop control, vision, UIA,
@@ -364,9 +366,13 @@
           <a class="button hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
           <a class="button hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
           <a class="button" href="docs/PROJECT_MAP_AI_GUIDE.md">Read project map</a>
+          <!-- # PATCH_START v20_final -->
+          <a class="button" href="docs/v20_OVERVIEW.md">v20 overview</a>
+          <a class="button" href="docs/v20_AUTONOMY_LAYER.md">Autonomy layer</a>
+          <!-- # PATCH_END v20_final -->
         </div>
         <div class="metrics" aria-label="Current release metrics">
-          <div class="metric"><strong>71</strong><span>loaded public tools</span></div>
+          <div class="metric"><strong>80</strong><span>loaded public tools</span></div>
           <div class="metric"><strong>7</strong><span>AI Core adapters</span></div>
           <div class="metric"><strong>4</strong><span>premium-gated families</span></div>
           <div class="metric"><strong>3/0</strong><span>quick healthcheck PASS</span></div>
@@ -379,8 +385,13 @@
         <div class="section-head">
           <h2>Release Highlights</h2>
           <p>
+            <!-- # PATCH_START v20_phase3 -->
+            v20.0.0-alpha adds a manual, read-only autonomy layer:
+            health checks, baseline suggestions, documentation previews, patch
+            suggestions, and runtime guard checks. No auto-run.
+            <!-- # PATCH_END v20_phase3 -->
             The current public release is aligned with the 2026-05-24 lab audit:
-            71 loaded tools, stronger registry behavior, safer gates, and a
+            80 loaded tools, stronger registry behavior, safer gates, and a
             clearer observation-first operating model.
           </p>
         </div>
@@ -408,6 +419,27 @@
         </div>
       </div>
     </section>
+
+    <!-- # PATCH_START v20_final -->
+    <section class="band" id="autonomy-dashboard">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Autonomy Dashboard</h2>
+          <p>
+            v20 adds `autonomy_dashboard`, a manual read-only HTML view over
+            health checks, baseline suggestions, docs previews, patch
+            suggestions, and runtime guard results. It does not write files,
+            start a server, or modify runtime state.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="tile"><h3>Manual View</h3><p>Call <code>autonomy_dashboard</code> only when you want a rendered autonomy report.</p></article>
+          <article class="tile"><h3>Read-Only Output</h3><p>The dashboard returns HTML text to the caller and reports <code>written: false</code>.</p></article>
+          <article class="tile"><h3>v20 Docs</h3><p><a href="docs/v20_OVERVIEW.md">v20 overview</a> and <a href="docs/v20_AUTONOMY_LAYER.md">autonomy layer</a> document the model.</p></article>
+        </div>
+      </div>
+    </section>
+    <!-- # PATCH_END v20_final -->
 
     <section class="band" id="capabilities">
       <div class="shell">
@@ -445,7 +477,13 @@
   -> ToolRegistry validation and license gate
   -> observation tools | file tools | UIA tools | system tools | AI Core
   -> compact ToolResult
-  -> verify before handoff</pre>
+  -> verify before handoff
+
+Optional bridge:
+Copilot-style HTTP client
+  -> ana-max-bridge watchdog
+  -> ANA MAX /execute
+  -> ToolRegistry</pre>
         </div>
       </div>
     </section>
@@ -542,7 +580,9 @@ python -m unittest discover -s tests -v</pre>
 
   <footer>
     <div class="shell footer-inner">
-      <span>ANA MAX 18.0-MAX-lab.audit.2026-05-24 / MIT License / Last updated 2026-05-24</span>
+      <!-- # PATCH_START v20_final -->
+      <span>ANA MAX v20.0.0-alpha / MIT License / Last updated 2026-05-25</span>
+      <!-- # PATCH_END v20_final -->
       <span>
         <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
         / <a href="LICENSE">License</a>
@@ -592,3 +632,4 @@ function copyBlock(name) {
 </script>
 </body>
 </html>
+

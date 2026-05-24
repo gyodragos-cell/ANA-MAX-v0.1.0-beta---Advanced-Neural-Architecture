@@ -53,7 +53,7 @@ Expected:
 
 ```text
 MCP server: http://127.0.0.1:8765
-71 loaded tools
+80 loaded tools
 ```
 
 ## Verify
@@ -71,7 +71,7 @@ Expected:
 
 ```text
 3 PASS / 0 FAIL
-71 loaded tools
+80 loaded tools
 all tests passing
 ```
 
@@ -98,3 +98,4 @@ Make sure the VS Code setting `anaMax.mcpApiKey` matches `MCP_API_KEY`.
 - Beginner extension guide: `docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`
 - Public repo: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
 - Issues: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues`
+

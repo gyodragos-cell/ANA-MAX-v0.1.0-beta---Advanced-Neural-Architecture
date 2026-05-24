@@ -338,8 +338,10 @@ def http_tools_list():
 
 @app.route('/execute', methods=['POST'])
 def tool_endpoint():
+    local_dev = bool(config.get("local_dev", False) or config.get("mcp.local_dev", False))
+    local_request = request.remote_addr == "127.0.0.1"
     api_key = os.environ.get("ANA_MCP_KEY") or config.get("mcp.api_key")
-    if api_key:
+    if api_key and not (local_dev and local_request):
         auth_header = request.headers.get("Authorization", "")
         if auth_header != f"Bearer {api_key}":
             logger.warning(f"MCP /execute Auth failed from {request.remote_addr}")
@@ -394,8 +396,10 @@ def mcp_handler():
     """
     import traceback
     
+    local_dev = bool(config.get("local_dev", False) or config.get("mcp.local_dev", False))
+    local_request = request.remote_addr == "127.0.0.1"
     api_key = os.environ.get("ANA_MCP_KEY") or config.get("mcp.api_key")
-    if api_key:
+    if api_key and not (local_dev and local_request):
         auth_header = request.headers.get("Authorization", "")
         if auth_header != f"Bearer {api_key}":
             logger.warning(f"MCP /mcp Auth failed from {request.remote_addr}")

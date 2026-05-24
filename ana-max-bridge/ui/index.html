@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ANA MAX Bridge</title>
+    <link rel="stylesheet" href="/ui/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="toolbar">
+        <div>
+          <h1>ANA MAX Bridge</h1>
+          <p id="summary">Checking status...</p>
+        </div>
+        <div class="status" id="statusBadge">Offline</div>
+      </section>
+
+      <section class="controls" aria-label="Bridge controls">
+        <button id="startBtn" type="button">Start Bridge</button>
+        <button id="stopBtn" type="button">Stop Bridge</button>
+        <button id="reloadBtn" type="button">Reload Tools</button>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Tools</h2>
+            <span id="toolCount">0</span>
+          </div>
+          <input id="toolFilter" type="search" placeholder="Filter tools">
+          <div id="toolList" class="list"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Logs</h2>
+            <span id="logCount">0</span>
+          </div>
+          <div id="logList" class="logs"></div>
+        </article>
+      </section>
+    </main>
+
+    <script src="/ui/api_client.js"></script>
+    <script src="/ui/app.js"></script>
+  </body>
+</html>

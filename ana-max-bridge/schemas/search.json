@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ANA MAX search",
+  "type": "object",
+  "required": ["query"],
+  "properties": {
+    "query": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string",
+      "default": "."
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500,
+      "default": 50
+    }
+  },
+  "additionalProperties": false
+}

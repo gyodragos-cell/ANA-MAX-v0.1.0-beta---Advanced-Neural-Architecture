@@ -687,6 +687,13 @@ def run(args: dict) -> dict:
         return stop_observing()
     elif action == "context":
         return get_current_context()
+    # PATCH_START context_engine get_context schema alias
+    elif action == "get_context":
+        current = get_current_context()
+        if current.get("success") is False:
+            return current
+        return {"success": True, "status": "ok", "context": current.get("current", {}), "message": "ok"}
+    # PATCH_END context_engine get_context schema alias
     elif action == "predict":
         return predict_intent()
     elif action == "summary":

@@ -9,7 +9,7 @@ no tokens, no private paths, no local screenshots, and no private lab notes.
 version: 0.2.0
 extension: advanced-neural-architecture
 public repo: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
-tool count: 71 loaded tools
+tool count: 80 loaded tools
 premium-gated tools: 4
 desktop_capture: free Vision AI
 ```
@@ -109,3 +109,4 @@ vsce publish --packagePath advanced-neural-architecture-0.2.0.vsix
   `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues`
 - Main setup guide: `..\SETUP_AND_RUN.md`
 - User install guide: `..\docs\USER_EXTENSION_INSTALL_AND_ETHICS.md`
+

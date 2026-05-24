@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ANA MAX diagnostics",
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "enum": ["quick", "safe", "all"],
+      "default": "quick"
+    }
+  },
+  "additionalProperties": false
+}

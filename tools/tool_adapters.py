@@ -31,6 +31,19 @@ class ContextEngineAdapter(Tool):
         try:
             from tools.context_engine import run
             result = run(kwargs)
+            # PATCH_START context_engine_adapter
+            if kwargs.get("action") == "get_context" and result.get("success") is True:
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={
+                        "success": True,
+                        "context": result.get("context", result.get("current", {})),
+                        "message": result.get("message", "ok"),
+                    },
+                )
+            if result.get("success") is True:
+                return ToolResult(status=ToolStatus.SUCCESS, data=result)
+            # PATCH_END context_engine_adapter
             if result.get("status") == "success":
                 return ToolResult(status=ToolStatus.SUCCESS, data=result)
             else:

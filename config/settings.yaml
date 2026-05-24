@@ -3,6 +3,8 @@
 # Agent orchestrator local cu tool-uri si memorie persistenta.
 # Backend AI: Gemini (cloud) sau Ollama (local).
 
+local_dev: true
+
 ai:
   primary_backend: opencode_zen
   fallback_backend: nemotron_openrouter

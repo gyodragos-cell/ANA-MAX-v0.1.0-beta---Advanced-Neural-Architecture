@@ -4,7 +4,7 @@
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Platform Windows](https://img.shields.io/badge/platform-Windows-lightgrey)
 ![License MIT](https://img.shields.io/badge/license-MIT-green)
-![Tools](https://img.shields.io/badge/tools-71-blueviolet)
+![Tools](https://img.shields.io/badge/tools-80-blueviolet)
 
 [![Live Site](https://img.shields.io/badge/Live_Site-GitHub_Pages-ff6600?style=for-the-badge&logo=github)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
 [![Watch Demo 1](https://img.shields.io/badge/Watch_Demo_1-YouTube-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=yIWILEd6glU)
@@ -13,12 +13,34 @@
 Public release wording:
 
 ```text
-Version: 18.0-MAX-lab.audit.2026-05-24
-Tools: 71 loaded tools
+<!-- # PATCH_START v20_final -->
+Version: v20.0.0-alpha
+<!-- # PATCH_END v20_final -->
+Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
 Workflow: observe -> decide -> act -> verify
 ```
+
+<!-- # PATCH_START v19_phase4 -->
+v19 adds three manual, read-only diagnostics tools:
+`ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+They are registered for explicit calls only and do not auto-run.
+<!-- # PATCH_END v19_phase4 -->
+
+<!-- # PATCH_START v20_phase3 -->
+v20 adds manual, read-only autonomy tools:
+`ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+`ana_patch_suggester`, `runtime_guard`, and `autonomy_dashboard`.
+They are exposed for explicit calls only, do not auto-run, and do not change
+runtime behavior.
+<!-- # PATCH_END v20_phase3 -->
+
+<!-- # PATCH_START v20_final -->
+The autonomy dashboard is exposed as `autonomy_dashboard`. It returns a
+read-only HTML report for the v20 layer and does not write files, start a
+server, or apply patches.
+<!-- # PATCH_END v20_final -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before
@@ -87,7 +109,7 @@ Many users will ask an AI coding agent to install, connect, or test ANA MAX.
 Treat this repository as the clean public release and keep the workflow simple:
 
 ```text
-read the project map -> install dependencies -> set MCP_API_KEY -> start main.py -> verify tools/list -> explain the result
+read the project map -> install dependencies -> start main.py -> verify tools/list -> explain the result
 ```
 
 Use the canonical repository URL everywhere:
@@ -98,9 +120,10 @@ https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architec
 
 Do not invent private setup steps, local paths, hidden keys, or missing tools.
 If a user is new to Git, prefer the ZIP install path. If a user is using VS
-Code, install the included VSIX and make sure `anaMax.mcpApiKey` matches
-`MCP_API_KEY`. Always verify with `python main.py --test` and `python main.py
---list-tools` before saying the setup is complete.
+Code, install the included VSIX. In local dev mode no MCP key is required for
+`127.0.0.1`; for production, make sure `anaMax.mcpApiKey` matches
+`MCP_API_KEY`. Always verify with `python main.py --test` and
+`python main.py --list-tools` before saying the setup is complete.
 
 ## What This Is Not
 
@@ -171,7 +194,8 @@ ANA MAX is privacy-first and hybrid:
 
 - local/offline workflows are the default direction;
 - online models can be used when configured by the operator;
-- MCP auth is enabled by default;
+- local dev mode needs no MCP key on `127.0.0.1`;
+- production and non-local MCP access still uses Bearer-token auth;
 - private memory, logs, screenshots, tokens, and license files do not belong in
   the public release.
 
@@ -194,7 +218,7 @@ hands, ears, memory, and verification. See
 ## What Makes It Different
 
 - It gives agents situational awareness, not just file access.
-- It reflects the current public audit baseline: 71 loaded tools, 7 AI Core
+- It reflects the current public audit baseline: 80 loaded tools, 7 AI Core
   adapters, and 4 premium-gated tool families.
 - It acts like a local agent toolkit: different tools for setup, debugging, QA,
   desktop observation, browser checks, voice status, and authorized runtime
@@ -308,10 +332,15 @@ For the recommended public recording plan, see
 Run from the repository root:
 
 ```powershell
+.\START_LOCAL_DEV.bat
+```
+
+Or start manually:
+
+```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-$env:MCP_API_KEY = "change-me"
 $env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 python main.py
 
@@ -321,7 +350,11 @@ scripts\ana_voice.bat
 
 ANA MAX starts on `http://127.0.0.1:8765` by default.
 
-MCP auth is enabled by default. Send:
+LOCAL DEV MODE (no API key) is enabled by default. Requests from `127.0.0.1`
+do not need an API key, Authorization header, or environment variable.
+
+For production or non-local use, set `local_dev: false`, configure
+`MCP_API_KEY`, and send:
 
 ```text
 Authorization: Bearer change-me
@@ -332,7 +365,6 @@ Example MCP request:
 ```powershell
 curl -X POST http://127.0.0.1:8765/mcp `
   -H "Content-Type: application/json" `
-  -H "Authorization: Bearer change-me" `
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
@@ -379,6 +411,36 @@ output. Check `/health` for `vscode_agent` and `output_profile`.
 For a beginner-friendly walkthrough, see
 [`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`](docs/USER_EXTENSION_INSTALL_AND_ETHICS.md).
 
+## ANA MAX Bridge
+
+`ana-max-bridge/` is an optional local HTTP connector for Copilot-style clients
+that can call HTTP tools. It auto-detects ANA MAX tools from `/tools`, maps
+them into client-facing tool definitions, forwards execution to `/execute`, and
+keeps ANA MAX registry validation and premium gates in the execution path.
+
+Start ANA MAX first, then run:
+
+```powershell
+cd ana-max-bridge
+python bridge_server.py
+```
+
+With `local_dev: true`, no API key is required on `127.0.0.1`. For production
+or non-local use, set `local_dev: false` and configure `ANA_MCP_KEY` or
+`MCP_API_KEY`.
+
+Bridge UI:
+
+```text
+http://127.0.0.1:8790/
+```
+
+Bridge docs:
+
+```text
+ana-max-bridge/docs/CONNECT_TO_COPILOT.md
+```
+
 ## Verification
 
 Before handing off changes, run:
@@ -390,10 +452,17 @@ python main.py --list-tools
 python -m unittest discover -s tests -v
 ```
 
+For bridge changes, also run:
+
+```powershell
+python -m compileall -q ana-max-bridge
+python -m unittest discover -s ana-max-bridge\tests -v
+```
+
 Expected baseline:
 
 - `python main.py --test`: `3 PASS / 0 FAIL`
-- `python main.py --list-tools`: 71 loaded tools
+- `python main.py --list-tools`: 80 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 ## Tool Model
@@ -445,8 +514,8 @@ Good:
 
 ```text
 3 PASS / 0 FAIL
-71 loaded tools
-Authorization: Bearer change-me
+80 loaded tools
+Production auth: Authorization: Bearer change-me
 ```
 
 Bad:
@@ -475,4 +544,5 @@ release works.
 
 MIT. Use automated desktop control only on machines you own or are allowed to
 operate.
+
 

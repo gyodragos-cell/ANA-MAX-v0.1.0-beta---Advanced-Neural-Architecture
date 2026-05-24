@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ANA MAX file patch",
+  "type": "object",
+  "required": ["path", "old_text", "new_text"],
+  "properties": {
+    "path": {
+      "type": "string"
+    },
+    "old_text": {
+      "type": "string"
+    },
+    "new_text": {
+      "type": "string"
+    },
+    "preview": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "additionalProperties": false
+}

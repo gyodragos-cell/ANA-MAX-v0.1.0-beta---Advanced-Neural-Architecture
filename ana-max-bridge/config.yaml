@@ -1,0 +1,24 @@
+local_dev: true
+
+bridge:
+  host: 127.0.0.1
+  port: 8790
+  auto_start: true
+  max_logs: 250
+
+ana_max:
+  base_url: http://127.0.0.1:8765
+  timeout_seconds: 20
+  api_key_env:
+    - ANA_MCP_KEY
+    - MCP_API_KEY
+
+watchdog:
+  max_payload_bytes: 200000
+  blocked_tools: []
+  blocked_patterns:
+    - "\\bgit\\s+reset\\s+--hard\\b"
+    - "\\bRemove-Item\\b.*\\s-Recurse\\b"
+    - "\\brm\\s+-rf\\b"
+    - "\\bformat\\s+[a-z]:"
+    - "\\bshutdown\\b"

@@ -1,4 +1,4 @@
-﻿"""
+"""
 verdent_tools.py
 ================
 Tool-uri inspirate din capabilitatile Verdent AI:
@@ -344,9 +344,10 @@ class WebFetchTool(Tool):
             import urllib.error
             import html
 
-            # Asigura https
-            if url.startswith("http://"):
-                url = "https://" + url[7:]
+            # PATCH_START web_fetch preserve explicit schemes
+            if not url.startswith(("http://", "https://")):
+                url = "http://" + url
+            # PATCH_END web_fetch preserve explicit schemes
 
             req = urllib.request.Request(
                 url,

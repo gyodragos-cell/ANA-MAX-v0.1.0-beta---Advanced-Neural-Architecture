@@ -30,7 +30,7 @@ These are the important signs:
 
 ```text
 python main.py --test        -> 3 PASS / 0 FAIL
-python main.py --list-tools  -> 71 loaded tools
+python main.py --list-tools  -> 80 loaded tools
 server URL                   -> http://127.0.0.1:8765
 ```
 
@@ -98,19 +98,34 @@ Expected:
 
 ```text
 3 PASS / 0 FAIL
-71 loaded tools
+80 loaded tools
 all tests passing
 ```
 
-## Run
+## LOCAL DEV MODE (no API key)
 
-MCP authentication is enabled by default.
+Local dev mode is enabled by default in `config/settings.yaml`:
+
+One-click Windows launcher:
 
 ```powershell
-$env:MCP_API_KEY = "change-me"
+.\START_LOCAL_DEV.bat
+```
+
+Manual start:
+
+```powershell
 $env:ANA_BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 python main.py
 ```
+
+When `local_dev: true`, ANA MAX accepts unauthenticated MCP requests only from
+`127.0.0.1`. No API key, Authorization header, or environment variable is
+required for local development.
+
+For production or non-local use, set `local_dev: false`, keep
+`mcp.auth_required: true`, set `MCP_API_KEY`, and send the matching Bearer
+token.
 
 Keep this terminal open while you use the VS Code extension or another MCP
 client. If you change tool registration or update the code, stop and restart
@@ -127,7 +142,6 @@ Example:
 ```powershell
 curl -X POST http://127.0.0.1:8765/mcp `
   -H "Content-Type: application/json" `
-  -H "Authorization: Bearer change-me" `
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
 ```
 
@@ -172,10 +186,52 @@ Default endpoint:
 http://127.0.0.1:8765/mcp
 ```
 
-Required header:
+Required header when `local_dev: false`:
 
 ```text
 Authorization: Bearer change-me
+```
+
+## Optional ANA MAX Bridge
+
+The optional `ana-max-bridge/` folder exposes a small local HTTP connector for
+Copilot-style clients and includes a control panel UI.
+
+Start ANA MAX first:
+
+```powershell
+python main.py
+```
+
+In another terminal:
+
+```powershell
+cd ana-max-bridge
+python bridge_server.py
+```
+
+Open:
+
+```text
+http://127.0.0.1:8790/
+```
+
+When `ana-max-bridge/config.yaml` has `local_dev: true`, the bridge sends no
+Authorization header and accepts only `127.0.0.1` requests. When `local_dev` is
+false, the bridge reads `ANA_MCP_KEY` or `MCP_API_KEY` from the environment. Do
+not put tokens in `ana-max-bridge/config.yaml`.
+
+Bridge verification:
+
+```powershell
+python -m compileall -q ana-max-bridge
+python -m unittest discover -s ana-max-bridge\tests -v
+```
+
+Safe full bridge smoke test:
+
+```powershell
+python ana-max-bridge\test_all_tools.py
 ```
 
 Recommended agent flow:
@@ -187,10 +243,11 @@ tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
 If you are an AI agent helping a user connect ANA MAX, keep these facts fixed:
 
 - public repo: `https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture`
-- expected tool list: `71 loaded tools`
+- expected tool list: `80 loaded tools`
 - default server: `http://127.0.0.1:8765/mcp`
-- required auth header: `Authorization: Bearer change-me`
-- VS Code setting: `anaMax.mcpApiKey` must match `MCP_API_KEY`
+- local dev auth: no API key for `127.0.0.1`
+- production auth header: `Authorization: Bearer change-me`
+- production VS Code setting: `anaMax.mcpApiKey` must match `MCP_API_KEY`
 
 Do not use private lab paths, old repository aliases, or hidden local setup
 notes. Read `docs/PROJECT_MAP_AI_GUIDE.md` before changing files.
@@ -218,9 +275,10 @@ If Python cannot import project modules, run commands from the repo root.
 If the VS Code extension cannot call tools, check that:
 
 - `python main.py` is still running.
-- `MCP_API_KEY` matches `anaMax.mcpApiKey`.
 - The server URL is `http://127.0.0.1:8765`.
-- The request includes `Authorization: Bearer change-me`.
+- In local dev mode, the request comes from `127.0.0.1`.
+- In production mode, `MCP_API_KEY` matches `anaMax.mcpApiKey`.
+- In production mode, the request includes `Authorization: Bearer change-me`.
 
 If `tools/list` shows an old tool count after an update, restart `python
 main.py`. A running MCP server keeps its in-memory registry until it restarts.
@@ -237,3 +295,4 @@ expected behavior for:
 
 If text looks corrupted in PowerShell, keep the output ASCII and rerun the
 verification commands.
+

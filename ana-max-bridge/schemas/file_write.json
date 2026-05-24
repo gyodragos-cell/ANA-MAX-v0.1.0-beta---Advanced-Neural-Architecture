@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ANA MAX file write",
+  "type": "object",
+  "required": ["path", "content"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Workspace-relative or allowed absolute file path."
+    },
+    "content": {
+      "type": "string",
+      "description": "New file content."
+    }
+  },
+  "additionalProperties": false
+}

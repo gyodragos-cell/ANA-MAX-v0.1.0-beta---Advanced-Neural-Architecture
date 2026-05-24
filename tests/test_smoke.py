@@ -135,7 +135,9 @@ class TestToolRegistryBasic(TestCase):
 
         registry.reset()
         _register_all_tools()
-        self.assertEqual(len(registry.list_tools()), 71)
+        # PATCH_START v20_phase5
+        self.assertEqual(len(registry.list_tools()), 80)
+        # PATCH_END v20_phase5
     
     def test_registry_get_tool(self):
         """Testeaza obtinerea unui tool din registry."""
@@ -443,7 +445,9 @@ class TestPyprojectToml(TestCase):
         
         self.assertIn("[project]", content)
         self.assertIn("name = \"ana-max\"", content)
-        self.assertIn("version = \"0.1.0-beta\"", content)
+        # PATCH_START v20_phase4
+        self.assertIn("version = \"20.0.0-alpha\"", content)
+        # PATCH_END v20_phase4
         self.assertIn("[project.scripts]", content)
         self.assertIn("ana-max = \"main:main\"", content)
 

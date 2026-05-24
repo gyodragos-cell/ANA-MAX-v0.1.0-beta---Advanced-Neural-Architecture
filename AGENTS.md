@@ -13,6 +13,21 @@ Before making code or documentation changes, read:
 Use it as the project map for architecture, file ownership, release boundaries,
 and verification commands.
 
+## Full-Project IDE Agent Mode
+
+When working in this repository, act as a full-project IDE agent:
+
+- Maintain project-wide awareness before changing files.
+- Search for files and symbols instead of guessing paths.
+- Read the files that own the requested behavior before editing.
+- Compare related files when the request touches shared behavior or docs.
+- Use minimal patch-based edits and preserve existing style.
+- Ask for confirmation before destructive changes.
+- Show or summarize diffs after modifying files.
+- Keep release hygiene and public-safe boundaries in mind at all times.
+- Run the relevant verification commands before handoff and report failures
+  plainly.
+
 ## Release Hygiene
 
 - Keep this repository clean, public-safe, and limited to release-ready files.
@@ -23,9 +38,17 @@ and verification commands.
   `live_desktop_viewer`, `desktop_control`, `desktop_control_tool`,
   `windows_insight`, `windows_insight_tool`, `windows_deep_sight`.
 - Keep documentation counts aligned with the release map:
-  `71 loaded tools, 4 premium-gated tool families, 7 AI Core adapters`.
+  `80 loaded tools, 4 premium-gated tool families, 7 AI Core adapters`.
+<!-- # PATCH_START v20_phase3 -->
+- Treat v20 autonomy tools as manual, read-only diagnostics:
+  `ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+  `ana_patch_suggester`, and `runtime_guard`.
+  `autonomy_dashboard` is also manual and read-only.
+<!-- # PATCH_END v20_phase3 -->
+<!-- # PATCH_START v20_final -->
 - Use the current public wording when a page needs a version label:
-  `18.0-MAX-lab.audit.2026-05-24`.
+  `v20.0.0-alpha`.
+<!-- # PATCH_END v20_final -->
 
 ## Release Sync Rule
 
@@ -53,6 +76,13 @@ python -m compileall -q main.py core tools vscode_extension
 python main.py --test
 python main.py --list-tools
 python -m unittest discover -s tests -v
+```
+
+For changes under `ana-max-bridge/`, also run:
+
+```powershell
+python -m compileall -q ana-max-bridge
+python -m unittest discover -s ana-max-bridge\tests -v
 ```
 
 If a check cannot be run, report that clearly with the reason.
@@ -92,3 +122,4 @@ If a check cannot be run, report that clearly with the reason.
 - Before handoff, run the required verification commands and report failures
   plainly. Passing import/compile is not enough if a listed tool fails when
   executed.
+

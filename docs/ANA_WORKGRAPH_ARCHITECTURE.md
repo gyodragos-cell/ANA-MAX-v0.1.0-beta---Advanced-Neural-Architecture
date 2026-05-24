@@ -51,7 +51,7 @@ Example:
   "signals": {
     "errors": [],
     "warnings": [],
-    "important_text": ["71 loaded tools", "81 tests OK"]
+    "important_text": ["80 loaded tools", "85 tests OK"]
   },
   "recommended_next_step": "No blocking errors detected. Safe to continue.",
   "confidence": 0.86,
@@ -196,3 +196,4 @@ Large, destructive, or ambiguous fixes require user confirmation.
 
 The first valuable version is not full autonomy. It is an agent that can see the
 workspace, find obvious errors, choose the right tool, and verify its own work.
+

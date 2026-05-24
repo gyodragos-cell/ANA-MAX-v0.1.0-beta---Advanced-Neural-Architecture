@@ -26,10 +26,26 @@ Start here:
 Current public baseline:
 
 ```text
-71 loaded tools
+80 loaded tools
 4 premium-gated tool families in the public message
 7 AI Core adapters
 ```
+
+<!-- # PATCH_START v20_phase3 -->
+v20 autonomy tools included in the 80-tool baseline:
+`ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+`ana_patch_suggester`, `runtime_guard`, and `autonomy_dashboard`.
+<!-- # PATCH_END v20_phase3 -->
+
+<!-- # PATCH_START v20_final -->
+v20.0.0-alpha is the current public release. Start with `v20_OVERVIEW.md` and
+`v20_AUTONOMY_LAYER.md` for the autonomy foundation and dashboard.
+<!-- # PATCH_END v20_final -->
+
+<!-- # PATCH_START v19_phase4 -->
+v19 diagnostics remain included in the current baseline:
+`ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+<!-- # PATCH_END v19_phase4 -->
 
 Required verification:
 
@@ -56,3 +72,4 @@ new user -> README.md -> SETUP_AND_RUN.md -> USER_EXTENSION_INSTALL_AND_ETHICS.m
 developer -> README.md -> PROJECT_MAP_AI_GUIDE.md -> verification commands
 AI agent -> PROJECT_MAP_AI_GUIDE.md -> inspect files -> edit -> verify
 ```
+

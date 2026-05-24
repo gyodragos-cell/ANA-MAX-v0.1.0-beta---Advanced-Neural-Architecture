@@ -56,7 +56,7 @@ python main.py --test
 Show proof:
 
 ```text
-71 tools loaded
+80 tools loaded
 3 PASS / 0 FAIL
 ```
 
@@ -256,3 +256,4 @@ After recording:
 - upload a compressed copy or external link if the file is large;
 - keep the original recording out of the public repo if it contains private
   content.
+

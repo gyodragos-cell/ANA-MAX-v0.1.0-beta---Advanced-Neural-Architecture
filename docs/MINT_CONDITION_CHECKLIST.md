@@ -15,7 +15,7 @@ clean today -> verified today -> documented today -> tomorrow starts with bug hu
 - [ ] No `.env`, `.license`, API keys, logs, databases, memory stores, private
       screenshots, local shortcuts, or private lab paths are staged.
 - [ ] Tool counts match the release map:
-      `71 loaded tools, 4 premium-gated tool families, 7 AI Core adapters`.
+      `80 loaded tools, 4 premium-gated tool families, 7 AI Core adapters`.
 - [ ] Public links use the canonical repository URL:
 
 ```text
@@ -41,7 +41,7 @@ Expected:
 
 ```text
 3 PASS / 0 FAIL
-71 loaded tools
+80 loaded tools
 all tests passing
 ```
 
@@ -66,3 +66,4 @@ Do not copy private lab data into this repo.
 4. Run the required checks.
 5. Commit small, named changes.
 6. Push only when the release is public-safe.
+

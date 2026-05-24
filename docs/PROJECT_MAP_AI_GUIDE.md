@@ -16,7 +16,7 @@ links pointing at an empty location.
 
 Allowed:
 - Release-ready source code: `main.py`, `core/`, `tools/`, `plugins/`,
-  `vscode_extension/`, `tests/`, `docs/`.
+  `vscode_extension/`, `ana-max-bridge/`, `tests/`, `docs/`.
 - Public documentation that matches the code currently present in this repo.
 - Template configuration such as `.env.example`.
 - Small public-safe assets for the website.
@@ -35,12 +35,33 @@ Not allowed:
 Current public wording:
 
 ```text
-Version: 18.0-MAX-lab.audit.2026-05-24
-Tools: 71 loaded tools
+<!-- # PATCH_START v20_final -->
+Version: v20.0.0-alpha
+<!-- # PATCH_END v20_final -->
+Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
 Workflow: observe -> decide -> act -> verify
 ```
+
+<!-- # PATCH_START v19_phase4 -->
+v19 Self-Aware Runtime diagnostics are included in the public count:
+`ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+They are manual read-only tools and must not auto-run during startup.
+<!-- # PATCH_END v19_phase4 -->
+
+<!-- # PATCH_START v20_phase3 -->
+v20 Autonomous Runtime Foundation tools are included in the public count:
+`ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+`ana_patch_suggester`, and `runtime_guard`.
+They are manual read-only tools, do not auto-run, and do not apply patches.
+<!-- # PATCH_END v20_phase3 -->
+
+<!-- # PATCH_START v20_phase5 -->
+v20 Autonomy Dashboard is included in the public count as `autonomy_dashboard`.
+It is manual-call only and returns read-only HTML without writing files or
+starting a server.
+<!-- # PATCH_END v20_phase5 -->
 
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.
@@ -60,13 +81,22 @@ code, because that can skip parameter validation, logging, and premium gates.
 inside `ToolRegistry.execute()`, so premium tools are blocked even if called
 through HTTP/MCP.
 
-`config/settings.yaml` controls local runtime behavior. MCP auth is enabled for
-the public release. Set `ANA_MCP_KEY` or `MCP_API_KEY` before using `/execute`,
-`/tools`, `/mcp`, `/events`, or `/mcp/stream`.
+`config/settings.yaml` controls local runtime behavior. `local_dev: true`
+allows unauthenticated MCP calls only from `127.0.0.1`. Production auth logic
+stays in place; set `local_dev: false` plus `ANA_MCP_KEY` or `MCP_API_KEY`
+before using `/execute`, `/tools`, `/mcp`, `/events`, or `/mcp/stream` from
+non-local clients.
 
-The VS Code extension must pass the same token when it starts the server or
-calls tools. Its public settings are `anaMax.mcpApiKey`, `anaMax.mcpHost`, and
-`anaMax.mcpPort`.
+When `local_dev: false`, the VS Code extension must pass the same token when it
+starts the server or calls tools. Its public settings are `anaMax.mcpApiKey`,
+`anaMax.mcpHost`, and `anaMax.mcpPort`.
+
+`ana-max-bridge/` is an optional local HTTP connector for Copilot-style clients.
+It must forward tool execution to the ANA MAX HTTP/MCP server instead of
+importing or calling tool instances directly. With `local_dev: true`, the
+bridge sends no Authorization header and accepts only `127.0.0.1` requests.
+With `local_dev: false`, the bridge reads `ANA_MCP_KEY` or `MCP_API_KEY` from
+the environment and keeps secrets out of `config.yaml`.
 
 VS Code 1.121+ sets `VSCODE_AGENT` for terminal commands launched by an agent.
 When ANA MAX sees this environment variable, `main.py` keeps startup output
@@ -191,6 +221,13 @@ Advanced memory and orchestration:
 - `vector_memory`, `swarm_orchestrator`, `vision_fallback`,
   `remote_control`, `event_stream`.
 
+Autonomous runtime foundation:
+- `ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+  `ana_patch_suggester`, `runtime_guard`.
+
+Autonomy dashboard:
+- `autonomy_dashboard`.
+
 ## Removed Noise
 
 Old private integrations and private setup guides are not part of this clean
@@ -236,11 +273,18 @@ python main.py --list-tools
 python -m unittest discover -s tests -v
 ```
 
+When changing `ana-max-bridge/`, also run:
+
+```powershell
+python -m compileall -q ana-max-bridge
+python -m unittest discover -s ana-max-bridge\tests -v
+```
+
 ## Current Verification Baseline
 
 The expected public baseline is:
 - `python main.py --test`: `3 PASS / 0 FAIL`
-- `python main.py --list-tools`: 71 loaded tools
+- `python main.py --list-tools`: 80 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 If the numbers change, update this file, `AGENTS.md`, README/docs, and tests in
@@ -249,3 +293,4 @@ the same change.
 Operational note: after changing tool registration or startup behavior, restart
 the running MCP server before trusting `/tools` or MCP `tools/list`; an existing
 process keeps its old in-memory registry.
+

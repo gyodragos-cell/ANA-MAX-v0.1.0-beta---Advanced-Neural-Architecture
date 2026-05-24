@@ -1,13 +1,68 @@
 # Changelog
 
+<!-- # PATCH_START v20_phase3 -->
+## v20.0.0-alpha - Autonomous Runtime Foundation
+
+- Added the v20 autonomy layer with five manual, read-only tools:
+  `ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+  `ana_patch_suggester`, and `runtime_guard`.
+- Integrated controlled registry exposure for manual MCP/tool invocation.
+- Updated the public tool count baseline to `80 loaded tools`.
+- Kept runtime behavior unchanged: no auto-run, no auto-patching, no bridge,
+  adapter, core, or existing-tool behavior changes.
+- Kept the integration reversible through isolated v20 patch blocks.
+<!-- # PATCH_START v20_phase5 -->
+- Added `autonomy_dashboard`, a manual read-only HTML dashboard for v20
+  autonomy tool outputs. The public baseline is now `80 loaded tools`.
+<!-- # PATCH_END v20_phase5 -->
+<!-- # PATCH_END v20_phase3 -->
+
+<!-- # PATCH_START v19_phase5 -->
+## 19.0.0 - Self-Aware Runtime
+
+- Completed v19 Phase 1-5 release packaging for the Self-Aware Runtime.
+- Added manual read-only diagnostics:
+  `ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+- Integrated the diagnostics into the runtime registry as explicit-call tools.
+- Updated the public baseline to `80 loaded tools`, `7 AI Core adapters`, and
+  `4 premium-gated tool families`.
+- Added unit coverage for the diagnostics layer and updated the public tool
+  count baseline test.
+- Added release metadata: `VERSION`, `SUMMARY.md`, `RELEASE_NOTES_v19.md`,
+  `RELEASE_CHECKLIST_v19.md`, `docs/TOOLS_OVERVIEW.md`, and
+  `docs/DIAGNOSTICS_LAYER.md`.
+- Recommended release tag: `v19.0.0`.
+<!-- # PATCH_END v19_phase5 -->
+
+<!-- # PATCH_START v19_phase4 -->
+## v19 - Self-Aware Runtime Diagnostics
+
+- Added and integrated three manual, read-only diagnostics:
+  `ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+- Updated public release documentation and baseline tests from the prior count
+  to `80 loaded tools`.
+- Kept diagnostics side-effect free: no auto-run, no auto-patching, and no
+  changes to existing tool behavior.
+<!-- # PATCH_END v19_phase4 -->
+
 ## 18.0-MAX-lab.audit.2026-05-24 - Public Website Upgrade
 
+- Added `ana-max-bridge/`, an optional local HTTP connector for Copilot-style
+  clients with dynamic ANA MAX tool detection, `/tools/call` forwarding,
+  watchdog validation, a local control panel UI, schemas, docs, and tests.
+- Added reversible LOCAL DEV MODE for localhost-only development: `local_dev:
+  true` disables MCP Bearer-token requirements only for `127.0.0.1`, while
+  production auth logic remains in place for non-local use.
+- Added `START_LOCAL_DEV.bat` to launch ANA MAX and the local bridge UI from a
+  single Windows command.
+- Added `ana-max-bridge/test_all_tools.py`, a safe localhost-only bridge smoke
+  tester that exercises the live tool inventory and writes reports to `C:\tmp`.
 - Rebuilt `index.html` into a premium public GitHub Pages presentation for ANA
   MAX - Advanced Neural Architecture.
 - Added public site sections for release highlights, core capabilities,
   architecture overview, tool categories, Why ANA MAX, roadmap highlights,
   credits, and verification.
-- Aligned website and docs with the current public baseline: `71 loaded tools`,
+- Aligned website and docs with the current public baseline: `80 loaded tools`,
   `7 AI Core adapters`, `4 premium-gated tool families`, and `3 PASS / 0 FAIL`
   quick healthcheck behavior.
 - Updated README, project map, roadmap, and agent rules so public-facing
@@ -26,7 +81,7 @@
   AI Core adapter count to 7 while keeping the same public tool names.
 - Updated `tool_healthcheck` safe/offline coverage for the new compact utility
   and observation tools.
-- Updated public release counts to `71 loaded tools`, `4 premium-gated tool
+- Updated public release counts to `80 loaded tools`, `4 premium-gated tool
   families`, and `7 AI Core adapters`.
 - Added regression coverage for the public tool count, new utility tools,
   confirmation gating, `file_patch` preview behavior, and parameter type
@@ -79,7 +134,7 @@
   super tools for agent IDE workflows: desktop reasoning, runtime diagnostics,
   adaptive IDE flow, observability, and security posture.
 - Updated the README, setup guide, and VS Code extension metadata to align the
-  public message around 71 loaded tools, MCP auth, local-first orchestration,
+  public message around 80 loaded tools, MCP auth, local-first orchestration,
   and agent IDE integration.
 - Replaced the stale `docs/README.md` with an ASCII-only public documentation
   index that points to the release map, local lab vision, agent IDE plan,
@@ -147,6 +202,7 @@ python -m unittest discover -s tests -v
 
 Expected:
 - Quick test: `3 PASS / 0 FAIL`
-- Tool list: 71 loaded tools
+- Tool list: 80 loaded tools
 - Unit tests: all tests passing
+
 

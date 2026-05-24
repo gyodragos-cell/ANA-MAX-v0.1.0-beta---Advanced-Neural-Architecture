@@ -4,8 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ana-max"
-version = "0.1.0-beta"
-description = "ANA MAX - Advanced Neural Architecture | MCP Server with 71 tools, AI Desktop Control, and Offline-Capable AI Core"
+# PATCH_START v20_phase4
+version = "20.0.0-alpha"
+# PATCH_END v20_phase4
+description = "ANA MAX - Advanced Neural Architecture | MCP Server with 80 tools, AI Desktop Control, and Offline-Capable AI Core"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
@@ -149,3 +151,4 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
+

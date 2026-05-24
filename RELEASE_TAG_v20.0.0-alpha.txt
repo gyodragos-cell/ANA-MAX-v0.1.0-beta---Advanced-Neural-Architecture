@@ -1,0 +1,13 @@
+# PATCH_START v20_phase4
+Tag: v20.0.0-alpha
+
+Message:
+ANA MAX v20 - Autonomous Runtime Foundation
+Includes Phase 1, Phase 2, Phase 3, Phase 4, Phase 5
+80 tools, autonomy layer, controlled integration, public sync
+
+Suggested local command:
+git tag -a v20.0.0-alpha -m "ANA MAX v20 - Autonomous Runtime Foundation" -m "Includes Phase 1, Phase 2, Phase 3, Phase 4, Phase 5" -m "80 tools, autonomy layer, controlled integration, public sync"
+
+Push is intentionally not performed by Phase 4.
+# PATCH_END v20_phase4

@@ -352,6 +352,162 @@ def _register_all_tools():
     except ImportError as e:
         logging.getLogger(__name__).warning("tool_adapters.py nu a putut fi incarcat: %s", e)
 
+    # PATCH_START v19_phase3
+    try:
+        from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+        class _V19RunTool(Tool):
+            def __init__(self, module_path: str, name: str, description: str, parameters):
+                self._module_path = module_path
+                self._definition = ToolDefinition(
+                    name=name,
+                    description=description,
+                    parameters=parameters,
+                    category="diagnostics",
+                    requires_confirmation=False,
+                )
+
+            def get_definition(self):
+                return self._definition
+
+            def execute(self, **kwargs):
+                module = __import__(self._module_path, fromlist=["run"])
+                result = module.run(dict(kwargs))
+                if not isinstance(result, dict):
+                    return ToolResult(status=ToolStatus.ERROR, error="diagnostic returned non-dict response")
+                if result.get("success") is False:
+                    return ToolResult(status=ToolStatus.ERROR, error=str(result.get("error") or "success=false"))
+                return ToolResult(status=ToolStatus.SUCCESS, data=result, message=str(result.get("message", "ok")))
+
+        v19_tools = [
+            _V19RunTool(
+                "tools.ana_runtime_inspector",
+                "ana_runtime_inspector",
+                "Read-only runtime snapshot and environment comparison diagnostics.",
+                [
+                    ToolParameter("action", "snapshot or compare_envs", "string", False, "snapshot"),
+                    ToolParameter("dev_path", "Development workspace path for compare_envs", "string", False),
+                    ToolParameter("release_path", "Release workspace path for compare_envs", "string", False),
+                    ToolParameter("max_files", "Maximum files to compare", "integer", False, 5000),
+                ],
+            ),
+            _V19RunTool(
+                "tools.tool_contract_validator",
+                "tool_contract_validator",
+                "Read-only validation of safe tool response contracts.",
+                [
+                    ToolParameter("action", "validate_tool or validate_all", "string", False, "validate_all"),
+                    ToolParameter("tool_name", "Tool name for validate_tool", "string", False),
+                ],
+            ),
+            _V19RunTool(
+                "tools.schema_diff",
+                "schema_diff",
+                "Read-only schema and response diff diagnostic.",
+                [
+                    ToolParameter("expected_schema", "Expected response schema", "object", True),
+                    ToolParameter("actual_response", "Actual response object", "object", True),
+                ],
+            ),
+        ]
+        for tool_instance in v19_tools:
+            registry.register(tool_instance)
+            loaded += 1
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (V19 DIAGNOSTICS)")
+    except Exception as e:
+        logging.getLogger(__name__).warning("v19 diagnostics skipped: %s", e)
+    # PATCH_END v19_phase3
+
+    # PATCH_START v20_phase2
+    try:
+        from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+        class _V20RunTool(Tool):
+            def __init__(self, module_path: str, name: str, description: str, parameters):
+                self._module_path = module_path
+                self._definition = ToolDefinition(
+                    name=name,
+                    description=description,
+                    parameters=parameters,
+                    category="diagnostics",
+                    requires_confirmation=False,
+                )
+
+            def get_definition(self):
+                return self._definition
+
+            def execute(self, **kwargs):
+                module = __import__(self._module_path, fromlist=["run"])
+                result = module.run(dict(kwargs))
+                if not isinstance(result, dict):
+                    return ToolResult(status=ToolStatus.ERROR, error="v20 tool returned non-dict response")
+                if result.get("success") is False:
+                    return ToolResult(status=ToolStatus.ERROR, error=str(result.get("error") or "success=false"))
+                return ToolResult(status=ToolStatus.SUCCESS, data=result, message=str(result.get("message", "ok")))
+
+        v20_tools = [
+            _V20RunTool(
+                "tools.v20.ana_health_check",
+                "ana_health_check",
+                "Manual read-only aggregate runtime health report.",
+                [
+                    ToolParameter("include_contracts", "Include tool contract validation", "boolean", False, False),
+                ],
+            ),
+            _V20RunTool(
+                "tools.v20.baseline_update_suggester",
+                "baseline_update_suggester",
+                "Suggest baseline updates without applying changes.",
+                [
+                    ToolParameter("baseline", "Expected baseline values", "object", False),
+                    ToolParameter("current", "Current runtime values", "object", False),
+                ],
+            ),
+            _V20RunTool(
+                "tools.v20.docs_generator",
+                "docs_generator",
+                "Generate documentation text previews without writing files.",
+                [
+                    ToolParameter("document", "Optional generated document name", "string", False),
+                    ToolParameter("generated_at", "Deterministic generated timestamp label", "string", False, "static-preview"),
+                ],
+            ),
+            _V20RunTool(
+                "tools.v20.ana_patch_suggester",
+                "ana_patch_suggester",
+                "Suggest patch diffs and risk without applying patches.",
+                [
+                    ToolParameter("issue", "Single issue descriptor", "object", False),
+                    ToolParameter("issues", "Issue descriptor list", "array", False),
+                ],
+            ),
+            _V20RunTool(
+                "tools.v20.runtime_guard",
+                "runtime_guard",
+                "Manual read-only runtime consistency guard checks.",
+                [
+                    ToolParameter("expected_root", "Expected repository root path", "string", False),
+                ],
+            ),
+            # PATCH_START v20_phase5
+            _V20RunTool(
+                "dashboard.autonomy_dashboard",
+                "autonomy_dashboard",
+                "Render a read-only HTML dashboard for v20 autonomy outputs.",
+                [
+                    ToolParameter("outputs", "Optional precomputed dashboard outputs", "object", False),
+                ],
+            ),
+            # PATCH_END v20_phase5
+        ]
+        for tool_instance in v20_tools:
+            registry.register(tool_instance)
+            loaded += 1
+            _print_tool_load(f"  [OK] {tool_instance.get_definition().name} (V20 FOUNDATION)")
+    except Exception as e:
+        logging.getLogger(__name__).warning("v20 foundation tools skipped: %s", e)
+    # PATCH_END v20_phase2
+
     return loaded
 
 
@@ -436,9 +592,17 @@ def _start_mcp_server(host: str, port: int):
     def _auth_is_required() -> bool:
         return bool(config.get("mcp.auth_required", True))
 
+    def _local_dev_enabled() -> bool:
+        return bool(config.get("local_dev", False) or config.get("mcp.local_dev", False))
+
+    def _request_is_localhost() -> bool:
+        return request.remote_addr == "127.0.0.1"
+
     @app.before_request
     def require_mcp_auth():
         if request.endpoint == "health":
+            return None
+        if _local_dev_enabled() and _request_is_localhost():
             return None
         if not _auth_is_required():
             return None

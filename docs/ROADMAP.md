@@ -1,8 +1,12 @@
 # ANA MAX - Public Roadmap And Development Status
 
-**Public release wording:** 18.0-MAX-lab.audit.2026-05-24
+<!-- # PATCH_START v20_final -->
+**Public release wording:** v20.0.0-alpha
+<!-- # PATCH_END v20_final -->
 
-**Repository release:** v0.1.0-beta / VS Code extension v0.2.0
+<!-- # PATCH_START v20_final -->
+**Repository release:** v20.0.0-alpha / VS Code extension v0.2.0
+<!-- # PATCH_END v20_final -->
 
 **Status:** Clean public release with active private lab development
 
@@ -31,11 +35,28 @@ observe -> decide -> act -> verify -> learn
 ## Current Public Baseline
 
 ```text
-71 loaded tools
+80 loaded tools
 7 AI Core adapters
 4 premium-gated tool families
 3 PASS / 0 FAIL quick test
 ```
+
+<!-- # PATCH_START v19_phase4 -->
+v19 adds manual self-aware runtime diagnostics:
+`ana_runtime_inspector`, `tool_contract_validator`, and `schema_diff`.
+<!-- # PATCH_END v19_phase4 -->
+
+<!-- # PATCH_START v20_phase3 -->
+v20 adds the manual Autonomous Runtime Foundation:
+`ana_health_check`, `baseline_update_suggester`, `docs_generator`,
+`ana_patch_suggester`, and `runtime_guard`.
+The v20 layer does not auto-run, apply patches, or change runtime behavior.
+<!-- # PATCH_END v20_phase3 -->
+
+<!-- # PATCH_START v20_final -->
+v20 is DONE for the alpha release. Phase 5 adds `autonomy_dashboard`, a manual
+read-only HTML dashboard for the v20 autonomy outputs.
+<!-- # PATCH_END v20_final -->
 
 Premium-gated families remain:
 
@@ -63,7 +84,7 @@ Premium-gated families remain:
   agent checks.
 - Observation tools are now framed around factual workspace and desktop state
   before an agent acts.
-- Public documentation now uses one current count model: 71 tools, 7 AI Core
+- Public documentation now uses one current count model: 80 tools, 7 AI Core
   adapters, and 4 premium-gated tool families.
 - Public-facing pages stay ASCII-safe for Windows consoles and weaker agents.
 
@@ -82,7 +103,7 @@ Latest public-safe tools:
 Latest public website sections:
 
 - WOW hero for ANA MAX - Advanced Neural Architecture
-- Release highlights for the 71-tool audit baseline
+- Release highlights for the 80-tool audit baseline
 - Core capabilities
 - Architecture overview
 - Tool categories
@@ -93,11 +114,23 @@ Latest public website sections:
 
 ## Roadmap Phases
 
+<!-- # PATCH_START v20_final -->
+### v20.0.0-alpha: DONE
+
+- [x] Phase 1: Autonomous Runtime Foundation.
+- [x] Phase 2: Controlled registry integration.
+- [x] Phase 3: Public surfaces sync.
+- [x] Phase 4: Release hygiene and versioning.
+- [x] Phase 5: Autonomy dashboard.
+- [x] Final validation baseline: 80 tools, 3 PASS / 0 FAIL quick test, full
+  unittest discovery passing.
+<!-- # PATCH_END v20_final -->
+
 ### Phase 1: Clean And Current
 
 Goal: keep the public release synchronized with the actual code.
 
-- [x] Publish 71-tool baseline.
+- [x] Publish 80-tool baseline.
 - [x] Document 7 AI Core adapters.
 - [x] Document 4 premium-gated tool families.
 - [x] Keep the website and README aligned with public release wording.
@@ -157,7 +190,7 @@ python -m unittest discover -s tests -v
 Expected:
 
 - `python main.py --test`: `3 PASS / 0 FAIL`
-- `python main.py --list-tools`: 71 loaded tools
+- `python main.py --list-tools`: 80 loaded tools
 - `python -m unittest discover -s tests -v`: all tests passing
 
 ## Responsible QA Direction
@@ -186,3 +219,4 @@ Use ANA MAX only on systems you own or are explicitly allowed to test.
 ---
 
 MIT License - See LICENSE file for details.
+

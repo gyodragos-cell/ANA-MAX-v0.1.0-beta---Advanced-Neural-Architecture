@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ANA MAX file read",
+  "type": "object",
+  "required": ["path"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Workspace-relative or allowed absolute file path."
+    }
+  },
+  "additionalProperties": false
+}
