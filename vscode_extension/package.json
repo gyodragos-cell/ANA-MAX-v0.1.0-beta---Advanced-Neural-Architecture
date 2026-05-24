@@ -1,7 +1,7 @@
 {
   "name": "advanced-neural-architecture",
   "displayName": "ANA MAX - Advanced Neural Architecture",
-  "description": "Windows-first MCP runtime with 64 loaded tools for local agent IDE workflows, desktop awareness, runtime diagnostics, and verification.",
+  "description": "Windows-first MCP runtime with 71 loaded tools for local agent IDE workflows, desktop awareness, runtime diagnostics, and verification.",
   "version": "0.2.0",
   "repository": {
     "type": "git",

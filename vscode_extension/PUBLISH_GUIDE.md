@@ -9,7 +9,7 @@ no tokens, no private paths, no local screenshots, and no private lab notes.
 version: 0.2.0
 extension: advanced-neural-architecture
 public repo: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
-tool count: 64 loaded tools
+tool count: 71 loaded tools
 premium-gated tools: 4
 desktop_capture: free Vision AI
 ```

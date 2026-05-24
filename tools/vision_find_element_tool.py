@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any, Optional, Tuple
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+from tools.path_safety import resolve_workspace_path, safe_display_path
 
 
 class VisionFindElementTool(Tool):
@@ -20,6 +20,7 @@ class VisionFindElementTool(Tool):
                 ToolParameter("region", "Optional screen region x,y,width,height", "string", False),
             ],
             category="desktop",
+            dangerous=True,
         )
 
     def execute(self, template_path: str, **kwargs: Any) -> ToolResult:
@@ -30,19 +31,29 @@ class VisionFindElementTool(Tool):
         except Exception as exc:
             return ToolResult(status=ToolStatus.ERROR, error=f"OpenCV/Pillow unavailable: {exc}")
 
-        template = Path(template_path).expanduser().resolve()
+        try:
+            template = resolve_workspace_path(template_path)
+        except (OSError, ValueError) as exc:
+            return ToolResult(status=ToolStatus.BLOCKED, error=str(exc))
         if not template.exists():
-            return ToolResult(status=ToolStatus.ERROR, error=f"Template not found: {template}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Template not found: {safe_display_path(template)}")
 
         threshold = float(kwargs.get("threshold") or 0.8)
         if not 0 <= threshold <= 1:
             return ToolResult(status=ToolStatus.ERROR, error="threshold must be between 0 and 1")
 
         source_path = kwargs.get("image_path")
-        region = self._parse_region(kwargs.get("region"))
+        try:
+            region = self._parse_region(kwargs.get("region"))
+        except ValueError as exc:
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
         try:
             if source_path:
-                source_img = cv2.imread(str(Path(str(source_path)).expanduser().resolve()))
+                try:
+                    source_file = resolve_workspace_path(str(source_path))
+                except (OSError, ValueError) as exc:
+                    return ToolResult(status=ToolStatus.BLOCKED, error=str(exc))
+                source_img = cv2.imread(str(source_file))
             else:
                 bbox = None
                 offset_x = offset_y = 0
@@ -79,9 +90,16 @@ class VisionFindElementTool(Tool):
     def _parse_region(self, value: Any) -> Optional[Tuple[int, int, int, int]]:
         if not value:
             return None
-        parts = [int(p.strip()) for p in str(value).split(",")]
+        try:
+            parts = [int(p.strip()) for p in str(value).split(",")]
+        except ValueError as exc:
+            raise ValueError("region must contain integer values: x,y,width,height") from exc
         if len(parts) != 4:
             raise ValueError("region must be x,y,width,height")
+        if parts[0] < 0 or parts[1] < 0:
+            raise ValueError("region x/y must be non-negative")
         if parts[2] <= 0 or parts[3] <= 0:
             raise ValueError("region width/height must be positive")
+        if parts[2] > 8000 or parts[3] > 8000:
+            raise ValueError("region is too large")
         return parts[0], parts[1], parts[2], parts[3]

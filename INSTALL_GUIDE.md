@@ -53,7 +53,7 @@ Expected:
 
 ```text
 MCP server: http://127.0.0.1:8765
-64 loaded tools
+71 loaded tools
 ```
 
 ## Verify
@@ -71,7 +71,7 @@ Expected:
 
 ```text
 3 PASS / 0 FAIL
-64 loaded tools
+71 loaded tools
 all tests passing
 ```
 

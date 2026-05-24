@@ -4,13 +4,10 @@ from __future__ import annotations
 
 import difflib
 import hashlib
-from pathlib import Path
 from typing import Any
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
-
-
-BLOCKED_PARTS = {".env", ".license", "logs", "memory", "screenshots", "data", "voice_temp"}
+from tools.path_safety import is_protected_path, resolve_workspace_path, safe_display_path
 
 
 class FilePatchTool(Tool):
@@ -27,26 +24,31 @@ class FilePatchTool(Tool):
                 ToolParameter("max_diff_chars", "Maximum diff characters returned", "integer", False, 12000),
             ],
             category="files",
+            dangerous=True,
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
-        path = Path(str(kwargs.get("path") or "")).expanduser()
+        raw_path = str(kwargs.get("path") or "")
         old_text = str(kwargs.get("old_text") or "")
         new_text = str(kwargs.get("new_text") or "")
         replace_all = self._to_bool(kwargs.get("replace_all"), False)
         preview_only = self._to_bool(kwargs.get("preview_only"), True)
         max_diff_chars = int(kwargs.get("max_diff_chars") or 12000)
 
-        if not path:
+        if not raw_path:
             return ToolResult(status=ToolStatus.ERROR, error="path is required")
         if not old_text:
             return ToolResult(status=ToolStatus.ERROR, error="old_text is required")
 
-        resolved = path.resolve()
-        if self._blocked_path(resolved):
-            return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing to patch protected path: {resolved.name}")
+        try:
+            resolved = resolve_workspace_path(raw_path)
+        except (OSError, ValueError) as exc:
+            return ToolResult(status=ToolStatus.BLOCKED, error=str(exc))
+        display_path = safe_display_path(resolved)
+        if is_protected_path(resolved):
+            return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing to patch protected path: {display_path}")
         if not resolved.exists() or not resolved.is_file():
-            return ToolResult(status=ToolStatus.ERROR, error=f"File not found: {resolved}")
+            return ToolResult(status=ToolStatus.ERROR, error=f"File not found: {display_path}")
 
         try:
             original = resolved.read_text(encoding="utf-8")
@@ -64,15 +66,15 @@ class FilePatchTool(Tool):
             difflib.unified_diff(
                 original.splitlines(True),
                 updated.splitlines(True),
-                fromfile=str(resolved),
-                tofile=str(resolved),
+                fromfile=display_path,
+                tofile=display_path,
             )
         )
         truncated = len(diff) > max_diff_chars
         diff_preview = diff[:max_diff_chars] + ("\n... diff truncated ..." if truncated else "")
 
         data = {
-            "path": str(resolved),
+            "path": display_path,
             "changed": original != updated,
             "matches": matches,
             "preview_only": preview_only,
@@ -87,12 +89,6 @@ class FilePatchTool(Tool):
 
         resolved.write_text(updated, encoding="utf-8")
         return ToolResult(status=ToolStatus.SUCCESS, data=data, message="Patch applied")
-
-    def _blocked_path(self, path: Path) -> bool:
-        parts = {part.lower() for part in path.parts}
-        if parts.intersection(BLOCKED_PARTS):
-            return True
-        return path.name.lower() in BLOCKED_PARTS or path.suffix.lower() in {".db", ".sqlite", ".sqlite3", ".log"}
 
     def _to_bool(self, value: Any, default: bool) -> bool:
         if value is None:

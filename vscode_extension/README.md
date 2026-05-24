@@ -1,6 +1,6 @@
 # ANA MAX MCP - Advanced Neural Architecture
 
-**Windows-first MCP runtime with 64 loaded tools for local agent IDE workflows**
+**Windows-first MCP runtime with 71 loaded tools for local agent IDE workflows**
 
 Use ANA MAX from VS Code as a local tool layer for AI coding agents: desktop
 awareness, code and git tools, terminal context, OCR, authorized runtime
@@ -65,7 +65,7 @@ For users who do not know Git yet, use the ZIP download path documented in
 
 ## Features
 
-- 64 loaded MCP tools in the public release
+- 71 loaded MCP tools in the public release
 - Local-first observe -> decide -> act -> verify workflow
 - Vision AI: screenshot capture and OCR
 - Windows UI inspection and desktop context

@@ -33,7 +33,7 @@ Expected:
 
 ```text
 status is online
-tools_count is 64
+tools_count is 71
 ```
 
 ## List Tools

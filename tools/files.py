@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Optional
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+from tools.path_safety import is_protected_path, resolve_workspace_path, safe_display_path
 
 logger = logging.getLogger(__name__)
 
@@ -99,6 +100,7 @@ class FilesTool(Tool):
             ],
             category="files",
             requires_confirmation=False,
+            dangerous=True,
         )
 
     def execute(self, operation: str, path: str, **kwargs) -> ToolResult:
@@ -120,7 +122,15 @@ class FilesTool(Tool):
                 error=f"Operatiune necunoscuta: {operation}",
             )
 
-        return operations[operation](path, **kwargs)
+        try:
+            safe_path = resolve_workspace_path(path)
+        except (OSError, ValueError) as exc:
+            return ToolResult(status=ToolStatus.BLOCKED, error=str(exc))
+
+        if operation in {"write", "edit", "diff_preview", "surgical_edit"} and is_protected_path(safe_path):
+            return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing to modify protected path: {safe_display_path(safe_path)}")
+
+        return operations[operation](str(safe_path), **kwargs)
 
     def _read_file(
         self,
@@ -234,7 +244,8 @@ class FilesTool(Tool):
                         for index, line in enumerate(handle, 1):
                             if re.search(pattern, line):
                                 results.append(f"{file_path}:{index}: {line.strip()}")
-                except Exception:
+                except Exception as exc:
+                    logger.debug("Skipping unreadable file during search %s: %s", file_path, exc)
                     continue
 
             if not results:
@@ -438,7 +449,7 @@ class FilesTool(Tool):
 
             stat = os.stat(path)
             info = {
-                "path": os.path.abspath(path),
+                "path": safe_display_path(Path(path)),
                 "type": "director" if os.path.isdir(path) else "fisier",
                 "size": self._format_size(stat.st_size),
                 "modified": stat.st_mtime,
@@ -449,8 +460,8 @@ class FilesTool(Tool):
                 try:
                     with open(path, "r", encoding="utf-8", errors="ignore") as handle:
                         info["lines"] = sum(1 for _ in handle)
-                except Exception:
-                    pass
+                except Exception as exc:
+                    logger.debug("Could not count lines for %s: %s", path, exc)
 
             info_str = "\n".join([f"{key}: {value}" for key, value in info.items()])
             return ToolResult(

@@ -7,9 +7,9 @@ Exact file editing helper designed for local models.
 from __future__ import annotations
 
 import difflib
-from pathlib import Path
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+from tools.path_safety import is_protected_path, resolve_workspace_path, safe_display_path
 
 
 class EditTool(Tool):
@@ -73,10 +73,16 @@ class EditTool(Tool):
             ],
             category="files",
             requires_confirmation=False,
+            dangerous=True,
         )
 
     def execute(self, operation: str, path: str, new_text: str = "", **kwargs) -> ToolResult:
-        file_path = Path(path)
+        try:
+            file_path = resolve_workspace_path(path)
+        except (OSError, ValueError) as exc:
+            return ToolResult(status=ToolStatus.BLOCKED, error=str(exc))
+        if is_protected_path(file_path):
+            return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing to edit protected path: {safe_display_path(file_path)}")
         if not file_path.exists():
             return ToolResult(status=ToolStatus.ERROR, error=f"Fisierul nu exista: {path}")
         if operation not in {"replace", "insert_before", "insert_after", "append", "prepend"}:
@@ -99,8 +105,8 @@ class EditTool(Tool):
             difflib.unified_diff(
                 original.splitlines(True),
                 updated.splitlines(True),
-                fromfile=str(file_path),
-                tofile=str(file_path),
+                fromfile=safe_display_path(file_path),
+                tofile=safe_display_path(file_path),
             )
         )
         preview_only = bool(kwargs.get("preview_only", False))
@@ -109,7 +115,7 @@ class EditTool(Tool):
 
         return ToolResult(
             status=ToolStatus.SUCCESS,
-            data={"changed": True, "diff": diff, "matches": matches, "path": str(file_path)},
+            data={"changed": True, "diff": diff, "matches": matches, "path": safe_display_path(file_path)},
             message="Previzualizare edit generata" if preview_only else "Editare aplicata",
         )
 

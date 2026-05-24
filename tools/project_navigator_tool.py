@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import os
 import re
+import logging
 from pathlib import Path
 from typing import Any, Iterable
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+from tools.path_safety import is_protected_path, resolve_workspace_path, safe_display_path
+
+logger = logging.getLogger(__name__)
 
 
 SKIP_DIRS = {".git", "venv", "__pycache__", "logs", "memory", "screenshots", "data", "browser_snapshots", "voice_temp"}
@@ -31,11 +35,13 @@ class ProjectNavigatorTool(Tool):
         )
 
     def execute(self, operation: str, **kwargs: Any) -> ToolResult:
-        root = Path(str(kwargs.get("path") or ".")).expanduser().resolve()
         limit = int(kwargs.get("limit") or 80)
         max_chars = int(kwargs.get("max_chars") or 12000)
 
         try:
+            root = resolve_workspace_path(str(kwargs.get("path") or "."))
+            if is_protected_path(root):
+                return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing protected path: {safe_display_path(root)}")
             if operation == "list":
                 return self._list(root, limit)
             if operation == "tree":
@@ -58,7 +64,7 @@ class ProjectNavigatorTool(Tool):
             if self._skip(child):
                 continue
             items.append({"name": child.name, "type": "dir" if child.is_dir() else "file", "size": child.stat().st_size if child.is_file() else None})
-        return ToolResult(status=ToolStatus.SUCCESS, data={"path": str(path), "items": items, "count": len(items)}, message=f"{len(items)} items")
+        return ToolResult(status=ToolStatus.SUCCESS, data={"path": safe_display_path(path), "items": items, "count": len(items)}, message=f"{len(items)} items")
 
     def _tree(self, path: Path, limit: int) -> ToolResult:
         if not path.exists() or not path.is_dir():
@@ -69,7 +75,7 @@ class ProjectNavigatorTool(Tool):
             entries.append(str(rel) + ("/" if item.is_dir() else ""))
             if len(entries) >= limit:
                 break
-        return ToolResult(status=ToolStatus.SUCCESS, data={"root": str(path), "entries": entries, "truncated": len(entries) >= limit}, message=f"{len(entries)} entries")
+        return ToolResult(status=ToolStatus.SUCCESS, data={"root": safe_display_path(path), "entries": entries, "truncated": len(entries) >= limit}, message=f"{len(entries)} entries")
 
     def _find(self, path: Path, pattern: str, limit: int) -> ToolResult:
         regex = re.compile(pattern.replace("*", ".*"), re.IGNORECASE)
@@ -77,7 +83,7 @@ class ProjectNavigatorTool(Tool):
         base = path if path.is_dir() else path.parent
         for item in self._walk(base):
             if regex.search(item.name):
-                matches.append(str(item))
+                matches.append(safe_display_path(item))
                 if len(matches) >= limit:
                     break
         return ToolResult(status=ToolStatus.SUCCESS, data={"matches": matches, "count": len(matches)}, message=f"{len(matches)} matches")
@@ -94,10 +100,11 @@ class ProjectNavigatorTool(Tool):
             try:
                 for lineno, line in enumerate(item.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
                     if regex.search(line):
-                        matches.append({"path": str(item), "line": lineno, "text": line.strip()[:240]})
+                        matches.append({"path": safe_display_path(item), "line": lineno, "text": line.strip()[:240]})
                         if len(matches) >= limit:
                             return ToolResult(status=ToolStatus.SUCCESS, data={"matches": matches, "count": len(matches), "truncated": True}, message=f"{len(matches)} matches")
-            except Exception:
+            except Exception as exc:
+                logger.debug("Skipping unreadable file during grep %s: %s", item, exc)
                 continue
         return ToolResult(status=ToolStatus.SUCCESS, data={"matches": matches, "count": len(matches), "truncated": False}, message=f"{len(matches)} matches")
 
@@ -110,7 +117,7 @@ class ProjectNavigatorTool(Tool):
         truncated = len(text) > max_chars
         return ToolResult(
             status=ToolStatus.SUCCESS,
-            data={"path": str(path), "content": text[:max_chars], "chars": len(text), "truncated": truncated},
+            data={"path": safe_display_path(path), "content": text[:max_chars], "chars": len(text), "truncated": truncated},
             message=f"Opened {path.name}",
         )
 

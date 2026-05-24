@@ -21,7 +21,31 @@ try:
     JUPYTER_AVAILABLE = True
 except ImportError:
     JUPYTER_AVAILABLE = False
-    logger.warning("jupyter-client nu este instalat. JupyterSandbox va folosi exec() fallback.")
+    logger.warning("jupyter-client nu este instalat. JupyterSandbox fallback is disabled unless explicitly enabled.")
+
+
+SAFE_FALLBACK_BUILTINS = {
+    "abs": abs,
+    "all": all,
+    "any": any,
+    "bool": bool,
+    "dict": dict,
+    "enumerate": enumerate,
+    "float": float,
+    "int": int,
+    "len": len,
+    "list": list,
+    "max": max,
+    "min": min,
+    "print": print,
+    "range": range,
+    "round": round,
+    "set": set,
+    "str": str,
+    "sum": sum,
+    "tuple": tuple,
+    "zip": zip,
+}
 
 
 class JupyterSandbox:
@@ -41,14 +65,21 @@ class JupyterSandbox:
         self.kernel_manager: Optional[Any] = None
         self.kernel_client: Optional[Any] = None
         self._started = False
-        self._namespace: Dict[str, Any] = {}  # Fallback namespace pentru exec()
+        self._namespace: Dict[str, Any] = {}  # Restricted dev-only fallback namespace.
         self.execution_history: list = []
         self.stats = {"executions": 0, "errors_caught": 0, "auto_fixes": 0}
     
     def start_kernel(self) -> bool:
         """Porneste kernelul Jupyter (daca e disponibil)."""
         if not JUPYTER_AVAILABLE:
-            logger.info("🐍 JupyterSandbox: Mod fallback (exec) - jupyter-client indisponibil")
+            if os.getenv("ANA_ENABLE_UNSAFE_EXEC_FALLBACK", "").lower() in {"1", "true", "yes", "on"}:
+                logger.warning("JupyterSandbox: restricted exec fallback enabled for local development only.")
+                self._started = True
+                return True
+            logger.error("JupyterSandbox unavailable: install jupyter-client or enable local fallback explicitly.")
+            self._started = False
+            return False
+            logger.info("JupyterSandbox: Mod fallback (exec) - jupyter-client indisponibil")
             self._started = True
             return True
         
@@ -61,13 +92,18 @@ class JupyterSandbox:
             # Asteapta sa fie gata
             self.kernel_client.wait_for_ready(timeout=10)
             self._started = True
-            logger.info("🧪 JupyterSandbox: Kernel Jupyter pornit cu succes")
+            logger.info("JupyterSandbox: Kernel Jupyter pornit cu succes")
             return True
         except Exception as e:
-            logger.warning(f"Nu pot porni kernel Jupyter: {e}. Folosesc fallback exec().")
-            self._started = True
+            if os.getenv("ANA_ENABLE_UNSAFE_EXEC_FALLBACK", "").lower() in {"1", "true", "yes", "on"}:
+                logger.warning("Cannot start Jupyter kernel: %s. Restricted exec fallback enabled for local development only.", e)
+                self._started = True
+                self.kernel_manager = None
+                return True
+            logger.error("Cannot start Jupyter kernel: %s. Fallback disabled.", e)
+            self._started = False
             self.kernel_manager = None
-            return True
+            return False
     
     def stop_kernel(self):
         """Opreste kernelul Jupyter."""
@@ -76,7 +112,7 @@ class JupyterSandbox:
         if self.kernel_manager and self.kernel_manager.is_alive():
             self.kernel_manager.shutdown_kernel(now=True)
         self._started = False
-        logger.info("🧪 JupyterSandbox: Kernel oprit")
+        logger.info("JupyterSandbox: Kernel oprit")
     
     def execute(self, code: str, auto_fix: bool = True) -> Dict[str, Any]:
         """
@@ -90,7 +126,13 @@ class JupyterSandbox:
             Dict cu: output, error, success, fix_applied
         """
         if not self._started:
-            self.start_kernel()
+            if not self.start_kernel():
+                return {
+                    "output": "",
+                    "error": "Jupyter kernel unavailable and exec fallback disabled",
+                    "success": False,
+                    "fix_applied": False,
+                }
         
         self.stats["executions"] += 1
         
@@ -152,11 +194,9 @@ class JupyterSandbox:
         
         try:
             with contextlib.redirect_stdout(stdout_capture), contextlib.redirect_stderr(stderr_capture):
-                # SECURITY FIX: Provide a limited namespace and log warning
-                logger.warning("Executing code via fallback exec() - SECURITY RISK. Use Jupyter kernel in production.")
+                logger.warning("Executing code via restricted fallback exec(). Use Jupyter kernel for normal runtime.")
                 safe_namespace = self._namespace.copy()
-                if '__builtins__' not in safe_namespace:
-                    safe_namespace['__builtins__'] = __builtins__
+                safe_namespace['__builtins__'] = SAFE_FALLBACK_BUILTINS
                 exec(code, safe_namespace)
             
             result["output"] = stdout_capture.getvalue()
@@ -233,7 +273,7 @@ class JupyterSandbox:
             self.kernel_client.execute("%reset -f")
         else:
             self._namespace.clear()
-            self._namespace['__builtins__'] = __builtins__
+            self._namespace['__builtins__'] = SAFE_FALLBACK_BUILTINS
     
     def get_stats(self) -> Dict:
         return self.stats.copy()

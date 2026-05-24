@@ -329,8 +329,8 @@ def _register_all_tools():
         except Exception as e:
             logging.getLogger(__name__).warning("UI-TARS tool skipped %s.%s: %s", module_path, class_name, e)
     
-    # AI Core adapters (context_engine, proactive_interrupt, self_evolving,
-    # memory_cortex, orchestrator, context_bridge, window_manager)
+    # AI Core adapters (7): context_engine, proactive_interrupt, self_evolving,
+    # memory_cortex, orchestrator, context_bridge, clipboard_manager.
     try:
         from tools.tool_adapters import ANA_ADAPTER_CLASSES
         for AdapterClass in ANA_ADAPTER_CLASSES:

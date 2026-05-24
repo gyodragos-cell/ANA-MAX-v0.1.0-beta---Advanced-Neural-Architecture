@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 import subprocess
 from pathlib import Path
 from typing import Any, Dict, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+logger = logging.getLogger(__name__)
 
 
 ERROR_PATTERNS = [
@@ -68,7 +71,8 @@ class ErrorRadarTool(Tool):
                 continue
             try:
                 lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()[-300:]
-            except Exception:
+            except Exception as exc:
+                logger.debug("Skipping unreadable log %s: %s", path, exc)
                 continue
             for lineno, line in enumerate(lines, 1):
                 text = self._redact(line.strip())
@@ -94,7 +98,7 @@ class ErrorRadarTool(Tool):
         try:
             result = subprocess.run(
                 ["git", "status", "--short"],
-                cwd=str(self.root.parent),
+                cwd=str(self.root),
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
@@ -123,8 +127,8 @@ class ErrorRadarTool(Tool):
                     findings.append({"source": "visible_window", "kind": "visible_error", "severity": "medium", "summary": title[:220]})
 
             win32gui.EnumWindows(collect, None)
-        except Exception:
-            pass
+        except Exception as exc:
+            findings.append({"source": "visible_window", "kind": "ui_scan_error", "severity": "low", "summary": str(exc)[:180]})
         return findings[:5]
 
     def _observability_summary(self, text: str) -> str:
@@ -132,8 +136,9 @@ class ErrorRadarTool(Tool):
             entry = json.loads(text)
             if entry.get("status") in {"error", "blocked", "requires_confirmation"}:
                 return f"{entry.get('tool')}: {entry.get('status')} {entry.get('error') or ''}"
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug("Could not parse observability record: %s", exc)
+            return text
         return text
 
     def _redact(self, text: str) -> str:

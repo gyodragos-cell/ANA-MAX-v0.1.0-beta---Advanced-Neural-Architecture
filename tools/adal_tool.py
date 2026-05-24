@@ -6,6 +6,7 @@ Permite ANA sa interactioneze cu CLI-ul AdaL (Sylph AI) pentru executie tactica.
 
 import subprocess
 import logging
+import shutil
 from typing import Dict, Any, List
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
@@ -35,7 +36,8 @@ class AdaLTool(Tool):
                     required=False
                 )
             ],
-            category="tactic"
+            category="tactic",
+            dangerous=True,
         )
     
     def execute(self, **kwargs) -> ToolResult:
@@ -65,12 +67,14 @@ class AdaLTool(Tool):
 
     def _run_command(self, cmd: Any) -> ToolResult:
         try:
+            if isinstance(cmd, list) and cmd:
+                cmd = [shutil.which(cmd[0]) or cmd[0], *cmd[1:]]
             # Rulam comanda si capturam output-ul
             result = subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
-                shell=True, # Necesar pe Windows pentru CLI-uri instalate prin npm
+                shell=False,
                 timeout=120
             )
             

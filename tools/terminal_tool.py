@@ -35,6 +35,12 @@ class PersistentShellSession:
         self._bg_processes: Dict[str, subprocess.Popen] = {}
         self._bg_output: Dict[str, List[str]] = {}
 
+    @staticmethod
+    def _shell_command(command: str) -> List[str]:
+        if os.name == "nt":
+            return ["cmd.exe", "/d", "/s", "/c", command]
+        return ["/bin/sh", "-c", command]
+
     def run(self, command: str, timeout: int = 30) -> Dict[str, Any]:
         """Executa o comanda in sesiunea curenta."""
         start = time.time()
@@ -74,8 +80,8 @@ class PersistentShellSession:
 
         try:
             proc = subprocess.run(
-                command,
-                shell=True,
+                self._shell_command(command),
+                shell=False,
                 cwd=self.cwd,
                 env=self.env,
                 capture_output=True,
@@ -121,8 +127,8 @@ class PersistentShellSession:
 
         try:
             proc = subprocess.Popen(
-                command,
-                shell=True,
+                self._shell_command(command),
+                shell=False,
                 cwd=self.cwd,
                 env=self.env,
                 stdout=subprocess.PIPE,
@@ -138,8 +144,8 @@ class PersistentShellSession:
                         output_buffer.append(line.rstrip())
                         if len(output_buffer) > 500:
                             output_buffer.pop(0)
-                except Exception:
-                    pass
+                except Exception as exc:
+                    logger.debug("Background reader failed for %s: %s", name, exc)
 
             t = threading.Thread(target=_reader, daemon=True)
             t.start()
@@ -297,9 +303,17 @@ class TerminalTool(Tool):
                     required=False,
                     default=50,
                 ),
+                ToolParameter(
+                    name="confirm",
+                    description="Seteaza true pentru operatii shell mutante: run sau start_background",
+                    type="boolean",
+                    required=False,
+                    default=False,
+                ),
             ],
             category="system",
             requires_confirmation=False,
+            dangerous=True,
         )
 
     def execute(self, operation: str, **kwargs) -> ToolResult:
@@ -308,6 +322,7 @@ class TerminalTool(Tool):
         process_name = kwargs.get("process_name", "") or ""
         timeout = int(kwargs.get("timeout", 30) or 30)
         lines = int(kwargs.get("lines", 50) or 50)
+        confirm = bool(kwargs.get("confirm", False))
 
         session = get_session(session_id)
 
@@ -315,6 +330,12 @@ class TerminalTool(Tool):
         if operation == "run":
             if not command:
                 return ToolResult(status=ToolStatus.ERROR, error="Parametrul 'command' este necesar")
+            if not confirm:
+                return ToolResult(
+                    status=ToolStatus.REQUIRES_CONFIRMATION,
+                    error="Terminal run necesita confirm=true",
+                    message="Confirm required for terminal command execution",
+                )
             result = session.run(command, timeout=timeout)
             status = ToolStatus.SUCCESS if result["exit_code"] == 0 else ToolStatus.ERROR
             msg = f"[exit {result['exit_code']}] {command[:60]}"
@@ -326,6 +347,12 @@ class TerminalTool(Tool):
                 return ToolResult(status=ToolStatus.ERROR, error="Parametrul 'command' este necesar")
             if not process_name:
                 return ToolResult(status=ToolStatus.ERROR, error="Parametrul 'process_name' este necesar")
+            if not confirm:
+                return ToolResult(
+                    status=ToolStatus.REQUIRES_CONFIRMATION,
+                    error="Terminal start_background necesita confirm=true",
+                    message="Confirm required for background command execution",
+                )
             result = session.start_background(process_name, command)
             if result.get("started"):
                 return ToolResult(status=ToolStatus.SUCCESS, data=result, message=result["message"])

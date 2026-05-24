@@ -66,6 +66,11 @@ class SystemTool(Tool):
                 return v + stripped[len(k):]
         return cmd
 
+    @staticmethod
+    def _shell_command(command: str) -> list[str]:
+        if os.name == "nt":
+            return ["cmd.exe", "/d", "/s", "/c", command]
+        return ["/bin/sh", "-c", command]
 
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
@@ -85,9 +90,17 @@ class SystemTool(Tool):
                     type="string",
                     required=False
                 ),
+                ToolParameter(
+                    name="confirm",
+                    description="Seteaza true pentru operatii mutante: shell sau kill_process",
+                    type="boolean",
+                    required=False,
+                    default=False,
+                ),
             ],
             category="system",
-            requires_confirmation=False  # Doar shell va cere confirmare
+            requires_confirmation=False,
+            dangerous=True,
         )
     
     def execute(self, operation: str, target: Optional[str] = None, **kwargs) -> ToolResult:
@@ -105,6 +118,13 @@ class SystemTool(Tool):
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error=f"Operatiune necunoscuta: {operation}"
+            )
+
+        if operation in {"shell", "kill_process"} and not kwargs.get("confirm", False):
+            return ToolResult(
+                status=ToolStatus.REQUIRES_CONFIRMATION,
+                error=f"Operatiunea '{operation}' necesita confirm=true",
+                message="Confirm required for mutating system operation",
             )
         
         return operations[operation](target, **kwargs)
@@ -133,16 +153,16 @@ class SystemTool(Tool):
                     disk = psutil.disk_usage('/')
                 vitals["Disk"] = f"{disk.percent}%"
                 vitals["Disk_Free"] = f"{disk.free / (1024**3):.1f} GB"
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Disk vitals unavailable: %s", exc)
             
             # Network (optional)
             try:
                 net = psutil.net_io_counters()
                 vitals["Net_Sent"] = f"{net.bytes_sent / (1024**2):.1f} MB"
                 vitals["Net_Recv"] = f"{net.bytes_recv / (1024**2):.1f} MB"
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.debug("Network vitals unavailable: %s", exc)
             
             formatted = "\n".join([f"{k}: {v}" for k, v in vitals.items()])
             
@@ -259,7 +279,8 @@ class SystemTool(Tool):
         if config.get('safety.sandbox_mode', True):
             dangerous_patterns = [
                 'rm -rf', 'del /s', 'format', 'mkfs', 'dd if=',
-                ':(){', '> /dev/', 'chmod 777', 'sudo rm'
+                ':(){', '> /dev/', 'chmod 777', 'sudo rm',
+                'remove-item -recurse', 'rd /s', 'rmdir /s',
             ]
             
             for pattern in dangerous_patterns:
@@ -274,8 +295,8 @@ class SystemTool(Tool):
             target = self._translate_cmd_for_windows(target)
 
             result = subprocess.check_output(
-                target,
-                shell=True,
+                self._shell_command(target),
+                shell=False,
                 stderr=subprocess.STDOUT,
                 text=True,
                 timeout=30
@@ -351,8 +372,8 @@ class SystemTool(Tool):
             disk = psutil.disk_usage('C:' if os.name == 'nt' else '/')
             if disk.percent > 90:
                 suggestions.append(f"🚨 Spatiu pe disc critic ({disk.percent}%). Sterge fisiere temporare.")
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.debug("Disk health check unavailable: %s", exc)
         
         if not suggestions:
             suggestions.append("✅ Sistemul functioneaza optim. Nicio problema detectata.")

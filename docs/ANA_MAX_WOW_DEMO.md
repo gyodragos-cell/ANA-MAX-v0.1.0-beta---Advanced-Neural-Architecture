@@ -56,7 +56,7 @@ python main.py --test
 Show proof:
 
 ```text
-64 tools loaded
+71 tools loaded
 3 PASS / 0 FAIL
 ```
 
@@ -143,7 +143,7 @@ Show proof:
 
 ```text
 3 PASS / 0 FAIL
-65 tests OK
+81 tests OK
 ```
 
 Say:

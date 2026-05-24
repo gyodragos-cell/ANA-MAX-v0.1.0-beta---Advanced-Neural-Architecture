@@ -12,7 +12,6 @@ from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStat
 class VisionRegionCaptureTool(Tool):
     def __init__(self) -> None:
         self.output_dir = Path(__file__).resolve().parents[1] / "screenshots"
-        self.output_dir.mkdir(exist_ok=True)
 
     def get_definition(self) -> ToolDefinition:
         return ToolDefinition(
@@ -26,6 +25,7 @@ class VisionRegionCaptureTool(Tool):
                 ToolParameter("output_file", "Optional PNG filename", "string", False),
             ],
             category="desktop",
+            dangerous=True,
         )
 
     def execute(self, x: int, y: int, width: int, height: int, **kwargs: Any) -> ToolResult:
@@ -40,6 +40,7 @@ class VisionRegionCaptureTool(Tool):
         try:
             from PIL import ImageGrab, ImageStat
 
+            self.output_dir.mkdir(exist_ok=True)
             image = ImageGrab.grab(bbox=(x, y, x + width, y + height))
             image.save(output, "PNG")
             rgb = image.convert("RGB")

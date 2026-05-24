@@ -6,6 +6,8 @@ Foloseste PowerShell pentru a obtine acces la nivel de kernel/OS.
 """
 
 import os
+import json
+import re
 import subprocess
 import threading
 import queue
@@ -40,7 +42,8 @@ class WindowsInsightTool(Tool):
                     required=False
                 )
             ],
-            category="system_intelligence"
+            category="system_intelligence",
+            dangerous=True,
         )
 
     def execute(self, operation: str, path: Optional[str] = None, **kwargs) -> ToolResult:
@@ -87,8 +90,9 @@ class WindowsInsightTool(Tool):
 
     def _ps_monitor_loop(self, path: str):
         """Bucla PowerShell care urmareste: Fisiere si Procese."""
-        ps_script = f"""
-        $path = "{path}"
+        ps_path = json.dumps(str(path))
+        ps_script = rf"""
+        $path = {ps_path}
         
         # 1. File Watcher
         $watcher = New-Object System.IO.FileSystemWatcher
@@ -196,7 +200,8 @@ class WindowsInsightTool(Tool):
     def _trace_process(self, target: str) -> ToolResult:
         """Trace detaliat pe un singur proces."""
         if not target: return ToolResult(status=ToolStatus.ERROR, error="Target process missing")
+        if not re.fullmatch(r"[\w.-]+", target):
+            return ToolResult(status=ToolStatus.ERROR, error="Invalid process name")
         ps_cmd = f"Get-Process -Name {target} | Select-Object * | ConvertTo-Json"
         result = subprocess.run(["powershell", "-Command", ps_cmd], capture_output=True, text=True)
         return ToolResult(status=ToolStatus.SUCCESS, data=result.stdout, message=f"Trace complet pe {target}")
-

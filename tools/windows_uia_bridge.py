@@ -1,5 +1,6 @@
 import logging
 import json
+import re
 import time
 import sys
 from typing import Dict, Any, List
@@ -58,7 +59,8 @@ class WindowsUiaBridgeTool(Tool):
                     required=False
                 )
             ],
-            category="desktop"
+            category="desktop",
+            dangerous=True,
         )
 
     def __init__(self):
@@ -139,7 +141,7 @@ class WindowsUiaBridgeTool(Tool):
         import pywinauto
         try:
             app = pywinauto.Desktop(backend="uia")
-            wins = app.windows(title_re=f".*{title}.*", visible_only=True)
+            wins = app.windows(title_re=f".*{re.escape(title)}.*", visible_only=True)
             if not wins:
                 return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{title}' nu a fost gasita.")
             win = wins[0]
@@ -156,8 +158,8 @@ class WindowsUiaBridgeTool(Tool):
                             "auto_id": auto_id,
                             "control_type": ctrl_type
                         })
-                except Exception:
-                    pass
+                except Exception as exc:
+                    logger.debug("Skipping UIA descendant during inspect: %s", exc)
                     
             return ToolResult(
                 status=ToolStatus.SUCCESS,
@@ -177,7 +179,7 @@ class WindowsUiaBridgeTool(Tool):
         import pywinauto
         try:
             app = pywinauto.Desktop(backend="uia")
-            wins = app.windows(title_re=f".*{win_title}.*", visible_only=True)
+            wins = app.windows(title_re=f".*{re.escape(win_title)}.*", visible_only=True)
             if not wins:
                 return ToolResult(status=ToolStatus.ERROR, error=f"Fereastra '{win_title}' nu a fost gasita.")
             win = wins[0]
