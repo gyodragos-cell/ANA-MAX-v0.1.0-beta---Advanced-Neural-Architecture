@@ -1,0 +1,10 @@
+{
+  "dashboard_title": "Dashboard Autonomie ANA MAX v20",
+  "dashboard_intro": "Vizualizare manuala, read-only, pentru iesirile tool-urilor de autonomie v20. Fara scrieri. Fara auto-rulare.",
+  "run_tool": "Ruleaza tool",
+  "stop_tool": "Opreste tool",
+  "status_ready": "Gata",
+  "status_running": "Ruleaza",
+  "status_error": "Eroare",
+  "status_label": "Stare"
+}

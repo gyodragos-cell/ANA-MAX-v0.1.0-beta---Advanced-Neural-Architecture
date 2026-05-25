@@ -63,6 +63,13 @@ It is manual-call only and returns read-only HTML without writing files or
 starting a server.
 <!-- # PATCH_END v20_phase5 -->
 
+<!-- # PATCH_START v21_resource_system -->
+The lightweight resource system lives in `core/resource_loader.py` and
+`resources/`. It provides optional localized texts, themes, and icon loading
+for public UI surfaces. Missing files must fall back to English text, the light
+theme, or an empty icon string without crashing.
+<!-- # PATCH_END v21_resource_system -->
+
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.
 

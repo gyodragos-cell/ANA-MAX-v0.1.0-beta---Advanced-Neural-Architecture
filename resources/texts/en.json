@@ -1,0 +1,10 @@
+{
+  "dashboard_title": "ANA MAX v20 Autonomy Dashboard",
+  "dashboard_intro": "Manual, read-only view of v20 autonomy tool outputs. No writes. No auto-run.",
+  "run_tool": "Run tool",
+  "stop_tool": "Stop tool",
+  "status_ready": "Ready",
+  "status_running": "Running",
+  "status_error": "Error",
+  "status_label": "Status"
+}

@@ -87,6 +87,29 @@ class TestAutonomyDashboard(unittest.TestCase):
         self.assertFalse(result.data["written"])
         self.assertIn("runtime_guard", result.data["sections"])
 
+    def test_dashboard_uses_resource_texts_and_theme(self):
+        from dashboard.autonomy_dashboard import render_dashboard
+
+        with patch.dict("os.environ", {"ANA_LANG": "ro", "ANA_THEME": "light"}):
+            html = render_dashboard(SAMPLE_OUTPUTS)
+
+        self.assertIn("Dashboard Autonomie ANA MAX v20", html)
+        self.assertIn("#f7f9fc", html)
+        self.assertIn("Stare: Gata", html)
+
+    def test_resource_loader_falls_back_safely(self):
+        from core.resource_loader import detect_language, load_icon
+        from core.resource_loader import load_texts, load_theme
+
+        with patch.dict("os.environ", {"ANA_LANG": "ro_RO.UTF-8"}):
+            self.assertEqual(detect_language(), "ro")
+        self.assertEqual(
+            load_texts("missing")["dashboard_title"],
+            "ANA MAX v20 Autonomy Dashboard",
+        )
+        self.assertEqual(load_theme("missing")["background"], "#f7f9fc")
+        self.assertEqual(load_icon("missing.svg"), "")
+
 
 if __name__ == "__main__":
     unittest.main()

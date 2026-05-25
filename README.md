@@ -42,6 +42,12 @@ read-only HTML report for the v20 layer and does not write files, start a
 server, or apply patches.
 <!-- # PATCH_END v20_final -->
 
+<!-- # PATCH_START v21_resource_system -->
+The dashboard uses a lightweight resource system for optional localized texts
+and themes. Missing resource files fall back safely to English text and the
+light theme.
+<!-- # PATCH_END v21_resource_system -->
+
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before
 they act: files, git state, terminal output, desktop vision, Windows UI

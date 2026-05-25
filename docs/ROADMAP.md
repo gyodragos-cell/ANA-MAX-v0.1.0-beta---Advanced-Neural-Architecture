@@ -10,7 +10,7 @@
 
 **Status:** Clean public release with active private lab development
 
-**Last updated:** 2026-05-24
+**Last updated:** 2026-05-25
 
 **License:** MIT
 
@@ -167,6 +167,10 @@ Goal: keep public ANA MAX clean, safe, and easy to verify.
 - [x] Document canonical public repository links.
 - [ ] Add release checklist automation for docs count drift.
 - [ ] Keep public website claims tied to executable tools.
+
+### v21 Planning
+
+- [x] Added lightweight resource system (texts + themes + loader).
 
 ## Recommendations
 

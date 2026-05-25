@@ -5,7 +5,10 @@ from __future__ import annotations
 
 import html
 import json
+import os
 from typing import Any
+
+from core.resource_loader import load_theme, t
 
 
 V20_SECTIONS = [
@@ -43,11 +46,16 @@ def _render_sections(outputs: dict[str, Any]) -> str:
     sections = []
     for key, title in V20_SECTIONS:
         payload = outputs.get(key, {"success": False, "error": "missing output"})
-        status = "OK" if isinstance(payload, dict) and payload.get("success") else "WARN"
+        status_key = (
+            "status_ready"
+            if isinstance(payload, dict) and payload.get("success")
+            else "status_error"
+        )
         sections.append(
             "<section class=\"panel\">"
             f"<h2>{html.escape(title)}</h2>"
-            f"<p class=\"status\">Status: {html.escape(status)}</p>"
+            f"<p class=\"status\">"
+            f"{html.escape(t('status_label'))}: {html.escape(t(status_key))}</p>"
             f"<pre>{_safe_json(payload)}</pre>"
             "</section>"
         )
@@ -57,28 +65,31 @@ def _render_sections(outputs: dict[str, Any]) -> str:
 def render_dashboard(outputs: dict[str, Any] | None = None) -> str:
     """Return a complete HTML dashboard string without writing files."""
     outputs = outputs if outputs is not None else _default_outputs()
+    theme = load_theme(os.environ.get("ANA_THEME", "dark"))
+    title = t("dashboard_title")
+    intro = t("dashboard_intro")
     return f"""<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ANA MAX v20 Autonomy Dashboard</title>
+  <title>{html.escape(title)}</title>
   <style>
-    body {{ margin: 0; font-family: Segoe UI, Arial, sans-serif; background: #101419; color: #edf2f7; }}
+    body {{ margin: 0; font-family: Segoe UI, Arial, sans-serif; background: {theme["background"]}; color: {theme["text"]}; }}
     main {{ max-width: 1160px; margin: 0 auto; padding: 28px; }}
     h1 {{ font-size: 28px; margin: 0 0 8px; }}
-    .intro {{ color: #a8b3c2; margin-bottom: 24px; }}
+    .intro {{ color: {theme["muted"]}; margin-bottom: 24px; }}
     .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }}
-    .panel {{ border: 1px solid #2f3a48; border-radius: 8px; padding: 16px; background: #171d24; }}
+    .panel {{ border: 1px solid {theme["panel_border"]}; border-radius: 8px; padding: 16px; background: {theme["panel_background"]}; }}
     .panel h2 {{ font-size: 17px; margin: 0 0 8px; }}
-    .status {{ color: #8bd3ff; margin: 0 0 10px; }}
-    pre {{ overflow: auto; white-space: pre-wrap; word-break: break-word; background: #0b0f14; padding: 12px; border-radius: 6px; }}
+    .status {{ color: {theme["status"]}; margin: 0 0 10px; }}
+    pre {{ overflow: auto; white-space: pre-wrap; word-break: break-word; background: {theme["pre_background"]}; padding: 12px; border-radius: 6px; }}
   </style>
 </head>
 <body>
   <main>
-    <h1>ANA MAX v20 Autonomy Dashboard</h1>
-    <p class="intro">Manual, read-only view of v20 autonomy tool outputs. No writes. No auto-run.</p>
+    <h1>{html.escape(title)}</h1>
+    <p class="intro">{html.escape(intro)}</p>
     <div class="grid">
       {_render_sections(outputs)}
     </div>

@@ -14,6 +14,8 @@
 <!-- # PATCH_START v20_phase5 -->
 - Added `autonomy_dashboard`, a manual read-only HTML dashboard for v20
   autonomy tool outputs. The public baseline is now `80 loaded tools`.
+- Implemented resource system: localization + themes + loader + dashboard
+  integration.
 <!-- # PATCH_END v20_phase5 -->
 <!-- # PATCH_END v20_phase3 -->
 
