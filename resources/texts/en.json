@@ -6,5 +6,16 @@
   "status_ready": "Ready",
   "status_running": "Running",
   "status_error": "Error",
-  "status_label": "Status"
+  "status_label": "Status",
+  "section_ana_health_check": "ANA Health Check",
+  "section_baseline_update_suggester": "Baseline Update Suggester",
+  "section_docs_generator": "Docs Generator",
+  "section_ana_patch_suggester": "ANA Patch Suggester",
+  "section_runtime_guard": "Runtime Guard",
+  "label_tool_count": "Tool count",
+  "label_warnings": "Warnings",
+  "label_failures": "Failures",
+  "label_health": "Health",
+  "label_tool_healthcheck": "Tool Healthcheck",
+  "label_recent_failures": "Recent Failures"
 }

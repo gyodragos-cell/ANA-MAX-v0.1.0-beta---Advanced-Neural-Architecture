@@ -12,11 +12,11 @@ from core.resource_loader import load_theme, t
 
 
 V20_SECTIONS = [
-    ("ana_health_check", "ANA Health Check"),
-    ("baseline_update_suggester", "Baseline Update Suggester"),
-    ("docs_generator", "Docs Generator"),
-    ("ana_patch_suggester", "ANA Patch Suggester"),
-    ("runtime_guard", "Runtime Guard"),
+    ("ana_health_check", "section_ana_health_check"),
+    ("baseline_update_suggester", "section_baseline_update_suggester"),
+    ("docs_generator", "section_docs_generator"),
+    ("ana_patch_suggester", "section_ana_patch_suggester"),
+    ("runtime_guard", "section_runtime_guard"),
 ]
 
 
@@ -44,7 +44,7 @@ def _default_outputs() -> dict[str, Any]:
 
 def _render_sections(outputs: dict[str, Any]) -> str:
     sections = []
-    for key, title in V20_SECTIONS:
+    for key, title_key in V20_SECTIONS:
         payload = outputs.get(key, {"success": False, "error": "missing output"})
         status_key = (
             "status_ready"
@@ -53,7 +53,7 @@ def _render_sections(outputs: dict[str, Any]) -> str:
         )
         sections.append(
             "<section class=\"panel\">"
-            f"<h2>{html.escape(title)}</h2>"
+            f"<h2>{html.escape(t(title_key))}</h2>"
             f"<p class=\"status\">"
             f"{html.escape(t('status_label'))}: {html.escape(t(status_key))}</p>"
             f"<pre>{_safe_json(payload)}</pre>"
