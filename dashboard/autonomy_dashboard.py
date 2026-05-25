@@ -5,10 +5,9 @@ from __future__ import annotations
 
 import html
 import json
-import os
 from typing import Any
 
-from core.resource_loader import load_theme, t
+from core.resource_loader import detect_theme, is_dev_mode, load_theme, t
 
 
 V20_SECTIONS = [
@@ -17,6 +16,12 @@ V20_SECTIONS = [
     ("docs_generator", "section_docs_generator"),
     ("ana_patch_suggester", "section_ana_patch_suggester"),
     ("runtime_guard", "section_runtime_guard"),
+]
+
+V21_PLACEHOLDERS = [
+    ("section_resource_inspector", "placeholder_resource_inspector"),
+    ("section_dashboard_v2", "placeholder_dashboard_v2"),
+    ("section_tool_health_visualizer", "placeholder_tool_health_visualizer"),
 ]
 
 
@@ -62,12 +67,27 @@ def _render_sections(outputs: dict[str, Any]) -> str:
     return "\n".join(sections)
 
 
+def _render_v21_placeholders() -> str:
+    sections = []
+    for title_key, body_key in V21_PLACEHOLDERS:
+        sections.append(
+            "<section class=\"panel placeholder\">"
+            f"<h2>{html.escape(t(title_key))}</h2>"
+            f"<p>{html.escape(t(body_key))}</p>"
+            "</section>"
+        )
+    return "\n".join(sections)
+
+
 def render_dashboard(outputs: dict[str, Any] | None = None) -> str:
     """Return a complete HTML dashboard string without writing files."""
     outputs = outputs if outputs is not None else _default_outputs()
-    theme = load_theme(os.environ.get("ANA_THEME", "dark"))
+    theme_name = detect_theme("dark")
+    theme = load_theme(theme_name)
     title = t("dashboard_title")
     intro = t("dashboard_intro")
+    theme_label = t(f"theme_name_{theme_name}")
+    dev_status = t("dev_mode_enabled") if is_dev_mode() else t("dev_mode_disabled")
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -90,8 +110,14 @@ def render_dashboard(outputs: dict[str, Any] | None = None) -> str:
   <main>
     <h1>{html.escape(title)}</h1>
     <p class="intro">{html.escape(intro)}</p>
+    <p class="intro">{html.escape(t('label_theme'))}: {html.escape(theme_label)} | {html.escape(t('dev_mode_label'))}: {html.escape(dev_status)}</p>
     <div class="grid">
       {_render_sections(outputs)}
+    </div>
+    <h1>{html.escape(t('section_v21_foundations'))}</h1>
+    <p class="intro">{html.escape(t('dev_mode_safe_message'))}</p>
+    <div class="grid">
+      {_render_v21_placeholders()}
     </div>
   </main>
 </body>

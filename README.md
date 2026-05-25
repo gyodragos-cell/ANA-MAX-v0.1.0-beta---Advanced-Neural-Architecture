@@ -55,6 +55,13 @@ resources:
 
 Missing or invalid text files fall back to English, missing or invalid themes
 fall back to the light theme, and missing icons return an empty string.
+
+## v21 Foundations
+
+v21 foundations add resource-only hooks for theme switching, future dashboard
+layout blocks, dev-mode messaging, Resource Inspector, Dashboard v2, and Tool
+Health Visualizer placeholders. These hooks do not expose private lab data and
+do not add new tool logic.
 <!-- # PATCH_END v21_resource_system -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,

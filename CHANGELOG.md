@@ -16,6 +16,9 @@
   autonomy tool outputs. The public baseline is now `80 loaded tools`.
 - Implemented lightweight resource system (texts + themes + loader +
   dashboard integration).
+- Added v21 foundations for theme switching, UI modernization hooks, dev-mode
+  messaging, Resource Inspector, Dashboard v2, and Tool Health Visualizer
+  placeholders.
 <!-- # PATCH_END v20_phase5 -->
 <!-- # PATCH_END v20_phase3 -->
 

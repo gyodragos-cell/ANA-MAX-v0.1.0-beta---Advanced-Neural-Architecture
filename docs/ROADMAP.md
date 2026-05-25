@@ -171,6 +171,8 @@ Goal: keep public ANA MAX clean, safe, and easy to verify.
 ### v21 Planning
 
 - [x] Resource system foundation added (localization + themes + loader).
+- [x] v21 foundations added for theme switching, UI modernization hooks,
+  dev-mode messaging, and next feature placeholders.
 
 ## Recommendations
 

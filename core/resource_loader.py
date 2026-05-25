@@ -37,6 +37,20 @@ DEFAULT_TEXTS: dict[str, str] = {
     "error_missing_output": "Missing output",
     "error_outputs_dict": "outputs must be a dict when provided",
     "message_tool_healthcheck_not_listed": "tool_healthcheck not listed",
+    "label_theme": "Theme",
+    "theme_name_light": "Light",
+    "theme_name_dark": "Dark",
+    "section_v21_foundations": "v21 Foundations",
+    "section_resource_inspector": "Resource Inspector",
+    "section_dashboard_v2": "Dashboard v2",
+    "section_tool_health_visualizer": "Tool Health Visualizer",
+    "placeholder_resource_inspector": "Placeholder for future resource inspection. No runtime scan is executed.",
+    "placeholder_dashboard_v2": "Placeholder for the next dashboard layout. No private data is exposed.",
+    "placeholder_tool_health_visualizer": "Placeholder for future tool health visualization. Existing health checks remain manual.",
+    "dev_mode_label": "Dev mode",
+    "dev_mode_enabled": "Enabled",
+    "dev_mode_disabled": "Disabled",
+    "dev_mode_safe_message": "Dev mode hooks are resource-only and do not expose private lab data.",
 }
 
 DEFAULT_THEME: dict[str, str] = {
@@ -79,6 +93,18 @@ def detect_language() -> str:
         return _normalize_language(locale.getlocale()[0])
     except (ValueError, TypeError):
         return "en"
+
+
+def detect_theme(default: str = "light") -> str:
+    """Return a supported theme name with a safe fallback."""
+    requested = (os.environ.get("ANA_THEME") or default or "light").strip().lower()
+    return requested if requested in {"light", "dark"} else "light"
+
+
+def is_dev_mode() -> bool:
+    """Return whether resource-only dev hooks should be visible."""
+    value = os.environ.get("ANA_DEV_MODE", "")
+    return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
 def load_texts(lang: str | None) -> dict[str, str]:

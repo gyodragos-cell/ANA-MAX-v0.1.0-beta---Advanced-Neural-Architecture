@@ -22,5 +22,19 @@
   "status_warn": "Avertisment",
   "error_missing_output": "Iesire lipsa",
   "error_outputs_dict": "outputs trebuie sa fie dict cand este furnizat",
-  "message_tool_healthcheck_not_listed": "tool_healthcheck nu este listat"
+  "message_tool_healthcheck_not_listed": "tool_healthcheck nu este listat",
+  "label_theme": "Tema",
+  "theme_name_light": "Luminoasa",
+  "theme_name_dark": "Intunecata",
+  "section_v21_foundations": "Fundatii v21",
+  "section_resource_inspector": "Inspector resurse",
+  "section_dashboard_v2": "Dashboard v2",
+  "section_tool_health_visualizer": "Vizualizator sanatate tool-uri",
+  "placeholder_resource_inspector": "Placeholder pentru inspectia viitoare a resurselor. Nu ruleaza scanari runtime.",
+  "placeholder_dashboard_v2": "Placeholder pentru urmatorul layout de dashboard. Nu expune date private.",
+  "placeholder_tool_health_visualizer": "Placeholder pentru vizualizarea viitoare a sanatatii tool-urilor. Verificarile existente raman manuale.",
+  "dev_mode_label": "Mod dev",
+  "dev_mode_enabled": "Activ",
+  "dev_mode_disabled": "Inactiv",
+  "dev_mode_safe_message": "Hook-urile de mod dev sunt doar resurse si nu expun date private din lab."
 }
