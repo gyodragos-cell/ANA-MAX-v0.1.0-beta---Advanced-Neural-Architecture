@@ -43,9 +43,18 @@ server, or apply patches.
 <!-- # PATCH_END v20_final -->
 
 <!-- # PATCH_START v21_resource_system -->
-The dashboard uses a lightweight resource system for optional localized texts
-and themes. Missing resource files fall back safely to English text and the
-light theme.
+## Resource System
+
+ANA MAX includes a lightweight resource system for dashboard-facing UI
+resources:
+
+- `resources/texts/` stores localization JSON files for English and Romanian.
+- `resources/themes/` stores light and dark theme JSON files.
+- `core/resource_loader.py` loads texts, themes, and optional icons with safe
+  fallback behavior.
+
+Missing or invalid text files fall back to English, missing or invalid themes
+fall back to the light theme, and missing icons return an empty string.
 <!-- # PATCH_END v21_resource_system -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,

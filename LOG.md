@@ -1,6 +1,6 @@
 # ANA MAX Public Release Log
 
-## 2026-05-25 - Lightweight Resource System
+## resource_system_sync_2026-05-25
 
 Implemented the lightweight public resource system for texts, themes, and icon
 loading.
@@ -23,6 +23,6 @@ Files modified:
 - `README.md`
 
 Sync status:
-The public GitHub repository workspace has the resource system applied. The
-private Mother Lab workspace was not modified because no public-safe path was
-provided in this session.
+The public GitHub repository workspace and Mother Lab workspace both contain
+the lightweight resource system. Mother Lab private runtime data was not
+copied into the public release.

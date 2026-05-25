@@ -170,7 +170,7 @@ Goal: keep public ANA MAX clean, safe, and easy to verify.
 
 ### v21 Planning
 
-- [x] Added lightweight resource system (texts + themes + loader).
+- [x] Resource system foundation added (localization + themes + loader).
 
 ## Recommendations
 
