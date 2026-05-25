@@ -32,6 +32,11 @@ DEFAULT_TEXTS: dict[str, str] = {
     "label_health": "Health",
     "label_tool_healthcheck": "Tool Healthcheck",
     "label_recent_failures": "Recent Failures",
+    "status_pass": "Pass",
+    "status_warn": "Warning",
+    "error_missing_output": "Missing output",
+    "error_outputs_dict": "outputs must be a dict when provided",
+    "message_tool_healthcheck_not_listed": "tool_healthcheck not listed",
 }
 
 DEFAULT_THEME: dict[str, str] = {

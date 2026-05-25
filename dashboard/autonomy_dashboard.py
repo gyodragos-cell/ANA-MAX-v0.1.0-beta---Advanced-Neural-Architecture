@@ -45,7 +45,7 @@ def _default_outputs() -> dict[str, Any]:
 def _render_sections(outputs: dict[str, Any]) -> str:
     sections = []
     for key, title_key in V20_SECTIONS:
-        payload = outputs.get(key, {"success": False, "error": "missing output"})
+        payload = outputs.get(key, {"success": False, "error": t("error_missing_output")})
         status_key = (
             "status_ready"
             if isinstance(payload, dict) and payload.get("success")
@@ -103,7 +103,7 @@ def run(args: dict[str, Any] | None = None) -> dict[str, Any]:
     args = args or {}
     outputs = args.get("outputs")
     if outputs is not None and not isinstance(outputs, dict):
-        return {"success": False, "error": "outputs must be a dict when provided"}
+        return {"success": False, "error": t("error_outputs_dict")}
     html_text = render_dashboard(outputs)
     return {
         "success": True,

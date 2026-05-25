@@ -17,5 +17,10 @@
   "label_failures": "Erori",
   "label_health": "Sanatate",
   "label_tool_healthcheck": "Verificare tool-uri",
-  "label_recent_failures": "Erori recente"
+  "label_recent_failures": "Erori recente",
+  "status_pass": "Trecut",
+  "status_warn": "Avertisment",
+  "error_missing_output": "Iesire lipsa",
+  "error_outputs_dict": "outputs trebuie sa fie dict cand este furnizat",
+  "message_tool_healthcheck_not_listed": "tool_healthcheck nu este listat"
 }
