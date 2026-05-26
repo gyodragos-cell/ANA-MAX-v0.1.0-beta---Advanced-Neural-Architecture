@@ -13,9 +13,9 @@
 Public release wording:
 
 ```text
-<!-- # PATCH_START v24_release -->
-Version: v24.0.0
-<!-- # PATCH_END v24_release -->
+<!-- # PATCH_START v25_release -->
+Version: v25.0.0
+<!-- # PATCH_END v25_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -102,6 +102,19 @@ public release.
 
 See `docs/ANA_MAX_V24_RUNTIME.md`.
 <!-- # PATCH_END v24_release -->
+
+<!-- # PATCH_START v25_release -->
+## v25 Runtime
+
+v25 documents the advanced runtime foundation: advanced memory engine,
+multi-workspace support, governance and policy, audit trail, profiling,
+auto-tuning, parallel orchestrator, self-diagnostics, and deployment prep.
+
+The public v25 release keeps the loaded MCP tool count unchanged at 80 and
+syncs release-safe docs/site/version surfaces only.
+
+See `docs/ANA_MAX_V25_RUNTIME.md`.
+<!-- # PATCH_END v25_release -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before

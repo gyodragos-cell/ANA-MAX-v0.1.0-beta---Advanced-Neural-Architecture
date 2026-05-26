@@ -1,5 +1,15 @@
 # Changelog
 
+<!-- # PATCH_START v25_release -->
+## v25.0.0 - Advanced Runtime Foundation
+
+- Added `docs/ANA_MAX_V25_RUNTIME.md` covering advanced memory,
+  multi-workspace support, governance, audit trail, profiling, auto-tuning,
+  parallel orchestrator, self-diagnostics, and deployment prep.
+- Updated public site and docs for v25 release positioning.
+- Kept public tool count unchanged: `80 loaded tools`.
+<!-- # PATCH_END v25_release -->
+
 <!-- # PATCH_START v24_release -->
 ## v24.0.0 - Runtime Evolution Release Prep
 

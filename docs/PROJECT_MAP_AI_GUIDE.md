@@ -35,9 +35,9 @@ Not allowed:
 Current public wording:
 
 ```text
-<!-- # PATCH_START v24_release -->
-Version: v24.0.0
-<!-- # PATCH_END v24_release -->
+<!-- # PATCH_START v25_release -->
+Version: v25.0.0
+<!-- # PATCH_END v25_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -106,6 +106,16 @@ The v24 public release does not add loaded MCP tools and does not sync private
 dev-only integration tests, memory stores, optimization snapshots, logs, or
 lab artifacts. Tool count remains 80.
 <!-- # PATCH_END v24_release -->
+
+<!-- # PATCH_START v25_release -->
+v25 public release documents advanced runtime foundations in
+`docs/ANA_MAX_V25_RUNTIME.md`: advanced memory, multi-workspace support,
+governance, audit trail, profiling, auto-tuning, parallel orchestrator,
+self-diagnostics, and deployment prep.
+
+The v25 public release keeps dev-only runtime code and private state out of the
+public repo. Tool count remains 80.
+<!-- # PATCH_END v25_release -->
 
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.
