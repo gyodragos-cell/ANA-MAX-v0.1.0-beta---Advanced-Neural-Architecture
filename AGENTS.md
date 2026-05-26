@@ -47,7 +47,7 @@ When working in this repository, act as a full-project IDE agent:
 <!-- # PATCH_END v20_phase3 -->
 <!-- # PATCH_START v20_final -->
 - Use the current public wording when a page needs a version label:
-  `v22.0.0`.
+  `v24.0.0`.
 <!-- # PATCH_END v20_final -->
 <!-- # PATCH_START v22_release -->
 - Treat v22 runtime modules as orchestration scaffolding, not loaded MCP tools:
@@ -58,6 +58,12 @@ When working in this repository, act as a full-project IDE agent:
   enables a controlled sync. It must not copy, delete, deploy, or commit by
   default.
 <!-- # PATCH_END v22_release -->
+<!-- # PATCH_START v24_release -->
+- Treat v24 runtime material as public documentation and release preparation
+  unless future phases explicitly sync dev runtime code. Keep dev-only
+  integration tests, optimization snapshots, memory stores, and lab artifacts
+  out of this public repository.
+<!-- # PATCH_END v24_release -->
 
 ## Release Sync Rule
 

@@ -35,9 +35,9 @@ Not allowed:
 Current public wording:
 
 ```text
-<!-- # PATCH_START v22_release -->
-Version: v22.0.0
-<!-- # PATCH_END v22_release -->
+<!-- # PATCH_START v24_release -->
+Version: v24.0.0
+<!-- # PATCH_END v24_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -94,6 +94,18 @@ documentation without an explicit future release task.
 v22 runtime tests live in `tests/runtime/` and use fake registries/results only.
 They must not call real tools, mutate the desktop, or touch private data.
 <!-- # PATCH_END v22_release -->
+
+<!-- # PATCH_START v24_release -->
+v24 public release documents runtime evolution in
+`docs/ANA_MAX_V24_RUNTIME.md`: safe live-tool execution boundaries, adaptive
+router memory, hybrid AI, self-healing runtime, VS Code confirmation flows,
+optimization snapshots, multi-agent mode, memory manager, and parallel
+orchestrator.
+
+The v24 public release does not add loaded MCP tools and does not sync private
+dev-only integration tests, memory stores, optimization snapshots, logs, or
+lab artifacts. Tool count remains 80.
+<!-- # PATCH_END v24_release -->
 
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.

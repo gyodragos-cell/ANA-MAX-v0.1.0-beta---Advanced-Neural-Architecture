@@ -1,5 +1,18 @@
 # Changelog
 
+<!-- # PATCH_START v24_release -->
+## v24.0.0 - Runtime Evolution Release Prep
+
+- Added `docs/ANA_MAX_V24_RUNTIME.md` with the public v24 runtime plan:
+  live tool execution boundaries, adaptive router behavior, hybrid AI,
+  self-healing runtime, VS Code confirmation flows, optimization persistence,
+  multi-agent mode, memory manager, and parallel orchestrator.
+- Kept public runtime safe: v24 public release updates docs, site, and version
+  labels only. Dev-only integration tests, memory stores, optimization
+  snapshots, and private lab artifacts are not synced.
+- Kept public tool count unchanged: `80 loaded tools`.
+<!-- # PATCH_END v24_release -->
+
 <!-- # PATCH_START v22_release -->
 ## v22.0.0 - Token-Saving Runtime Orchestrator
 
