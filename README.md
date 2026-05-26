@@ -14,13 +14,19 @@ Public release wording:
 
 ```text
 <!-- # PATCH_START ana_os_v1_release -->
-Version: v1.0.0-os
+Public version: v0.1.0-beta
+OS package: ANA MAX OS v1.0.0
 <!-- # PATCH_END ana_os_v1_release -->
-Tools: 80 loaded tools
+Tools: 80 loaded public tools
 AI Core adapters: 7
 Premium-gated families: 4
 Workflow: observe -> decide -> act -> verify
 ```
+
+The public release is the clean, installable surface. The private lab runs
+ahead with additional ANA MAX OS phases, distributed-runtime experiments, and
+full integration scenarios. Lab work is promoted here only after it is cleaned,
+tested, documented, and public-safe.
 
 <!-- # PATCH_START v19_phase4 -->
 v19 adds three manual, read-only diagnostics tools:

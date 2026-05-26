@@ -353,16 +353,17 @@
     <section class="hero" aria-label="ANA MAX hero">
       <div class="shell hero-content">
         <!-- # PATCH_START ana_os_v1_release -->
-        <span class="kicker">v1.0.0-os / public release</span>
+        <span class="kicker">public v0.1.0-beta / OS v1.0.0 package</span>
         <!-- # PATCH_END ana_os_v1_release -->
         <h1>ANA MAX - Advanced Neural Architecture</h1>
         <p class="lead">
           A Windows-first agent runtime with real desktop control, vision, UIA,
-          and tool orchestration.
+          and tool orchestration. This page shows the clean public release;
+          the private lab runs ahead with experimental OS phases.
         </p>
         <div class="tagline">Observe -> Decide -> Act -> Verify</div>
         <div class="actions">
-          <a class="button primary" href="#new">Explore release</a>
+          <a class="button primary" href="#public-vs-lab">Public vs lab</a>
           <a class="button hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
           <a class="button hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
           <a class="button" href="docs/PROJECT_MAP_AI_GUIDE.md">Read project map</a>
@@ -384,10 +385,30 @@
           <!-- # PATCH_END ana_os_v1_release -->
         </div>
         <div class="metrics" aria-label="Current release metrics">
-          <div class="metric"><strong>80</strong><span>loaded public tools</span></div>
+          <div class="metric"><strong>80</strong><span>loaded public tools; lab has more experimental layers</span></div>
           <div class="metric"><strong>7</strong><span>AI Core adapters</span></div>
           <div class="metric"><strong>4</strong><span>premium-gated families</span></div>
-          <div class="metric"><strong>3/0</strong><span>quick healthcheck PASS</span></div>
+          <div class="metric"><strong>120-140</strong><span>lab OS phases reflected as public-safe notes</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="public-vs-lab">
+      <div class="shell">
+        <div class="section-head">
+          <h2>Public Release vs Lab</h2>
+          <p>
+            ANA MAX has two surfaces. The GitHub Pages site is the clean,
+            installable public release. The private lab contains much more:
+            experimental OS phases, simulated clusters, distributed memory,
+            FS sync, event bus, and model-runtime work that is promoted only
+            after it becomes public-safe.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="tile"><span class="label">public</span><h3>v0.1.0-beta release</h3><p>The public repo exposes 80 loaded tools, 7 AI Core adapters, documentation, tests, and a stable MCP runtime.</p></article>
+          <article class="tile"><span class="label">os package</span><h3>ANA MAX OS v1.0.0</h3><p>The public package <code>ana_os_v1/</code> carries the simulated AI Kernel without replacing the existing MCP runtime.</p></article>
+          <article class="tile"><span class="label">lab</span><h3>Iceberg layer</h3><p>The lab is where phases 120-140 are exercised first: cluster, distributed memory, event bus, FS sync, and full integration scenarios.</p></article>
         </div>
       </div>
     </section>
@@ -398,13 +419,14 @@
           <h2>Release Highlights</h2>
           <p>
             <!-- # PATCH_START v25_release -->
-            v25.0.0 documents advanced memory, multi-workspace support,
-            governance, audit trail, profiling, auto-tuning, parallel
-            orchestration, and self-diagnostics.
+            Public v0.1.0-beta now carries ANA MAX OS v1.0.0 as an isolated
+            public-safe package. Earlier v25 notes document advanced memory,
+            multi-workspace support, governance, audit trail, profiling,
+            auto-tuning, parallel orchestration, and self-diagnostics.
             <!-- # PATCH_END v25_release -->
-            The current public release is aligned with the 2026-05-24 lab audit:
-            80 loaded tools, stronger registry behavior, safer gates, and a
-            clearer observation-first operating model.
+            The visible count is intentionally the public count: 80 loaded
+            tools. Lab-only runtime layers stay separate until they are cleaned,
+            tested, documented, and safe to expose.
           </p>
         </div>
         <div class="grid four">
@@ -603,13 +625,13 @@ Copilot-style HTTP client
       <div class="shell">
         <div class="section-head">
           <h2>Roadmap Highlights</h2>
-          <p>The public roadmap now tracks reliability, observation quality, agent safety, and release hygiene.</p>
+          <p>The public roadmap mirrors the real lab direction without exposing private code, logs, memory, or unsafe automation.</p>
         </div>
         <div class="grid four">
-          <article class="phase"><span class="label">Phase 1</span><h3>Clean And Current</h3><p>Keep the public release synchronized with real tool counts, gates, and verification results.</p></article>
-          <article class="phase"><span class="label">Phase 2</span><h3>Observation First</h3><p>Improve desktop capture, UIA selection, OCR quality, region capture, and compact workspace snapshots.</p></article>
-          <article class="phase"><span class="label">Phase 3</span><h3>Agent Reliability</h3><p>Strengthen registry validation, error recovery, tool health, and safe confirmation behavior.</p></article>
-          <article class="phase"><span class="label">Phase 4</span><h3>Public Release Hygiene</h3><p>Keep private lab data out, document only executable tools, and make every handoff verifiable.</p></article>
+          <article class="phase"><span class="label">Phase 120</span><h3>ANA MAX OS Base</h3><p>Kernel-style services, managers, routing, metrics, and simulated runtime primitives mature in the lab first.</p></article>
+          <article class="phase"><span class="label">Phase 131-134</span><h3>Distributed Memory Real</h3><p>Cluster-aware memory sync, transport envelopes, and deterministic fake-transport tests are hardened before public promotion.</p></article>
+          <article class="phase"><span class="label">Phase 140</span><h3>Full Cluster Integration</h3><p>Two-node simulated clusters validate heartbeat, suspect/recovery, memory pull sync, FS sync, and event fan-out.</p></article>
+          <article class="phase"><span class="label">Public Gate</span><h3>Release Hygiene</h3><p>Only cleaned, tested, public-safe slices move from lab to GitHub Pages and the public repository.</p></article>
         </div>
       </div>
     </section>

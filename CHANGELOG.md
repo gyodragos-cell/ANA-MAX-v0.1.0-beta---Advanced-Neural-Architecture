@@ -10,6 +10,9 @@
 - Added public import and manifest tests for the ANA MAX OS v1 package.
 - Updated README, website, VERSION, setup guide, and project map for the OS v1
   public release surface.
+- Clarified public vs lab positioning on the site and README: public
+  v0.1.0-beta exposes 80 loaded public tools, while lab-only ANA MAX OS phases
+  remain separate until promoted.
 - Kept the existing MCP tool runtime unchanged and the public tool count at
   `80 loaded tools`.
 <!-- # PATCH_END ana_os_v1_release -->

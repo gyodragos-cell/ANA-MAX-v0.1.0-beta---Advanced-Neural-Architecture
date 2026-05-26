@@ -36,13 +36,20 @@ Current public wording:
 
 ```text
 <!-- # PATCH_START ana_os_v1_release -->
-Version: v1.0.0-os
+Public version: v0.1.0-beta
+OS package: ANA MAX OS v1.0.0
 <!-- # PATCH_END ana_os_v1_release -->
-Tools: 80 loaded tools
+Tools: 80 loaded public tools
 AI Core adapters: 7
 Premium-gated families: 4
 Workflow: observe -> decide -> act -> verify
 ```
+
+The public release and the private lab are intentionally different surfaces.
+The public repo contains only release-ready, public-safe code and docs. The lab
+may contain more ANA MAX OS phases, distributed-runtime experiments, simulated
+clusters, and integration notes; those items must not be copied here until they
+are cleaned, tested, documented, and safe for public release.
 
 <!-- # PATCH_START v19_phase4 -->
 v19 Self-Aware Runtime diagnostics are included in the public count:
@@ -126,6 +133,11 @@ DevTools, federation, recovery, metrics, and packaging helpers.
 The package is public-safe and tested, but it must not overwrite the existing
 public MCP runtime in `core/`. It adds no loaded MCP tools; tool count remains
 80.
+
+Lab roadmap references such as phases 120-140 are allowed on public surfaces
+only as high-level context. Do not publish private test logs, local paths,
+private memory, generated runtime state, or lab-only source files unless a
+future release task explicitly promotes them.
 
 Public surfaces:
 - `ana_os_v1/`
