@@ -13,9 +13,9 @@
 Public release wording:
 
 ```text
-<!-- # PATCH_START v25_release -->
-Version: v25.0.0
-<!-- # PATCH_END v25_release -->
+<!-- # PATCH_START ana_os_v1_release -->
+Version: v1.0.0-os
+<!-- # PATCH_END ana_os_v1_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -115,6 +115,29 @@ syncs release-safe docs/site/version surfaces only.
 
 See `docs/ANA_MAX_V25_RUNTIME.md`.
 <!-- # PATCH_END v25_release -->
+
+<!-- # PATCH_START ana_os_v1_release -->
+## ANA MAX OS v1
+
+ANA MAX OS v1 packages the simulated ANA MAX AI Kernel runtime as
+`ana_os_v1/`. It adds public-safe kernel primitives without overwriting the
+existing MCP tool runtime in `core/`.
+
+Included areas:
+
+- cluster membership, health, routing, and summaries;
+- distributed memory, filesystem sync, event bus, services, locks, tasks,
+  metrics, and recovery helpers;
+- model registry, placement, routing, loader, and simulated inference;
+- agent registry, lifecycle, messaging, memory, filesystem, and task hooks;
+- vector memory, cognitive runtime, pipelines, DevTools, federation, and
+  packaging helpers.
+
+No real network transport, real ML inference, threads, or async loops are
+introduced. The loaded MCP tool count remains 80.
+
+See `docs/ANA_MAX_OS_V1_PUBLIC_RELEASE.md` and `ANA_OS_V1_MANIFEST.json`.
+<!-- # PATCH_END ana_os_v1_release -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before

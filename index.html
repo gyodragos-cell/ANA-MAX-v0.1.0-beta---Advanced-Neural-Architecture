@@ -352,9 +352,9 @@
   <main id="top">
     <section class="hero" aria-label="ANA MAX hero">
       <div class="shell hero-content">
-        <!-- # PATCH_START v25_release -->
-        <span class="kicker">v25.0.0 / public release</span>
-        <!-- # PATCH_END v25_release -->
+        <!-- # PATCH_START ana_os_v1_release -->
+        <span class="kicker">v1.0.0-os / public release</span>
+        <!-- # PATCH_END ana_os_v1_release -->
         <h1>ANA MAX - Advanced Neural Architecture</h1>
         <p class="lead">
           A Windows-first agent runtime with real desktop control, vision, UIA,
@@ -379,6 +379,9 @@
           <!-- # PATCH_START v25_release -->
           <a class="button" href="docs/ANA_MAX_V25_RUNTIME.md">v25 runtime</a>
           <!-- # PATCH_END v25_release -->
+          <!-- # PATCH_START ana_os_v1_release -->
+          <a class="button" href="docs/ANA_MAX_OS_V1_PUBLIC_RELEASE.md">OS v1</a>
+          <!-- # PATCH_END ana_os_v1_release -->
         </div>
         <div class="metrics" aria-label="Current release metrics">
           <div class="metric"><strong>80</strong><span>loaded public tools</span></div>
@@ -492,6 +495,22 @@
       </div>
     </section>
     <!-- # PATCH_END v25_release -->
+
+    <!-- # PATCH_START ana_os_v1_release -->
+    <section id="ana-os-v1" class="band">
+      <div class="shell">
+        <div class="section-head">
+          <h2>ANA MAX OS v1</h2>
+          <p>Public-safe simulated AI Kernel package with cluster primitives, distributed memory, FS sync, event bus, services, locks, tasks, model runtime, agent runtime, vector memory, DevTools, federation, and packaging helpers.</p>
+        </div>
+        <div class="grid">
+          <article class="tile"><h3>Isolated Package</h3><p><code>ana_os_v1/</code> ships without overwriting the existing MCP runtime in <code>core/</code>.</p></article>
+          <article class="tile"><h3>Simulated Runtime</h3><p>No real network, no real ML inference, no threads, and no async loops are introduced.</p></article>
+          <article class="tile"><h3>Verified Surface</h3><p>The package includes manifest tests and keeps the loaded MCP tool count at 80.</p></article>
+        </div>
+      </div>
+    </section>
+    <!-- # PATCH_END ana_os_v1_release -->
 
     <section class="band" id="capabilities">
       <div class="shell">
@@ -632,9 +651,9 @@ python -m unittest discover -s tests -v</pre>
 
   <footer>
     <div class="shell footer-inner">
-      <!-- # PATCH_START v25_release -->
-      <span>ANA MAX v25.0.0 / MIT License / Last updated 2026-05-26</span>
-      <!-- # PATCH_END v25_release -->
+      <!-- # PATCH_START ana_os_v1_release -->
+      <span>ANA MAX OS v1.0.0 / MIT License / Last updated 2026-05-26</span>
+      <!-- # PATCH_END ana_os_v1_release -->
       <span>
         <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
         / <a href="LICENSE">License</a>

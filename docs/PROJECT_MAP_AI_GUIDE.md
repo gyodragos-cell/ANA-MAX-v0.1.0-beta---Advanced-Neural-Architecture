@@ -35,9 +35,9 @@ Not allowed:
 Current public wording:
 
 ```text
-<!-- # PATCH_START v25_release -->
-Version: v25.0.0
-<!-- # PATCH_END v25_release -->
+<!-- # PATCH_START ana_os_v1_release -->
+Version: v1.0.0-os
+<!-- # PATCH_END ana_os_v1_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -116,6 +116,23 @@ self-diagnostics, and deployment prep.
 The v25 public release keeps dev-only runtime code and private state out of the
 public repo. Tool count remains 80.
 <!-- # PATCH_END v25_release -->
+
+<!-- # PATCH_START ana_os_v1_release -->
+ANA MAX OS v1 is published as the isolated package `ana_os_v1/`. It contains
+the simulated ANA MAX AI Kernel runtime: cluster, distributed memory, FS sync,
+event bus, services, locks, tasks, model runtime, agent runtime, vector memory,
+DevTools, federation, recovery, metrics, and packaging helpers.
+
+The package is public-safe and tested, but it must not overwrite the existing
+public MCP runtime in `core/`. It adds no loaded MCP tools; tool count remains
+80.
+
+Public surfaces:
+- `ana_os_v1/`
+- `ANA_OS_V1_MANIFEST.json`
+- `RELEASE_NOTES_ANA_OS_V1.md`
+- `docs/ANA_MAX_OS_V1_PUBLIC_RELEASE.md`
+<!-- # PATCH_END ana_os_v1_release -->
 
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.

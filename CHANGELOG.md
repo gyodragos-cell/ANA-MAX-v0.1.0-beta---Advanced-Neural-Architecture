@@ -1,5 +1,19 @@
 # Changelog
 
+<!-- # PATCH_START ana_os_v1_release -->
+## v1.0.0-os - ANA MAX OS v1 Public Package
+
+- Added `ana_os_v1/`, a public-safe package for the simulated ANA MAX AI
+  Kernel runtime.
+- Added `ANA_OS_V1_MANIFEST.json`, `RELEASE_NOTES_ANA_OS_V1.md`, and
+  `docs/ANA_MAX_OS_V1_PUBLIC_RELEASE.md`.
+- Added public import and manifest tests for the ANA MAX OS v1 package.
+- Updated README, website, VERSION, setup guide, and project map for the OS v1
+  public release surface.
+- Kept the existing MCP tool runtime unchanged and the public tool count at
+  `80 loaded tools`.
+<!-- # PATCH_END ana_os_v1_release -->
+
 <!-- # PATCH_START v25_release -->
 ## v25.0.0 - Advanced Runtime Foundation
 

@@ -105,6 +105,20 @@ python main.py --list-tools
 python -m unittest discover -s tests -v
 ```
 
+<!-- # PATCH_START ana_os_v1_release -->
+## ANA MAX OS v1 Package
+
+ANA MAX OS v1 is available as a separate public package:
+
+```powershell
+python -m compileall -q ana_os_v1
+python -m unittest tests.test_ana_os_v1_public -v
+```
+
+This package is simulated and does not start real network services or run real
+ML inference.
+<!-- # PATCH_END ana_os_v1_release -->
+
 Expected:
 
 ```text
