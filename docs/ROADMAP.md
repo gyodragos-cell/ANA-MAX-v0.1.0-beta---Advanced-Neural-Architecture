@@ -1,16 +1,16 @@
 # ANA MAX - Public Roadmap And Development Status
 
 <!-- # PATCH_START v20_final -->
-**Public release wording:** v20.0.0-alpha
+**Public release wording:** public v0.1.0-beta / ANA MAX OS v1.0.0 package
 <!-- # PATCH_END v20_final -->
 
 <!-- # PATCH_START v20_final -->
-**Repository release:** v20.0.0-alpha / VS Code extension v0.2.0
+**Repository release:** v0.1.0-beta public release / VS Code extension v0.2.0
 <!-- # PATCH_END v20_final -->
 
 **Status:** Clean public release with active private lab development
 
-**Last updated:** 2026-05-25
+**Last updated:** 2026-05-26
 
 **License:** MIT
 
@@ -35,11 +35,15 @@ observe -> decide -> act -> verify -> learn
 ## Current Public Baseline
 
 ```text
-80 loaded tools
+80 loaded public tools
 7 AI Core adapters
 4 premium-gated tool families
 3 PASS / 0 FAIL quick test
 ```
+
+The public count is intentionally smaller than the private lab surface. Lab
+runtime phases, distributed cluster simulations, memory sync experiments, and
+model-runtime work are promoted only after they are public-safe and tested.
 
 <!-- # PATCH_START v19_phase4 -->
 v19 adds manual self-aware runtime diagnostics:
@@ -103,6 +107,7 @@ Latest public-safe tools:
 Latest public website sections:
 
 - WOW hero for ANA MAX - Advanced Neural Architecture
+- Public vs lab explanation
 - Release highlights for the 80-tool audit baseline
 - Core capabilities
 - Architecture overview
@@ -113,6 +118,15 @@ Latest public website sections:
 - Footer with GitHub, license, version, and last updated date
 
 ## Roadmap Phases
+
+### Public v0.1.0-beta / ANA MAX OS v1.0.0
+
+- [x] Publish the clean public release with 80 loaded public tools.
+- [x] Publish `ana_os_v1/` as an isolated public-safe AI Kernel package.
+- [x] Keep the existing MCP runtime in `core/` unchanged.
+- [x] Explain public vs lab boundaries on the website and README.
+- [x] Keep lab-only runtime state, private memory, local paths, and logs out of
+  the public repo.
 
 <!-- # PATCH_START v20_final -->
 ### v20.0.0-alpha: DONE
@@ -126,38 +140,32 @@ Latest public website sections:
   unittest discovery passing.
 <!-- # PATCH_END v20_final -->
 
-### Phase 1: Clean And Current
+### Phase 120: ANA MAX OS Base
 
-Goal: keep the public release synchronized with the actual code.
+Goal: mature kernel-style services in the private lab before public promotion.
 
-- [x] Publish 80-tool baseline.
-- [x] Document 7 AI Core adapters.
-- [x] Document 4 premium-gated tool families.
-- [x] Keep the website and README aligned with public release wording.
-- [ ] Continue removing stale counts and old release language when found.
+- [x] Publish the public-safe OS v1 package surface.
+- [x] Keep runtime primitives simulated and isolated from the public MCP tool
+  registry.
+- [ ] Promote only cleaned, tested, documented pieces into public release docs.
 
-### Phase 2: Observation First
+### Phase 131-134: Distributed Memory Real
 
-Goal: make agents gather compact facts before they act.
+Goal: harden cluster-aware memory sync and transport-envelope behavior.
 
-- [x] Keep `workspace_situational_awareness` compact and relevant.
-- [x] Keep `tool_healthcheck` safe scope offline.
-- [ ] Improve `desktop_capture` window capture reliability.
-- [ ] Add output limits and selector hardening to `windows_uia_bridge`.
-- [ ] Add more controlled tests for `vision_region_capture` and
-  `vision_find_element`.
+- [x] Mention the direction publicly as high-level roadmap context.
+- [ ] Keep deterministic fake-transport tests private until release-safe.
+- [ ] Avoid publishing private lab logs, local paths, or generated state.
 
-### Phase 3: Agent Reliability
+### Phase 140: Full Cluster Integration
 
-Goal: reduce blind actions and improve predictable recovery.
+Goal: validate cluster, memory, event bus, and FS sync together in lab.
 
-- [x] Strengthen registry parameter validation.
-- [x] Add confirmation behavior for higher-risk UI tools.
-- [ ] Add broader MCP-level regression tests.
-- [ ] Add reliability scoring for core tools.
-- [ ] Improve error recovery and retry guidance.
+- [x] Reflect the integration direction on the public site.
+- [ ] Promote only public-safe scenarios after API stability and hygiene review.
+- [ ] Keep real network, private state, and unsafe automation out of public docs.
 
-### Phase 4: Public Release Hygiene
+### Public Gate
 
 Goal: keep public ANA MAX clean, safe, and easy to verify.
 
@@ -165,8 +173,9 @@ Goal: keep public ANA MAX clean, safe, and easy to verify.
   files out of the repository.
 - [x] Keep public docs ASCII-safe.
 - [x] Document canonical public repository links.
+- [x] Keep public website claims tied to executable tools or clearly marked
+  lab roadmap context.
 - [ ] Add release checklist automation for docs count drift.
-- [ ] Keep public website claims tied to executable tools.
 
 ### v21 Planning
 
