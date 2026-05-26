@@ -47,8 +47,17 @@ When working in this repository, act as a full-project IDE agent:
 <!-- # PATCH_END v20_phase3 -->
 <!-- # PATCH_START v20_final -->
 - Use the current public wording when a page needs a version label:
-  `v20.0.0-alpha`.
+  `v22.0.0`.
 <!-- # PATCH_END v20_final -->
+<!-- # PATCH_START v22_release -->
+- Treat v22 runtime modules as orchestration scaffolding, not loaded MCP tools:
+  `input_layer`, `context_builder`, `ai_engine`, `tool_router`,
+  `execution_layer`, `observability`, `scenario_simulator`, `runtime_config`,
+  `release_sync`, and `ana_runtime`.
+- Keep `release_sync` read-only unless a future release task explicitly
+  enables a controlled sync. It must not copy, delete, deploy, or commit by
+  default.
+<!-- # PATCH_END v22_release -->
 
 ## Release Sync Rule
 

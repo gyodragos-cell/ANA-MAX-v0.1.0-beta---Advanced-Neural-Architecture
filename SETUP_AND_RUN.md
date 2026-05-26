@@ -37,6 +37,17 @@ server URL                   -> http://127.0.0.1:8765
 If your result is different, do not guess. Read the error message, then run the
 verification commands below.
 
+## v22 Runtime Scaffold
+
+ANA MAX v22.0.0 includes a public-safe runtime orchestrator scaffold under
+`core/` and fake-only runtime tests under `tests/runtime/`. These modules define
+input normalization, compact context building, AI engine abstraction, tool
+routing, execution normalization, observability, scenario simulation, runtime
+configuration, and read-only release sync planning.
+
+The v22 scaffold does not change the loaded MCP tool count. Public verification
+still expects `80 loaded tools`.
+
 ## Install The VS Code Extension
 
 If you downloaded the project as a ZIP from GitHub, extract it first and open

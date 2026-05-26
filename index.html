@@ -352,9 +352,9 @@
   <main id="top">
     <section class="hero" aria-label="ANA MAX hero">
       <div class="shell hero-content">
-        <!-- # PATCH_START v20_final -->
-        <span class="kicker">v20.0.0-alpha / public release</span>
-        <!-- # PATCH_END v20_final -->
+        <!-- # PATCH_START v22_release -->
+        <span class="kicker">v22.0.0 / public release</span>
+        <!-- # PATCH_END v22_release -->
         <h1>ANA MAX - Advanced Neural Architecture</h1>
         <p class="lead">
           A Windows-first agent runtime with real desktop control, vision, UIA,
@@ -370,6 +370,9 @@
           <a class="button" href="docs/v20_OVERVIEW.md">v20 overview</a>
           <a class="button" href="docs/v20_AUTONOMY_LAYER.md">Autonomy layer</a>
           <!-- # PATCH_END v20_final -->
+          <!-- # PATCH_START v22_release -->
+          <a class="button" href="docs/ANA_MAX_V22_ARCHITECTURE.md">v22 architecture</a>
+          <!-- # PATCH_END v22_release -->
         </div>
         <div class="metrics" aria-label="Current release metrics">
           <div class="metric"><strong>80</strong><span>loaded public tools</span></div>
@@ -385,11 +388,11 @@
         <div class="section-head">
           <h2>Release Highlights</h2>
           <p>
-            <!-- # PATCH_START v20_phase3 -->
-            v20.0.0-alpha adds a manual, read-only autonomy layer:
-            health checks, baseline suggestions, documentation previews, patch
-            suggestions, and runtime guard checks. No auto-run.
-            <!-- # PATCH_END v20_phase3 -->
+            <!-- # PATCH_START v22_release -->
+            v22.0.0 adds a token-saving runtime orchestrator scaffold for
+            input normalization, compact context, tool routing, execution
+            normalization, observability, and fake-only scenario testing.
+            <!-- # PATCH_END v22_release -->
             The current public release is aligned with the 2026-05-24 lab audit:
             80 loaded tools, stronger registry behavior, safer gates, and a
             clearer observation-first operating model.
@@ -440,6 +443,27 @@
       </div>
     </section>
     <!-- # PATCH_END v20_final -->
+
+    <!-- # PATCH_START v22_release -->
+    <section class="band" id="v22-runtime">
+      <div class="shell">
+        <div class="section-head">
+          <h2>v22 Runtime Orchestrator</h2>
+          <p>
+            v22 introduces clean, public-safe scaffolding for the next ANA MAX
+            runtime: input layer, context builder, AI engine abstraction, tool
+            router, execution layer, observability, scenario simulator,
+            runtime configuration, and read-only release sync planning.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="tile"><h3>Token-Saving Flow</h3><p>The runtime shape favors focused tool facts, compact summaries, and cached context instead of large raw dumps.</p></article>
+          <article class="tile"><h3>Safe Mode First</h3><p>Risk, confirmation, output limits, and read-only release planning are part of the scaffold contract.</p></article>
+          <article class="tile"><h3>Fake-Only Tests</h3><p>The runtime tests use stubs and simulated scenarios. They do not execute real tools or touch private release state.</p></article>
+        </div>
+      </div>
+    </section>
+    <!-- # PATCH_END v22_release -->
 
     <section class="band" id="capabilities">
       <div class="shell">
@@ -580,9 +604,9 @@ python -m unittest discover -s tests -v</pre>
 
   <footer>
     <div class="shell footer-inner">
-      <!-- # PATCH_START v20_final -->
-      <span>ANA MAX v20.0.0-alpha / MIT License / Last updated 2026-05-25</span>
-      <!-- # PATCH_END v20_final -->
+      <!-- # PATCH_START v22_release -->
+      <span>ANA MAX v22.0.0 / MIT License / Last updated 2026-05-26</span>
+      <!-- # PATCH_END v22_release -->
       <span>
         <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub</a>
         / <a href="LICENSE">License</a>

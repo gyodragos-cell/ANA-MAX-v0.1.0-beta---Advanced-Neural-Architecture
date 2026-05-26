@@ -35,9 +35,9 @@ Not allowed:
 Current public wording:
 
 ```text
-<!-- # PATCH_START v20_final -->
-Version: v20.0.0-alpha
-<!-- # PATCH_END v20_final -->
+<!-- # PATCH_START v22_release -->
+Version: v22.0.0
+<!-- # PATCH_END v22_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -75,6 +75,25 @@ v21 foundations add resource-only hooks for:
 - future Resource Inspector, Dashboard v2, and Tool Health Visualizer dashboard
   placeholders.
 <!-- # PATCH_END v21_resource_system -->
+
+<!-- # PATCH_START v22_release -->
+v22 Runtime Orchestrator scaffolding lives in `core/`:
+`input_layer.py`, `context_builder.py`, `ai_engine.py`, `tool_router.py`,
+`execution_layer.py`, `observability.py`, `scenario_simulator.py`,
+`runtime_config.py`, `release_sync.py`, and `ana_runtime.py`.
+
+These modules define a token-saving orchestration path:
+input envelope -> compact context -> AI plan -> scored tool route -> normalized
+execution result -> observability feedback -> scenario simulation. They are
+public-safe scaffolds and do not add loaded MCP tools by themselves.
+
+`core/release_sync.py` is a DEV/public-safe planning surface only. It must stay
+read-only by default and must not copy, delete, deploy, commit, or update
+documentation without an explicit future release task.
+
+v22 runtime tests live in `tests/runtime/` and use fake registries/results only.
+They must not call real tools, mutate the desktop, or touch private data.
+<!-- # PATCH_END v22_release -->
 
 `main.py` is the public entry point. It loads config, registers tools, runs
 quick checks, lists tools, and starts the Flask MCP server.

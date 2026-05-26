@@ -1,5 +1,21 @@
 # Changelog
 
+<!-- # PATCH_START v22_release -->
+## v22.0.0 - Token-Saving Runtime Orchestrator
+
+- Added the v22 runtime orchestration scaffold in `core/`:
+  input normalization, compact context building, AI engine abstraction, tool
+  routing, execution normalization, observability, scenario simulation,
+  runtime configuration, release sync planning, and a runtime coordinator.
+- Added pytest scaffold coverage under `tests/runtime/` for runtime,
+  router, execution, observability, and scenario flows.
+- Added `docs/ANA_MAX_V22_ARCHITECTURE.md` as the public architecture plan.
+- Kept v22 release sync safe: `release_sync` is a read-only planner and does
+  not copy, delete, deploy, commit, or modify files by itself.
+- Kept public tool counts unchanged: v22 adds runtime scaffolding and tests,
+  not new registered MCP tools.
+<!-- # PATCH_END v22_release -->
+
 <!-- # PATCH_START v20_phase3 -->
 ## v20.0.0-alpha - Autonomous Runtime Foundation
 

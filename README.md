@@ -13,9 +13,9 @@
 Public release wording:
 
 ```text
-<!-- # PATCH_START v20_final -->
-Version: v20.0.0-alpha
-<!-- # PATCH_END v20_final -->
+<!-- # PATCH_START v22_release -->
+Version: v22.0.0
+<!-- # PATCH_END v22_release -->
 Tools: 80 loaded tools
 AI Core adapters: 7
 Premium-gated families: 4
@@ -63,6 +63,30 @@ layout blocks, dev-mode messaging, Resource Inspector, Dashboard v2, and Tool
 Health Visualizer placeholders. These hooks do not expose private lab data and
 do not add new tool logic.
 <!-- # PATCH_END v21_resource_system -->
+
+<!-- # PATCH_START v22_release -->
+## v22 Runtime Orchestrator
+
+v22 adds a public-safe, scaffolded runtime orchestration layer for agents that
+need compact context and predictable tool routing before execution. The new
+modules live in `core/`:
+
+- `input_layer.py`
+- `context_builder.py`
+- `ai_engine.py`
+- `tool_router.py`
+- `execution_layer.py`
+- `observability.py`
+- `scenario_simulator.py`
+- `runtime_config.py`
+- `release_sync.py`
+- `ana_runtime.py`
+
+The v22 layer is intentionally conservative: it uses fake or injected execution
+in tests, keeps release sync as a read-only planner, and does not add loaded MCP
+tools by itself. Runtime behavior remains routed through the existing tool
+registry when connected by future integration work.
+<!-- # PATCH_END v22_release -->
 
 ANA MAX is a Windows-first MCP runtime for local QA labs, private workstations,
 offline LLMs, and AI coding agents that need real situational awareness before
