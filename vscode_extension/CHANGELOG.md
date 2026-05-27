@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.14 - Marketplace README Correction
+
+- Correct Marketplace Quick Start install commands to reference
+  `ana-antigravity-chat-1.0.14.vsix`.
+- Clarify expected tool counts so Smart Ready remains the source of truth
+  across public and mother-lab installs.
+
 ## 1.0.13 - Button Reliability Patch
 
 - Auto-detect `ANA_MAX/main.py` when the opened workspace is the parent

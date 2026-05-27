@@ -72,13 +72,13 @@ python main.py --host 127.0.0.1 --port 8766
 3. Install the VSIX:
 
 ```powershell
-code --install-extension vscode_extension\ana-antigravity-chat-1.0.13.vsix --force
+code --install-extension vscode_extension\ana-antigravity-chat-1.0.14.vsix --force
 ```
 
 For Qoder, if its CLI is available:
 
 ```powershell
-qoder --install-extension vscode_extension\ana-antigravity-chat-1.0.13.vsix --force
+qoder --install-extension vscode_extension\ana-antigravity-chat-1.0.14.vsix --force
 ```
 
 4. Reload the IDE window.
@@ -113,10 +113,10 @@ mcp_ready=true
 tools_count=86
 ```
 
-Clean public releases may show 85 tools, while the mother lab currently shows
-86 after `session_lifecycle` is enabled. Lean installs may show fewer tools when
-optional desktop or vector dependencies are not installed. The important check
-is that Smart Ready passes.
+Current public releases expose the stable public tool set; the private mother
+lab can expose one additional lab-only lifecycle tool. Lean installs may show
+fewer tools when optional desktop or vector dependencies are not installed. The
+important check is that Smart Ready passes.
 
 ## Default Endpoints
 

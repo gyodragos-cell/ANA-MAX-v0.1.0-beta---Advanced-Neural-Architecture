@@ -476,7 +476,7 @@ curl -X POST http://127.0.0.1:8765/mcp `
 The current public VSIX is `ANA MAX Hybrid AI Cockpit`:
 
 ```text
-vscode_extension\ana-antigravity-chat-1.0.13.vsix
+vscode_extension\ana-antigravity-chat-1.0.14.vsix
 ```
 
 It is a local-first MCP cockpit for Codex, Antigravity/Qoder, Windsurf,
@@ -493,13 +493,13 @@ For users who do not know Git yet, download the repository ZIP from GitHub,
 extract it, open the folder in VS Code, then install the included VSIX:
 
 ```powershell
-code --install-extension .\vscode_extension\ana-antigravity-chat-1.0.13.vsix --force
+code --install-extension .\vscode_extension\ana-antigravity-chat-1.0.14.vsix --force
 ```
 
 For Qoder, if the `qoder` CLI is available:
 
 ```powershell
-qoder --install-extension .\vscode_extension\ana-antigravity-chat-1.0.13.vsix --force
+qoder --install-extension .\vscode_extension\ana-antigravity-chat-1.0.14.vsix --force
 ```
 
 You can also install it from VS Code:
@@ -686,3 +686,4 @@ release works.
 
 MIT. Use automated desktop control only on machines you own or are allowed to
 operate.
+

@@ -2,7 +2,7 @@
   "name": "ana-antigravity-chat",
   "displayName": "ANA MAX - Hybrid AI Cockpit",
   "description": "Local-first MCP cockpit that helps AI coding agents observe, route, act, verify and remember with ANA MAX.",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "publisher": "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad",
   "preview": true,
   "author": {
@@ -154,7 +154,7 @@
         {
           "id": "anaMax",
           "title": "ANA MAX",
-          "icon": "assets/ana-max-icon.png"
+          "icon": "assets/ana-max-activity.svg"
         }
       ]
     },

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Release hygiene tests for public-facing docs."""
 
+import json
+import zipfile
 from pathlib import Path
 from unittest import TestCase
 
@@ -77,8 +79,40 @@ class TestPublicDocsHygiene(TestCase):
         self.assertIn("tool_router", extension_js)
         self.assertIn("agent_coach", extension_js)
         self.assertIn("session_rem_sleep", extension_js)
-        self.assertIn("ana-antigravity-chat-1.0.13.vsix", readme)
+        self.assertIn("ana-antigravity-chat-1.0.14.vsix", readme)
         self.assertNotIn("ana_dev", package_json + extension_js + readme)
+
+    def test_marketplace_vsix_matches_public_readme_version(self):
+        package = json.loads((PROJECT_ROOT / "vscode_extension" / "package.json").read_text(encoding="utf-8"))
+        version = package["version"]
+        expected_vsix = f"ana-antigravity-chat-{version}.vsix"
+        vsix_path = PROJECT_ROOT / "vscode_extension" / expected_vsix
+        root_readme = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
+        extension_readme = (PROJECT_ROOT / "vscode_extension" / "README.md").read_text(encoding="utf-8")
+
+        self.assertEqual(version, "1.0.14")
+        self.assertTrue(vsix_path.exists(), f"Missing packaged VSIX: {expected_vsix}")
+        self.assertIn(expected_vsix, root_readme)
+        self.assertIn(expected_vsix, extension_readme)
+        self.assertNotIn("ana-antigravity-hybrid-1.0.9.vsix", root_readme + extension_readme)
+        self.assertNotIn("ana-antigravity-chat-1.0.13.vsix", root_readme + extension_readme)
+
+        with zipfile.ZipFile(vsix_path) as archive:
+            packaged = json.loads(archive.read("extension/package.json").decode("utf-8"))
+            packaged_readme = archive.read("extension/readme.md").decode("utf-8")
+
+        self.assertEqual(packaged["publisher"], "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad")
+        self.assertEqual(packaged["name"], "ana-antigravity-chat")
+        self.assertEqual(packaged["version"], version)
+        self.assertEqual(
+            packaged["contributes"]["viewsContainers"]["activitybar"][0]["icon"],
+            "assets/ana-max-activity.svg",
+        )
+        self.assertIn("extension/assets/ana-max-activity.svg", archive.namelist())
+        self.assertIn("extension/assets/ana-max-icon.png", archive.namelist())
+        self.assertIn(expected_vsix, packaged_readme)
+        self.assertNotIn("ana-antigravity-hybrid-1.0.9.vsix", packaged_readme)
+        self.assertNotIn("ana-antigravity-chat-1.0.13.vsix", packaged_readme)
 
     def test_vscode_agent_mode_is_documented(self):
         main_py = (PROJECT_ROOT / "main.py").read_text(encoding="utf-8")
