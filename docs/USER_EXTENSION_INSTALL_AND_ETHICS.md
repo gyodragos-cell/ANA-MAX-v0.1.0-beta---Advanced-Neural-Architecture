@@ -53,7 +53,7 @@ pip install -r requirements.txt
 7. Install the VS Code extension from the included VSIX:
 
 ```powershell
-code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+code --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix
 ```
 
 Alternative VS Code method:
@@ -61,7 +61,7 @@ Alternative VS Code method:
 1. Open Extensions.
 2. Click the `...` menu.
 3. Choose `Install from VSIX`.
-4. Select `vscode_extension\advanced-neural-architecture-0.2.0.vsix`.
+4. Select `vscode_extension\ana-antigravity-1.0.8.vsix`.
 
 ## If An AI Agent Helps You
 
@@ -92,7 +92,7 @@ cd ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+code --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix
 ```
 
 ## Start ANA MAX
@@ -122,6 +122,49 @@ In VS Code, open the command palette and run:
 ANA MAX: Start MCP Server
 ANA MAX: Call Tool
 ```
+
+
+## Hybrid MCP Setup For Agent IDEs
+
+The included cockpit VSIX is designed for VS Code-compatible agent IDEs and
+MCP clients. Use one local ANA MAX server and connect all clients to it.
+
+Codex config:
+
+```toml
+[mcp_servers.anamax]
+url = "http://127.0.0.1:8766/mcp"
+```
+
+Antigravity / Qoder / Windsurf / Cursor-style config:
+
+```json
+{
+  "mcpServers": {
+    "anamax": {
+      "type": "http",
+      "url": "http://127.0.0.1:8766/mcp"
+    }
+  }
+}
+```
+
+Some clients may use this shorter shape:
+
+```json
+{
+  "servers": {
+    "ana-max": {
+      "type": "http",
+      "url": "http://127.0.0.1:8766/mcp"
+    }
+  }
+}
+```
+
+If a client discovers tools but reports optional resource discovery errors,
+update/restart ANA MAX and verify that `resources/templates/list` returns an
+empty list instead of HTTP 404.
 
 ## What Users Should Expect
 

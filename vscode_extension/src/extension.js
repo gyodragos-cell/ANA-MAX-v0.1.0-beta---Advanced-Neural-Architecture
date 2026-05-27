@@ -1,277 +1,695 @@
-const vscode = require('vscode');
-const { spawn, spawnSync } = require('child_process');
-const path = require('path');
-const http = require('http');
+"use strict";
 
-let mcpProcess = null;
-let statusBarItem = null;
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
+const vscode = require("vscode");
 
-function getMcpConfig() {
-    const config = vscode.workspace.getConfiguration('anaMax');
-    const configuredApiKey = config.get('mcpApiKey') || '';
-    const envApiKey = process.env.ANA_MCP_KEY || process.env.MCP_API_KEY || '';
-    return {
-        host: config.get('mcpHost') || '127.0.0.1',
-        port: config.get('mcpPort') || 8765,
-        apiKey: configuredApiKey && configuredApiKey !== 'change-me'
-            ? configuredApiKey
-            : envApiKey || configuredApiKey || 'change-me'
-    };
+function getConfig() {
+  const config = vscode.workspace.getConfiguration("anaMax");
+  return {
+    safeMode: config.get("safeMode", true),
+    runtimeUrl: config.get("runtimeUrl", "http://127.0.0.1:8766/mcp"),
+    runtimeRoot: config.get("runtimeRoot", ""),
+    pythonPath: config.get("pythonPath", ""),
+    runtimePort: config.get("runtimePort", 8766),
+    dashboardUrl: config.get("dashboardUrl", "http://127.0.0.1:8787"),
+    codexServerName: config.get("codexServerName", "anamax"),
+    antigravityServerName: config.get("antigravityServerName", "anamax")
+  };
 }
 
-function buildJsonRequestOptions(pathName, method = 'POST') {
-    const mcpConfig = getMcpConfig();
-    return {
-        hostname: mcpConfig.host,
-        port: mcpConfig.port,
-        path: pathName,
-        method,
+function runtimeBaseUrl(config) {
+  return config.runtimeUrl.replace(/\/mcp\/?$/, "");
+}
+
+async function getHealth(config) {
+  const res = await fetch(`${runtimeBaseUrl(config)}/health`);
+  return res.json();
+}
+
+function resolveRuntimePaths(config) {
+  const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath || "";
+  const runtimeRoot = path.resolve(config.runtimeRoot || workspaceRoot || "");
+  const pythonPath = config.pythonPath
+    ? path.resolve(config.pythonPath)
+    : path.join(runtimeRoot, "venv", "Scripts", "python.exe");
+  return {
+    runtimeRoot,
+    pythonPath,
+    mainPy: path.join(runtimeRoot, "main.py")
+  };
+}
+
+async function startRuntime() {
+  const config = getConfig();
+
+  try {
+    const readiness = await getSmartReadiness(config);
+    if (readiness.ok) {
+      vscode.window.showInformationMessage(
+        `ANA MAX smart ready at ${runtimeBaseUrl(config)} with ${readiness.tool_count || "?"} tools.`
+      );
+      return;
+    }
+  } catch {
+    // Offline is expected here; continue with launch.
+  }
+
+  const paths = resolveRuntimePaths(config);
+  if (!fs.existsSync(paths.runtimeRoot)) {
+    vscode.window.showErrorMessage(`ANA MAX runtimeRoot not found: ${paths.runtimeRoot}`);
+    return;
+  }
+  if (!fs.existsSync(paths.mainPy)) {
+    vscode.window.showErrorMessage(`ANA MAX main.py not found: ${paths.mainPy}`);
+    return;
+  }
+  if (!fs.existsSync(paths.pythonPath)) {
+    vscode.window.showErrorMessage(`Python executable not found: ${paths.pythonPath}`);
+    return;
+  }
+
+  const terminal = vscode.window.createTerminal({
+    name: "ANA MAX MCP",
+    cwd: paths.runtimeRoot
+  });
+  terminal.show(true);
+  terminal.sendText(`& "${paths.pythonPath}" "${paths.mainPy}" --host 127.0.0.1 --port ${config.runtimePort}`);
+  vscode.window.showInformationMessage(`Starting ANA MAX MCP on ${runtimeBaseUrl(config)}.`);
+}
+
+function safeModeMessage(action) {
+  const config = getConfig();
+  return `ANA & Antigravity ${action}: safe-mode ${config.safeMode ? "active" : "disabled"}.`;
+}
+
+function getHybridConfigText(config) {
+  return [
+    "ANA MAX Hybrid MCP",
+    "",
+    `Runtime URL: ${config.runtimeUrl}`,
+    `Codex server name: ${config.codexServerName}`,
+    `Antigravity/Qoder/Windsurf server name: ${config.antigravityServerName}`,
+    "",
+    "Antigravity / Qoder / Windsurf MCP JSON:",
+    JSON.stringify({
+      mcpServers: {
+        [config.antigravityServerName]: {
+          type: "http",
+          url: config.runtimeUrl
+        }
+      }
+    }, null, 2),
+    "",
+    "Codex config TOML:",
+    `[mcp_servers.${config.codexServerName}]`,
+    `url = "${config.runtimeUrl}"`
+  ].join("\n");
+}
+
+function requestJson(url, payload) {
+  return new Promise((resolve, reject) => {
+    try {
+      const parsed = new URL(url);
+      const body = JSON.stringify(payload || {});
+      const req = http.request({
+        hostname: parsed.hostname,
+        port: parsed.port,
+        path: parsed.pathname,
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${mcpConfig.apiKey}`
-        }
-    };
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(body)
+        },
+        timeout: 10000
+      }, (res) => {
+        let data = "";
+        res.on("data", (chunk) => { data += chunk; });
+        res.on("end", () => {
+          try {
+            resolve(data ? JSON.parse(data) : {});
+          } catch (error) {
+            reject(new Error(`Failed to parse response: ${error.message}`));
+          }
+        });
+      });
+      req.on("timeout", () => {
+        req.destroy(new Error("ANA & Antigravity runtime request timed out"));
+      });
+      req.on("error", reject);
+      req.write(body);
+      req.end();
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
-function resolvePythonCommand() {
-    const candidates = process.platform === 'win32'
-        ? ['python', 'py', 'python3']
-        : ['python3', 'python'];
-
-    for (const candidate of candidates) {
-        try {
-            const result = spawnSync(candidate, ['--version'], { stdio: 'ignore' });
-            if (result.status === 0) {
-                return candidate;
-            }
-        } catch (e) {
-            continue;
-        }
-    }
-
-    return null;
+async function callTool(config, name, args) {
+  const res = await requestJson(config.runtimeUrl, {
+    jsonrpc: "2.0",
+    id: Date.now(),
+    method: "tools/call",
+    params: { name, arguments: args || {} }
+  });
+  const text = res.result?.content?.[0]?.text;
+  if (!text) {
+    return { success: false, error: "Missing MCP tool content", raw: res };
+  }
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    return { success: false, error: `Non-JSON MCP tool content: ${error.message}`, raw: text };
+  }
 }
 
-function updateStatusBar(isRunning) {
-    if (!statusBarItem) {
-        statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
-        statusBarItem.command = 'anaMax.checkLicense';
-        statusBarItem.tooltip = 'ANA MAX MCP Server Status';
+async function getSmartReadiness(config) {
+  const health = await getHealth(config);
+  const toolsRes = await requestJson(config.runtimeUrl, {
+    jsonrpc: "2.0",
+    id: Date.now(),
+    method: "tools/list",
+    params: {}
+  });
+  const tools = toolsRes.result?.tools || [];
+  const names = tools.map(t => t.name);
+  const agentCoach = tools.find(t => t.name === "agent_coach") || {};
+  const actions = agentCoach.inputSchema?.properties?.action?.enum || [];
+  const router = await callTool(config, "tool_router", {
+    task: "MCP tool failed with schema mismatch action versus operation",
+    error: "Invalid value for operation",
+    max_tools: 4
+  });
+  const recommend = await callTool(config, "agent_coach", {
+    action: "recommend",
+    task: "MCP tool failed with schema mismatch action versus operation",
+    error: "Invalid value for operation",
+    max_tools: 5,
+    include_prompt: false
+  });
+  const checks = [
+    { name: "health_online", ok: health.status === "online" && !!health.mcp_ready },
+    { name: "tool_router_present", ok: names.includes("tool_router") },
+    { name: "agent_coach_present", ok: names.includes("agent_coach") },
+    { name: "agent_coach_recommend_schema", ok: actions.includes("recommend") },
+    { name: "tool_router_call", ok: !!router.success && !!router.data?.recommended_tools?.length },
+    {
+      name: "agent_coach_recommend_call",
+      ok: !!recommend.success
+        && recommend.data?.schema === "ana.agent_coach.recommend.v1"
+        && !!recommend.data?.primary_tool
     }
+  ];
+  return {
+    ok: checks.every(c => c.ok),
+    health,
+    tool_count: tools.length,
+    actions,
+    checks,
+    router: router.data || router,
+    recommend: recommend.data || recommend
+  };
+}
 
-    if (isRunning) {
-        statusBarItem.text = '$(check) ANA MAX Running';
-        statusBarItem.color = '#10B981'; // Green
-    } else {
-        statusBarItem.text = '$(circle-slash) ANA MAX Stopped';
-        statusBarItem.color = '#94A3B8'; // Gray
-    }
-
-    statusBarItem.show();
+function formatSmartReadiness(report) {
+  const status = report.ok ? "SMART READY" : "NOT READY";
+  const primary = report.recommend?.primary_tool || "none";
+  const stack = (report.recommend?.tool_stack || []).join(", ") || "none";
+  const checks = report.checks.map(c => `${c.ok ? "[OK]" : "[FAIL]"} ${c.name}`).join("\n");
+  return [
+    status,
+    `health=${report.health?.status} mcp_ready=${report.health?.mcp_ready} tools=${report.tool_count}`,
+    `primary_tool=${primary}`,
+    `tool_stack=${stack}`,
+    "",
+    checks
+  ].join("\n");
 }
 
 function activate(context) {
-    console.log('ANA MAX MCP Extension is now active!');
+  let panel = undefined;
 
-    // Create status bar item
-    updateStatusBar(false);
+  const openCockpit = vscode.commands.registerCommand("ana.openChat", () => {
+    if (panel) {
+      panel.reveal(vscode.ViewColumn.Beside);
+      return;
+    }
 
-    // Command to start the MCP server
-    let startCmd = vscode.commands.registerCommand('anaMax.startMCP', () => {
-        if (mcpProcess) {
-            vscode.window.showInformationMessage('ANA MAX MCP Server is already running.');
-            return;
-        }
+    panel = vscode.window.createWebviewPanel(
+      "anaAntigravityCockpit",
+      "ANA & Antigravity Cockpit",
+      vscode.ViewColumn.Beside,
+      { enableScripts: true, retainContextWhenHidden: true }
+    );
 
-        // Get the workspace folder
-        const workspaceFolders = vscode.workspace.workspaceFolders;
-        if (!workspaceFolders) {
-            vscode.window.showErrorMessage('Please open the ANA MAX folder in VS Code first.');
-            return;
-        }
+    panel.webview.html = getWebviewContent();
 
-        const projectPath = workspaceFolders[0].uri.fsPath;
-        const scriptPath = path.join(projectPath, 'main.py');
-        const pythonCmd = resolvePythonCommand();
-
-        if (!pythonCmd) {
-            vscode.window.showErrorMessage('Python not found in PATH. Install Python or use py launcher.');
-            return;
-        }
-
-        const pythonArgs = pythonCmd === 'py' ? ['-3', scriptPath] : [scriptPath];
-
-        const mcpConfig = getMcpConfig();
-        const env = {
-            ...process.env,
-            MCP_API_KEY: mcpConfig.apiKey,
-            ANA_MCP_KEY: process.env.ANA_MCP_KEY || mcpConfig.apiKey,
-            MCP_HOST: mcpConfig.host,
-            MCP_PORT: String(mcpConfig.port)
-        };
-
-        // Start the server using Python
-        mcpProcess = spawn(pythonCmd, pythonArgs, { cwd: projectPath, env });
-
-        mcpProcess.on('error', (error) => {
-            vscode.window.showErrorMessage(`Could not start MCP: ${error.message}`);
-            mcpProcess = null;
-            updateStatusBar(false);
-        });
-
-        mcpProcess.stdout.on('data', (data) => {
-            console.log(`MCP Output: ${data}`);
-        });
-
-        mcpProcess.stderr.on('data', (data) => {
-            console.error(`MCP Error: ${data}`);
-        });
-
-        mcpProcess.on('close', (code) => {
-            console.log(`MCP Server exited with code ${code}`);
-            mcpProcess = null;
-            vscode.window.showWarningMessage('ANA MAX MCP Server has stopped.');
-            updateStatusBar(false);
-        });
-
-        vscode.window.showInformationMessage(`ANA MAX MCP Server started on http://${mcpConfig.host}:${mcpConfig.port}`);
-        updateStatusBar(true);
+    panel.onDidDispose(() => {
+      panel = undefined;
     });
 
-    // Command to stop the MCP server
-    let stopCmd = vscode.commands.registerCommand('anaMax.stopMCP', () => {
-        if (mcpProcess) {
-            mcpProcess.kill();
-            mcpProcess = null;
-            vscode.window.showInformationMessage('ANA MAX MCP Server stopped.');
-            updateStatusBar(false);
-        } else {
-            vscode.window.showInformationMessage('ANA MAX MCP Server is not running.');
+    panel.webview.onDidReceiveMessage(async (message) => {
+      const config = getConfig();
+      const baseUrl = runtimeBaseUrl(config);
+
+      if (message.command === "health") {
+        try {
+          const res = await fetch(`${baseUrl}/health`);
+          const data = await res.json();
+          post(panel, "health", data);
+        } catch (e) {
+          post(panel, "error", `Backend offline @ ${baseUrl}. Start ANA MAX via main.py.`);
         }
-    });
+        return;
+      }
 
-    // Command to call a tool via HTTP to the MCP Server
-    let callToolCmd = vscode.commands.registerCommand('anaMax.callTool', async () => {
-        const toolName = await vscode.window.showInputBox({
-            prompt: "Enter the tool name (e.g., windows_uia_bridge)",
-            placeHolder: "windows_uia_bridge"
-        });
+      if (message.command === "smartReady") {
+        try {
+          const report = await getSmartReadiness(config);
+          post(panel, "smartReady", report);
+        } catch (e) {
+          post(panel, "error", `Smart readiness failed @ ${baseUrl}: ${e.message}`);
+        }
+        return;
+      }
 
-        if (!toolName) return;
+      if (message.command === "recommend") {
+        try {
+          const payload = await callTool(config, "agent_coach", {
+            action: "recommend",
+            task: message.task || "Cockpit operator asks for the next best ANA MAX tool",
+            max_tools: 5,
+            include_prompt: false
+          });
+          post(panel, "recommend", payload.data || payload);
+        } catch (e) {
+          post(panel, "error", e.message);
+        }
+        return;
+      }
 
-        // Simple example: sending an execute request
-        const postData = JSON.stringify({
-            tool: toolName,
+      if (message.command === "checkpoint") {
+        try {
+          const payload = await callTool(config, "session_checkpoint", {
+            title: "Cockpit quick checkpoint",
+            summary: message.summary || "Operator saved a quick checkpoint from the cockpit.",
+            current_goal: "Continue ANA MAX MCP/tool orchestration without losing chat context.",
+            next_steps: "Read docs/NEXT_SESSION_BOOTSTRAP.md; verify MCP smart readiness; continue from ANA_MAX/docs/CURRENT_SESSION_HANDOFF.md",
+            files_changed: "vscode_extension/extension.js; ANA_MAX/extension/_vsix_unpack_103/extension/extension.js; docs/AGENT_MEMORY.md; docs/NEXT_SESSION_BOOTSTRAP.md",
+            validation: "MCP smart readiness should report OK before continuing.",
+            risks: "Reloading the IDE can close the current chat; defer reload until operator is ready.",
+            sync_status: "Mother lab only; public release sync pending review.",
+            include_git: true
+          });
+          post(panel, "checkpoint", payload.data || payload);
+        } catch (e) {
+          post(panel, "error", e.message);
+        }
+        return;
+      }
+
+      if (message.command === "remSleep") {
+        try {
+          const payload = await callTool(config, "session_rem_sleep", {
+            action: "consolidate",
+            checkpoint_limit: 8,
+            telemetry_limit: 160,
+            lesson_limit: 25,
+            save_memory: true
+          });
+          post(panel, "remSleep", payload.data || payload);
+        } catch (e) {
+          post(panel, "error", e.message);
+        }
+        return;
+      }
+
+      if (message.command === "listTools") {
+        try {
+          const res = await requestJson(config.runtimeUrl, {
+            jsonrpc: "2.0",
+            id: Date.now(),
+            method: "tools/list",
             params: {}
-        });
+          });
+          const tools = res.result?.tools || [];
+          const names = tools.map(t => t.name).sort().join("\n");
+          post(panel, "response", names ? `Tools loaded (${tools.length}):\n\n${names}` : "No tools found.");
+        } catch (e) {
+          post(panel, "error", e.message);
+        }
+        return;
+      }
 
-        const options = buildJsonRequestOptions('/execute');
-        options.headers['Content-Length'] = Buffer.byteLength(postData);
+      if (message.command === "hybridConfig") {
+        post(panel, "response", getHybridConfigText(config));
+        return;
+      }
 
-        const req = http.request(options, (res) => {
-            let data = '';
-            res.on('data', (chunk) => { data += chunk; });
-            res.on('end', () => {
-                vscode.window.showInformationMessage(`Response from ${toolName}: ${data.substring(0, 200)}...`);
-            });
-        });
-
-        req.on('error', (e) => {
-            vscode.window.showErrorMessage(`Failed to connect to ANA MAX: ${e.message}`);
-        });
-
-        req.write(postData);
-        req.end();
-    });
-
-    // Command to check license status
-    let checkLicenseCmd = vscode.commands.registerCommand('anaMax.checkLicense', async () => {
-        const mcpConfig = getMcpConfig();
-        const options = {
-            hostname: mcpConfig.host,
-            port: mcpConfig.port,
-            path: '/health',
-            method: 'GET'
-        };
-
-        const req = http.request(options, (res) => {
-            let data = '';
-            res.on('data', (chunk) => { data += chunk; });
-            res.on('end', () => {
-                try {
-                    const health = JSON.parse(data);
-                    const licenseType = health.license || 'free';
-                    const toolCount = health.tools_count || 0;
-                    
-                    let message = `ANA MAX Status:\n`;
-                    message += `- Server: ${health.status || 'unknown'}\n`;
-                    message += `- License: ${licenseType.toUpperCase()}\n`;
-                    message += `- Tools: ${toolCount} available\n`;
-                    message += `- Version: ${health.version || 'unknown'}\n\n`;
-                    
-                    if (licenseType === 'free') {
-                        message += `Upgrade to Pro for premium tools:\n`;
-                        message += `- live_desktop_viewer\n`;
-                        message += `- desktop_control\n`;
-                        message += `- windows_insight\n`;
-                        message += `- windows_deep_sight`;
-                    } else {
-                        message += `All premium tools unlocked!`;
-                    }
-                    
-                    vscode.window.showInformationMessage(message);
-                } catch (e) {
-                    vscode.window.showErrorMessage('Could not parse server response');
-                }
-            });
-        });
-
-        req.on('error', (e) => {
-            vscode.window.showErrorMessage(`Failed to connect to ANA MAX: ${e.message}\n\nMake sure the MCP server is running (python main.py)`);
-        });
-
-        req.end();
-    });
-
-    // Command to open documentation
-    let openDocsCmd = vscode.commands.registerCommand('anaMax.openDocs', () => {
-        const docs = [
-            { label: 'Licensing Guide (docs/LICENSING.md)', path: 'docs/LICENSING.md' },
-            { label: 'Installation Guide (INSTALL_GUIDE.md)', path: 'INSTALL_GUIDE.md' },
-            { label: 'README.md', path: 'README.md' },
-            { label: 'GitHub Repository', path: 'https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture' },
-            { label: 'Web Interface (index.html)', path: 'index.html' }
-        ];
-
-        vscode.window.showQuickPick(docs).then(selection => {
-            if (selection) {
-                if (selection.path.startsWith('http')) {
-                    vscode.env.openExternal(vscode.Uri.parse(selection.path));
-                } else {
-                    const workspaceFolders = vscode.workspace.workspaceFolders;
-                    if (workspaceFolders) {
-                        const docPath = vscode.Uri.file(path.join(workspaceFolders[0].uri.fsPath, selection.path));
-                        vscode.commands.executeCommand('vscode.open', docPath);
-                    }
-                }
+      if (message.command === "execute") {
+        try {
+          const res = await requestJson(config.runtimeUrl, {
+            jsonrpc: "2.0",
+            id: Date.now(),
+            method: "tools/call",
+            params: { name: message.tool, arguments: message.args || {} }
+          });
+          const payloadText = res.result?.content?.[0]?.text;
+          let payload = undefined;
+          if (payloadText) {
+            try {
+              payload = JSON.parse(payloadText);
+            } catch {
+              payload = undefined;
             }
-        });
+          }
+          if (payload?.guidance_summary) {
+            post(panel, "toolGuidance", {
+              tool: message.tool,
+              payload,
+              guidance_summary: payload.guidance_summary
+            });
+          } else {
+            post(panel, "response", JSON.stringify(res.result || res.error, null, 2));
+          }
+        } catch (e) {
+          post(panel, "error", e.message);
+        }
+        return;
+      }
+
+      if (message.command === "sendMessage") {
+        const text = message.text || "";
+        if (text.startsWith("/tool ")) {
+          const body = text.slice(6).trim();
+          const space = body.indexOf(" ");
+          const name = space === -1 ? body : body.slice(0, space);
+          const argsStr = space === -1 ? "{}" : body.slice(space + 1);
+          try {
+            const args = JSON.parse(argsStr);
+            panel.webview.postMessage({ command: "execute", tool: name, args });
+          } catch (e) {
+            post(panel, "error", "Invalid JSON arguments.");
+          }
+          return;
+        }
+        post(panel, "response", `Message received: ${text}\n\nAntigravity & ANA are bridged. Every tool in the mother-folder is available.`);
+      }
     });
+  });
 
-    context.subscriptions.push(startCmd, stopCmd, callToolCmd, checkLicenseCmd, openDocsCmd, statusBarItem);
+  const callTool = vscode.commands.registerCommand("ana.callTool", async () => {
+    const config = getConfig();
+    const tool = await vscode.window.showInputBox({ prompt: "Enter MCP Tool Name (from mother-folder)" });
+    if (!tool) return;
+    const args = await vscode.window.showInputBox({ prompt: "Arguments JSON", value: "{}" });
+    if (args === undefined) return;
+
+    try {
+      const response = await requestJson(config.runtimeUrl, {
+        jsonrpc: "2.0",
+        id: "vscode-tool-call",
+        method: "tools/call",
+        params: { name: tool, arguments: JSON.parse(args || "{}") }
+      });
+      const doc = await vscode.workspace.openTextDocument({ content: JSON.stringify(response, null, 2), language: "json" });
+      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (e) {
+      vscode.window.showErrorMessage(e.message);
+    }
+  });
+
+  context.subscriptions.push(openCockpit, callTool);
+
+  context.subscriptions.push(vscode.commands.registerCommand("ana.showHybridConfig", async () => {
+    const config = getConfig();
+    const doc = await vscode.workspace.openTextDocument({
+      content: getHybridConfigText(config),
+      language: "json"
+    });
+    await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.showHealth", async () => {
+    const config = getConfig();
+    try {
+      const report = await getSmartReadiness(config);
+      const doc = await vscode.workspace.openTextDocument({
+        content: JSON.stringify(report, null, 2),
+        language: "json"
+      });
+      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (e) {
+      vscode.window.showErrorMessage(`ANA MAX smart readiness failed: ${e.message}`);
+    }
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.showRouterDecisions", async () => {
+    const config = getConfig();
+    try {
+      const payload = await callTool(config, "agent_coach", {
+        action: "recommend",
+        task: "VS Code command asks for the next best ANA MAX tool",
+        max_tools: 5,
+        include_prompt: false
+      });
+      const doc = await vscode.workspace.openTextDocument({
+        content: JSON.stringify(payload, null, 2),
+        language: "json"
+      });
+      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (e) {
+      vscode.window.showErrorMessage(e.message);
+    }
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.runRemSleep", async () => {
+    const config = getConfig();
+    try {
+      const payload = await callTool(config, "session_rem_sleep", {
+        action: "consolidate",
+        checkpoint_limit: 8,
+        telemetry_limit: 160,
+        lesson_limit: 25,
+        save_memory: true
+      });
+      const doc = await vscode.workspace.openTextDocument({
+        content: JSON.stringify(payload, null, 2),
+        language: "json"
+      });
+      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (e) {
+      vscode.window.showErrorMessage(e.message);
+    }
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.startRuntime", startRuntime));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.executeTool", async () => {
+    await vscode.commands.executeCommand("ana.callTool");
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.inspectRuntime", async () => {
+    const config = getConfig();
+    try {
+      const response = await requestJson(config.runtimeUrl, {
+        jsonrpc: "2.0",
+        id: "inspect-runtime",
+        method: "tools/call",
+        params: { name: "ana_runtime_inspector", arguments: { action: "snapshot" } }
+      });
+      const doc = await vscode.workspace.openTextDocument({
+        content: JSON.stringify(response, null, 2),
+        language: "json"
+      });
+      await vscode.window.showTextDocument(doc, vscode.ViewColumn.Beside);
+    } catch (e) {
+      vscode.window.showErrorMessage(e.message);
+    }
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.runScenario", async () => {
+    vscode.window.showInformationMessage("ANA MAX scenario runner is not wired in this hybrid build yet.");
+  }));
+
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.showObservability", async () => {
+    vscode.window.showInformationMessage("ANA MAX observability view is not wired in this hybrid build yet.");
+  }));
+
+  // Legacy commands
+  context.subscriptions.push(vscode.commands.registerCommand("anaMax.openDashboard", async () => {
+    const config = getConfig();
+    await vscode.env.openExternal(vscode.Uri.parse(config.dashboardUrl));
+  }));
 }
 
-function deactivate() {
-    if (mcpProcess) {
-        mcpProcess.kill();
-        mcpProcess = null;
-    }
-    if (statusBarItem) {
-        statusBarItem.dispose();
-    }
+function post(panel, type, content) {
+  panel?.webview.postMessage({ type, content });
 }
 
-module.exports = {
-    activate,
-    deactivate
-};
+async function fetch(url) {
+  return new Promise((resolve, reject) => {
+    http.get(url, (res) => {
+      let data = "";
+      res.on("data", (c) => data += c);
+      res.on("end", () => resolve({ json: () => JSON.parse(data) }));
+    }).on("error", reject);
+  });
+}
+
+function getWebviewContent() {
+  return `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; background: #1e1e1e; color: #ccc; padding: 20px; display: flex; flex-direction: column; height: 100vh; margin: 0; }
+        .header { background: #252526; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
+        h1 { font-size: 18px; margin: 0 0 5px 0; color: #007acc; }
+        p { font-size: 12px; margin: 0; color: #888; }
+        .toolbar { display: flex; gap: 10px; margin-bottom: 15px; }
+        .status { background: #1f2a24; border: 1px solid #315c3f; border-radius: 6px; padding: 10px; margin-bottom: 12px; font-size: 12px; color: #b7e4c7; white-space: pre-wrap; }
+        .status.bad { background: #3a2323; border-color: #713333; color: #ffc9c9; }
+        button { background: #0e639c; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        button:hover { background: #1177bb; }
+        #chat { flex: 1; background: #252526; border: 1px solid #333; border-radius: 8px; overflow-y: auto; padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px; border-radius: 6px; font-size: 13px; line-height: 1.4; white-space: pre-wrap; }
+        .msg.user { background: #37373d; border-left: 4px solid #007acc; align-self: flex-end; max-width: 80%; }
+        .msg.ai { background: #2d2d30; border-left: 4px solid #4ec9b0; align-self: flex-start; max-width: 90%; }
+        .msg.error { background: #4b1a1a; border-left: 4px solid #f44336; }
+        .input-box { display: flex; gap: 10px; }
+        input { flex: 1; background: #3c3c3c; color: #eee; border: 1px solid #555; padding: 10px; border-radius: 4px; outline: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ANA MAX Hybrid AI Cockpit</h1>
+        <p>Local-first MCP bridge for Codex, Antigravity/Qoder, Windsurf and VS Code-compatible agent IDEs.</p>
+    </div>
+    <div class="toolbar">
+        <button onclick="cmd('health')">Health</button>
+        <button onclick="cmd('smartReady')">Smart Ready</button>
+        <button onclick="recommend()">Recommend</button>
+        <button onclick="checkpoint()">Checkpoint</button>
+        <button onclick="remSleep()">REM Sleep</button>
+        <button onclick="cmd('listTools')">List Tools</button>
+        <button onclick="cmd('hybridConfig')">Hybrid Config</button>
+        <button onclick="identity()">Identity</button>
+    </div>
+    <div id="status" class="status">Smart readiness not checked yet.</div>
+    <div id="chat"></div>
+    <div class="input-box">
+        <input type="text" id="in" placeholder="Scrie un mesaj sau /tool name {}" />
+        <button onclick="send()">Send</button>
+    </div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('in');
+
+        input.onkeypress = (e) => { if(e.key === 'Enter') send(); };
+
+        function cmd(command) {
+            addMsg(command.toUpperCase(), 'user');
+            vscode.postMessage({ command });
+        }
+
+        function identity() {
+            addMsg('/tool ana_identity {}', 'user');
+            vscode.postMessage({ command: "execute", tool: "ana_identity", args: {} });
+        }
+
+        function recommend() {
+            const task = input.value.trim() || 'Cockpit operator asks for the next best ANA MAX tool';
+            addMsg('RECOMMEND: ' + task, 'user');
+            vscode.postMessage({ command: "recommend", task });
+        }
+
+        function checkpoint() {
+            const summary = input.value.trim() || 'Operator saved a quick checkpoint before risking chat loss.';
+            addMsg('CHECKPOINT: ' + summary, 'user');
+            vscode.postMessage({ command: "checkpoint", summary });
+        }
+
+        function remSleep() {
+            addMsg('REM SLEEP: consolidate recent session lessons', 'user');
+            vscode.postMessage({ command: "remSleep" });
+        }
+
+        function send() {
+            const val = input.value.trim();
+            if(!val) return;
+            addMsg(val, 'user');
+            vscode.postMessage({ command: 'sendMessage', text: val });
+            input.value = '';
+        }
+
+        function addMsg(text, type) {
+            const d = document.createElement('div');
+            d.className = 'msg ' + type;
+            d.textContent = text;
+            chat.appendChild(d);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function formatSmartReadiness(report) {
+            const checks = (report.checks || []).map(c => (c.ok ? '[OK] ' : '[FAIL] ') + c.name).join('\\n');
+            const stack = ((report.recommend || {}).tool_stack || []).join(', ') || 'none';
+            return (report.ok ? 'SMART READY' : 'NOT READY')
+                + '\\nhealth=' + ((report.health || {}).status)
+                + ' mcp_ready=' + ((report.health || {}).mcp_ready)
+                + ' tools=' + report.tool_count
+                + '\\nprimary_tool=' + (((report.recommend || {}).primary_tool) || 'none')
+                + '\\ntool_stack=' + stack
+                + '\\n\\n' + checks;
+        }
+
+        function formatToolGuidance(content) {
+            const summary = content.guidance_summary || {};
+            const stack = (summary.tool_stack || []).join(', ') || 'none';
+            return 'Tool failed with guidance: ' + (content.tool || 'unknown')
+                + '\\nprimary_tool=' + (summary.primary_tool || 'none')
+                + '\\ntool_stack=' + stack
+                + '\\nnext_action=' + (summary.next_action || '')
+                + '\\nsource=' + (summary.source || '')
+                + '\\n\\nFull payload:\\n' + JSON.stringify(content.payload, null, 2);
+        }
+
+        window.addEventListener('message', (e) => {
+            const m = e.data;
+            if(m.type === 'response') addMsg(m.content, 'ai');
+            if(m.type === 'health') addMsg('Health Check:\\n' + JSON.stringify(m.content, null, 2), 'ai');
+            if(m.type === 'smartReady') {
+                const status = document.getElementById('status');
+                status.textContent = formatSmartReadiness(m.content);
+                status.className = 'status ' + (m.content.ok ? '' : 'bad');
+                addMsg('Smart Readiness:\\n' + formatSmartReadiness(m.content), 'ai');
+            }
+            if(m.type === 'recommend') {
+                const stack = (m.content.tool_stack || []).join(', ') || 'none';
+                addMsg('Recommendation:\\nprimary_tool=' + (m.content.primary_tool || 'none') + '\\ntool_stack=' + stack + '\\nnext_action=' + (m.content.next_action || ''), 'ai');
+            }
+            if(m.type === 'checkpoint') {
+                addMsg('Checkpoint saved:\\n' + JSON.stringify(m.content, null, 2), 'ai');
+            }
+            if(m.type === 'remSleep') {
+                addMsg('REM sleep consolidated:\\nheadline=' + (m.content.headline || '') + '\\nreport=' + (m.content.saved_report || 'not saved') + '\\nmemory=' + JSON.stringify(m.content.saved_memory || {}, null, 2), 'ai');
+            }
+            if(m.type === 'toolGuidance') {
+                addMsg(formatToolGuidance(m.content), 'ai');
+            }
+            if(m.type === 'error') addMsg('Error: ' + m.content, 'error');
+            if(m.command === 'execute') vscode.postMessage(m);
+        });
+
+        addMsg('Cockpit ready. Hybrid MCP active: Codex + Antigravity/Qoder + Windsurf + ANA MAX on 8766.', 'ai');
+        vscode.postMessage({ command: 'smartReady' });
+    </script>
+</body>
+</html>`;
+}
+
+function deactivate() { }
+
+module.exports = { activate, deactivate };

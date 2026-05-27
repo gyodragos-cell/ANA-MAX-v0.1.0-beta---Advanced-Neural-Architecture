@@ -1,112 +1,154 @@
 {
-  "name": "advanced-neural-architecture",
-  "displayName": "ANA MAX - Advanced Neural Architecture",
-  "description": "Windows-first MCP runtime with 80 loaded tools for local agent IDE workflows, desktop awareness, runtime diagnostics, and verification.",
-  "version": "0.2.0",
+  "name": "ana-antigravity-chat",
+  "displayName": "ANA MAX Hybrid AI Cockpit",
+  "description": "Local-first MCP cockpit for ANA MAX: Codex, Antigravity/Qoder, Windsurf and VS Code-compatible agent IDEs.",
+  "version": "1.0.8",
+  "publisher": "ana-ai",
+  "author": {
+    "name": "Dragos / gyodragos-cell with Codex",
+    "email": "gyodragos@gmail.com",
+    "url": "https://github.com/gyodragos-cell"
+  },
+  "contributors": [
+    {
+      "name": "Codex",
+      "url": "https://openai.com/codex"
+    }
+  ],
+  "license": "MIT",
+  "icon": "assets/ana-max-icon.png",
+  "homepage": "https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/",
   "repository": {
     "type": "git",
     "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git"
   },
-  "homepage": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme",
   "bugs": {
     "url": "https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues"
   },
-  "engines": {
-    "vscode": "^1.80.0"
-  },
   "categories": [
-    "AI",
+    "Machine Learning",
     "Other"
   ],
   "keywords": [
-    "AI",
-    "MCP",
-    "Windows",
-    "Automation",
-    "Desktop Awareness",
-    "UI Testing",
-    "Agent IDE",
-    "Local First",
-    "Neural Architecture"
+    "mcp",
+    "model-context-protocol",
+    "ai-agent",
+    "agent-ide",
+    "codex",
+    "antigravity",
+    "qoder",
+    "windsurf",
+    "vscode",
+    "local-ai",
+    "windows-automation",
+    "qa",
+    "debugging",
+    "tool-router",
+    "desktop-ai",
+    "ana-max"
   ],
-  "license": "MIT",
-  "icon": "icon.png",
-  "scripts": {
-    "check": "node --check src/extension.js",
-    "package": "vsce package"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.80.0",
-    "@vscode/vsce": "^3.9.1"
+  "engines": {
+    "vscode": "^1.90.0"
   },
   "main": "./src/extension.js",
   "contributes": {
+    "commands": [
+      {
+        "command": "ana.openChat",
+        "title": "ANA & Antigravity: Open Cockpit",
+        "category": "ANA"
+      },
+      {
+        "command": "ana.callTool",
+        "title": "ANA & Antigravity: Call MCP Tool",
+        "category": "ANA"
+      },
+      {
+        "command": "ana.showHybridConfig",
+        "title": "ANA & Antigravity: Show Hybrid MCP Config",
+        "category": "ANA"
+      },
+      {
+        "command": "anaMax.startRuntime",
+        "title": "ANA MAX: Start Runtime"
+      },
+      {
+        "command": "anaMax.showHealth",
+        "title": "ANA MAX: Show Health"
+      },
+      {
+        "command": "anaMax.runScenario",
+        "title": "ANA MAX: Run Scenario"
+      },
+      {
+        "command": "anaMax.executeTool",
+        "title": "ANA MAX: Execute Tool"
+      },
+      {
+        "command": "anaMax.inspectRuntime",
+        "title": "ANA MAX: Inspect Runtime"
+      },
+      {
+        "command": "anaMax.showRouterDecisions",
+        "title": "ANA MAX: Show Router Decisions"
+      },
+      {
+        "command": "anaMax.runRemSleep",
+        "title": "ANA MAX: Run REM Sleep"
+      },
+      {
+        "command": "anaMax.showObservability",
+        "title": "ANA MAX: Show Observability"
+      },
+      {
+        "command": "anaMax.openDashboard",
+        "title": "ANA MAX: Open Dashboard"
+      }
+    ],
     "configuration": {
       "title": "ANA MAX",
       "properties": {
-        "anaMax.mcpApiKey": {
-          "type": "string",
-          "default": "change-me",
-          "description": "Bearer token sent to the local ANA MAX MCP server. Must match MCP_API_KEY or ANA_MCP_KEY."
+        "anaMax.safeMode": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep ANA MAX extension actions in safe-mode."
         },
-        "anaMax.mcpHost": {
+        "anaMax.runtimeUrl": {
           "type": "string",
-          "default": "127.0.0.1",
-          "description": "ANA MAX MCP server host."
+          "default": "http://127.0.0.1:8766/mcp",
+          "description": "ANA MAX MCP or runtime endpoint."
         },
-        "anaMax.mcpPort": {
+        "anaMax.runtimeRoot": {
+          "type": "string",
+          "default": "",
+          "description": "Local ANA MAX runtime root used by the start command. Defaults to the open workspace folder."
+        },
+        "anaMax.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional Python executable path. Defaults to runtimeRoot\\venv\\Scripts\\python.exe."
+        },
+        "anaMax.runtimePort": {
           "type": "number",
-          "default": 8765,
-          "description": "ANA MAX MCP server port."
+          "default": 8766,
+          "description": "ANA MAX MCP port used by the start command."
+        },
+        "anaMax.dashboardUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8787",
+          "description": "ANA MAX Control Center dashboard endpoint."
+        },
+        "anaMax.codexServerName": {
+          "type": "string",
+          "default": "anamax",
+          "description": "Codex MCP server name for the shared ANA MAX runtime."
+        },
+        "anaMax.antigravityServerName": {
+          "type": "string",
+          "default": "anamax",
+          "description": "Antigravity/Qoder/Windsurf MCP server name for the shared ANA MAX runtime."
         }
       }
-    },
-    "commands": [
-      {
-        "command": "anaMax.startMCP",
-        "title": "ANA MAX: Start MCP Server",
-        "icon": "$(play)"
-      },
-      {
-        "command": "anaMax.stopMCP",
-        "title": "ANA MAX: Stop MCP Server",
-        "icon": "$(stop)"
-      },
-      {
-        "command": "anaMax.callTool",
-        "title": "ANA MAX: Call Tool",
-        "icon": "$(tools)"
-      },
-      {
-        "command": "anaMax.checkLicense",
-        "title": "ANA MAX: Check License Status",
-        "icon": "$(key)"
-      },
-      {
-        "command": "anaMax.openDocs",
-        "title": "ANA MAX: Open Documentation",
-        "icon": "$(info)"
-      }
-    ],
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "ana-max-container",
-          "title": "ANA MAX",
-          "icon": "$(brain)"
-        }
-      ]
-    },
-    "views": {
-      "ana-max-container": [
-        {
-          "id": "ana-max-status",
-          "name": "ANA MAX Status",
-          "icon": "$(info)"
-        }
-      ]
     }
-  },
-  "publisher": "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad"
+  }
 }
-

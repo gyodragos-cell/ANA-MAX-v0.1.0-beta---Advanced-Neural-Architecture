@@ -1,149 +1,97 @@
-# ANA MAX MCP - Advanced Neural Architecture
+# ANA MAX Hybrid AI Cockpit
 
-**Windows-first MCP runtime with 80 loaded tools for local agent IDE workflows**
+Local-first MCP cockpit for ANA MAX. One runtime can serve Codex, Antigravity/Qoder, Windsurf, Cursor, VS Code-compatible agent IDEs, and the ANA cockpit.
 
-Use ANA MAX from VS Code as a local tool layer for AI coding agents: desktop
-awareness, code and git tools, terminal context, OCR, authorized runtime
-instrumentation, and verification.
+## Public Project
 
-## Quick Start
+- Author: Dragos / `gyodragos-cell`, built with Codex as the main engineering copilot
+- Repository: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
+- Live site: https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/
+- License: MIT
+- Public release: v0.1.0-beta
+- Public runtime: 80-tool public baseline; full local lab/dev mode can expose more tools
 
-1. Install Python 3.9+ from https://python.org
-2. Download the ANA MAX repository ZIP from GitHub, or clone it with Git.
-3. Open the ANA MAX folder in VS Code.
-4. Install dependencies: `pip install -r requirements.txt`
-5. Run: `ANA MAX: Start MCP Server`
-6. Use tools: `ANA MAX: Call Tool`
+## What It Does
 
-## MCP Auth Settings
+ANA MAX is a local helper layer for AI agents. It gives an agent tools to observe your project, inspect the Windows desktop, run checks, choose the right tool, verify work, and remember useful lessons.
 
-The public release requires MCP authentication. The extension uses these VS Code
-settings:
+## Caracteristici
+
+- Full local MCP bridge to ANA MAX tools.
+- Smart readiness checks for `tool_router`, `agent_coach`, and `session_rem_sleep`.
+- Next-tool recommendations so agents do not scan every tool blindly.
+- Checkpoint and REM Sleep controls for durable session memory.
+- Hybrid config helper for Codex, Antigravity/Qoder, Windsurf, Cursor, and VS Code-compatible MCP clients.
+
+## Beginner Install
+
+1. Download or clone ANA MAX.
+2. Start the MCP runtime:
+
+```powershell
+cd ANA_MAX
+python main.py --host 127.0.0.1 --port 8766
+```
+
+3. Install the VSIX:
+
+```powershell
+code --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix --force
+```
+
+For Qoder:
+
+```powershell
+qoder --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix --force
+```
+
+4. Reload the IDE window.
+5. Run `ANA & Antigravity: Open Cockpit`.
+6. Press `Smart Ready`.
+
+Expected health:
+
+```text
+status=online
+mcp_ready=true
+tools_count=80 public baseline / 85 full local lab
+```
+
+## Porturi Implicite
+
+- **MCP Server**: `http://127.0.0.1:8766/mcp`
+- **Dashboard**: `http://127.0.0.1:8787`
+
+## Hybrid MCP Config
+
+Codex:
+
+```toml
+[mcp_servers.anamax]
+url = "http://127.0.0.1:8766/mcp"
+```
+
+Antigravity / Qoder / Windsurf / Cursor:
 
 ```json
 {
-  "anaMax.mcpApiKey": "change-me",
-  "anaMax.mcpHost": "127.0.0.1",
-  "anaMax.mcpPort": 8765
+  "mcpServers": {
+    "anamax": {
+      "type": "http",
+      "url": "http://127.0.0.1:8766/mcp"
+    }
+  }
 }
 ```
 
-When you start the server from VS Code, `anaMax.mcpApiKey` is passed as
-`MCP_API_KEY`. Tool calls from the extension send:
+If your IDE asks for fields instead of JSON:
 
 ```text
-Authorization: Bearer change-me
+Name: anamax
+Type: HTTP / remote MCP
+URL: http://127.0.0.1:8766/mcp
 ```
 
-VS Code 1.121+ sets `VSCODE_AGENT` for terminal commands launched by an agent.
-ANA MAX detects it automatically and keeps startup output compact for agent
-sessions. Manual runs keep the normal output.
+## Marketplace Keywords
 
-## Install From VSIX
-
-If the extension is not installed yet, install the included VSIX from the repo
-root:
-
-```powershell
-code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
-```
-
-Or use VS Code:
-
-```text
-Extensions -> ... -> Install from VSIX
-```
-
-Select:
-
-```text
-vscode_extension\advanced-neural-architecture-0.2.0.vsix
-```
-
-For users who do not know Git yet, use the ZIP download path documented in
-`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`.
-
-## Features
-
-<!-- # PATCH_START v20_final -->
-- 80 loaded MCP tools in the public release
-<!-- # PATCH_END v20_final -->
-- Local-first observe -> decide -> act -> verify workflow
-- Vision AI: screenshot capture and OCR
-- Windows UI inspection and desktop context
-- Code, git, terminal, and workspace tools
-- Authorized Frida/runtime diagnostics when static inspection is not enough
-- Optional Pro license for deep desktop control tools
-
-## Requirements
-
-- Python 3.9 or higher
-- Windows 10/11
-- Visual C++ Build Tools for Frida
-- PaddleOCR when OCR workflows are used
-
-## Free vs Pro
-
-Free:
-
-- `desktop_capture`
-- OCR and foreground UI inspection
-- code editing and search
-- web and browser tools
-- system, git, terminal, and network diagnostics
-- security auditing
-
-Premium-gated:
-
-- `live_desktop_viewer`
-- `desktop_control`
-- `desktop_control_tool`
-- `windows_insight`
-- `windows_insight_tool`
-- `windows_deep_sight`
-
-## Agent IDE Workflow
-
-Recommended flow:
-
-```text
-tools/list -> observe workspace -> choose smallest useful tool -> act -> verify
-```
-
-ANA MAX is not meant to be a blind automation pile. Use the observation tools
-before write or control tools, and run verification before handoff.
-
-## Ethical Use
-
-ANA MAX is for white-hat, authorized red-team, QA, education, debugging, and
-repair work. Use it only on systems you own or are allowed to test. It is not a
-black-hat hacking kit.
-
-## Links
-
-- GitHub: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
-- Documentation: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme
-- Issues: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues
-
-## Contact
-
-- Primary Email: gyodragos@gmail.com
-- Alternative Email: oana_alicia347@yahoo.com
-- GitHub: https://github.com/gyodragos-cell
-
-## Support This Project
-
-ANA MAX is a free, open-source project built with passion. If this tool helps
-you, consider supporting its development:
-
-- GitHub Sponsors: https://github.com/sponsors/gyodragos-cell
-- PayPal: https://paypal.me/oana_alicia347
-- Buy Me a Coffee: https://www.buymeacoffee.com/gyodragosw
-
-Every contribution helps fund development hardware, feature work, tool
-stabilization, and independent open-source development.
-
-## License
-
-MIT
-
+`mcp`, `model-context-protocol`, `ai-agent`, `agent-ide`, `codex`, `antigravity`, `qoder`, `windsurf`, `local-ai`, `windows-automation`, `qa`, `debugging`, `tool-router`, `desktop-ai`, `ana-max`

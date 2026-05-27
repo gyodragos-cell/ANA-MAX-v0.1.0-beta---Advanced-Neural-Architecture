@@ -473,11 +473,33 @@ curl -X POST http://127.0.0.1:8765/mcp `
 
 ## VS Code Extension
 
+The current public VSIX is `ANA MAX Hybrid AI Cockpit`:
+
+```text
+vscode_extension\ana-antigravity-1.0.8.vsix
+```
+
+It is a local-first MCP cockpit for Codex, Antigravity/Qoder, Windsurf,
+Cursor, and VS Code-compatible agent IDEs. It connects to one ANA MAX MCP
+runtime and exposes:
+
+- Smart Ready checks for `tool_router`, `agent_coach action=recommend`, and optional MCP resource discovery;
+- next-tool recommendations so agents do not scan every tool blindly;
+- Checkpoint and REM Sleep controls for durable session handoff;
+- readable guidance when a tool fails with `guidance_summary`;
+- hybrid MCP config snippets for Codex and JSON-based MCP clients.
+
 For users who do not know Git yet, download the repository ZIP from GitHub,
 extract it, open the folder in VS Code, then install the included VSIX:
 
 ```powershell
-code --install-extension .\vscode_extension\advanced-neural-architecture-0.2.0.vsix
+code --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix --force
+```
+
+For Qoder, if the `qoder` CLI is available:
+
+```powershell
+qoder --install-extension .\vscode_extension\ana-antigravity-1.0.8.vsix --force
 ```
 
 You can also install it from VS Code:
@@ -489,31 +511,47 @@ Extensions -> ... -> Install from VSIX
 Then run:
 
 ```text
-ANA MAX: Start MCP Server
-ANA MAX: Call Tool
+ANA & Antigravity: Open Cockpit
+ANA MAX: Start Runtime
+ANA MAX: Run REM Sleep
 ```
 
 The extension uses these VS Code settings:
 
 ```json
 {
-  "anaMax.mcpApiKey": "change-me",
-  "anaMax.mcpHost": "127.0.0.1",
-  "anaMax.mcpPort": 8765
+  "anaMax.runtimeUrl": "http://127.0.0.1:8766/mcp",
+  "anaMax.runtimeRoot": "",
+  "anaMax.runtimePort": 8766
 }
 ```
 
-`anaMax.mcpApiKey` is passed to the server as `MCP_API_KEY` and sent as the
-Bearer token when the extension calls local MCP endpoints.
+`anaMax.runtimeRoot` defaults to the open workspace folder. The local lab may
+run with 85 tools, while the clean public release remains documented as the
+80-tool public baseline unless release counts are updated together.
 
-VS Code 1.121+ marks agent-launched terminal commands with `VSCODE_AGENT`.
-ANA MAX detects that signal and switches startup output to a compact
-agent-readable profile. Manual terminal runs keep the normal human-readable
-output. Check `/health` for `vscode_agent` and `output_profile`.
+Codex MCP config:
+
+```toml
+[mcp_servers.anamax]
+url = "http://127.0.0.1:8766/mcp"
+```
+
+Antigravity / Qoder / Windsurf / Cursor-style MCP config:
+
+```json
+{
+  "mcpServers": {
+    "anamax": {
+      "type": "http",
+      "url": "http://127.0.0.1:8766/mcp"
+    }
+  }
+}
+```
 
 For a beginner-friendly walkthrough, see
 [`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`](docs/USER_EXTENSION_INSTALL_AND_ETHICS.md).
-
 ## ANA MAX Bridge
 
 `ana-max-bridge/` is an optional local HTTP connector for Copilot-style clients
@@ -647,5 +685,3 @@ release works.
 
 MIT. Use automated desktop control only on machines you own or are allowed to
 operate.
-
-
