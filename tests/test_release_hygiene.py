@@ -77,7 +77,7 @@ class TestPublicDocsHygiene(TestCase):
         self.assertIn("tool_router", extension_js)
         self.assertIn("agent_coach", extension_js)
         self.assertIn("session_rem_sleep", extension_js)
-        self.assertIn("ana-antigravity-1.0.8.vsix", readme)
+        self.assertIn("ana-antigravity-chat-1.0.13.vsix", readme)
         self.assertNotIn("ana_dev", package_json + extension_js + readme)
 
     def test_vscode_agent_mode_is_documented(self):

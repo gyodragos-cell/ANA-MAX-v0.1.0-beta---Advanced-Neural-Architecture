@@ -1,9 +1,10 @@
 {
   "name": "ana-antigravity-chat",
-  "displayName": "ANA MAX Hybrid AI Cockpit",
-  "description": "Local-first MCP cockpit for ANA MAX: Codex, Antigravity/Qoder, Windsurf and VS Code-compatible agent IDEs.",
-  "version": "1.0.8",
-  "publisher": "ana-ai",
+  "displayName": "ANA MAX - Hybrid AI Cockpit",
+  "description": "Local-first MCP cockpit that helps AI coding agents observe, route, act, verify and remember with ANA MAX.",
+  "version": "1.0.13",
+  "publisher": "d4d8176a-bb85-66ef-93dd-a58bc9ddfdad",
+  "preview": true,
   "author": {
     "name": "Dragos / gyodragos-cell with Codex",
     "email": "gyodragos@gmail.com",
@@ -27,6 +28,7 @@
   },
   "categories": [
     "Machine Learning",
+    "Testing",
     "Other"
   ],
   "keywords": [
@@ -45,12 +47,39 @@
     "debugging",
     "tool-router",
     "desktop-ai",
+    "ai-coding-assistant",
+    "local-first",
+    "agent-tools",
     "ana-max"
   ],
+  "galleryBanner": {
+    "color": "#101820",
+    "theme": "dark"
+  },
+  "qna": false,
   "engines": {
     "vscode": "^1.90.0"
   },
-  "main": "./src/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "activationEvents": [
+    "onCommand:ana.openChat",
+    "onCommand:ana.callTool",
+    "onCommand:ana.showHybridConfig",
+    "onCommand:anaMax.startRuntime",
+    "onCommand:anaMax.wakeSession",
+    "onCommand:anaMax.showHealth",
+    "onCommand:anaMax.runScenario",
+    "onCommand:anaMax.executeTool",
+    "onCommand:anaMax.inspectRuntime",
+    "onCommand:anaMax.showRouterDecisions",
+    "onCommand:anaMax.runRemSleep",
+    "onCommand:anaMax.previewRest",
+    "onCommand:anaMax.showObservability",
+    "onCommand:anaMax.openDashboard"
+  ],
+  "main": "./extension.js",
   "contributes": {
     "commands": [
       {
@@ -70,11 +99,18 @@
       },
       {
         "command": "anaMax.startRuntime",
-        "title": "ANA MAX: Start Runtime"
+        "title": "ANA MAX: Start Runtime",
+        "icon": "$(play)"
       },
       {
         "command": "anaMax.showHealth",
-        "title": "ANA MAX: Show Health"
+        "title": "ANA MAX: Smart Ready / Show Health",
+        "icon": "$(pulse)"
+      },
+      {
+        "command": "anaMax.wakeSession",
+        "title": "ANA MAX: Wake Session",
+        "icon": "$(debug-restart)"
       },
       {
         "command": "anaMax.runScenario",
@@ -90,11 +126,18 @@
       },
       {
         "command": "anaMax.showRouterDecisions",
-        "title": "ANA MAX: Show Router Decisions"
+        "title": "ANA MAX: Show Router Decisions",
+        "icon": "$(list-tree)"
       },
       {
         "command": "anaMax.runRemSleep",
-        "title": "ANA MAX: Run REM Sleep"
+        "title": "ANA MAX: Save REM Sleep",
+        "icon": "$(repo-push)"
+      },
+      {
+        "command": "anaMax.previewRest",
+        "title": "ANA MAX: Preview REM Sleep",
+        "icon": "$(preview)"
       },
       {
         "command": "anaMax.showObservability",
@@ -102,9 +145,91 @@
       },
       {
         "command": "anaMax.openDashboard",
-        "title": "ANA MAX: Open Dashboard"
+        "title": "ANA MAX: Open Dashboard",
+        "icon": "$(dashboard)"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "anaMax",
+          "title": "ANA MAX",
+          "icon": "assets/ana-max-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "anaMax": [
+        {
+          "id": "anaMax.actions",
+          "name": "Runtime"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "anaMax.startRuntime",
+          "when": "true"
+        },
+        {
+          "command": "anaMax.showHealth",
+          "when": "true"
+        },
+        {
+          "command": "anaMax.wakeSession",
+          "when": "true"
+        },
+        {
+          "command": "anaMax.previewRest",
+          "when": "true"
+        },
+        {
+          "command": "anaMax.runRemSleep",
+          "when": "true"
+        },
+        {
+          "command": "ana.openChat",
+          "when": "true"
+        },
+        {
+          "command": "ana.showHybridConfig",
+          "when": "true"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "anaMax.startRuntime",
+          "when": "view == anaMax.actions",
+          "group": "navigation@1"
+        },
+        {
+          "command": "anaMax.showHealth",
+          "when": "view == anaMax.actions",
+          "group": "navigation@2"
+        },
+        {
+          "command": "anaMax.wakeSession",
+          "when": "view == anaMax.actions",
+          "group": "navigation@3"
+        },
+        {
+          "command": "anaMax.previewRest",
+          "when": "view == anaMax.actions",
+          "group": "navigation@4"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "anaMax.startRuntime",
+          "group": "navigation@20"
+        },
+        {
+          "command": "ana.openChat",
+          "group": "navigation@21"
+        }
+      ]
+    },
     "configuration": {
       "title": "ANA MAX",
       "properties": {

@@ -58,6 +58,7 @@ generated_bots/
 assets/videos/*.mp4
 *.bak
 *.tmp
+debug.log
 desktop.ini
 
 # Sensitive
