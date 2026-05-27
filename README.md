@@ -552,6 +552,7 @@ Antigravity / Qoder / Windsurf / Cursor-style MCP config:
 
 For a beginner-friendly walkthrough, see
 [`docs/USER_EXTENSION_INSTALL_AND_ETHICS.md`](docs/USER_EXTENSION_INSTALL_AND_ETHICS.md).
+
 ## ANA MAX Bridge
 
 `ana-max-bridge/` is an optional local HTTP connector for Copilot-style clients

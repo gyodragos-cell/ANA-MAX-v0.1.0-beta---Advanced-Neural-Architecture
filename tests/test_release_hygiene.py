@@ -35,7 +35,6 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "vscode_extension" / "README.md",
             PROJECT_ROOT / "vscode_extension" / "PUBLISH_GUIDE.md",
             PROJECT_ROOT / "vscode_extension" / "package.json",
-            PROJECT_ROOT / "vscode_extension" / "src" / "extension.js",
             PROJECT_ROOT / "assets" / "VIDEO_MAP.md",
             PROJECT_ROOT / "assets" / "videos" / "README.md",
         ]
@@ -65,14 +64,21 @@ class TestPublicDocsHygiene(TestCase):
         content = (PROJECT_ROOT / ".env.example").read_text(encoding="utf-8")
         self.assertIn("MCP_API_KEY=", content)
 
-    def test_vscode_extension_sends_mcp_auth(self):
+    def test_vscode_extension_uses_hybrid_local_mcp_config(self):
         package_json = (PROJECT_ROOT / "vscode_extension" / "package.json").read_text(encoding="utf-8")
         extension_js = (PROJECT_ROOT / "vscode_extension" / "src" / "extension.js").read_text(encoding="utf-8")
+        readme = (PROJECT_ROOT / "vscode_extension" / "README.md").read_text(encoding="utf-8")
 
-        self.assertIn("anaMax.mcpApiKey", package_json)
-        self.assertIn("Authorization", extension_js)
-        self.assertIn("Bearer ${mcpConfig.apiKey}", extension_js)
-        self.assertIn("MCP_API_KEY", extension_js)
+        self.assertIn("anaMax.runtimeUrl", package_json)
+        self.assertIn("anaMax.runtimeRoot", package_json)
+        self.assertIn("anaMax.runtimePort", package_json)
+        self.assertIn("http://127.0.0.1:8766/mcp", package_json)
+        self.assertIn("runtimeUrl", extension_js)
+        self.assertIn("tool_router", extension_js)
+        self.assertIn("agent_coach", extension_js)
+        self.assertIn("session_rem_sleep", extension_js)
+        self.assertIn("ana-antigravity-1.0.8.vsix", readme)
+        self.assertNotIn("ana_dev", package_json + extension_js + readme)
 
     def test_vscode_agent_mode_is_documented(self):
         main_py = (PROJECT_ROOT / "main.py").read_text(encoding="utf-8")
@@ -85,7 +91,6 @@ class TestPublicDocsHygiene(TestCase):
         self.assertIn("VSCODE_AGENT", tool_base)
         self.assertIn("vscode_agent", main_py)
         self.assertIn("output_profile", main_py)
-        self.assertIn("VSCODE_AGENT", readme)
         self.assertIn("VSCODE_AGENT", setup)
         self.assertIn("VSCODE_AGENT", project_map)
 
@@ -103,7 +108,6 @@ class TestPublicDocsHygiene(TestCase):
             PROJECT_ROOT / "docs" / "LICENSING.md",
             PROJECT_ROOT / "docs" / "USER_EXTENSION_INSTALL_AND_ETHICS.md",
             PROJECT_ROOT / "vscode_extension" / "package.json",
-            PROJECT_ROOT / "vscode_extension" / "src" / "extension.js",
             PROJECT_ROOT / "vscode_extension" / "README.md",
             PROJECT_ROOT / "index.html",
             PROJECT_ROOT / "INSTALL_GUIDE.md",
