@@ -7,7 +7,7 @@ bridge:
   max_logs: 250
 
 ana_max:
-  base_url: http://127.0.0.1:8765
+  base_url: http://127.0.0.1:8766
   timeout_seconds: 20
   api_key_env:
     - ANA_MCP_KEY

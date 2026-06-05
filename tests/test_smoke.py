@@ -274,6 +274,22 @@ class TestToolRegistryBasic(TestCase):
         self.assertIn("open_external", operation["enum"])
         self.assertIn("browser_path", browser["inputSchema"]["properties"])
 
+    def test_core_mcp_server_public_tool_count_baseline(self):
+        """Legacy MCP bridge should not expose extra non-registry tools."""
+        import core.mcp_server as mcp
+        from main import _register_all_tools
+        from tools.base import registry
+
+        registry.reset()
+        _register_all_tools()
+        mcp._mcp_server = None
+        server = mcp.get_mcp_server()
+
+        self.assertEqual(len(server.tools), 80)
+        self.assertNotIn("ana_smart_search", server.tools)
+        self.assertNotIn("ana_evolve", server.tools)
+        self.assertNotIn("ana_memory_search", server.tools)
+
     def test_core_mcp_server_uses_registry_license_gate(self):
         """MCP tool calls must go through ToolRegistry license checks."""
         import core.license_manager as lm

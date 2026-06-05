@@ -143,52 +143,8 @@ class AdalBridge:
         self._register_ana_capabilities()
     
     def _register_ana_capabilities(self) -> None:
-        # Tool: Smart Search
-        self.mcp_server.register_tool(
-            name="ana_smart_search",
-            description="Cautare rapida FTS5 in codebase",
-            function=self._smart_search_handler,
-            schema={
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string"},
-                    "project_path": {"type": "string"}
-                },
-                "required": ["query"]
-            }
-        )
-        
-        # Tool: Auto-Evolution
-        self.mcp_server.register_tool(
-            name="ana_evolve",
-            description="Evolutie A.N.A.",
-            function=self._evolution_handler,
-            schema={
-                "type": "object",
-                "properties": {
-                    "action": {"type": "string", "enum": ["learn_pattern", "propose_tool"]},
-                    "data": {"type": "object"}
-                },
-                "required": ["action", "data"]
-            }
-        )
-        
-        # Tool: Memory Search
-        self.mcp_server.register_tool(
-            name="ana_memory_search",
-            description="Cauta in memoria locala A.N.A.",
-            function=self._memory_search_handler,
-            schema={
-                "type": "object",
-                "properties": {
-                    "query": {"type": "string"},
-                    "category": {"type": "string", "default": "all"}
-                },
-                "required": ["query"]
-            }
-        )
-
-        # Sync all tools from ToolRegistry into MCP (no-op if already synced)
+        # Public MCP tools must come from ToolRegistry so counts, schemas,
+        # validation, and license gates stay aligned with main.py.
         try:
             from tools.base import registry
             # Ensure ToolRegistry is populated
