@@ -1,0 +1,16 @@
+# Code owners for ANA MAX repo
+# Use GitHub usernames or teams. Replace @your-username with real handles.
+
+# Owners for the OS v2 engine and docs
+/ana/ @gyodragos-cell
+/docs/ @gyodragos-cell
+README.md @gyodragos-cell
+
+# Owners for site / public release content
+/ANA_MAX_GitHub_Release/ @gyodragos-cell
+
+# CI and workflows
+.github/workflows/ @gyodragos-cell
+
+# Fallback: repo owners
+* @gyodragos-cell

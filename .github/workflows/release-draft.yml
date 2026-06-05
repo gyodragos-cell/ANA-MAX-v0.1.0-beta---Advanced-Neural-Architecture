@@ -1,0 +1,48 @@
+name: Draft Release on Merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-draft-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get latest tag
+        id: tag
+        run: |
+          git fetch --tags
+          latest=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          echo "latest_tag=$latest" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog from commits
+        id: changelog
+        run: |
+          if [ -z "${{ steps.tag.outputs.latest_tag }}" ]; then
+            git log --pretty=format:"- %s (%h)" -n 50 > /tmp/CHANGELOG.md
+          else
+            git log "${{ steps.tag.outputs.latest_tag }}..HEAD" --pretty=format:"- %s (%h)" > /tmp/CHANGELOG.md
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "v${{ github.run_number }}-draft"
+          name: "Draft release ${{ github.run_number }}"
+          body: |
+            Changelog:
+            ${{ steps.changelog.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
