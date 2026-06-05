@@ -1,5 +1,12 @@
 # ANA MAX
 
+## Notă importantă
+
+Acest release public conține ANA MAX Windows MCP Agent (80 public tools, OS v1 runtime).  
+Pentru engine-ul declarativ nou (**ANA MAX OS v2**), consultați directorul `ana/` din repo — acolo găsiți documentația completă, testele și smoke test-ul pentru OS v2.
+
+---
+
 ![Build Status](https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/actions/workflows/ci.yml/badge.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue)
 ![Platform Windows](https://img.shields.io/badge/platform-Windows-lightgrey)

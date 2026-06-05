@@ -352,46 +352,82 @@
   <main id="top">
     <section class="hero" aria-label="ANA MAX hero">
       <div class="shell hero-content">
-        <!-- # PATCH_START ana_os_v1_release -->
-        <span class="kicker">public v0.1.0-beta / OS v1.0.0 package</span>
-        <!-- # PATCH_END ana_os_v1_release -->
-        <h1>ANA MAX - Advanced Neural Architecture</h1>
+        <!-- # PATCH_START ana_os_v2_release -->
+        <span class="kicker">ANA MAX OS v2 engine + Windows MCP Agent (public)</span>
+        <!-- # PATCH_END ana_os_v2_release -->
+        <h1>ANA MAX — Advanced Neural Architecture</h1>
         <p class="lead">
-          A Windows-first agent runtime with real desktop control, vision, UIA,
-          and tool orchestration. This page shows the clean public release;
-          the private lab runs ahead with experimental OS phases.
+          ANA MAX combină un <strong>engine AI declarativ și determinist</strong> (ANA MAX OS v2) 
+          cu un <strong>runtime Windows MCP Agent</strong> cu 80 MCP tools și control UI automation. 
+          Observă, decizi, agi și verifică pe Windows local cu caracteristici de desktop vision și voice feedback.
         </p>
-        <div class="tagline">Observe -> Decide -> Act -> Verify</div>
+        <div class="tagline">OS v2: Declarative, Deterministic, Self-Repairing</div>
         <div class="actions" title="Runtime history">
-          <a class="button primary" href="#public-vs-lab">Public vs lab</a>
-          <a class="button hot" href="https://www.youtube.com/watch?v=yIWILEd6glU" target="_blank" rel="noreferrer">Watch demo 1</a>
-          <a class="button hot" href="https://youtu.be/2Ft9eRO7GzM" target="_blank" rel="noreferrer">Watch demo 2</a>
-          <a class="button" href="docs/PROJECT_MAP_AI_GUIDE.md">Read project map</a>
-          <!-- # PATCH_START v20_final -->
-          <a class="button" href="docs/v20_OVERVIEW.md">v20 overview</a>
-          <a class="button" href="docs/v20_AUTONOMY_LAYER.md">Autonomy layer</a>
-          <!-- # PATCH_END v20_final -->
-          <!-- # PATCH_START v22_release -->
-          <a class="button" href="docs/ANA_MAX_V22_ARCHITECTURE.md">v22 architecture</a>
-          <!-- # PATCH_END v22_release -->
-          <!-- # PATCH_START v24_release -->
-          <a class="button" href="docs/ANA_MAX_V24_RUNTIME.md">v24 runtime</a>
-          <!-- # PATCH_END v24_release -->
-          <!-- # PATCH_START v25_release -->
-          <a class="button" href="docs/ANA_MAX_V25_RUNTIME.md">v25 runtime</a>
-          <!-- # PATCH_END v25_release -->
-          <!-- # PATCH_START ana_os_v1_release -->
-          <a class="button" href="docs/ANA_MAX_OS_V1_PUBLIC_RELEASE.md">OS v1</a>
-          <!-- # PATCH_END ana_os_v1_release -->
+          <a class="button primary" href="#architecture">Architecture</a>
+          <a class="button" href="#os-v2">OS v2 Engine</a>
+          <a class="button" href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noreferrer">GitHub Repo</a>
+          <a class="button" href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture#readme" target="_blank" rel="noreferrer">Read Root README</a>
         </div>
         <div class="metrics" aria-label="Current release metrics">
-          <div class="metric"><strong>80</strong><span>loaded public tools; lab has more experimental layers</span></div>
-          <div class="metric"><strong>7</strong><span>AI Core adapters</span></div>
-          <div class="metric"><strong>4</strong><span>premium-gated families</span></div>
-          <div class="metric"><strong>120-140</strong><span>lab OS phases reflected as public-safe notes</span></div>
+          <div class="metric"><strong>OS v2</strong><span>declarative engine, 16/16 tests green, smoke test stable</span></div>
+          <div class="metric"><strong>80</strong><span>public MCP tools (Windows agent)</span></div>
+          <div class="metric"><strong>3</strong><span>declarative skills: self.repair, health.check, fs.inspect</span></div>
+          <div class="metric"><strong>Stable</strong><span>public release with dual clarity</span></div>
         </div>
       </div>
     </section>
+
+    <!-- # PATCH_START ana_os_v2_release -->
+    <section class="band architecture" id="architecture">
+      <div class="shell">
+        <div class="section-head">
+          <h2>ANA MAX OS v2 — Declarative Engine</h2>
+          <p>
+            ANA MAX OS v2 is a deterministic, declarative AI operating system.
+            It routes capabilities through a strict orchestrator, validates them against
+            a skill registry, executes them in a sandbox, and records all actions to an
+            observable event bus.
+          </p>
+        </div>
+        <div class="grid">
+          <article class="tile">
+            <span class="label">engine</span>
+            <h3>Orchestrator</h3>
+            <p>Routes capabilities through registry, enforces service boundaries, handles fallback and self-repair.</p>
+          </article>
+          <article class="tile">
+            <span class="label">registry</span>
+            <h3>Tool Registry &amp; Skills</h3>
+            <p>Maps capabilities to tools; loads declarative skills from YAML; validates tool specs.</p>
+          </article>
+          <article class="tile">
+            <span class="label">fallback</span>
+            <h3>Fallback &amp; Self-Repair</h3>
+            <p>Fallback chains for missing tools; self-repair applies learned rules from <code>learned_rules.yaml</code>.</p>
+          </article>
+          <article class="tile">
+            <span class="label">sandbox</span>
+            <h3>Strict Sandbox</h3>
+            <p>Enforces allowed capabilities, max input keys, external effect restrictions. Audit metadata on every execution.</p>
+          </article>
+          <article class="tile">
+            <span class="label">skills</span>
+            <h3>Declarative Skills</h3>
+            <p><code>self.repair</code>, <code>health.check</code>, <code>fs.inspect</code> — skills defined in SKILL.md with A-K task sequences.</p>
+          </article>
+          <article class="tile">
+            <span class="label">event bus</span>
+            <h3>Observable Events</h3>
+            <p>All state transitions logged: <code>received</code>, <code>routed</code>, <code>running</code>, <code>completed</code>, <code>failed</code>.</p>
+          </article>
+        </div>
+        <div class="diagram">
+          <pre>Request → Orchestrator → Validate Service → Route Tool →
+Sandbox → Execute → Event Bus → Fallback/Repair → Response</pre>
+        </div>
+      </div>
+    </section>
+    <!-- # PATCH_END ana_os_v2_release -->
 
     <section class="band" id="public-vs-lab">
       <div class="shell">

@@ -1,5 +1,14 @@
 # Setup And Run
 
+## Notă importantă
+
+Acest document descrie setup-ul pentru **ANA MAX Windows MCP Agent** (OS v1 runtime, 80 public tools).  
+Pentru engine-ul declarativ nou (**ANA MAX OS v2**), consultați `ana/README.md` din repo și rulați:
+- `python -m pytest ana/tests -q` (unit & integration tests)
+- `python ana/smoke_test.py` (smoke test end-to-end)
+
+---
+
 This file is intentionally ASCII-only. PowerShell examples and expected output
 must not contain diacritics, smart quotes, emoji, or mojibake.
 
