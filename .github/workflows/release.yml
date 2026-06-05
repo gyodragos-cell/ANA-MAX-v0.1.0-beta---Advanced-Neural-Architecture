@@ -1,0 +1,132 @@
+name: Release and Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Type of release (patch/minor/major)'
+        required: true
+        default: 'patch'
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine next tag
+        id: tag
+        run: |
+          # Determine next semver tag based on input (simple strategy)
+          latest=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $latest"
+          
+          IFS='.' read -r major minor patch <<< "${latest#v}"
+          
+          case "${{ github.event.inputs.release_type }}" in
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            patch|*)
+              patch=$((patch + 1))
+              ;;
+          esac
+          
+          new_tag="v$major.$minor.$patch"
+          echo "New tag: $new_tag"
+          echo "tag=$new_tag" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git tag "${{ steps.tag.outputs.tag }}"
+          git push origin "${{ steps.tag.outputs.tag }}"
+
+  release:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          git fetch --tags
+          
+          if [ -z "$(git describe --tags --abbrev=0 2>/dev/null)" ]; then
+            changelog=$(git log --pretty=format:"- %s (%h)" -n 50)
+          else
+            previous_tag=$(git describe --tags --abbrev=0 --exclude="${{ needs.prepare.outputs.tag_name }}" 2>/dev/null || echo "")
+            if [ -z "$previous_tag" ]; then
+              changelog=$(git log --pretty=format:"- %s (%h)" -n 50)
+            else
+              changelog=$(git log "$previous_tag..${{ needs.prepare.outputs.tag_name }}" --pretty=format:"- %s (%h)")
+            fi
+          fi
+          
+          {
+            echo "changelog<<EOF"
+            echo "$changelog"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.prepare.outputs.tag_name }}
+          name: "Release ${{ needs.prepare.outputs.tag_name }}"
+          body: |
+            ## Changelog
+            ${{ steps.changelog.outputs.changelog }}
+            
+            ## Verification
+            Run locally:
+            ```bash
+            python -m pytest ana/tests -q
+            python ana/smoke_test.py
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-pages:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy ANA_MAX_GitHub_Release to public/
+        run: |
+          mkdir -p public
+          cp -r ANA_MAX_GitHub_Release/* public/
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
