@@ -1,0 +1,509 @@
+{
+  "schema": "ana.os3.self_profiling.v1",
+  "engine": "self_profiling_engine",
+  "generated_at": "2026-06-12T02:39:44.675661+00:00",
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "ana_max_root": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX",
+  "planned_actions": [
+    "include_summary_totals",
+    "include_top_directories_by_size",
+    "include_top_directories_by_count",
+    "include_top_level_breakdown",
+    "include_largest_python_modules",
+    "include_extension_breakdown"
+  ],
+  "summary": {
+    "total_files": 756,
+    "total_bytes": 9411562,
+    "python_file_count": 243,
+    "top_level_area_count": 48
+  },
+  "analysis": {
+    "largest_directories_by_size": [
+      {
+        "directory": "docs",
+        "size_bytes": 5526210,
+        "file_count": 370
+      },
+      {
+        "directory": "tools",
+        "size_bytes": 1174082,
+        "file_count": 113
+      },
+      {
+        "directory": ".",
+        "size_bytes": 856715,
+        "file_count": 23
+      },
+      {
+        "directory": "local",
+        "size_bytes": 495139,
+        "file_count": 18
+      },
+      {
+        "directory": "self_optimization",
+        "size_bytes": 391824,
+        "file_count": 42
+      },
+      {
+        "directory": "docs/rem_sleep",
+        "size_bytes": 270675,
+        "file_count": 85
+      },
+      {
+        "directory": "core",
+        "size_bytes": 182732,
+        "file_count": 11
+      },
+      {
+        "directory": "context",
+        "size_bytes": 93249,
+        "file_count": 5
+      },
+      {
+        "directory": "agents",
+        "size_bytes": 74853,
+        "file_count": 6
+      },
+      {
+        "directory": "core/backends",
+        "size_bytes": 57810,
+        "file_count": 3
+      },
+      {
+        "directory": "kernel",
+        "size_bytes": 50032,
+        "file_count": 5
+      },
+      {
+        "directory": "distributed",
+        "size_bytes": 31831,
+        "file_count": 4
+      },
+      {
+        "directory": "graph",
+        "size_bytes": 28886,
+        "file_count": 3
+      },
+      {
+        "directory": "knowledge",
+        "size_bytes": 26127,
+        "file_count": 5
+      },
+      {
+        "directory": "docs/voice",
+        "size_bytes": 24497,
+        "file_count": 3
+      }
+    ],
+    "most_active_directories_by_count": [
+      {
+        "directory": "docs",
+        "size_bytes": 5526210,
+        "file_count": 370
+      },
+      {
+        "directory": "tools",
+        "size_bytes": 1174082,
+        "file_count": 113
+      },
+      {
+        "directory": "docs/rem_sleep",
+        "size_bytes": 270675,
+        "file_count": 85
+      },
+      {
+        "directory": "self_optimization",
+        "size_bytes": 391824,
+        "file_count": 42
+      },
+      {
+        "directory": ".",
+        "size_bytes": 856715,
+        "file_count": 23
+      },
+      {
+        "directory": "local",
+        "size_bytes": 495139,
+        "file_count": 18
+      },
+      {
+        "directory": "core",
+        "size_bytes": 182732,
+        "file_count": 11
+      },
+      {
+        "directory": "config",
+        "size_bytes": 16653,
+        "file_count": 7
+      },
+      {
+        "directory": "agents",
+        "size_bytes": 74853,
+        "file_count": 6
+      },
+      {
+        "directory": "docs/nemotron",
+        "size_bytes": 9244,
+        "file_count": 6
+      },
+      {
+        "directory": ".opencode",
+        "size_bytes": 16317,
+        "file_count": 5
+      },
+      {
+        "directory": "context",
+        "size_bytes": 93249,
+        "file_count": 5
+      },
+      {
+        "directory": "kernel",
+        "size_bytes": 50032,
+        "file_count": 5
+      },
+      {
+        "directory": "knowledge",
+        "size_bytes": 26127,
+        "file_count": 5
+      },
+      {
+        "directory": "plugins",
+        "size_bytes": 13505,
+        "file_count": 5
+      }
+    ],
+    "largest_top_level_areas": [
+      {
+        "directory": "docs",
+        "size_bytes": 5839871,
+        "file_count": 468
+      },
+      {
+        "directory": "tools",
+        "size_bytes": 1174342,
+        "file_count": 114
+      },
+      {
+        "directory": "voice_queue.txt",
+        "size_bytes": 667269,
+        "file_count": 1
+      },
+      {
+        "directory": "local",
+        "size_bytes": 495139,
+        "file_count": 18
+      },
+      {
+        "directory": "self_optimization",
+        "size_bytes": 391824,
+        "file_count": 42
+      },
+      {
+        "directory": "core",
+        "size_bytes": 240542,
+        "file_count": 15
+      },
+      {
+        "directory": "context",
+        "size_bytes": 93249,
+        "file_count": 5
+      },
+      {
+        "directory": "agents",
+        "size_bytes": 74853,
+        "file_count": 6
+      },
+      {
+        "directory": "main.py",
+        "size_bytes": 52340,
+        "file_count": 1
+      },
+      {
+        "directory": "kernel",
+        "size_bytes": 50032,
+        "file_count": 5
+      },
+      {
+        "directory": "index.html",
+        "size_bytes": 45170,
+        "file_count": 1
+      },
+      {
+        "directory": "ana_memory.db",
+        "size_bytes": 36864,
+        "file_count": 1
+      },
+      {
+        "directory": "distributed",
+        "size_bytes": 31831,
+        "file_count": 4
+      },
+      {
+        "directory": "graph",
+        "size_bytes": 28886,
+        "file_count": 3
+      },
+      {
+        "directory": "knowledge",
+        "size_bytes": 26127,
+        "file_count": 5
+      }
+    ],
+    "largest_python_files_by_lines": [
+      {
+        "path": "core/backends/ollama_backend.py",
+        "size_bytes": 55855,
+        "line_count": 1357
+      },
+      {
+        "path": "main.py",
+        "size_bytes": 52340,
+        "line_count": 1275
+      },
+      {
+        "path": "tools/ana_orchestrator.py",
+        "size_bytes": 44654,
+        "line_count": 1149
+      },
+      {
+        "path": "core/autonomous_agent.py",
+        "size_bytes": 42478,
+        "line_count": 1057
+      },
+      {
+        "path": "self_optimization/self_healing_engine.py",
+        "size_bytes": 34527,
+        "line_count": 1027
+      },
+      {
+        "path": "tools/context_bridge.py",
+        "size_bytes": 39629,
+        "line_count": 994
+      },
+      {
+        "path": "self_optimization/self_evolution_engine.py",
+        "size_bytes": 37793,
+        "line_count": 993
+      },
+      {
+        "path": "local/operator_intent_router.py",
+        "size_bytes": 34967,
+        "line_count": 954
+      },
+      {
+        "path": "tools/base.py",
+        "size_bytes": 33712,
+        "line_count": 891
+      },
+      {
+        "path": "tools/live_tool_healer.py",
+        "size_bytes": 32319,
+        "line_count": 842
+      },
+      {
+        "path": "tools/self_evolving_tool.py",
+        "size_bytes": 30971,
+        "line_count": 824
+      },
+      {
+        "path": "tools/context_engine.py",
+        "size_bytes": 24926,
+        "line_count": 709
+      },
+      {
+        "path": "tools/memory_cortex.py",
+        "size_bytes": 28184,
+        "line_count": 705
+      },
+      {
+        "path": "local/local_llm_backend.py",
+        "size_bytes": 27457,
+        "line_count": 697
+      },
+      {
+        "path": "tools/web_scraper.py",
+        "size_bytes": 24606,
+        "line_count": 660
+      }
+    ],
+    "python_file_count": 243,
+    "dominant_extensions": [
+      [
+        ".md",
+        472
+      ],
+      [
+        ".py",
+        243
+      ],
+      [
+        ".json",
+        15
+      ],
+      [
+        ".txt",
+        8
+      ],
+      [
+        "(no_ext)",
+        6
+      ],
+      [
+        ".db",
+        2
+      ],
+      [
+        ".js",
+        2
+      ],
+      [
+        ".lock",
+        2
+      ],
+      [
+        ".bak",
+        1
+      ],
+      [
+        ".example",
+        1
+      ]
+    ]
+  },
+  "observation_snapshot": {
+    "files_by_extension": {
+      "(no_ext)": 6,
+      ".bak": 1,
+      ".db": 2,
+      ".example": 1,
+      ".html": 1,
+      ".js": 2,
+      ".json": 15,
+      ".lock": 2,
+      ".log": 1,
+      ".md": 472,
+      ".mp3": 1,
+      ".py": 243,
+      ".txt": 8,
+      ".yaml": 1
+    },
+    "size_by_top_dir": {
+      ".cursorrules": 1452,
+      ".env": 603,
+      ".env.example": 547,
+      ".gitignore": 549,
+      ".launcher_state.json": 71,
+      "AGENTS.md": 4702,
+      "ana_memory.db": 36864,
+      "CHANGELOG.md": 2971,
+      "chat_voice_bridge.py": 9119,
+      "HYBRID_MCP_CONFIG.md": 1665,
+      "index.html": 45170,
+      "LAB_MANAGER.md": 3623,
+      "LOG.md": 1874,
+      "main.py": 52340,
+      "mcp_stdio.py": 13117,
+      "opencode.json": 178,
+      "presedinte.txt": 70,
+      "README.md": 4240,
+      "requirements.txt": 1099,
+      "TOOL_STATUS.md": 7110,
+      "voice_queue.txt": 667269,
+      "voice_toggle.py": 2058,
+      "__init__.py": 24,
+      ".opencode": 25175,
+      "agents": 74853,
+      "benchmarks": 3832,
+      "bridge": 0,
+      "config": 16684,
+      "context": 93249,
+      "core": 240542,
+      "dashboard": 6182,
+      "data": 20480,
+      "Desktop": 0,
+      "dev_artifacts": 8918,
+      "distributed": 31831,
+      "docs": 5839871,
+      "graph": 28886,
+      "kernel": 50032,
+      "knowledge": 26127,
+      "local": 495139,
+      "orchestrators": 7656,
+      "plugins": 13505,
+      "proiect": 74,
+      "self_optimization": 391824,
+      "skills": 1374,
+      "tools": 1174342,
+      "training": 0,
+      "resources": 4271
+    },
+    "count_by_top_dir": {
+      ".cursorrules": 1,
+      ".env": 1,
+      ".env.example": 1,
+      ".gitignore": 1,
+      ".launcher_state.json": 1,
+      "AGENTS.md": 1,
+      "ana_memory.db": 1,
+      "CHANGELOG.md": 1,
+      "chat_voice_bridge.py": 1,
+      "HYBRID_MCP_CONFIG.md": 1,
+      "index.html": 1,
+      "LAB_MANAGER.md": 1,
+      "LOG.md": 1,
+      "main.py": 1,
+      "mcp_stdio.py": 1,
+      "opencode.json": 1,
+      "presedinte.txt": 1,
+      "README.md": 1,
+      "requirements.txt": 1,
+      "TOOL_STATUS.md": 1,
+      "voice_queue.txt": 1,
+      "voice_toggle.py": 1,
+      "__init__.py": 1,
+      ".opencode": 6,
+      "agents": 6,
+      "benchmarks": 2,
+      "bridge": 1,
+      "config": 8,
+      "context": 5,
+      "core": 15,
+      "dashboard": 2,
+      "data": 2,
+      "Desktop": 2,
+      "dev_artifacts": 5,
+      "distributed": 4,
+      "docs": 468,
+      "graph": 3,
+      "kernel": 5,
+      "knowledge": 5,
+      "local": 18,
+      "orchestrators": 2,
+      "plugins": 6,
+      "proiect": 4,
+      "self_optimization": 42,
+      "skills": 2,
+      "tools": 114,
+      "training": 1,
+      "resources": 5
+    }
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "report_non_empty": true,
+      "summary_has_totals": true,
+      "analysis_present": true,
+      "schema_present": true
+    }
+  },
+  "pipeline": {
+    "observe": "complete",
+    "analyze": "complete",
+    "plan": "complete",
+    "act": "complete",
+    "verify": "complete",
+    "document": "complete"
+  }
+}

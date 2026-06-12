@@ -1,0 +1,265 @@
+{
+  "schema": "ana.osX.level_report.v1",
+  "generated_at": "2026-06-10T09:00:29.790126+00:00",
+  "engine": "habit_routine_engine",
+  "os_level": "OS-18",
+  "status": "PASS",
+  "next": "OS-19",
+  "dry_run": false,
+  "auto_retry_used": false,
+  "auto_healing_levels_used": 0,
+  "summary": {
+    "routine_count": 24,
+    "command_pattern_count": 8,
+    "cycle_pattern_count": 8,
+    "tool_pattern_count": 8,
+    "health_score": 100,
+    "warnings": 0,
+    "parse_error_count": 0,
+    "overall_success": true
+  },
+  "memory_snapshot": {
+    "schema": "ana.memory.evolution_snapshot.v1",
+    "generated_at": "2026-06-10T09:00:29.739939+00:00",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 1,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "low",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 1,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "consistency": {
+      "present": true,
+      "overall_consistent": true,
+      "contradiction_count": 0,
+      "regression_count": 0
+    },
+    "memory_system": {
+      "present": true,
+      "status": "OK",
+      "last_consolidation": "2026-06-10T08:05:46.415906+00:00",
+      "last_consistency_check": "2026-06-10T08:05:46.417909+00:00"
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "payload": {
+    "schema": "ana.os18.habit_routine_engine.v1",
+    "generated_at": "2026-06-10T09:00:29.789131+00:00",
+    "engine": "habit_routine_engine",
+    "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+    "dry_run": false,
+    "memory_snapshot": {
+      "schema": "ana.memory.evolution_snapshot.v1",
+      "generated_at": "2026-06-10T09:00:29.739939+00:00",
+      "core_memory_present": true,
+      "core_memory_schema_ok": true,
+      "history_length": 1,
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "low",
+        "goal_persistence": "high",
+        "memory_consolidation": "bounded"
+      },
+      "patterns": {
+        "stable_cycles": 1,
+        "warning_cycles": 0,
+        "parse_error_cycles": 0,
+        "evolution_failure_cycles": 0,
+        "daemon_failure_cycles": 0
+      },
+      "consistency": {
+        "present": true,
+        "overall_consistent": true,
+        "contradiction_count": 0,
+        "regression_count": 0
+      },
+      "memory_system": {
+        "present": true,
+        "status": "OK",
+        "last_consolidation": "2026-06-10T08:05:46.415906+00:00",
+        "last_consistency_check": "2026-06-10T08:05:46.417909+00:00"
+      },
+      "long_term_keys": [
+        "current_goal_ids",
+        "goal_frequency",
+        "last_consistency_contradiction_count",
+        "last_consistency_overall_consistent",
+        "last_consistency_regression_count",
+        "last_consolidation",
+        "last_daemon_success",
+        "last_goal_count",
+        "last_graph_density",
+        "last_graph_edges",
+        "last_graph_nodes",
+        "last_health_score"
+      ]
+    },
+    "routines": [
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.self_evolution_engine",
+        "count": 16,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m compileall",
+        "count": 12,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.os4_daemon",
+        "count": 6,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.context.context_injector",
+        "count": 3,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.personal_ai_studio",
+        "count": 3,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.architecture_executor",
+        "count": 3,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.global_orchestrator",
+        "count": 3,
+        "type": "command"
+      },
+      {
+        "pattern": "python -m ANA_MAX.self_optimization.enterprise_orchestrator",
+        "count": 3,
+        "type": "command"
+      },
+      {
+        "pattern": "--cycle",
+        "count": 31,
+        "type": "cycle"
+      },
+      {
+        "pattern": "OS-3",
+        "count": 18,
+        "type": "cycle"
+      },
+      {
+        "pattern": "--dry-run",
+        "count": 13,
+        "type": "cycle"
+      },
+      {
+        "pattern": "OS-20",
+        "count": 11,
+        "type": "cycle"
+      },
+      {
+        "pattern": "--fast-parallel",
+        "count": 10,
+        "type": "cycle"
+      },
+      {
+        "pattern": "OS-4",
+        "count": 9,
+        "type": "cycle"
+      },
+      {
+        "pattern": "OS-10",
+        "count": 8,
+        "type": "cycle"
+      },
+      {
+        "pattern": "OS-9",
+        "count": 4,
+        "type": "cycle"
+      },
+      {
+        "pattern": "session_rem_sleep",
+        "count": 975,
+        "type": "tool"
+      },
+      {
+        "pattern": "tool_router",
+        "count": 853,
+        "type": "tool"
+      },
+      {
+        "pattern": "file_operations",
+        "count": 647,
+        "type": "tool"
+      },
+      {
+        "pattern": "code_context_pack",
+        "count": 611,
+        "type": "tool"
+      },
+      {
+        "pattern": "smart_search",
+        "count": 299,
+        "type": "tool"
+      },
+      {
+        "pattern": "session_checkpoint",
+        "count": 265,
+        "type": "tool"
+      },
+      {
+        "pattern": "project_navigator",
+        "count": 171,
+        "type": "tool"
+      },
+      {
+        "pattern": "agent_coach",
+        "count": 149,
+        "type": "tool"
+      }
+    ],
+    "sources": {
+      "docs_performance_log_bytes": 17236,
+      "docs_benchmarks_bytes": 4252,
+      "docs_test_report_bytes": 8832,
+      "docs_changelog_bytes": 9972,
+      "docs_ana_memory_bytes": 3054,
+      "agent_lessons_bytes": 417821,
+      "conversation_learning_bytes": 546184
+    },
+    "summary": {
+      "routine_count": 24,
+      "command_pattern_count": 8,
+      "cycle_pattern_count": 8,
+      "tool_pattern_count": 8,
+      "health_score": 100,
+      "warnings": 0,
+      "parse_error_count": 0,
+      "overall_success": true
+    },
+    "elapsed_ms": 50.34,
+    "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\habit_routine_report.json"
+  }
+}

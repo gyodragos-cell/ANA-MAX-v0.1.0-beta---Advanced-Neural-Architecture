@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.env
+.venv
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+.qoder/
+*.code-workspace
+
+# ANA MAX Specific
+memory/*.db
+memory/*.jsonl
+logs/
+scratch/
+browser_snapshots/
+screenshots/
+!sandbox/screenshots/
+sandbox/screenshots/*
+!sandbox/screenshots/README.md
+payloads/
+archives/
+backups/
+config/keys/
+*.bak
+*.tmp
+
+# Sensitive
+.env
+.env.*
+*.pem
+*.key
+secret*.json

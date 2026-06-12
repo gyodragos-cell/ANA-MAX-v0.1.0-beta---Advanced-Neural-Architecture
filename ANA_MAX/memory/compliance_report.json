@@ -1,0 +1,34 @@
+{
+  "schema": "ana.os10.compliance.v1",
+  "generated_at": "2026-06-10T09:02:21.942385+00:00",
+  "engine": "compliance_engine",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "dry_run": false,
+  "inputs": {
+    "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+    "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+    "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+    "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+    "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+    "policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json"
+  },
+  "violations": [],
+  "compliant": true,
+  "summary": {
+    "violation_count": 0,
+    "critical_count": 0,
+    "high_count": 0
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "schema_present": true,
+      "violations_present": true,
+      "summary_present": true,
+      "compliant_field_present": true
+    }
+  },
+  "elapsed_ms": 3.4,
+  "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\compliance_report.json"
+}

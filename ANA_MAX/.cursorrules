@@ -1,0 +1,27 @@
+# ANA MAX Development Rules
+
+You are an AI assistant working on the ANA MAX project, a highly advanced desktop automation and AI agent system.
+
+## Crucial Architectural Directives
+
+1. **Native APIs First (Performance)**
+   - DO NOT use `subprocess.run(["powershell"...])` to poll for system data, files, or processes. This creates massive CPU overhead.
+   - Use `psutil` natively for system/process monitoring.
+   - Use `pywinauto` (Microsoft UI Automation) for desktop GUI control. Do not rely on OCR or blind coordinates for native Windows applications.
+
+2. **Silent Operations**
+   - Polling loops and repetitive tasks must use `logger.debug()`.
+   - Never spam `logger.info()` in loops. The console must remain clean and readable.
+
+3. **Persistent Core Resources**
+   - Use Singleton patterns for database connections (e.g., SQLite `_conn` in `memory.py` protected by `threading.Lock()`). Do not open/close files on every tick.
+
+4. **MCP Security**
+   - Any new tool or endpoint exposed via `mcp_server.py` must enforce Bearer token authentication (`config.get("mcp.api_key")`).
+   - ANA MAX has full OS control (God Mode); security is paramount.
+
+5. **Tool Creation Process**
+   - New capabilities belong in `tools/`.
+   - Extend `tools.base.Tool` and implement `get_definition(self)`.
+   - Register the tool in `tools/__init__.py` AND append it to the appropriate list in `main.py`.
+   - Run `python main.py --test` to ensure it loads perfectly.

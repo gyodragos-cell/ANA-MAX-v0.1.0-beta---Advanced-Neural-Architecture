@@ -1,0 +1,1 @@
+Tool end foreground_ui_snapshot success. UI snapshot captured for: Code. MCP call end foreground_ui_snapshot success True.. MCP call start tool_router.. Tool start tool_router.

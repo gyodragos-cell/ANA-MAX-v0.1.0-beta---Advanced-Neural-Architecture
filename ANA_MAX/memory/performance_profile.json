@@ -1,0 +1,165 @@
+{
+  "timestamp": "2026-06-10T06:11:17.413353",
+  "tool_profiles": {
+    "code_search": {
+      "name": "code_search",
+      "avg_latency_ms": 763.2472,
+      "min_latency_ms": 691.845,
+      "max_latency_ms": 894.467,
+      "p95_latency_ms": 894.467,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "tool_router": {
+      "name": "tool_router",
+      "avg_latency_ms": 6.859,
+      "min_latency_ms": 6.021,
+      "max_latency_ms": 9.717,
+      "p95_latency_ms": 9.717,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "system_control": {
+      "name": "system_control",
+      "avg_latency_ms": 1015.4272,
+      "min_latency_ms": 1012.422,
+      "max_latency_ms": 1022.501,
+      "p95_latency_ms": 1022.501,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "tool_healthcheck": {
+      "name": "tool_healthcheck",
+      "avg_latency_ms": 1080.9568,
+      "min_latency_ms": 1077.322,
+      "max_latency_ms": 1090.671,
+      "p95_latency_ms": 1090.671,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "privacy": {
+      "name": "privacy",
+      "avg_latency_ms": 0.0096,
+      "min_latency_ms": 0.008,
+      "max_latency_ms": 0.014,
+      "p95_latency_ms": 0.014,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "error_radar": {
+      "name": "error_radar",
+      "avg_latency_ms": 22.0048,
+      "min_latency_ms": 21.202,
+      "max_latency_ms": 22.99,
+      "p95_latency_ms": 22.99,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "smart_search": {
+      "name": "smart_search",
+      "avg_latency_ms": 19.714199999999998,
+      "min_latency_ms": 19.112,
+      "max_latency_ms": 20.485,
+      "p95_latency_ms": 20.485,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "file_operations": {
+      "name": "file_operations",
+      "avg_latency_ms": 7.4018,
+      "min_latency_ms": 6.728,
+      "max_latency_ms": 8.086,
+      "p95_latency_ms": 8.086,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "project_navigator": {
+      "name": "project_navigator",
+      "avg_latency_ms": 20.799599999999998,
+      "min_latency_ms": 18.188,
+      "max_latency_ms": 23.206,
+      "p95_latency_ms": 23.206,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "workspace_situational_awareness": {
+      "name": "workspace_situational_awareness",
+      "avg_latency_ms": 719.0598,
+      "min_latency_ms": 33.117,
+      "max_latency_ms": 3438.347,
+      "p95_latency_ms": 3438.347,
+      "success_rate": 100.0,
+      "iterations": 5
+    },
+    "terminal": {
+      "name": "terminal",
+      "avg_latency_ms": 0.0,
+      "min_latency_ms": 0.0,
+      "max_latency_ms": 0.0,
+      "p95_latency_ms": 0.0,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "file_patch": {
+      "name": "file_patch",
+      "avg_latency_ms": 17.3322,
+      "min_latency_ms": 15.404,
+      "max_latency_ms": 19.428,
+      "p95_latency_ms": 19.428,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "security_tool": {
+      "name": "security_tool",
+      "avg_latency_ms": 0.0084,
+      "min_latency_ms": 0.008,
+      "max_latency_ms": 0.009,
+      "p95_latency_ms": 0.009,
+      "success_rate": 0.0,
+      "iterations": 5
+    },
+    "agent_coach": {
+      "name": "agent_coach",
+      "avg_latency_ms": 6.0782,
+      "min_latency_ms": 5.616,
+      "max_latency_ms": 6.401,
+      "p95_latency_ms": 6.401,
+      "success_rate": 100.0,
+      "iterations": 5
+    }
+  },
+  "system_profiles": [
+    {
+      "cpu_percent": 21.3,
+      "memory_percent": 37.5,
+      "memory_used_gb": 5.953330993652344,
+      "memory_available_gb": 9.901435852050781,
+      "disk_used_gb": 210.76007080078125,
+      "disk_free_gb": 156.22234725952148,
+      "disk_percent": 57.4,
+      "timestamp": "2026-06-10T06:11:17.413353"
+    }
+  ],
+  "degradation": {
+    "code_search": {
+      "avg_latency_ms": 763.2472,
+      "threshold_ms": 500.0,
+      "severity": "medium"
+    },
+    "system_control": {
+      "avg_latency_ms": 1015.4272,
+      "threshold_ms": 500.0,
+      "severity": "high"
+    },
+    "tool_healthcheck": {
+      "avg_latency_ms": 1080.9568,
+      "threshold_ms": 500.0,
+      "severity": "high"
+    },
+    "workspace_situational_awareness": {
+      "avg_latency_ms": 719.0598,
+      "threshold_ms": 500.0,
+      "severity": "medium"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "ana.osX.omission_manifest.v1",
+  "omitted_levels": [
+    "OS-1",
+    "OS-2",
+    "OS-3",
+    "OS-4"
+  ],
+  "reason": "These levels were not part of this workspace and are intentionally omitted.",
+  "overall_success": true
+}

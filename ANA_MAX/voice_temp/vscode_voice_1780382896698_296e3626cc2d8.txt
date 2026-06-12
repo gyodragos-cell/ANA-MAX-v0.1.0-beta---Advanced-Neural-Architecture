@@ -1,0 +1,1 @@
+Tool end code_context_pack success. Built context pack with 5 code-map matches.. MCP call end code_context_pack success True.. Tool end foreground_ui_snapshot success. UI snapshot captured for: Code. MCP call end foreground_ui_snapshot success True.

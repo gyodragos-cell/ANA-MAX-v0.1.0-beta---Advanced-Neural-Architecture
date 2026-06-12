@@ -1,0 +1,1 @@
+[TOOL start] tool_router {"task":"MCP tool failed with schema mismatch action versus operation","error":"Invalid value for operation","max_tools":4}

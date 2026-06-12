@@ -1,0 +1,47 @@
+# PATCH main.py
+
+Nota istorica pentru blocul AI Core adapters. Acest continut trebuie pastrat ca
+documentatie, nu ca fisier `.py`, pentru ca `compileall` incearca sa compileze
+toate fisierele Python din `tools/`.
+
+Adauga blocul de mai jos in `_register_all_tools()`, inainte de linia
+`return loaded` si dupa blocul `desktop_tools`.
+
+```python
+
+    # AI Core adapters (context_engine, proactive_interrupt, self_evolving,
+    # memory_cortex, orchestrator, context_bridge, window_manager)
+    try:
+        from tools.tool_adapters import ANA_ADAPTER_CLASSES
+        for AdapterClass in ANA_ADAPTER_CLASSES:
+            try:
+                instance = AdapterClass()
+                registry.register(instance)
+                loaded += 1
+                print(f"  [OK] {instance.get_definition().name} (AI CORE)")
+            except Exception as e:
+                logging.getLogger(__name__).warning(
+                    "AI Core adapter skipped %s: %s", AdapterClass.__name__, e
+                )
+    except ImportError as e:
+        logging.getLogger(__name__).warning("tool_adapters.py nu a putut fi incarcat: %s", e)
+
+    return loaded
+
+```
+
+Unde exact se adauga in `main.py`:
+
+```python
+# ...
+# Incarca AI Desktop Control tools (2026-05-13)
+for module_path, class_name in desktop_tools:
+    try:
+        ...
+    except Exception as e:
+        logging.getLogger(__name__).warning(...)
+
+# ADAUGA BLOCUL DE MAI SUS AICI
+
+return loaded
+```

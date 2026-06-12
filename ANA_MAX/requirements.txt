@@ -1,0 +1,77 @@
+# ANA MAX Project Dependencies
+# Updated: 2026-05-19
+
+# Core
+pydantic==2.10.5
+requests==2.32.5
+urllib3==1.26.18
+chardet==5.2.0
+python-dotenv==1.0.1
+flask==3.1.3
+
+# Desktop Automation & Vision (NEW - May 2026)
+pyautogui==0.9.54
+pygetwindow==0.0.9
+pytesseract==0.3.13
+opencv-python==4.10.0.84
+numpy==2.3.5
+
+# System & Process Management
+psutil==6.1.0
+pywin32==308
+comtypes==1.4.16
+
+# Windows UI Automation
+pywinauto==0.6.9
+
+# Debugging & Profiling
+frida==17.11.0
+frida-tools==14.9.0
+
+# Database
+sqlalchemy==2.0.50
+
+# Browser Automation
+selenium==4.28.1
+
+# Code Analysis & Search
+beautifulsoup4==4.14.3
+lxml==5.3.0
+
+# Async Support
+aiohttp==3.9.1
+asyncio-contextmanager==1.0.1
+
+# Memory & Caching
+decorator==5.1.1
+wrapt==1.17.0
+
+# Logging & Monitoring
+colorlog==6.10.1
+loguru==0.7.3
+
+# Testing
+pytest==8.4.0
+pytest-cov==6.0.0
+pytest-asyncio==0.25.3
+
+# Development
+black==26.5.1
+flake8==7.2.0
+mypy==1.15.0
+pylint==4.0.5
+
+# HTTP & API
+httpx==0.28.1
+
+# Text Processing
+chardet==5.2.0
+charset-normalizer==3.4.5
+
+# Utilities
+click==8.3.3
+fire==0.7.1
+pyyaml==6.0.2
+toml==0.10.2
+pyttsx3==2.99
+edge-tts==7.2.8

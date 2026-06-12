@@ -1,0 +1,104 @@
+{
+  "schema": "ana.os11.distributed_topology.v1",
+  "generated_at": "2026-06-10T08:25:10.220668+00:00",
+  "engine": "distributed_orchestrator",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "local_only": true,
+  "simulated": true,
+  "dry_run": true,
+  "memory_context": {
+    "schema": "ana.memory.context.v1",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 1,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "low",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 1,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "node-1",
+      "role": "coordinator",
+      "status": "healthy",
+      "transport": "local-loopback",
+      "agent_slots": 3
+    },
+    {
+      "id": "node-2",
+      "role": "optimizer",
+      "status": "healthy",
+      "transport": "local-loopback",
+      "agent_slots": 3
+    },
+    {
+      "id": "node-3",
+      "role": "tester",
+      "status": "healthy",
+      "transport": "local-loopback",
+      "agent_slots": 3
+    },
+    {
+      "id": "node-4",
+      "role": "observer",
+      "status": "healthy",
+      "transport": "local-loopback",
+      "agent_slots": 3
+    }
+  ],
+  "edges": [
+    {
+      "source": "node-1",
+      "target": "node-2",
+      "type": "simulated",
+      "transport": "in-memory"
+    },
+    {
+      "source": "node-1",
+      "target": "node-3",
+      "type": "simulated",
+      "transport": "in-memory"
+    },
+    {
+      "source": "node-1",
+      "target": "node-4",
+      "type": "simulated",
+      "transport": "in-memory"
+    }
+  ],
+  "summary": {
+    "node_count": 4,
+    "edge_count": 3,
+    "agent_count": 5,
+    "healthy_agent_count": 5,
+    "agent_failure_count": 0,
+    "health_score": 100,
+    "warnings": 0,
+    "parse_error_count": 0
+  },
+  "overall_success": true
+}

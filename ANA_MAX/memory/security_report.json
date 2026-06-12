@@ -1,0 +1,32 @@
+{
+  "schema": "ana.os10.security.v1",
+  "generated_at": "2026-06-10T09:02:21.944064+00:00",
+  "engine": "security_engine",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "dry_run": false,
+  "inputs": {
+    "toolchain": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\toolchain_manifest.json",
+    "policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+    "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+    "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json"
+  },
+  "violations": [],
+  "secure": true,
+  "summary": {
+    "violation_count": 0,
+    "critical_count": 0,
+    "high_count": 0,
+    "low_count": 0
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "schema_present": true,
+      "violations_present": true,
+      "summary_present": true,
+      "security_state_present": true
+    }
+  },
+  "elapsed_ms": 3.31,
+  "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\security_report.json"
+}

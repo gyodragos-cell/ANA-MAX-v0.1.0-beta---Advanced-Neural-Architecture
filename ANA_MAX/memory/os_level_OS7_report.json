@@ -1,0 +1,3167 @@
+{
+  "schema": "ana.os7.level_report.v1",
+  "generated_at": "2026-06-10T09:41:04.188083",
+  "os_level": "OS-7",
+  "status": "PASS",
+  "next": "OS-8",
+  "summary": {
+    "total_tasks": 7,
+    "completed": 7,
+    "failed": 0,
+    "pending": 0,
+    "agent_failure_count": 0,
+    "healthy_agents": 5
+  },
+  "agent_registry": {
+    "optimizer": {
+      "role": "optimizer",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 3,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "skills",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "tester": {
+      "role": "tester",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "healing",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "documenter": {
+      "role": "documenter",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "knowledge_graph",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "structurer": {
+      "role": "structurer",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "canonical_layout",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "extractor": {
+      "role": "extractor",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "github_patterns",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      },
+      "requires_explicit_enable": true
+    }
+  },
+  "orchestration": {
+    "timestamp": "2026-06-10T09:41:04.188083",
+    "agents": {
+      "optimizer": {
+        "tasks": [
+          {
+            "type": "profiling",
+            "status": "completed",
+            "description": "Run performance profiling cycle"
+          },
+          {
+            "type": "structuring",
+            "status": "completed",
+            "description": "Analyze and propose structure improvements"
+          },
+          {
+            "type": "skills",
+            "status": "completed",
+            "description": "Expand skills and capabilities"
+          }
+        ],
+        "results": [
+          {
+            "engine": "self_profiling_engine",
+            "dry_run": false,
+            "elapsed_ms": 2326.62,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "summary_has_totals": true,
+                "analysis_present": true,
+                "schema_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+            "summary": {
+              "total_files": 667,
+              "total_bytes": 8373650,
+              "python_file_count": 163,
+              "top_level_area_count": 37
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_profiling_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          },
+          {
+            "engine": "self_structuring_engine",
+            "dry_run": true,
+            "fix_init": false,
+            "elapsed_ms": 6628.61,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "module_count_positive": true,
+                "rescanned_missing_init_count_matches": true
+              },
+              "remaining_important_missing_init": []
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 163,
+              "package_dir_count": 17,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_structuring_engine",
+              "args": [
+                "--cycle",
+                "--dry-run"
+              ],
+              "returncode": 0
+            }
+          },
+          {
+            "engine": "self_skills_engine",
+            "dry_run": false,
+            "elapsed_ms": 1478.53,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "skills_is_list": true,
+                "summary_counts_non_negative": true,
+                "skills_count_matches_summary": true,
+                "skills_non_empty": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+            "summary": {
+              "module_count": 163,
+              "area_count": 15,
+              "total_functions": 481,
+              "total_classes": 147,
+              "entrypoint_count": 50,
+              "parse_error_count": 0
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_skills_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          }
+        ]
+      },
+      "tester": {
+        "tasks": [
+          {
+            "type": "healing",
+            "status": "completed",
+            "description": "Run healing and test cycle"
+          }
+        ],
+        "results": [
+          {
+            "engine": "self_healing_engine",
+            "mode": "detect",
+            "dry_run": true,
+            "elapsed_ms": 13193.67,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "ok_plus_failed_matches_results": true,
+                "summary_counts_match": true,
+                "returncodes_consistent": true,
+                "dry_run_detection_ran": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+            "summary": {
+              "files_checked": 163,
+              "ok_count": 163,
+              "failed_count": 0,
+              "health": "dry_run"
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_healing_engine",
+              "args": [
+                "--cycle",
+                "--dry-run"
+              ],
+              "returncode": 0
+            }
+          }
+        ]
+      },
+      "documenter": {
+        "tasks": [
+          {
+            "type": "knowledge_graph",
+            "status": "completed",
+            "description": "Update knowledge graph"
+          }
+        ],
+        "results": [
+          {
+            "nodes_count": 110,
+            "edges_count": 1474,
+            "node_types": {
+              "script": 12,
+              "doc": 19,
+              "tool": 49,
+              "module": 30
+            },
+            "evolution": {
+              "schema": "ana.os4.knowledge_graph_evolution.v1",
+              "previous_graph_present": true,
+              "added_nodes": [
+                "self_opt_architecture_executor",
+                "self_opt_compliance_engine",
+                "self_opt_enterprise_orchestrator",
+                "self_opt_global_orchestrator",
+                "self_opt_meta_adaptation_engine",
+                "self_opt_osx_common",
+                "self_opt_policy_engine",
+                "self_opt_security_engine",
+                "self_opt_self_goals_engine"
+              ],
+              "removed_nodes": [],
+              "added_edges": [
+                {
+                  "source": "doc_ARCHITECTURE",
+                  "target": "self_opt_architecture_executor",
+                  "type": "documents"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_adb_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_agent_coach_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_ana_context_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_autonomous_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_binary_map_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_code_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_codebase_understanding_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_conversation_learning_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_debugger_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_desktop_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_edit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_error_radar_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_event_stream_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_file_patch_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_git_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_graph_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_hardware_scanner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_input_api_probe_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_mitm_analyzer_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_network_pentest_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_network_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_ocr_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_project_navigator_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_qa_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_remote_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_science_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_security_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_self_evolving_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_audit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_checkpoint_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_lifecycle_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_log_miner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_rem_sleep_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_smart_search_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_swarm_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_system_optimization_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_task_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_terminal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_todo_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_tool_router_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_uia_click_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_uia_type_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vector_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_fallback_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_find_element_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_region_capture_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_windows_insight_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_adb_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_agent_coach_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_ana_context_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_autonomous_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_binary_map_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_code_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_codebase_understanding_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_conversation_learning_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_debugger_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_desktop_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_edit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_error_radar_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_event_stream_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_file_patch_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_git_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_graph_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_hardware_scanner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_input_api_probe_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_mitm_analyzer_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_network_pentest_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_network_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_ocr_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_project_navigator_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_qa_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_remote_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_science_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_security_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_self_evolving_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_audit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_checkpoint_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_lifecycle_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_log_miner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_rem_sleep_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_smart_search_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_swarm_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_system_optimization_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_task_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_terminal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_todo_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_tool_router_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_uia_click_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_uia_type_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vector_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_fallback_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_find_element_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_region_capture_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_windows_insight_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_enterprise_orchestrator",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                }
+              ],
+              "removed_edges": [],
+              "hot_nodes": [
+                {
+                  "id": "core_agent",
+                  "name": "agent",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_architecture_executor",
+                  "name": "architecture_executor",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_knowledge_graph_engine",
+                  "name": "knowledge_graph_engine",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_os4_daemon",
+                  "name": "os4_daemon",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "core___init__",
+                  "name": "__init__",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_agent_trace_schema",
+                  "name": "agent_trace_schema",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_autonomous_agent",
+                  "name": "autonomous_agent",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_bot_factory",
+                  "name": "bot_factory",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_config",
+                  "name": "config",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_mcp_server",
+                  "name": "mcp_server",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_smart_search",
+                  "name": "smart_search",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt___init__",
+                  "name": "__init__",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_compliance_engine",
+                  "name": "compliance_engine",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_enterprise_orchestrator",
+                  "name": "enterprise_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_github_pattern_extractor",
+                  "name": "github_pattern_extractor",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_global_orchestrator",
+                  "name": "global_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_meta_adaptation_engine",
+                  "name": "meta_adaptation_engine",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_multi_agent_orchestrator",
+                  "name": "multi_agent_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_os3_common",
+                  "name": "os3_common",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_osx_common",
+                  "name": "osx_common",
+                  "type": "module",
+                  "degree": 49
+                }
+              ],
+              "cold_nodes": [
+                {
+                  "id": "doc_ANA_MEMORY",
+                  "name": "ANA_MEMORY",
+                  "type": "doc",
+                  "path": "docs\\ANA_MEMORY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ARCHIVES",
+                  "name": "ARCHIVES",
+                  "type": "doc",
+                  "path": "docs\\ARCHIVES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BENCHMARKS",
+                  "name": "BENCHMARKS",
+                  "type": "doc",
+                  "path": "docs\\BENCHMARKS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CHANGELOG",
+                  "name": "CHANGELOG",
+                  "type": "doc",
+                  "path": "docs\\CHANGELOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OPTIMIZATIONS",
+                  "name": "OPTIMIZATIONS",
+                  "type": "doc",
+                  "path": "docs\\OPTIMIZATIONS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_AUTONOMY",
+                  "name": "OS3_AUTONOMY",
+                  "type": "doc",
+                  "path": "docs\\OS3_AUTONOMY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_MODULES",
+                  "name": "OS3_MODULES",
+                  "type": "doc",
+                  "path": "docs\\OS3_MODULES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_OVERVIEW",
+                  "name": "OS3_OVERVIEW",
+                  "type": "doc",
+                  "path": "docs\\OS3_OVERVIEW.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_RUNTIME",
+                  "name": "OS3_RUNTIME",
+                  "type": "doc",
+                  "path": "docs\\OS3_RUNTIME.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PERFORMANCE_LOG",
+                  "name": "PERFORMANCE_LOG",
+                  "type": "doc",
+                  "path": "docs\\PERFORMANCE_LOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PROJECT_SUMMARY",
+                  "name": "PROJECT_SUMMARY",
+                  "type": "doc",
+                  "path": "docs\\PROJECT_SUMMARY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ROADMAP",
+                  "name": "ROADMAP",
+                  "type": "doc",
+                  "path": "docs\\ROADMAP.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_SECURITY_NOTES",
+                  "name": "SECURITY_NOTES",
+                  "type": "doc",
+                  "path": "docs\\SECURITY_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TECHNICAL_NOTES",
+                  "name": "TECHNICAL_NOTES",
+                  "type": "doc",
+                  "path": "docs\\TECHNICAL_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TEST_REPORT",
+                  "name": "TEST_REPORT",
+                  "type": "doc",
+                  "path": "docs\\TEST_REPORT.md",
+                  "degree": 0
+                },
+                {
+                  "id": "script_agent_startup_check",
+                  "name": "agent_startup_check",
+                  "type": "script",
+                  "path": "scripts\\agent_startup_check.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_benchmark_tools",
+                  "name": "ana_benchmark_tools",
+                  "type": "script",
+                  "path": "scripts\\ana_benchmark_tools.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_daily",
+                  "name": "ana_daily",
+                  "type": "script",
+                  "path": "scripts\\ana_daily.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_filesystem_health",
+                  "name": "ana_filesystem_health",
+                  "type": "script",
+                  "path": "scripts\\ana_filesystem_health.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_log_compress",
+                  "name": "ana_log_compress",
+                  "type": "script",
+                  "path": "scripts\\ana_log_compress.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_maintenance",
+                  "name": "ana_maintenance",
+                  "type": "script",
+                  "path": "scripts\\ana_maintenance.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_planner",
+                  "name": "ana_planner",
+                  "type": "script",
+                  "path": "scripts\\ana_planner.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_profile_tool",
+                  "name": "ana_profile_tool",
+                  "type": "script",
+                  "path": "scripts\\ana_profile_tool.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_quick_check",
+                  "name": "ana_quick_check",
+                  "type": "script",
+                  "path": "scripts\\ana_quick_check.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_install_ana_daily_task",
+                  "name": "install_ana_daily_task",
+                  "type": "script",
+                  "path": "scripts\\install_ana_daily_task.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_quarantine_placeholders",
+                  "name": "quarantine_placeholders",
+                  "type": "script",
+                  "path": "scripts\\quarantine_placeholders.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_restore_tools_from_archive",
+                  "name": "restore_tools_from_archive",
+                  "type": "script",
+                  "path": "scripts\\restore_tools_from_archive.ps1",
+                  "degree": 0
+                }
+              ],
+              "hot_node_count": 20,
+              "cold_node_count": 27
+            },
+            "json_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+            "markdown_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\KNOWLEDGE_GRAPH.md",
+            "history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph_history",
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.knowledge_graph_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          }
+        ]
+      },
+      "structurer": {
+        "tasks": [
+          {
+            "type": "canonical_layout",
+            "status": "completed",
+            "description": "Verify and enforce canonical layout"
+          }
+        ],
+        "results": [
+          {
+            "source": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 151,
+              "package_dir_count": 17,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            },
+            "planned_actions": [
+              {
+                "action": "report_structure",
+                "targets": []
+              }
+            ]
+          }
+        ]
+      },
+      "extractor": {
+        "tasks": [
+          {
+            "type": "github_patterns",
+            "status": "completed",
+            "description": "Extract GitHub patterns (user-triggered only)"
+          }
+        ],
+        "results": [
+          {
+            "skipped": true,
+            "reason": "github_pattern_extractor requires an explicit repo_path"
+          }
+        ]
+      }
+    },
+    "agent_registry": {
+      "optimizer": {
+        "role": "optimizer",
+        "status": "active",
+        "health_score": 100,
+        "failure_count": 0,
+        "success_count": 3,
+        "last_success_at": "2026-06-10T09:40:40.031165",
+        "last_failure_at": null,
+        "last_task": {
+          "task_type": "skills",
+          "status": "completed",
+          "timestamp": "2026-06-10T09:40:40.031165"
+        }
+      },
+      "tester": {
+        "role": "tester",
+        "status": "active",
+        "health_score": 100,
+        "failure_count": 0,
+        "success_count": 1,
+        "last_success_at": "2026-06-10T09:40:40.031165",
+        "last_failure_at": null,
+        "last_task": {
+          "task_type": "healing",
+          "status": "completed",
+          "timestamp": "2026-06-10T09:40:40.031165"
+        }
+      },
+      "documenter": {
+        "role": "documenter",
+        "status": "active",
+        "health_score": 100,
+        "failure_count": 0,
+        "success_count": 1,
+        "last_success_at": "2026-06-10T09:40:40.031165",
+        "last_failure_at": null,
+        "last_task": {
+          "task_type": "knowledge_graph",
+          "status": "completed",
+          "timestamp": "2026-06-10T09:40:40.031165"
+        }
+      },
+      "structurer": {
+        "role": "structurer",
+        "status": "active",
+        "health_score": 100,
+        "failure_count": 0,
+        "success_count": 1,
+        "last_success_at": "2026-06-10T09:40:40.031165",
+        "last_failure_at": null,
+        "last_task": {
+          "task_type": "canonical_layout",
+          "status": "completed",
+          "timestamp": "2026-06-10T09:40:40.031165"
+        }
+      },
+      "extractor": {
+        "role": "extractor",
+        "status": "active",
+        "health_score": 100,
+        "failure_count": 0,
+        "success_count": 1,
+        "last_success_at": "2026-06-10T09:40:40.031165",
+        "last_failure_at": null,
+        "last_task": {
+          "task_type": "github_patterns",
+          "status": "completed",
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        "requires_explicit_enable": true
+      }
+    },
+    "summary": {
+      "total_tasks": 7,
+      "completed": 7,
+      "failed": 0,
+      "pending": 0,
+      "agent_failure_count": 0,
+      "healthy_agents": 5
+    },
+    "shared_state": {
+      "timestamp": "2026-06-10T09:41:04.186077",
+      "performance": {
+        "total_files": 667,
+        "total_bytes": 8373650,
+        "python_file_count": 163,
+        "top_level_area_count": 37
+      },
+      "structure": {
+        "module_count": 151,
+        "package_dir_count": 17,
+        "missing_init_total": 0,
+        "important_missing_init_count": 0,
+        "structure_health": "good"
+      },
+      "tests": {
+        "files_checked": 151,
+        "ok_count": 151,
+        "failed_count": 0,
+        "health": "good"
+      },
+      "skills": {
+        "module_count": 163,
+        "area_count": 15,
+        "total_functions": 481,
+        "total_classes": 147,
+        "entrypoint_count": 50,
+        "parse_error_count": 0
+      },
+      "graph": {
+        "total_nodes": 110,
+        "total_edges": 1474,
+        "node_types": {
+          "script": 12,
+          "doc": 19,
+          "tool": 49,
+          "module": 30
+        },
+        "evolution": {
+          "schema": "ana.os4.knowledge_graph_evolution.v1",
+          "previous_graph_present": true,
+          "added_nodes": [
+            "self_opt_architecture_executor",
+            "self_opt_compliance_engine",
+            "self_opt_enterprise_orchestrator",
+            "self_opt_global_orchestrator",
+            "self_opt_meta_adaptation_engine",
+            "self_opt_osx_common",
+            "self_opt_policy_engine",
+            "self_opt_security_engine",
+            "self_opt_self_goals_engine"
+          ],
+          "removed_nodes": [],
+          "added_edges": [
+            {
+              "source": "doc_ARCHITECTURE",
+              "target": "self_opt_architecture_executor",
+              "type": "documents"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_adal_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_adb_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_agent_coach_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_ana_context_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_autonomous_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_binary_map_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_code_context_pack_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_codebase_understanding_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_conversation_learning_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_debugger_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_desktop_control_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_edit_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_error_radar_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_event_stream_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_file_patch_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_git_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_graph_context_pack_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_hardware_scanner_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_input_api_probe_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_memory_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_mitm_analyzer_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_network_pentest_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_network_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_ocr_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_project_navigator_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_qa_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_remote_control_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_science_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_security_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_self_evolving_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_session_audit_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_session_checkpoint_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_session_lifecycle_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_session_log_miner_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_session_rem_sleep_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_smart_search_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_swarm_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_system_optimization_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_task_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_terminal_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_todo_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_tool_router_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_uia_click_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_uia_type_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_vector_memory_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_vision_fallback_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_vision_find_element_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_vision_region_capture_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_architecture_executor",
+              "target": "tool_windows_insight_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_adal_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_adb_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_agent_coach_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_ana_context_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_autonomous_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_binary_map_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_code_context_pack_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_codebase_understanding_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_conversation_learning_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_debugger_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_desktop_control_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_edit_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_error_radar_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_event_stream_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_file_patch_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_git_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_graph_context_pack_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_hardware_scanner_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_input_api_probe_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_memory_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_mitm_analyzer_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_network_pentest_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_network_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_ocr_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_project_navigator_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_qa_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_remote_control_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_science_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_security_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_self_evolving_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_session_audit_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_session_checkpoint_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_session_lifecycle_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_session_log_miner_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_session_rem_sleep_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_smart_search_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_swarm_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_system_optimization_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_task_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_terminal_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_todo_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_tool_router_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_uia_click_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_uia_type_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_vector_memory_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_vision_fallback_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_vision_find_element_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_vision_region_capture_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_compliance_engine",
+              "target": "tool_windows_insight_tool",
+              "type": "uses"
+            },
+            {
+              "source": "self_opt_enterprise_orchestrator",
+              "target": "tool_adal_tool",
+              "type": "uses"
+            }
+          ],
+          "removed_edges": [],
+          "hot_nodes": [
+            {
+              "id": "core_agent",
+              "name": "agent",
+              "type": "module",
+              "degree": 50
+            },
+            {
+              "id": "self_opt_architecture_executor",
+              "name": "architecture_executor",
+              "type": "module",
+              "degree": 50
+            },
+            {
+              "id": "self_opt_knowledge_graph_engine",
+              "name": "knowledge_graph_engine",
+              "type": "module",
+              "degree": 50
+            },
+            {
+              "id": "self_opt_os4_daemon",
+              "name": "os4_daemon",
+              "type": "module",
+              "degree": 50
+            },
+            {
+              "id": "core___init__",
+              "name": "__init__",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_agent_trace_schema",
+              "name": "agent_trace_schema",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_autonomous_agent",
+              "name": "autonomous_agent",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_bot_factory",
+              "name": "bot_factory",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_config",
+              "name": "config",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_mcp_server",
+              "name": "mcp_server",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "core_smart_search",
+              "name": "smart_search",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt___init__",
+              "name": "__init__",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_compliance_engine",
+              "name": "compliance_engine",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_enterprise_orchestrator",
+              "name": "enterprise_orchestrator",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_github_pattern_extractor",
+              "name": "github_pattern_extractor",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_global_orchestrator",
+              "name": "global_orchestrator",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_meta_adaptation_engine",
+              "name": "meta_adaptation_engine",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_multi_agent_orchestrator",
+              "name": "multi_agent_orchestrator",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_os3_common",
+              "name": "os3_common",
+              "type": "module",
+              "degree": 49
+            },
+            {
+              "id": "self_opt_osx_common",
+              "name": "osx_common",
+              "type": "module",
+              "degree": 49
+            }
+          ],
+          "cold_nodes": [
+            {
+              "id": "doc_ANA_MEMORY",
+              "name": "ANA_MEMORY",
+              "type": "doc",
+              "path": "docs\\ANA_MEMORY.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_ARCHIVES",
+              "name": "ARCHIVES",
+              "type": "doc",
+              "path": "docs\\ARCHIVES.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_BENCHMARKS",
+              "name": "BENCHMARKS",
+              "type": "doc",
+              "path": "docs\\BENCHMARKS.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_CHANGELOG",
+              "name": "CHANGELOG",
+              "type": "doc",
+              "path": "docs\\CHANGELOG.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_OPTIMIZATIONS",
+              "name": "OPTIMIZATIONS",
+              "type": "doc",
+              "path": "docs\\OPTIMIZATIONS.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_OS3_AUTONOMY",
+              "name": "OS3_AUTONOMY",
+              "type": "doc",
+              "path": "docs\\OS3_AUTONOMY.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_OS3_MODULES",
+              "name": "OS3_MODULES",
+              "type": "doc",
+              "path": "docs\\OS3_MODULES.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_OS3_OVERVIEW",
+              "name": "OS3_OVERVIEW",
+              "type": "doc",
+              "path": "docs\\OS3_OVERVIEW.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_OS3_RUNTIME",
+              "name": "OS3_RUNTIME",
+              "type": "doc",
+              "path": "docs\\OS3_RUNTIME.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_PERFORMANCE_LOG",
+              "name": "PERFORMANCE_LOG",
+              "type": "doc",
+              "path": "docs\\PERFORMANCE_LOG.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_PROJECT_SUMMARY",
+              "name": "PROJECT_SUMMARY",
+              "type": "doc",
+              "path": "docs\\PROJECT_SUMMARY.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_ROADMAP",
+              "name": "ROADMAP",
+              "type": "doc",
+              "path": "docs\\ROADMAP.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_SECURITY_NOTES",
+              "name": "SECURITY_NOTES",
+              "type": "doc",
+              "path": "docs\\SECURITY_NOTES.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_TECHNICAL_NOTES",
+              "name": "TECHNICAL_NOTES",
+              "type": "doc",
+              "path": "docs\\TECHNICAL_NOTES.md",
+              "degree": 0
+            },
+            {
+              "id": "doc_TEST_REPORT",
+              "name": "TEST_REPORT",
+              "type": "doc",
+              "path": "docs\\TEST_REPORT.md",
+              "degree": 0
+            },
+            {
+              "id": "script_agent_startup_check",
+              "name": "agent_startup_check",
+              "type": "script",
+              "path": "scripts\\agent_startup_check.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_benchmark_tools",
+              "name": "ana_benchmark_tools",
+              "type": "script",
+              "path": "scripts\\ana_benchmark_tools.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_daily",
+              "name": "ana_daily",
+              "type": "script",
+              "path": "scripts\\ana_daily.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_filesystem_health",
+              "name": "ana_filesystem_health",
+              "type": "script",
+              "path": "scripts\\ana_filesystem_health.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_log_compress",
+              "name": "ana_log_compress",
+              "type": "script",
+              "path": "scripts\\ana_log_compress.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_maintenance",
+              "name": "ana_maintenance",
+              "type": "script",
+              "path": "scripts\\ana_maintenance.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_planner",
+              "name": "ana_planner",
+              "type": "script",
+              "path": "scripts\\ana_planner.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_profile_tool",
+              "name": "ana_profile_tool",
+              "type": "script",
+              "path": "scripts\\ana_profile_tool.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_ana_quick_check",
+              "name": "ana_quick_check",
+              "type": "script",
+              "path": "scripts\\ana_quick_check.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_install_ana_daily_task",
+              "name": "install_ana_daily_task",
+              "type": "script",
+              "path": "scripts\\install_ana_daily_task.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_quarantine_placeholders",
+              "name": "quarantine_placeholders",
+              "type": "script",
+              "path": "scripts\\quarantine_placeholders.ps1",
+              "degree": 0
+            },
+            {
+              "id": "script_restore_tools_from_archive",
+              "name": "restore_tools_from_archive",
+              "type": "script",
+              "path": "scripts\\restore_tools_from_archive.ps1",
+              "degree": 0
+            }
+          ],
+          "hot_node_count": 20,
+          "cold_node_count": 27
+        }
+      },
+      "agent_tasks": [
+        {
+          "agent": "optimizer",
+          "task_type": "profiling",
+          "description": "Run performance profiling cycle",
+          "priority": "high",
+          "status": "completed",
+          "result": {
+            "engine": "self_profiling_engine",
+            "dry_run": false,
+            "elapsed_ms": 2326.62,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "summary_has_totals": true,
+                "analysis_present": true,
+                "schema_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+            "summary": {
+              "total_files": 667,
+              "total_bytes": 8373650,
+              "python_file_count": 163,
+              "top_level_area_count": 37
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_profiling_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "optimizer",
+          "task_type": "structuring",
+          "description": "Analyze and propose structure improvements",
+          "priority": "medium",
+          "status": "completed",
+          "result": {
+            "engine": "self_structuring_engine",
+            "dry_run": true,
+            "fix_init": false,
+            "elapsed_ms": 6628.61,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "module_count_positive": true,
+                "rescanned_missing_init_count_matches": true
+              },
+              "remaining_important_missing_init": []
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 163,
+              "package_dir_count": 17,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_structuring_engine",
+              "args": [
+                "--cycle",
+                "--dry-run"
+              ],
+              "returncode": 0
+            }
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "optimizer",
+          "task_type": "skills",
+          "description": "Expand skills and capabilities",
+          "priority": "medium",
+          "status": "completed",
+          "result": {
+            "engine": "self_skills_engine",
+            "dry_run": false,
+            "elapsed_ms": 1478.53,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "skills_is_list": true,
+                "summary_counts_non_negative": true,
+                "skills_count_matches_summary": true,
+                "skills_non_empty": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+            "summary": {
+              "module_count": 163,
+              "area_count": 15,
+              "total_functions": 481,
+              "total_classes": 147,
+              "entrypoint_count": 50,
+              "parse_error_count": 0
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_skills_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "tester",
+          "task_type": "healing",
+          "description": "Run healing and test cycle",
+          "priority": "high",
+          "status": "completed",
+          "result": {
+            "engine": "self_healing_engine",
+            "mode": "detect",
+            "dry_run": true,
+            "elapsed_ms": 13193.67,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "ok_plus_failed_matches_results": true,
+                "summary_counts_match": true,
+                "returncodes_consistent": true,
+                "dry_run_detection_ran": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+            "summary": {
+              "files_checked": 163,
+              "ok_count": 163,
+              "failed_count": 0,
+              "health": "dry_run"
+            },
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.self_healing_engine",
+              "args": [
+                "--cycle",
+                "--dry-run"
+              ],
+              "returncode": 0
+            }
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "documenter",
+          "task_type": "knowledge_graph",
+          "description": "Update knowledge graph",
+          "priority": "medium",
+          "status": "completed",
+          "result": {
+            "nodes_count": 110,
+            "edges_count": 1474,
+            "node_types": {
+              "script": 12,
+              "doc": 19,
+              "tool": 49,
+              "module": 30
+            },
+            "evolution": {
+              "schema": "ana.os4.knowledge_graph_evolution.v1",
+              "previous_graph_present": true,
+              "added_nodes": [
+                "self_opt_architecture_executor",
+                "self_opt_compliance_engine",
+                "self_opt_enterprise_orchestrator",
+                "self_opt_global_orchestrator",
+                "self_opt_meta_adaptation_engine",
+                "self_opt_osx_common",
+                "self_opt_policy_engine",
+                "self_opt_security_engine",
+                "self_opt_self_goals_engine"
+              ],
+              "removed_nodes": [],
+              "added_edges": [
+                {
+                  "source": "doc_ARCHITECTURE",
+                  "target": "self_opt_architecture_executor",
+                  "type": "documents"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_adb_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_agent_coach_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_ana_context_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_autonomous_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_binary_map_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_code_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_codebase_understanding_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_conversation_learning_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_debugger_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_desktop_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_edit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_error_radar_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_event_stream_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_file_patch_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_git_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_graph_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_hardware_scanner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_input_api_probe_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_mitm_analyzer_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_network_pentest_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_network_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_ocr_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_project_navigator_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_qa_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_remote_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_science_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_security_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_self_evolving_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_audit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_checkpoint_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_lifecycle_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_log_miner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_session_rem_sleep_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_smart_search_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_swarm_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_system_optimization_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_task_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_terminal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_todo_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_tool_router_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_uia_click_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_uia_type_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vector_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_fallback_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_find_element_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_vision_region_capture_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_architecture_executor",
+                  "target": "tool_windows_insight_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_adb_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_agent_coach_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_ana_context_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_autonomous_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_binary_map_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_code_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_codebase_understanding_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_conversation_learning_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_debugger_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_desktop_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_edit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_error_radar_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_event_stream_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_file_patch_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_git_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_graph_context_pack_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_hardware_scanner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_input_api_probe_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_mitm_analyzer_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_network_pentest_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_network_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_ocr_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_project_navigator_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_qa_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_remote_control_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_science_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_security_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_self_evolving_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_audit_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_checkpoint_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_lifecycle_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_log_miner_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_session_rem_sleep_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_smart_search_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_swarm_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_system_optimization_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_task_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_terminal_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_todo_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_tool_router_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_uia_click_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_uia_type_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vector_memory_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_fallback_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_find_element_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_vision_region_capture_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_compliance_engine",
+                  "target": "tool_windows_insight_tool",
+                  "type": "uses"
+                },
+                {
+                  "source": "self_opt_enterprise_orchestrator",
+                  "target": "tool_adal_tool",
+                  "type": "uses"
+                }
+              ],
+              "removed_edges": [],
+              "hot_nodes": [
+                {
+                  "id": "core_agent",
+                  "name": "agent",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_architecture_executor",
+                  "name": "architecture_executor",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_knowledge_graph_engine",
+                  "name": "knowledge_graph_engine",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "self_opt_os4_daemon",
+                  "name": "os4_daemon",
+                  "type": "module",
+                  "degree": 50
+                },
+                {
+                  "id": "core___init__",
+                  "name": "__init__",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_agent_trace_schema",
+                  "name": "agent_trace_schema",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_autonomous_agent",
+                  "name": "autonomous_agent",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_bot_factory",
+                  "name": "bot_factory",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_config",
+                  "name": "config",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_mcp_server",
+                  "name": "mcp_server",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "core_smart_search",
+                  "name": "smart_search",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt___init__",
+                  "name": "__init__",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_compliance_engine",
+                  "name": "compliance_engine",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_enterprise_orchestrator",
+                  "name": "enterprise_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_github_pattern_extractor",
+                  "name": "github_pattern_extractor",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_global_orchestrator",
+                  "name": "global_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_meta_adaptation_engine",
+                  "name": "meta_adaptation_engine",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_multi_agent_orchestrator",
+                  "name": "multi_agent_orchestrator",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_os3_common",
+                  "name": "os3_common",
+                  "type": "module",
+                  "degree": 49
+                },
+                {
+                  "id": "self_opt_osx_common",
+                  "name": "osx_common",
+                  "type": "module",
+                  "degree": 49
+                }
+              ],
+              "cold_nodes": [
+                {
+                  "id": "doc_ANA_MEMORY",
+                  "name": "ANA_MEMORY",
+                  "type": "doc",
+                  "path": "docs\\ANA_MEMORY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ARCHIVES",
+                  "name": "ARCHIVES",
+                  "type": "doc",
+                  "path": "docs\\ARCHIVES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BENCHMARKS",
+                  "name": "BENCHMARKS",
+                  "type": "doc",
+                  "path": "docs\\BENCHMARKS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CHANGELOG",
+                  "name": "CHANGELOG",
+                  "type": "doc",
+                  "path": "docs\\CHANGELOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OPTIMIZATIONS",
+                  "name": "OPTIMIZATIONS",
+                  "type": "doc",
+                  "path": "docs\\OPTIMIZATIONS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_AUTONOMY",
+                  "name": "OS3_AUTONOMY",
+                  "type": "doc",
+                  "path": "docs\\OS3_AUTONOMY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_MODULES",
+                  "name": "OS3_MODULES",
+                  "type": "doc",
+                  "path": "docs\\OS3_MODULES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_OVERVIEW",
+                  "name": "OS3_OVERVIEW",
+                  "type": "doc",
+                  "path": "docs\\OS3_OVERVIEW.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_RUNTIME",
+                  "name": "OS3_RUNTIME",
+                  "type": "doc",
+                  "path": "docs\\OS3_RUNTIME.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PERFORMANCE_LOG",
+                  "name": "PERFORMANCE_LOG",
+                  "type": "doc",
+                  "path": "docs\\PERFORMANCE_LOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PROJECT_SUMMARY",
+                  "name": "PROJECT_SUMMARY",
+                  "type": "doc",
+                  "path": "docs\\PROJECT_SUMMARY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ROADMAP",
+                  "name": "ROADMAP",
+                  "type": "doc",
+                  "path": "docs\\ROADMAP.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_SECURITY_NOTES",
+                  "name": "SECURITY_NOTES",
+                  "type": "doc",
+                  "path": "docs\\SECURITY_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TECHNICAL_NOTES",
+                  "name": "TECHNICAL_NOTES",
+                  "type": "doc",
+                  "path": "docs\\TECHNICAL_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TEST_REPORT",
+                  "name": "TEST_REPORT",
+                  "type": "doc",
+                  "path": "docs\\TEST_REPORT.md",
+                  "degree": 0
+                },
+                {
+                  "id": "script_agent_startup_check",
+                  "name": "agent_startup_check",
+                  "type": "script",
+                  "path": "scripts\\agent_startup_check.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_benchmark_tools",
+                  "name": "ana_benchmark_tools",
+                  "type": "script",
+                  "path": "scripts\\ana_benchmark_tools.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_daily",
+                  "name": "ana_daily",
+                  "type": "script",
+                  "path": "scripts\\ana_daily.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_filesystem_health",
+                  "name": "ana_filesystem_health",
+                  "type": "script",
+                  "path": "scripts\\ana_filesystem_health.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_log_compress",
+                  "name": "ana_log_compress",
+                  "type": "script",
+                  "path": "scripts\\ana_log_compress.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_maintenance",
+                  "name": "ana_maintenance",
+                  "type": "script",
+                  "path": "scripts\\ana_maintenance.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_planner",
+                  "name": "ana_planner",
+                  "type": "script",
+                  "path": "scripts\\ana_planner.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_profile_tool",
+                  "name": "ana_profile_tool",
+                  "type": "script",
+                  "path": "scripts\\ana_profile_tool.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_ana_quick_check",
+                  "name": "ana_quick_check",
+                  "type": "script",
+                  "path": "scripts\\ana_quick_check.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_install_ana_daily_task",
+                  "name": "install_ana_daily_task",
+                  "type": "script",
+                  "path": "scripts\\install_ana_daily_task.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_quarantine_placeholders",
+                  "name": "quarantine_placeholders",
+                  "type": "script",
+                  "path": "scripts\\quarantine_placeholders.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_restore_tools_from_archive",
+                  "name": "restore_tools_from_archive",
+                  "type": "script",
+                  "path": "scripts\\restore_tools_from_archive.ps1",
+                  "degree": 0
+                }
+              ],
+              "hot_node_count": 20,
+              "cold_node_count": 27
+            },
+            "json_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+            "markdown_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\KNOWLEDGE_GRAPH.md",
+            "history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph_history",
+            "_runner": {
+              "module": "ANA_MAX.self_optimization.knowledge_graph_engine",
+              "args": [
+                "--cycle"
+              ],
+              "returncode": 0
+            }
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "structurer",
+          "task_type": "canonical_layout",
+          "description": "Verify and enforce canonical layout",
+          "priority": "low",
+          "status": "completed",
+          "result": {
+            "source": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 151,
+              "package_dir_count": 17,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            },
+            "planned_actions": [
+              {
+                "action": "report_structure",
+                "targets": []
+              }
+            ]
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        },
+        {
+          "agent": "extractor",
+          "task_type": "github_patterns",
+          "description": "Extract GitHub patterns (user-triggered only)",
+          "priority": "low",
+          "status": "completed",
+          "result": {
+            "skipped": true,
+            "reason": "github_pattern_extractor requires an explicit repo_path"
+          },
+          "timestamp": "2026-06-10T09:40:40.031165"
+        }
+      ]
+    }
+  }
+}

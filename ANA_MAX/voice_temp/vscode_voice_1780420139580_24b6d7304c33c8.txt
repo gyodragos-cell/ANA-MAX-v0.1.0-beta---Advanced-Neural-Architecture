@@ -1,0 +1,1 @@
+[AUTONOMY] ANA Autonomy: PASS (20 pass / 0 warn / 0 fail) trust=100% trace=20/20 aligned=True. [PASS] tool_router Recommended 6 tools for code_change.. [PASS] agent_coach Use code_context_pack next for code_change; coach severity is warn.. [PASS] tool_healthcheck Healthcheck finalizat: 7 OK / 0 FAIL

@@ -1,0 +1,1254 @@
+{
+  "schema": "ana.os3.self_healing.v1",
+  "engine": "self_healing_engine",
+  "generated_at": "2026-06-10T05:26:32.592549+00:00",
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "ana_max_root": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX",
+  "dry_run": false,
+  "mode": "detect",
+  "planned_actions_count": 151,
+  "summary": {
+    "files_checked": 151,
+    "ok_count": 151,
+    "failed_count": 0,
+    "health": "good"
+  },
+  "ok_files": [
+    "__init__.py",
+    "benchmarks/__init__.py",
+    "benchmarks/perf_benchmark.py",
+    "chat_voice_bridge.py",
+    "config/__init__.py",
+    "config/plugins/__init__.py",
+    "core/__init__.py",
+    "core/agent.py",
+    "core/agent_trace_schema.py",
+    "core/autonomous_agent.py",
+    "core/backends/__init__.py",
+    "core/backends/ollama_backend.py",
+    "core/backends/router.py",
+    "core/bot_factory.py",
+    "core/config.py",
+    "core/mcp_server.py",
+    "core/smart_search.py",
+    "core/testing/__init__.py",
+    "dashboard/__init__.py",
+    "dashboard/health_dashboard.py",
+    "Desktop/__init__.py",
+    "Desktop/test_qoder/__init__.py",
+    "dev_artifacts/__init__.py",
+    "dev_artifacts/scripts/__init__.py",
+    "dev_artifacts/scripts/ana_binary_map.py",
+    "dev_artifacts/scripts/ana_code_map.py",
+    "dev_artifacts/scripts/ana_graph_map.py",
+    "main.py",
+    "mcp_stdio.py",
+    "plugins/__init__.py",
+    "plugins/examples/__init__.py",
+    "proiect/__init__.py",
+    "proiect/browser_launcher.py",
+    "proiect/index.py",
+    "self_optimization/__init__.py",
+    "self_optimization/github_pattern_extractor.py",
+    "self_optimization/knowledge_graph_engine.py",
+    "self_optimization/multi_agent_orchestrator.py",
+    "self_optimization/os3_common.py",
+    "self_optimization/self_evaluation_engine.py",
+    "self_optimization/self_evolution_engine.py",
+    "self_optimization/self_healing_engine.py",
+    "self_optimization/self_profiling_engine.py",
+    "self_optimization/self_skills_engine.py",
+    "self_optimization/self_structuring_engine.py",
+    "tools/__init__.py",
+    "tools/adal_tool.py",
+    "tools/adb_tool.py",
+    "tools/advanced_scanner.py",
+    "tools/agent_coach_tool.py",
+    "tools/ana_context_tool.py",
+    "tools/ana_orchestrator.py",
+    "tools/ana_runtime_inspector.py",
+    "tools/ana_safe_tool_smoke_matrix.py",
+    "tools/apk_analyzer.py",
+    "tools/autonomous_tool.py",
+    "tools/base.py",
+    "tools/binary_map_tool.py",
+    "tools/browser_control.py",
+    "tools/check_tools.py",
+    "tools/clipboard_manager.py",
+    "tools/code.py",
+    "tools/code_context_pack_tool.py",
+    "tools/code_search.py",
+    "tools/codebase_understanding_tool.py",
+    "tools/context_bridge.py",
+    "tools/context_engine.py",
+    "tools/conversation_audit.py",
+    "tools/conversation_learning_tool.py",
+    "tools/debug_tools.py",
+    "tools/debugger_tool.py",
+    "tools/desktop_capture.py",
+    "tools/desktop_control_tool.py",
+    "tools/devtools_manager.py",
+    "tools/edge_tts_voice.py",
+    "tools/edit_tool.py",
+    "tools/error_radar_tool.py",
+    "tools/event_stream_tool.py",
+    "tools/EXTINDERE_TOOL_CALLING.py",
+    "tools/file_patch_tool.py",
+    "tools/files.py",
+    "tools/foreground_ui_snapshot.py",
+    "tools/frida_automation.py",
+    "tools/git_tool.py",
+    "tools/graph_context_pack_tool.py",
+    "tools/hardware_scanner_tool.py",
+    "tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+    "tools/input_api_probe_tool.py",
+    "tools/list_all_tools.py",
+    "tools/list_tools.py",
+    "tools/live_debug_console.py",
+    "tools/live_desktop_viewer.py",
+    "tools/live_tool_healer.py",
+    "tools/live_voice_bridge.py",
+    "tools/memory_cortex.py",
+    "tools/memory_tool.py",
+    "tools/mitm_analyzer_tool.py",
+    "tools/network_pentest_tool.py",
+    "tools/network_tool.py",
+    "tools/ocr_tool.py",
+    "tools/path_safety.py",
+    "tools/privacy.py",
+    "tools/proactive_interrupt.py",
+    "tools/project_navigator_tool.py",
+    "tools/qa_tool.py",
+    "tools/remote_control_tool.py",
+    "tools/schema_diff.py",
+    "tools/science_tool.py",
+    "tools/security_tool.py",
+    "tools/self_evolving_tool.py",
+    "tools/session_audit_tool.py",
+    "tools/session_checkpoint_tool.py",
+    "tools/session_lifecycle_tool.py",
+    "tools/session_log_miner_tool.py",
+    "tools/session_rem_sleep_tool.py",
+    "tools/smart_search_tool.py",
+    "tools/smoke_test_runner.py",
+    "tools/swarm_tool.py",
+    "tools/system.py",
+    "tools/system_optimization_tool.py",
+    "tools/task_tool.py",
+    "tools/terminal_tool.py",
+    "tools/text_to_speech.py",
+    "tools/todo_tool.py",
+    "tools/tool_adapters.py",
+    "tools/tool_contract_validator.py",
+    "tools/tool_healthcheck.py",
+    "tools/tool_mapper.py",
+    "tools/tool_router.py",
+    "tools/tool_router_tool.py",
+    "tools/uia_click_tool.py",
+    "tools/uia_type_tool.py",
+    "tools/v20/__init__.py",
+    "tools/vector_memory_tool.py",
+    "tools/verdent_tools.py",
+    "tools/verify_professional_tools.py",
+    "tools/vision_fallback_tool.py",
+    "tools/vision_find_element_tool.py",
+    "tools/vision_region_capture_tool.py",
+    "tools/voice_commentary.py",
+    "tools/voice_integration.py",
+    "tools/watchdog.py",
+    "tools/web.py",
+    "tools/web_ai_bridge.py",
+    "tools/web_scraper.py",
+    "tools/window_manager.py",
+    "tools/windows_deep_sight.py",
+    "tools/windows_insight_tool.py",
+    "tools/windows_uia_bridge.py",
+    "tools/workspace_situational_awareness.py",
+    "voice_toggle.py"
+  ],
+  "failed_files": [],
+  "results": [
+    {
+      "file": "__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "benchmarks/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "benchmarks/perf_benchmark.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "chat_voice_bridge.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "config/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "config/plugins/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/agent.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/agent_trace_schema.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/autonomous_agent.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/backends/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/backends/ollama_backend.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/backends/router.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/bot_factory.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/config.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/mcp_server.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/smart_search.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "core/testing/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dashboard/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dashboard/health_dashboard.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "Desktop/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "Desktop/test_qoder/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dev_artifacts/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dev_artifacts/scripts/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dev_artifacts/scripts/ana_binary_map.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dev_artifacts/scripts/ana_code_map.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "dev_artifacts/scripts/ana_graph_map.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "main.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "mcp_stdio.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "plugins/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "plugins/examples/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "proiect/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "proiect/browser_launcher.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "proiect/index.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/github_pattern_extractor.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/knowledge_graph_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/multi_agent_orchestrator.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/os3_common.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_evaluation_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_evolution_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_healing_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_profiling_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_skills_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "self_optimization/self_structuring_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/adal_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/adb_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/advanced_scanner.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/agent_coach_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/ana_context_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/ana_orchestrator.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/ana_runtime_inspector.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/ana_safe_tool_smoke_matrix.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/apk_analyzer.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/autonomous_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/base.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/binary_map_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/browser_control.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/check_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/clipboard_manager.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/code.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/code_context_pack_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/code_search.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/codebase_understanding_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/context_bridge.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/context_engine.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/conversation_audit.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/conversation_learning_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/debug_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/debugger_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/desktop_capture.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/desktop_control_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/devtools_manager.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/edge_tts_voice.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/edit_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/error_radar_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/event_stream_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/EXTINDERE_TOOL_CALLING.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/file_patch_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/files.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/foreground_ui_snapshot.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/frida_automation.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/git_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/graph_context_pack_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/hardware_scanner_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/input_api_probe_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/list_all_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/list_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/live_debug_console.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/live_desktop_viewer.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/live_tool_healer.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/live_voice_bridge.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/memory_cortex.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/memory_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/mitm_analyzer_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/network_pentest_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/network_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/ocr_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/path_safety.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/privacy.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/proactive_interrupt.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/project_navigator_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/qa_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/remote_control_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/schema_diff.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/science_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/security_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/self_evolving_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/session_audit_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/session_checkpoint_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/session_lifecycle_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/session_log_miner_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/session_rem_sleep_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/smart_search_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/smoke_test_runner.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/swarm_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/system.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/system_optimization_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/task_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/terminal_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/text_to_speech.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/todo_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_adapters.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_contract_validator.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_healthcheck.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_mapper.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_router.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/tool_router_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/uia_click_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/uia_type_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/v20/__init__.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/vector_memory_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/verdent_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/verify_professional_tools.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/vision_fallback_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/vision_find_element_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/vision_region_capture_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/voice_commentary.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/voice_integration.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/watchdog.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/web.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/web_ai_bridge.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/web_scraper.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/window_manager.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/windows_deep_sight.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/windows_insight_tool.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/windows_uia_bridge.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "tools/workspace_situational_awareness.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    {
+      "file": "voice_toggle.py",
+      "ok": true,
+      "returncode": 0,
+      "stderr": ""
+    }
+  ],
+  "analysis": {
+    "check_method": "python -m py_compile",
+    "files_to_check": [
+      "__init__.py",
+      "benchmarks/__init__.py",
+      "benchmarks/perf_benchmark.py",
+      "chat_voice_bridge.py",
+      "config/__init__.py",
+      "config/plugins/__init__.py",
+      "core/__init__.py",
+      "core/agent.py",
+      "core/agent_trace_schema.py",
+      "core/autonomous_agent.py",
+      "core/backends/__init__.py",
+      "core/backends/ollama_backend.py",
+      "core/backends/router.py",
+      "core/bot_factory.py",
+      "core/config.py",
+      "core/mcp_server.py",
+      "core/smart_search.py",
+      "core/testing/__init__.py",
+      "dashboard/__init__.py",
+      "dashboard/health_dashboard.py",
+      "Desktop/__init__.py",
+      "Desktop/test_qoder/__init__.py",
+      "dev_artifacts/__init__.py",
+      "dev_artifacts/scripts/__init__.py",
+      "dev_artifacts/scripts/ana_binary_map.py",
+      "dev_artifacts/scripts/ana_code_map.py",
+      "dev_artifacts/scripts/ana_graph_map.py",
+      "main.py",
+      "mcp_stdio.py",
+      "plugins/__init__.py",
+      "plugins/examples/__init__.py",
+      "proiect/__init__.py",
+      "proiect/browser_launcher.py",
+      "proiect/index.py",
+      "self_optimization/__init__.py",
+      "self_optimization/github_pattern_extractor.py",
+      "self_optimization/knowledge_graph_engine.py",
+      "self_optimization/multi_agent_orchestrator.py",
+      "self_optimization/os3_common.py",
+      "self_optimization/self_evaluation_engine.py",
+      "self_optimization/self_evolution_engine.py",
+      "self_optimization/self_healing_engine.py",
+      "self_optimization/self_profiling_engine.py",
+      "self_optimization/self_skills_engine.py",
+      "self_optimization/self_structuring_engine.py",
+      "tools/__init__.py",
+      "tools/adal_tool.py",
+      "tools/adb_tool.py",
+      "tools/advanced_scanner.py",
+      "tools/agent_coach_tool.py",
+      "tools/ana_context_tool.py",
+      "tools/ana_orchestrator.py",
+      "tools/ana_runtime_inspector.py",
+      "tools/ana_safe_tool_smoke_matrix.py",
+      "tools/apk_analyzer.py",
+      "tools/autonomous_tool.py",
+      "tools/base.py",
+      "tools/binary_map_tool.py",
+      "tools/browser_control.py",
+      "tools/check_tools.py",
+      "tools/clipboard_manager.py",
+      "tools/code.py",
+      "tools/code_context_pack_tool.py",
+      "tools/code_search.py",
+      "tools/codebase_understanding_tool.py",
+      "tools/context_bridge.py",
+      "tools/context_engine.py",
+      "tools/conversation_audit.py",
+      "tools/conversation_learning_tool.py",
+      "tools/debug_tools.py",
+      "tools/debugger_tool.py",
+      "tools/desktop_capture.py",
+      "tools/desktop_control_tool.py",
+      "tools/devtools_manager.py",
+      "tools/edge_tts_voice.py",
+      "tools/edit_tool.py",
+      "tools/error_radar_tool.py",
+      "tools/event_stream_tool.py",
+      "tools/EXTINDERE_TOOL_CALLING.py",
+      "tools/file_patch_tool.py",
+      "tools/files.py",
+      "tools/foreground_ui_snapshot.py",
+      "tools/frida_automation.py",
+      "tools/git_tool.py",
+      "tools/graph_context_pack_tool.py",
+      "tools/hardware_scanner_tool.py",
+      "tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+      "tools/input_api_probe_tool.py",
+      "tools/list_all_tools.py",
+      "tools/list_tools.py",
+      "tools/live_debug_console.py",
+      "tools/live_desktop_viewer.py",
+      "tools/live_tool_healer.py",
+      "tools/live_voice_bridge.py",
+      "tools/memory_cortex.py",
+      "tools/memory_tool.py",
+      "tools/mitm_analyzer_tool.py",
+      "tools/network_pentest_tool.py",
+      "tools/network_tool.py",
+      "tools/ocr_tool.py",
+      "tools/path_safety.py",
+      "tools/privacy.py",
+      "tools/proactive_interrupt.py",
+      "tools/project_navigator_tool.py",
+      "tools/qa_tool.py",
+      "tools/remote_control_tool.py",
+      "tools/schema_diff.py",
+      "tools/science_tool.py",
+      "tools/security_tool.py",
+      "tools/self_evolving_tool.py",
+      "tools/session_audit_tool.py",
+      "tools/session_checkpoint_tool.py",
+      "tools/session_lifecycle_tool.py",
+      "tools/session_log_miner_tool.py",
+      "tools/session_rem_sleep_tool.py",
+      "tools/smart_search_tool.py",
+      "tools/smoke_test_runner.py",
+      "tools/swarm_tool.py",
+      "tools/system.py",
+      "tools/system_optimization_tool.py",
+      "tools/task_tool.py",
+      "tools/terminal_tool.py",
+      "tools/text_to_speech.py",
+      "tools/todo_tool.py",
+      "tools/tool_adapters.py",
+      "tools/tool_contract_validator.py",
+      "tools/tool_healthcheck.py",
+      "tools/tool_mapper.py",
+      "tools/tool_router.py",
+      "tools/tool_router_tool.py",
+      "tools/uia_click_tool.py",
+      "tools/uia_type_tool.py",
+      "tools/v20/__init__.py",
+      "tools/vector_memory_tool.py",
+      "tools/verdent_tools.py",
+      "tools/verify_professional_tools.py",
+      "tools/vision_fallback_tool.py",
+      "tools/vision_find_element_tool.py",
+      "tools/vision_region_capture_tool.py",
+      "tools/voice_commentary.py",
+      "tools/voice_integration.py",
+      "tools/watchdog.py",
+      "tools/web.py",
+      "tools/web_ai_bridge.py",
+      "tools/web_scraper.py",
+      "tools/window_manager.py",
+      "tools/windows_deep_sight.py",
+      "tools/windows_insight_tool.py",
+      "tools/windows_uia_bridge.py",
+      "tools/workspace_situational_awareness.py",
+      "voice_toggle.py"
+    ],
+    "files_to_check_count": 151,
+    "repair_mode": false
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "report_non_empty": true,
+      "schema_present": true,
+      "ok_plus_failed_matches_results": true,
+      "summary_counts_match": true,
+      "returncodes_consistent": true
+    }
+  },
+  "pipeline": {
+    "observe": "complete",
+    "analyze": "complete",
+    "plan": "complete",
+    "act": "complete",
+    "verify": "complete",
+    "document": "complete"
+  }
+}

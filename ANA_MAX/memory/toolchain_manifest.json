@@ -1,0 +1,3867 @@
+{
+  "schema": "ana.os4.toolchain_manifest.v1",
+  "generated_at": "2026-06-10T21:30:27.095313+00:00",
+  "dry_run": false,
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "tools_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\tools",
+  "archives_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\archives",
+  "tools": {
+    "active": [
+      {
+        "name": "adal_tool",
+        "path": "ANA_MAX/tools/adal_tool.py",
+        "status": "active",
+        "classes": [
+          "AdaLTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "adb_tool",
+        "path": "ANA_MAX/tools/adb_tool.py",
+        "status": "active",
+        "classes": [
+          "ADBTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "advanced_scanner",
+        "path": "ANA_MAX/tools/advanced_scanner.py",
+        "status": "active",
+        "classes": [
+          "AdvancedScannerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "agent_coach_tool",
+        "path": "ANA_MAX/tools/agent_coach_tool.py",
+        "status": "active",
+        "classes": [
+          "AgentCoachTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "ana_context_tool",
+        "path": "ANA_MAX/tools/ana_context_tool.py",
+        "status": "active",
+        "classes": [
+          "AnaContextTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "ana_orchestrator",
+        "path": "ANA_MAX/tools/ana_orchestrator.py",
+        "status": "active",
+        "classes": [
+          "Step",
+          "TaskResult",
+          "AnaOrchestrator"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "ana_runtime_inspector",
+        "path": "ANA_MAX/tools/ana_runtime_inspector.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "ana_safe_tool_smoke_matrix",
+        "path": "ANA_MAX/tools/ana_safe_tool_smoke_matrix.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "apk_analyzer",
+        "path": "ANA_MAX/tools/apk_analyzer.py",
+        "status": "active",
+        "classes": [
+          "APKAnalyzerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_tool",
+        "path": "ANA_MAX/tools/autonomous_tool.py",
+        "status": "active",
+        "classes": [
+          "AutonomousTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "base",
+        "path": "ANA_MAX/tools/base.py",
+        "status": "active",
+        "classes": [
+          "ToolStatus",
+          "ToolResult",
+          "ToolParameter",
+          "ToolDefinition",
+          "Tool",
+          "ToolRegistry"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "binary_map_tool",
+        "path": "ANA_MAX/tools/binary_map_tool.py",
+        "status": "active",
+        "classes": [
+          "BinaryMapTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "browser_control",
+        "path": "ANA_MAX/tools/browser_control.py",
+        "status": "active",
+        "classes": [
+          "BrowserControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "browser_pack",
+        "path": "ANA_MAX/tools/browser_pack.py",
+        "status": "active",
+        "classes": [
+          "ToolContract"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "check_tools",
+        "path": "ANA_MAX/tools/check_tools.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "clipboard_manager",
+        "path": "ANA_MAX/tools/clipboard_manager.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "code",
+        "path": "ANA_MAX/tools/code.py",
+        "status": "active",
+        "classes": [
+          "CodeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "code_context_pack_tool",
+        "path": "ANA_MAX/tools/code_context_pack_tool.py",
+        "status": "active",
+        "classes": [
+          "CodeContextPackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "code_search",
+        "path": "ANA_MAX/tools/code_search.py",
+        "status": "active",
+        "classes": [
+          "CodeSearchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "codebase_understanding_tool",
+        "path": "ANA_MAX/tools/codebase_understanding_tool.py",
+        "status": "active",
+        "classes": [
+          "CodebaseUnderstandingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "context_bridge",
+        "path": "ANA_MAX/tools/context_bridge.py",
+        "status": "active",
+        "classes": [
+          "WorkingContext",
+          "ContextBridge"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "context_engine",
+        "path": "ANA_MAX/tools/context_engine.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "conversation_audit",
+        "path": "ANA_MAX/tools/conversation_audit.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "conversation_learning_tool",
+        "path": "ANA_MAX/tools/conversation_learning_tool.py",
+        "status": "active",
+        "classes": [
+          "ConversationLearningTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "debug_tools",
+        "path": "ANA_MAX/tools/debug_tools.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "debugger_tool",
+        "path": "ANA_MAX/tools/debugger_tool.py",
+        "status": "active",
+        "classes": [
+          "DebuggerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "desktop_capture",
+        "path": "ANA_MAX/tools/desktop_capture.py",
+        "status": "active",
+        "classes": [
+          "DesktopCaptureTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "desktop_control_tool",
+        "path": "ANA_MAX/tools/desktop_control_tool.py",
+        "status": "active",
+        "classes": [
+          "DesktopControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "devtools_manager",
+        "path": "ANA_MAX/tools/devtools_manager.py",
+        "status": "active",
+        "classes": [
+          "DevToolsManager"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "edge_tts_voice",
+        "path": "ANA_MAX/tools/edge_tts_voice.py",
+        "status": "active",
+        "classes": [
+          "EdgeTTSVoice"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "edit_tool",
+        "path": "ANA_MAX/tools/edit_tool.py",
+        "status": "active",
+        "classes": [
+          "EditTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "error_radar_tool",
+        "path": "ANA_MAX/tools/error_radar_tool.py",
+        "status": "active",
+        "classes": [
+          "ErrorRadarTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "event_stream_tool",
+        "path": "ANA_MAX/tools/event_stream_tool.py",
+        "status": "active",
+        "classes": [
+          "EventStreamTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "EXTINDERE_TOOL_CALLING",
+        "path": "ANA_MAX/tools/EXTINDERE_TOOL_CALLING.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "file_patch_tool",
+        "path": "ANA_MAX/tools/file_patch_tool.py",
+        "status": "active",
+        "classes": [
+          "FilePatchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "files",
+        "path": "ANA_MAX/tools/files.py",
+        "status": "active",
+        "classes": [
+          "FilesTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "foreground_ui_snapshot",
+        "path": "ANA_MAX/tools/foreground_ui_snapshot.py",
+        "status": "active",
+        "classes": [
+          "ForegroundUISnapshotTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "frida_automation",
+        "path": "ANA_MAX/tools/frida_automation.py",
+        "status": "active",
+        "classes": [
+          "FridaTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "git_tool",
+        "path": "ANA_MAX/tools/git_tool.py",
+        "status": "active",
+        "classes": [
+          "GitTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "graph_context_pack_tool",
+        "path": "ANA_MAX/tools/graph_context_pack_tool.py",
+        "status": "active",
+        "classes": [
+          "GraphContextPackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "hardware_scanner_tool",
+        "path": "ANA_MAX/tools/hardware_scanner_tool.py",
+        "status": "active",
+        "classes": [
+          "HardwareScannerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "IMPLEMENTARE_TOOL_CALLING_OLLAMA",
+        "path": "ANA_MAX/tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "input_api_probe_tool",
+        "path": "ANA_MAX/tools/input_api_probe_tool.py",
+        "status": "active",
+        "classes": [
+          "InputApiProbeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "list_all_tools",
+        "path": "ANA_MAX/tools/list_all_tools.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "list_tools",
+        "path": "ANA_MAX/tools/list_tools.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "live_debug_console",
+        "path": "ANA_MAX/tools/live_debug_console.py",
+        "status": "active",
+        "classes": [
+          "LiveDebugConsoleTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "live_desktop_viewer",
+        "path": "ANA_MAX/tools/live_desktop_viewer.py",
+        "status": "active",
+        "classes": [
+          "DesktopStreamHandler",
+          "ThreadedHTTPServer",
+          "LiveDesktopViewerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "live_tool_healer",
+        "path": "ANA_MAX/tools/live_tool_healer.py",
+        "status": "active",
+        "classes": [
+          "PerformanceMetrics",
+          "AnomalyReport",
+          "LiveToolHealer"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "live_voice_bridge",
+        "path": "ANA_MAX/tools/live_voice_bridge.py",
+        "status": "active",
+        "classes": [
+          "LiveVoiceBridge"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "memory_cortex",
+        "path": "ANA_MAX/tools/memory_cortex.py",
+        "status": "active",
+        "classes": [
+          "MemoryCortex"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "memory_tool",
+        "path": "ANA_MAX/tools/memory_tool.py",
+        "status": "active",
+        "classes": [
+          "MemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "mitm_analyzer_tool",
+        "path": "ANA_MAX/tools/mitm_analyzer_tool.py",
+        "status": "active",
+        "classes": [
+          "MITMAnalyzerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "network_pentest_tool",
+        "path": "ANA_MAX/tools/network_pentest_tool.py",
+        "status": "active",
+        "classes": [
+          "NetworkPentestTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "network_tool",
+        "path": "ANA_MAX/tools/network_tool.py",
+        "status": "active",
+        "classes": [
+          "NetworkTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "ocr_tool",
+        "path": "ANA_MAX/tools/ocr_tool.py",
+        "status": "active",
+        "classes": [
+          "OcrTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "path_safety",
+        "path": "ANA_MAX/tools/path_safety.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "privacy",
+        "path": "ANA_MAX/tools/privacy.py",
+        "status": "active",
+        "classes": [
+          "PrivacyTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "proactive_interrupt",
+        "path": "ANA_MAX/tools/proactive_interrupt.py",
+        "status": "active",
+        "classes": [
+          "ProactiveInterrupt"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "project_navigator_tool",
+        "path": "ANA_MAX/tools/project_navigator_tool.py",
+        "status": "active",
+        "classes": [
+          "ProjectNavigatorTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "qa_tool",
+        "path": "ANA_MAX/tools/qa_tool.py",
+        "status": "active",
+        "classes": [
+          "QATool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "remote_control_tool",
+        "path": "ANA_MAX/tools/remote_control_tool.py",
+        "status": "active",
+        "classes": [
+          "RemoteControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "schema_diff",
+        "path": "ANA_MAX/tools/schema_diff.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "science_tool",
+        "path": "ANA_MAX/tools/science_tool.py",
+        "status": "active",
+        "classes": [
+          "ScienceTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "security_tool",
+        "path": "ANA_MAX/tools/security_tool.py",
+        "status": "active",
+        "classes": [
+          "SecurityTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "self_evolving_tool",
+        "path": "ANA_MAX/tools/self_evolving_tool.py",
+        "status": "active",
+        "classes": [
+          "SelfEvolvingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "session_audit_tool",
+        "path": "ANA_MAX/tools/session_audit_tool.py",
+        "status": "active",
+        "classes": [
+          "SessionAuditTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "session_checkpoint_tool",
+        "path": "ANA_MAX/tools/session_checkpoint_tool.py",
+        "status": "active",
+        "classes": [
+          "SessionCheckpointTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "session_lifecycle_tool",
+        "path": "ANA_MAX/tools/session_lifecycle_tool.py",
+        "status": "active",
+        "classes": [
+          "SessionLifecycleTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "session_log_miner_tool",
+        "path": "ANA_MAX/tools/session_log_miner_tool.py",
+        "status": "active",
+        "classes": [
+          "SessionLogMinerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "session_rem_sleep_tool",
+        "path": "ANA_MAX/tools/session_rem_sleep_tool.py",
+        "status": "active",
+        "classes": [
+          "SessionRemSleepTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "smart_search_tool",
+        "path": "ANA_MAX/tools/smart_search_tool.py",
+        "status": "active",
+        "classes": [
+          "SmartSearchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "smoke_test_runner",
+        "path": "ANA_MAX/tools/smoke_test_runner.py",
+        "status": "active",
+        "classes": [
+          "TestResult",
+          "ToolTestReport",
+          "SmokeTestRunner"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "swarm_tool",
+        "path": "ANA_MAX/tools/swarm_tool.py",
+        "status": "active",
+        "classes": [
+          "SwarmTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "system",
+        "path": "ANA_MAX/tools/system.py",
+        "status": "active",
+        "classes": [
+          "SystemTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "system_optimization_tool",
+        "path": "ANA_MAX/tools/system_optimization_tool.py",
+        "status": "active",
+        "classes": [
+          "SystemOptimizationTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "task_tool",
+        "path": "ANA_MAX/tools/task_tool.py",
+        "status": "active",
+        "classes": [
+          "TaskTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "terminal_tool",
+        "path": "ANA_MAX/tools/terminal_tool.py",
+        "status": "active",
+        "classes": [
+          "PersistentShellSession",
+          "TerminalTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "text_to_speech",
+        "path": "ANA_MAX/tools/text_to_speech.py",
+        "status": "active",
+        "classes": [
+          "TextToSpeechTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "todo_tool",
+        "path": "ANA_MAX/tools/todo_tool.py",
+        "status": "active",
+        "classes": [
+          "TodoItem",
+          "TodoWriteTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_adapters",
+        "path": "ANA_MAX/tools/tool_adapters.py",
+        "status": "active",
+        "classes": [
+          "ContextEngineAdapter",
+          "ProactiveInterruptAdapter",
+          "SelfEvolvingToolAdapter",
+          "MemoryCortexAdapter",
+          "AnaOrchestratorAdapter",
+          "ContextBridgeAdapter",
+          "WindowManagerAdapter",
+          "ClipboardManagerAdapter",
+          "OcrToolAdapter"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_contract_validator",
+        "path": "ANA_MAX/tools/tool_contract_validator.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_healthcheck",
+        "path": "ANA_MAX/tools/tool_healthcheck.py",
+        "status": "active",
+        "classes": [
+          "ToolHealthcheckTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_mapper",
+        "path": "ANA_MAX/tools/tool_mapper.py",
+        "status": "active",
+        "classes": [
+          "ToolMapper"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_router",
+        "path": "ANA_MAX/tools/tool_router.py",
+        "status": "active",
+        "classes": [
+          "ToolScore",
+          "ToolRouteDecision",
+          "ToolRouter"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "tool_router_tool",
+        "path": "ANA_MAX/tools/tool_router_tool.py",
+        "status": "active",
+        "classes": [
+          "ToolRouterTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "toolchain_discovery",
+        "path": "ANA_MAX/tools/toolchain_discovery.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "uia_click_tool",
+        "path": "ANA_MAX/tools/uia_click_tool.py",
+        "status": "active",
+        "classes": [
+          "UiaClickTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "uia_type_tool",
+        "path": "ANA_MAX/tools/uia_type_tool.py",
+        "status": "active",
+        "classes": [
+          "UiaTypeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vector_memory_tool",
+        "path": "ANA_MAX/tools/vector_memory_tool.py",
+        "status": "active",
+        "classes": [
+          "VectorMemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "verdent_tools",
+        "path": "ANA_MAX/tools/verdent_tools.py",
+        "status": "active",
+        "classes": [
+          "BashExecTool",
+          "GlobSearchTool",
+          "GrepContentTool",
+          "GrepFileTool",
+          "WebFetchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "verify_professional_tools",
+        "path": "ANA_MAX/tools/verify_professional_tools.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "vision_fallback_tool",
+        "path": "ANA_MAX/tools/vision_fallback_tool.py",
+        "status": "active",
+        "classes": [
+          "VisionFallbackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "vision_find_element_tool",
+        "path": "ANA_MAX/tools/vision_find_element_tool.py",
+        "status": "active",
+        "classes": [
+          "VisionFindElementTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "vision_region_capture_tool",
+        "path": "ANA_MAX/tools/vision_region_capture_tool.py",
+        "status": "active",
+        "classes": [
+          "VisionRegionCaptureTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "voice_commentary",
+        "path": "ANA_MAX/tools/voice_commentary.py",
+        "status": "active",
+        "classes": [
+          "VoiceCommentary"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "voice_integration",
+        "path": "ANA_MAX/tools/voice_integration.py",
+        "status": "active",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "watchdog",
+        "path": "ANA_MAX/tools/watchdog.py",
+        "status": "active",
+        "classes": [
+          "_LogHandler",
+          "WatchdogTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "web",
+        "path": "ANA_MAX/tools/web.py",
+        "status": "active",
+        "classes": [
+          "WebTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "web_ai_bridge",
+        "path": "ANA_MAX/tools/web_ai_bridge.py",
+        "status": "active",
+        "classes": [
+          "WebAIBridgeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "web_scraper",
+        "path": "ANA_MAX/tools/web_scraper.py",
+        "status": "active",
+        "classes": [
+          "WebScraperTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "window_manager",
+        "path": "ANA_MAX/tools/window_manager.py",
+        "status": "active",
+        "classes": [
+          "WindowManagerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "windows_deep_sight",
+        "path": "ANA_MAX/tools/windows_deep_sight.py",
+        "status": "active",
+        "classes": [
+          "WindowsDeepSightTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "windows_insight_tool",
+        "path": "ANA_MAX/tools/windows_insight_tool.py",
+        "status": "active",
+        "classes": [
+          "WindowsInsightTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "windows_uia_bridge",
+        "path": "ANA_MAX/tools/windows_uia_bridge.py",
+        "status": "active",
+        "classes": [
+          "WindowsUiaBridgeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      },
+      {
+        "name": "workspace_situational_awareness",
+        "path": "ANA_MAX/tools/workspace_situational_awareness.py",
+        "status": "active",
+        "classes": [
+          "WorkspaceSituationalAwarenessTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": false
+      }
+    ],
+    "candidates": [
+      {
+        "name": "advanced_swarm",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/advanced_swarm.py",
+        "status": "candidate",
+        "classes": [
+          "Topology",
+          "AgentRole",
+          "Task",
+          "SwarmAgent",
+          "ConsensusEngine",
+          "AdvancedSwarmOrchestrator"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "agents_md",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/agents_md.py",
+        "status": "candidate",
+        "classes": [
+          "AgentsMDReader"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_brain",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/autonomous_brain.py",
+        "status": "candidate",
+        "classes": [
+          "AutonomousBrain"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_orchestrator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/autonomous_orchestrator.py",
+        "status": "candidate",
+        "classes": [
+          "AutonomousOrchestrator"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomy_config",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/autonomy_config.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "adal_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/adal_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "aimlapi_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/aimlapi_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "common",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/common.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "gemini_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/gemini_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "grok_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/grok_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "kimi_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/kimi_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "nemotron_openrouter_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/nemotron_openrouter_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "opencode_zen_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/backends/opencode_zen_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "browser_runtime",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/browser_runtime.py",
+        "status": "candidate",
+        "classes": [
+          "BrowserRuntimeError",
+          "BrowserSessionState",
+          "BrowserAutomationRuntime"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "codebase_understanding",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/codebase_understanding.py",
+        "status": "candidate",
+        "classes": [
+          "CodebaseUnderstanding"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "consensus",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/consensus.py",
+        "status": "candidate",
+        "classes": [
+          "ConsensusEngine"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "critical_thinking",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/critical_thinking.py",
+        "status": "candidate",
+        "classes": [
+          "CriticalThinkingEngine"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "dashboard",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/dashboard.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "engineer_platform",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/engineer_platform.py",
+        "status": "candidate",
+        "classes": [
+          "AssessmentScope",
+          "EngineerPlatform"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "engineer_router",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/engineer_router.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "event_stream",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/event_stream.py",
+        "status": "candidate",
+        "classes": [
+          "EventType",
+          "EventStream"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "evolution",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/evolution.py",
+        "status": "candidate",
+        "classes": [
+          "SafetyMode",
+          "LearningEntry",
+          "EvolutionConfig",
+          "SelfEvolutionEngine"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "git_checkpoint",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/git_checkpoint.py",
+        "status": "candidate",
+        "classes": [
+          "GitCheckpoint"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "hybrid_brain",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/hybrid_brain.py",
+        "status": "candidate",
+        "classes": [
+          "HybridBrain"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "jupyter_sandbox",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/jupyter_sandbox.py",
+        "status": "candidate",
+        "classes": [
+          "JupyterSandbox"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "lab",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/lab.py",
+        "status": "candidate",
+        "classes": [
+          "LocalLearningLab"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "license_manager",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/license_manager.py",
+        "status": "candidate",
+        "classes": [
+          "LicenseError",
+          "LicenseManager"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "memory",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/memory.py",
+        "status": "candidate",
+        "classes": [
+          "Memory"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "multi_agent_system",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/multi_agent_system.py",
+        "status": "candidate",
+        "classes": [
+          "MultiAgentSystem"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "multi_file_editor",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/multi_file_editor.py",
+        "status": "candidate",
+        "classes": [
+          "FileEdit",
+          "EditTransaction",
+          "MultiFileEditor"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "observer",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/observer.py",
+        "status": "candidate",
+        "classes": [
+          "LearningDatabase",
+          "FileWatcher",
+          "ProcessMonitor",
+          "PatternRecognizer",
+          "AnaObserver"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "predictor",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/predictor.py",
+        "status": "candidate",
+        "classes": [
+          "BehaviorPredictor"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "reliability",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/reliability.py",
+        "status": "candidate",
+        "classes": [
+          "ToolHealth",
+          "HealthTracker",
+          "BackupManager",
+          "RecoveryHelper"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "remote_control",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/remote_control.py",
+        "status": "candidate",
+        "classes": [
+          "RemoteMachine",
+          "RemoteSession",
+          "RemoteControlManager"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "repair_controller",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/repair_controller.py",
+        "status": "candidate",
+        "classes": [
+          "RepairController"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "resource_loader",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/resource_loader.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "safety",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/safety.py",
+        "status": "candidate",
+        "classes": [
+          "SafetyProtocol"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_lifecycle",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/session_lifecycle.py",
+        "status": "candidate",
+        "classes": [
+          "SessionLifecycle"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "smart_search",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/smart_search.py",
+        "status": "candidate",
+        "classes": [
+          "SmartSearchEngine"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "surgical_edit",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/surgical_edit.py",
+        "status": "candidate",
+        "classes": [
+          "SurgicalEdit",
+          "SurgicalEditEngine"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "swarm",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/swarm.py",
+        "status": "candidate",
+        "classes": [
+          "SubAgent",
+          "SwarmOrchestrator"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "qa_modules",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/testing/qa_modules.py",
+        "status": "candidate",
+        "classes": [
+          "VisualQA",
+          "PerformanceQA"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vector_memory",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/vector_memory.py",
+        "status": "candidate",
+        "classes": [
+          "SimpleEmbeddingModel",
+          "VectorMemoryCortex"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_fallback",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/core/vision_fallback.py",
+        "status": "candidate",
+        "classes": [
+          "VisionElement",
+          "VisionGUIFallback"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomy_dashboard",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/dashboard/autonomy_dashboard.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "index",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/Desktop/test_qoder/index.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "launcher",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/launcher.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "mcp_server",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/mcp_server.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "backup_plugin",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/plugins/backup_plugin.py",
+        "status": "candidate",
+        "classes": [
+          "BackupPlugin"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "browser_plugin",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/plugins/browser_plugin.py",
+        "status": "candidate",
+        "classes": [
+          "BrowserPlugin"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "example_calculator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/plugins/examples/example_calculator.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "example_text_utils",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/plugins/examples/example_text_utils.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "git_plugin",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/plugins/git_plugin.py",
+        "status": "candidate",
+        "classes": [
+          "GitPlugin"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "adal_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/adal_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AdaLTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "adb_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/adb_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ADBTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_context_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/ana_context_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AnaContextTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/autonomous_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AutonomousTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "codebase_understanding_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/codebase_understanding_tool.py",
+        "status": "candidate",
+        "classes": [
+          "CodebaseUnderstandingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "conversation_learning_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/conversation_learning_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ConversationLearningTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "debugger_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/debugger_tool.py",
+        "status": "candidate",
+        "classes": [
+          "DebuggerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "edit_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/edit_tool.py",
+        "status": "candidate",
+        "classes": [
+          "EditTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "file_patch_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/file_patch_tool.py",
+        "status": "candidate",
+        "classes": [
+          "FilePatchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "hardware_scanner_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/hardware_scanner_tool.py",
+        "status": "candidate",
+        "classes": [
+          "HardwareScannerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "memory_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/memory_tool.py",
+        "status": "candidate",
+        "classes": [
+          "MemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "mitm_analyzer_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/mitm_analyzer_tool.py",
+        "status": "candidate",
+        "classes": [
+          "MITMAnalyzerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "network_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/network_tool.py",
+        "status": "candidate",
+        "classes": [
+          "NetworkTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ocr_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/ocr_tool.py",
+        "status": "candidate",
+        "classes": [
+          "OcrTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "project_navigator_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/project_navigator_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ProjectNavigatorTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "qa_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/qa_tool.py",
+        "status": "candidate",
+        "classes": [
+          "QATool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "remote_control_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/remote_control_tool.py",
+        "status": "candidate",
+        "classes": [
+          "RemoteControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "science_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/science_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ScienceTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "security_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/security_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SecurityTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "self_evolving_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/self_evolving_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SelfEvolvingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_lifecycle_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/session_lifecycle_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionLifecycleTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_log_miner_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/session_log_miner_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionLogMinerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_rem_sleep_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/session_rem_sleep_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionRemSleepTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "smart_search_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/smart_search_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SmartSearchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "swarm_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/swarm_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SwarmTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "system_optimization_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/system_optimization_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SystemOptimizationTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "task_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/task_tool.py",
+        "status": "candidate",
+        "classes": [
+          "TaskTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "todo_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/todo_tool.py",
+        "status": "candidate",
+        "classes": [
+          "TodoItem",
+          "TodoWriteTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_contract_validator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/tool_contract_validator.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "uia_click_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/uia_click_tool.py",
+        "status": "candidate",
+        "classes": [
+          "UiaClickTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vector_memory_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/vector_memory_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VectorMemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_fallback_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/vision_fallback_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionFallbackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_find_element_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/vision_find_element_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionFindElementTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_region_capture_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/vision_region_capture_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionRegionCaptureTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "windows_insight_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/backups/windows_insight_tool.py",
+        "status": "candidate",
+        "classes": [
+          "WindowsInsightTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "test_all_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/ana-max-bridge/test_all_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vector_memory",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/ana_os_v1/vector_memory.py",
+        "status": "candidate",
+        "classes": [
+          "VectorMemory"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "agent",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/agent.py",
+        "status": "candidate",
+        "classes": [
+          "BackendRoute",
+          "ANAAgent"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_agent",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/autonomous_agent.py",
+        "status": "candidate",
+        "classes": [
+          "TaskStatus",
+          "TaskStep",
+          "TaskPlan",
+          "AutonomousAgent"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ollama_backend",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/backends/ollama_backend.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "router",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/backends/router.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "bot_factory",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/bot_factory.py",
+        "status": "candidate",
+        "classes": [
+          "BotFactory"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "config",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/config.py",
+        "status": "candidate",
+        "classes": [
+          "Config"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "mcp_server",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/mcp_server.py",
+        "status": "candidate",
+        "classes": [
+          "MCPServer",
+          "AdalBridge"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tester_mindset",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/core/tester_mindset.py",
+        "status": "candidate",
+        "classes": [
+          "TesterMindset"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "main",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/main.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "mcp_stdio",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/mcp_stdio.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "test_gen_plugin",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/plugins/test_gen_plugin.py",
+        "status": "candidate",
+        "classes": [
+          "TestGenPlugin"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "agent_coach_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/agent_coach_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AgentCoachTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "base",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/base.py",
+        "status": "candidate",
+        "classes": [
+          "ToolStatus",
+          "ToolResult",
+          "ToolParameter",
+          "ToolDefinition",
+          "Tool",
+          "ToolRegistry"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "desktop_control_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/desktop_control_tool.py",
+        "status": "candidate",
+        "classes": [
+          "DesktopControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "error_radar_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/error_radar_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ErrorRadarTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "event_stream_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/event_stream_tool.py",
+        "status": "candidate",
+        "classes": [
+          "EventStreamTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "foreground_ui_snapshot",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/foreground_ui_snapshot.py",
+        "status": "candidate",
+        "classes": [
+          "ForegroundUISnapshotTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "path_safety",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/path_safety.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_checkpoint_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/session_checkpoint_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionCheckpointTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "terminal_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/terminal_tool.py",
+        "status": "candidate",
+        "classes": [
+          "PersistentShellSession",
+          "TerminalTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_adapters",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/tool_adapters.py",
+        "status": "candidate",
+        "classes": [
+          "ContextEngineAdapter",
+          "ProactiveInterruptAdapter",
+          "SelfEvolvingToolAdapter",
+          "MemoryCortexAdapter",
+          "AnaOrchestratorAdapter",
+          "ContextBridgeAdapter",
+          "WindowManagerAdapter",
+          "ClipboardManagerAdapter",
+          "OcrToolAdapter"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_healthcheck",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/tool_healthcheck.py",
+        "status": "candidate",
+        "classes": [
+          "ToolHealthcheckTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_router_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/tool_router_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ToolRouterTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "uia_type_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/uia_type_tool.py",
+        "status": "candidate",
+        "classes": [
+          "UiaTypeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "verdent_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/verdent_tools.py",
+        "status": "candidate",
+        "classes": [
+          "BashExecTool",
+          "GlobSearchTool",
+          "GrepContentTool",
+          "GrepFileTool",
+          "WebFetchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "windows_uia_bridge",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/windows_uia_bridge.py",
+        "status": "candidate",
+        "classes": [
+          "WindowsUiaBridgeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "workspace_situational_awareness",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/sandbox/public_release_1014_push_20260528_024902/tools/workspace_situational_awareness.py",
+        "status": "candidate",
+        "classes": [
+          "WorkspaceSituationalAwarenessTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "adal_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/adal_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AdaLTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "adb_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/adb_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ADBTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "advanced_scanner",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/advanced_scanner.py",
+        "status": "candidate",
+        "classes": [
+          "AdvancedScannerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "agent_coach_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/agent_coach_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AgentCoachTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_context_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/ana_context_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AnaContextTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_orchestrator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/ana_orchestrator.py",
+        "status": "candidate",
+        "classes": [
+          "Step",
+          "TaskResult",
+          "AnaOrchestrator"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_runtime_inspector",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/ana_runtime_inspector.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_safe_tool_smoke_matrix",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/ana_safe_tool_smoke_matrix.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "apk_analyzer",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/apk_analyzer.py",
+        "status": "candidate",
+        "classes": [
+          "APKAnalyzerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "autonomous_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/autonomous_tool.py",
+        "status": "candidate",
+        "classes": [
+          "AutonomousTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "binary_map_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/binary_map_tool.py",
+        "status": "candidate",
+        "classes": [
+          "BinaryMapTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "browser_control",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/browser_control.py",
+        "status": "candidate",
+        "classes": [
+          "BrowserControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "check_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/check_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "clipboard_manager",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/clipboard_manager.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "code",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/code.py",
+        "status": "candidate",
+        "classes": [
+          "CodeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "code_context_pack_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/code_context_pack_tool.py",
+        "status": "candidate",
+        "classes": [
+          "CodeContextPackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "code_search",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/code_search.py",
+        "status": "candidate",
+        "classes": [
+          "CodeSearchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "codebase_understanding_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/codebase_understanding_tool.py",
+        "status": "candidate",
+        "classes": [
+          "CodebaseUnderstandingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "context_bridge",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/context_bridge.py",
+        "status": "candidate",
+        "classes": [
+          "WorkingContext",
+          "ContextBridge"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "context_engine",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/context_engine.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "conversation_learning_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/conversation_learning_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ConversationLearningTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "debug_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/debug_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "debugger_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/debugger_tool.py",
+        "status": "candidate",
+        "classes": [
+          "DebuggerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "desktop_capture",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/desktop_capture.py",
+        "status": "candidate",
+        "classes": [
+          "DesktopCaptureTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "desktop_control_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/desktop_control_tool.py",
+        "status": "candidate",
+        "classes": [
+          "DesktopControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "devtools_manager",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/devtools_manager.py",
+        "status": "candidate",
+        "classes": [
+          "DevToolsManager"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "edge_tts_voice",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/edge_tts_voice.py",
+        "status": "candidate",
+        "classes": [
+          "EdgeTTSVoice"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "edit_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/edit_tool.py",
+        "status": "candidate",
+        "classes": [
+          "EditTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "error_radar_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/error_radar_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ErrorRadarTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "event_stream_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/event_stream_tool.py",
+        "status": "candidate",
+        "classes": [
+          "EventStreamTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "EXTINDERE_TOOL_CALLING",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/EXTINDERE_TOOL_CALLING.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "file_patch_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/file_patch_tool.py",
+        "status": "candidate",
+        "classes": [
+          "FilePatchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "files",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/files.py",
+        "status": "candidate",
+        "classes": [
+          "FilesTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "frida_automation",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/frida_automation.py",
+        "status": "candidate",
+        "classes": [
+          "FridaTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "git_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/git_tool.py",
+        "status": "candidate",
+        "classes": [
+          "GitTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "graph_context_pack_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/graph_context_pack_tool.py",
+        "status": "candidate",
+        "classes": [
+          "GraphContextPackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "hardware_scanner_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/hardware_scanner_tool.py",
+        "status": "candidate",
+        "classes": [
+          "HardwareScannerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "IMPLEMENTARE_TOOL_CALLING_OLLAMA",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "input_api_probe_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/input_api_probe_tool.py",
+        "status": "candidate",
+        "classes": [
+          "InputApiProbeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "list_all_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/list_all_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "list_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/list_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "live_desktop_viewer",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/live_desktop_viewer.py",
+        "status": "candidate",
+        "classes": [
+          "DesktopStreamHandler",
+          "ThreadedHTTPServer",
+          "LiveDesktopViewerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "live_tool_healer",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/live_tool_healer.py",
+        "status": "candidate",
+        "classes": [
+          "PerformanceMetrics",
+          "AnomalyReport",
+          "LiveToolHealer"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "memory_cortex",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/memory_cortex.py",
+        "status": "candidate",
+        "classes": [
+          "MemoryCortex"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "memory_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/memory_tool.py",
+        "status": "candidate",
+        "classes": [
+          "MemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "mitm_analyzer_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/mitm_analyzer_tool.py",
+        "status": "candidate",
+        "classes": [
+          "MITMAnalyzerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "network_pentest_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/network_pentest_tool.py",
+        "status": "candidate",
+        "classes": [
+          "NetworkPentestTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "network_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/network_tool.py",
+        "status": "candidate",
+        "classes": [
+          "NetworkTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ocr_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/ocr_tool.py",
+        "status": "candidate",
+        "classes": [
+          "OcrTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "privacy",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/privacy.py",
+        "status": "candidate",
+        "classes": [
+          "PrivacyTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "proactive_interrupt",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/proactive_interrupt.py",
+        "status": "candidate",
+        "classes": [
+          "ProactiveInterrupt"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "project_navigator_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/project_navigator_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ProjectNavigatorTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "qa_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/qa_tool.py",
+        "status": "candidate",
+        "classes": [
+          "QATool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "remote_control_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/remote_control_tool.py",
+        "status": "candidate",
+        "classes": [
+          "RemoteControlTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "schema_diff",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/schema_diff.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "science_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/science_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ScienceTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "security_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/security_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SecurityTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "self_evolving_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/self_evolving_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SelfEvolvingTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_audit_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/session_audit_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionAuditTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_checkpoint_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/session_checkpoint_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionCheckpointTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_lifecycle_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/session_lifecycle_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionLifecycleTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_log_miner_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/session_log_miner_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionLogMinerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "session_rem_sleep_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/session_rem_sleep_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SessionRemSleepTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "smart_search_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/smart_search_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SmartSearchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "smoke_test_runner",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/smoke_test_runner.py",
+        "status": "candidate",
+        "classes": [
+          "TestResult",
+          "ToolTestReport",
+          "SmokeTestRunner"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "swarm_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/swarm_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SwarmTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "system",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/system.py",
+        "status": "candidate",
+        "classes": [
+          "SystemTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "system_optimization_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/system_optimization_tool.py",
+        "status": "candidate",
+        "classes": [
+          "SystemOptimizationTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "task_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/task_tool.py",
+        "status": "candidate",
+        "classes": [
+          "TaskTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "terminal_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/terminal_tool.py",
+        "status": "candidate",
+        "classes": [
+          "PersistentShellSession",
+          "TerminalTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "todo_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/todo_tool.py",
+        "status": "candidate",
+        "classes": [
+          "TodoItem",
+          "TodoWriteTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_adapters",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_adapters.py",
+        "status": "candidate",
+        "classes": [
+          "ContextEngineAdapter",
+          "ProactiveInterruptAdapter",
+          "SelfEvolvingToolAdapter",
+          "MemoryCortexAdapter",
+          "AnaOrchestratorAdapter",
+          "ContextBridgeAdapter",
+          "WindowManagerAdapter",
+          "ClipboardManagerAdapter",
+          "OcrToolAdapter"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_contract_validator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_contract_validator.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_healthcheck",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_healthcheck.py",
+        "status": "candidate",
+        "classes": [
+          "ToolHealthcheckTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_mapper",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_mapper.py",
+        "status": "candidate",
+        "classes": [
+          "ToolMapper"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_router",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_router.py",
+        "status": "candidate",
+        "classes": [
+          "ToolScore",
+          "ToolRouteDecision",
+          "ToolRouter"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "tool_router_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/tool_router_tool.py",
+        "status": "candidate",
+        "classes": [
+          "ToolRouterTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "uia_click_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/uia_click_tool.py",
+        "status": "candidate",
+        "classes": [
+          "UiaClickTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "uia_type_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/uia_type_tool.py",
+        "status": "candidate",
+        "classes": [
+          "UiaTypeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_health_check",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/v20/ana_health_check.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "ana_patch_suggester",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/v20/ana_patch_suggester.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "baseline_update_suggester",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/v20/baseline_update_suggester.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "docs_generator",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/v20/docs_generator.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "runtime_guard",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/v20/runtime_guard.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vector_memory_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/vector_memory_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VectorMemoryTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "verdent_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/verdent_tools.py",
+        "status": "candidate",
+        "classes": [
+          "BashExecTool",
+          "GlobSearchTool",
+          "GrepContentTool",
+          "GrepFileTool",
+          "WebFetchTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "verify_professional_tools",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/verify_professional_tools.py",
+        "status": "candidate",
+        "classes": [],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_fallback_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/vision_fallback_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionFallbackTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_find_element_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/vision_find_element_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionFindElementTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "vision_region_capture_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/vision_region_capture_tool.py",
+        "status": "candidate",
+        "classes": [
+          "VisionRegionCaptureTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "voice_commentary",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/voice_commentary.py",
+        "status": "candidate",
+        "classes": [
+          "VoiceCommentary"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "watchdog",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/watchdog.py",
+        "status": "candidate",
+        "classes": [
+          "_LogHandler",
+          "WatchdogTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "web",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/web.py",
+        "status": "candidate",
+        "classes": [
+          "WebTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "web_ai_bridge",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/web_ai_bridge.py",
+        "status": "candidate",
+        "classes": [
+          "WebAIBridgeTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "web_scraper",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/web_scraper.py",
+        "status": "candidate",
+        "classes": [
+          "WebScraperTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "window_manager",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/window_manager.py",
+        "status": "candidate",
+        "classes": [
+          "WindowManagerTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "windows_deep_sight",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/windows_deep_sight.py",
+        "status": "candidate",
+        "classes": [
+          "WindowsDeepSightTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": true,
+        "requires_explicit_enable": true
+      },
+      {
+        "name": "windows_insight_tool",
+        "path": "ANA_MAX/archives/duplicates/20260610T043542Z/tools/windows_insight_tool.py",
+        "status": "candidate",
+        "classes": [
+          "WindowsInsightTool"
+        ],
+        "syntax_ok": true,
+        "syntax_error": "",
+        "dangerous": false,
+        "requires_explicit_enable": true
+      }
+    ]
+  },
+  "counts": {
+    "active": 105,
+    "candidate": 215,
+    "dangerous_active": 11,
+    "dangerous_candidate": 19,
+    "syntax_failed_active": 0,
+    "syntax_failed_candidate": 0
+  },
+  "policy": {
+    "auto_enable": false,
+    "dangerous_tools": "report_only_requires_explicit_enable",
+    "validation": "syntax_only_no_import_no_registration"
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "schema_present": true,
+      "active_tools_present": true,
+      "dangerous_require_explicit_enable": true,
+      "counts_present": true
+    }
+  },
+  "elapsed_ms": 2376.49
+}

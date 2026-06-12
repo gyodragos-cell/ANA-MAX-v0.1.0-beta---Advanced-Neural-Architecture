@@ -1,0 +1,1 @@
+[GOLDEN-RULE] ANA preflight WARN: ANA Codex Companion: WARN goal=Refresh Code Map and Graph Map after ANA checks whether maps are needed.

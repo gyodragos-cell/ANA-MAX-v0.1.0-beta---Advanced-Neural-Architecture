@@ -1,0 +1,142 @@
+# ANA MAX - Configurare
+# =====================
+# Agent orchestrator local cu tool-uri si memorie persistenta.
+# Backend AI: Gemini (cloud) sau Ollama (local).
+
+ai:
+  primary_backend: ollama
+  fallback_backend: ollama
+  routing:
+    enabled: true
+    cooldown_seconds: 300
+    max_failures: 3
+    rotate_at_percent: 80
+    use_reserve_models: true
+    reserve_percent: 30
+    round_robin: true
+    prefer_free: true
+    backends:
+      - backend: ollama
+        model: qwen2.5:7b
+        max_requests: 50
+        enabled: true
+  gemini:
+    api_key_file: ../API_KEY.txt
+    model: models/gemini-1.5-flash-latest
+  nemotron_openrouter:
+    base_url: https://openrouter.ai/api/v1
+    model: nvidia/nemotron-3-super-120b-a12b:free
+  ollama:
+    api_url: http://127.0.0.1:11434/api/chat
+    model: qwen2.5:7b
+  model_rotation:
+    enabled: true
+    prefer_free_models: true
+    active_models:
+      - qwen2.5:7b
+    reserve_models:
+      - gemini-2.5-flash
+      - gemini-2.0-flash
+      - gemini-1.5-flash
+      - gemini-2.5-flash-lite
+      - gemini-1.5-pro
+      - gemini-2.5-pro
+    max_consecutive_uses: 5
+    random_selection: true
+
+memory:
+  type: sqlite
+  database_path: memory/ana_max_brain.db
+  max_conversation_history: 200
+  max_error_entries: 1000
+
+security:
+  shell:
+    enabled: true
+    require_confirmation: true
+    allowed_commands: []
+    blocked_commands: []
+  sandbox:
+    enabled: false
+    timeout_seconds: 30
+    max_memory_mb: 512
+  self_modification:
+    enabled: false
+    require_confirmation: true
+    max_file_changes: 10
+  rate_limits:
+    enabled: false
+    requests_per_minute: null
+
+plugins:
+  enabled: true
+  directory: plugins/
+  auto_load: true
+  allow_unsigned: false
+
+logging:
+  level: INFO
+  file: logs/ana_max.log
+  max_size_mb: 15
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_to_file: true
+  log_to_stdout: true
+
+evolution:
+  enabled: false
+  mode: observe
+  self_healing: false
+  autonomous_study: false
+  autonomous_web_learning: false
+  require_backup: true
+  backup_directory: backups/
+  max_changes_per_day: 10
+  evolution_log_path: logs/evolution.jsonl
+  auto_evolve_tools: false
+
+ui:
+  language: ro
+  colored_output: true
+  show_tool_execution: true
+  dashboard_enabled: false
+  verbose_mode: false
+
+features:
+  consensus: true
+  swarm: false
+  critical_thinking: true
+  game_bot_ai: false
+  cascade_bridge: true
+  dashboard: false
+  auto_analysis: false
+  full_project_repair_tool: true
+
+engineer:
+  enabled: true
+  workspace_root: .
+  generated_projects_dir: generated_bots/
+  auto_execute_generated: false
+  allow_system_commands: false
+
+mcp:
+  port: 8766
+  host: 127.0.0.1
+  auth_required: false
+  auth_token: ""  # Seteaza un token daca vrei autentificare
+  stealth_mode: true  # ascunde banner-uri in response
+  fake_banner: "Microsoft-IIS/10.0"  # Fake server header
+
+network:
+  port_scan: false
+  service_enum: false
+  vuln_scan: false
+  auto_brute: false
+  dns_enum: false
+  whois_lookup: false
+  masscan_enabled: false
+
+exports:
+  loot_formats: ["json", "txt", "csv"]
+  auto_export: false
+  exfil_servers: []

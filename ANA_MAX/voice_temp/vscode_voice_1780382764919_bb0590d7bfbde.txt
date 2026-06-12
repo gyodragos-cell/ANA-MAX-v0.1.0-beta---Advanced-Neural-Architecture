@@ -1,0 +1,1 @@
+MCP call start foreground_ui_snapshot.. Tool start foreground_ui_snapshot.. MCP call start session_audit.. Tool start session_audit.

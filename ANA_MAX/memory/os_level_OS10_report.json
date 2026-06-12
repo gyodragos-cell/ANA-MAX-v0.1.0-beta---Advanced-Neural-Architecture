@@ -1,0 +1,271 @@
+{
+  "schema": "ana.os10.level_report.v1",
+  "generated_at": "2026-06-10T09:02:30.718279+00:00",
+  "engine": "enterprise_orchestrator",
+  "os_level": "OS-10",
+  "status": "PASS",
+  "next": "COMPLETE",
+  "summary": {
+    "policy_count": 6,
+    "health_score": 100,
+    "warning_count": 0,
+    "parse_error_count": 0,
+    "agent_failure_count": 0,
+    "proposal_count": 3,
+    "compliance_ok": true,
+    "security_ok": true,
+    "global_ok": true
+  },
+  "payload": {
+    "schema": "ana.os10.enterprise_orchestrator.v1",
+    "generated_at": "2026-06-10T09:02:30.718279+00:00",
+    "engine": "enterprise_orchestrator",
+    "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+    "dry_run": false,
+    "inputs": {
+      "global_orchestrator": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS9_report.json",
+      "policy_engine": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+      "compliance": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\compliance_report.json",
+      "security": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\security_report.json",
+      "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+      "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+      "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+      "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+      "proposals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json"
+    },
+    "enterprise_policies": {
+      "schema": "ana.os10.enterprise_policies.v1",
+      "generated_at": "2026-06-10T09:02:30.718279+00:00",
+      "engine": "enterprise_orchestrator",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "source_reports": {
+        "global_orchestrator": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS9_report.json",
+        "policy_engine": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+        "compliance": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\compliance_report.json",
+        "security": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\security_report.json",
+        "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+        "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+        "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+        "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+        "proposals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json"
+      },
+      "policies": [
+        {
+          "id": "local_only_execution",
+          "priority": "critical",
+          "source": "enterprise",
+          "constraint": "All OS-6+ execution stays local-only with no remote/cloud dependency.",
+          "status": "enabled",
+          "enforcement": "local_only_gate"
+        },
+        {
+          "id": "protect_os3_os4_schemas",
+          "priority": "critical",
+          "source": "enterprise",
+          "constraint": "OS-3 and OS-4 schemas remain unchanged and RAW markers stay intact.",
+          "status": "enabled",
+          "enforcement": "schema_stability_gate"
+        },
+        {
+          "id": "bounded_cycles_required",
+          "priority": "high",
+          "source": "enterprise",
+          "constraint": "Long-running agents must remain bounded unless an operator explicitly opts in.",
+          "status": "enabled",
+          "enforcement": "bounded_cycle_gate"
+        },
+        {
+          "id": "dangerous_tools_explicit_enable",
+          "priority": "high",
+          "source": "enterprise",
+          "constraint": "Risky tools remain report-only unless explicitly enabled.",
+          "status": "enabled",
+          "enforcement": "explicit_enable_gate"
+        },
+        {
+          "id": "no_archive_edits",
+          "priority": "medium",
+          "source": "enterprise",
+          "constraint": "Archive contents stay read-only for OS-6+ layers.",
+          "status": "enabled",
+          "enforcement": "read_only_archive_gate"
+        },
+        {
+          "id": "raw_output_required",
+          "priority": "medium",
+          "source": "enterprise",
+          "constraint": "Enterprise engines keep RAW-tagged JSON output for shell safety.",
+          "status": "enabled",
+          "enforcement": "raw_output_gate"
+        }
+      ],
+      "summary": {
+        "policy_count": 6,
+        "critical_count": 2
+      }
+    },
+    "compliance": {
+      "schema": "ana.os10.compliance.v1",
+      "generated_at": "2026-06-10T09:02:21.942385+00:00",
+      "engine": "compliance_engine",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "dry_run": false,
+      "inputs": {
+        "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+        "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+        "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+        "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+        "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+        "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+        "policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json"
+      },
+      "violations": [],
+      "compliant": true,
+      "summary": {
+        "violation_count": 0,
+        "critical_count": 0,
+        "high_count": 0
+      },
+      "verification": {
+        "passed": true,
+        "checks": {
+          "schema_present": true,
+          "violations_present": true,
+          "summary_present": true,
+          "compliant_field_present": true
+        }
+      },
+      "elapsed_ms": 3.4,
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\compliance_report.json"
+    },
+    "security": {
+      "schema": "ana.os10.security.v1",
+      "generated_at": "2026-06-10T09:02:21.944064+00:00",
+      "engine": "security_engine",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "dry_run": false,
+      "inputs": {
+        "toolchain": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\toolchain_manifest.json",
+        "policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+        "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+        "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json"
+      },
+      "violations": [],
+      "secure": true,
+      "summary": {
+        "violation_count": 0,
+        "critical_count": 0,
+        "high_count": 0,
+        "low_count": 0
+      },
+      "verification": {
+        "passed": true,
+        "checks": {
+          "schema_present": true,
+          "violations_present": true,
+          "summary_present": true,
+          "security_state_present": true
+        }
+      },
+      "elapsed_ms": 3.31,
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\security_report.json"
+    },
+    "global_orchestrator": {
+      "schema": "ana.os9.global_orchestrator.v1",
+      "generated_at": "2026-06-10T07:50:02.643121+00:00",
+      "engine": "global_orchestrator",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "dry_run": true,
+      "inputs": {
+        "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+        "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+        "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+        "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+        "meta_history": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+        "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+        "proposals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json",
+        "policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json"
+      },
+      "layers": {
+        "os4": {
+          "health_score": 100,
+          "warning_count": 0,
+          "daemon_success": true,
+          "evolution_success": true
+        },
+        "os5": {
+          "goal_count": 7,
+          "strategy_phase_count": 11
+        },
+        "os6": {
+          "history_count": 1
+        },
+        "os7": {
+          "agent_count": 5,
+          "agent_failure_count": 0
+        },
+        "os8": {
+          "proposal_count": 0
+        },
+        "os9": {
+          "policy_count": 6
+        },
+        "os9_inputs_present": {
+          "goals": true,
+          "strategy": true,
+          "policies": true
+        },
+        "parse_error_count": 0
+      },
+      "drift": {
+        "detected": false,
+        "reasons": []
+      },
+      "overall_success": true,
+      "summary": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "agent_failure_count": 0,
+        "proposal_count": 0,
+        "policy_count": 6,
+        "drift_detected": false
+      },
+      "verification": {
+        "passed": true,
+        "checks": {
+          "schema_present": true,
+          "layers_present": true,
+          "drift_present": true,
+          "summary_present": true
+        }
+      },
+      "elapsed_ms": 4.85,
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS9_report.json"
+    },
+    "summary": {
+      "policy_count": 6,
+      "health_score": 100,
+      "warning_count": 0,
+      "parse_error_count": 0,
+      "agent_failure_count": 0,
+      "proposal_count": 3,
+      "compliance_ok": true,
+      "security_ok": true,
+      "global_ok": true
+    },
+    "overall_success": true,
+    "verification": {
+      "passed": true,
+      "checks": {
+        "schema_present": true,
+        "enterprise_policies_present": true,
+        "summary_present": true,
+        "overall_success_present": true
+      }
+    },
+    "elapsed_ms": 1.77,
+    "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS10_report.json",
+    "enterprise_policies_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\enterprise_policies.json"
+  }
+}

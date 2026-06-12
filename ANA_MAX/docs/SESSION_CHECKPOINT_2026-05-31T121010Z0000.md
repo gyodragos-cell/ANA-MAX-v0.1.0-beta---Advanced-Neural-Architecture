@@ -1,0 +1,341 @@
+# Session Checkpoint - 2026-05-31T12:10:10+00:00
+
+## Autonomy includes file activity snapshot
+
+## Summary
+
+Added metadata-only file_activity_snapshot to Autonomy Pass, updated trace/docs/tests, generated a fresh autonomy report with 13/13 pass and trace alignment.
+
+## Current Goal
+
+Continue Lab Reliability and Autonomy Layer with fewer blind spots and stronger audit evidence.
+
+## Next Steps
+
+- Use Autonomy Pass as the normal shared observe-route-verify loop
+- file activity now appears in Autonomy and Operator Status. Later consider Activity Bar command if this remains stable.
+
+## Files Changed
+
+- ANA_MAX/dev_artifacts/scripts/ana_autonomy_runner.py
+- tests/runtime/test_ana_autonomy_runner.py
+- tests/runtime/test_ana_file_activity_snapshot.py
+- docs/examples/AUTONOMY_RUNNER_PASS_CONTRACT_EXAMPLE.md
+- docs/examples/TRACE_REPORT_EXAMPLE.md
+- docs/ANA_LAB_MASTER_CONTEXT.md
+- docs/CODEX_LAB_MANAGER_PROMPT.md
+
+## Validation
+
+```text
+autonomy/file tests PASS 12/12; autonomy live PASS 13/13 trust=86 trace=13/13 aligned=True; trace_report PASS 13/13; lab_quality_gate PASS 9/9.
+```
+
+## Risks
+
+- File activity snapshot is metadata-only and may miss same-size same-mtime content changes by design
+- it avoids reading private file contents.
+
+## Lab/Release Sync Status
+
+Mother-lab only. Public/GitHub remains paused.
+
+## Git Snapshot
+
+- branch: main
+- clean: False
+
+```text
+M .gitignore
+ M .vscode/extensions.json
+ M ANA_MAX/ana_memory.db
+ M ANA_MAX/config/permission_manifest.json
+ M ANA_MAX/dev_artifacts/scripts/no_reload_quality_gate.py
+ M ANA_MAX/dev_artifacts/scripts/package_cockpit_vsix.py
+ M ANA_MAX/docs/CURRENT_SESSION_HANDOFF.md
+ M ANA_MAX/main.py
+ M ANA_MAX/tools/__init__.py
+ M ANA_MAX/tools/agent_coach_tool.py
+ M ANA_MAX/tools/base.py
+ M ANA_MAX/tools/desktop_control_tool.py
+ M ANA_MAX/tools/error_radar_tool.py
+ M ANA_MAX/tools/event_stream_tool.py
+ M ANA_MAX/tools/foreground_ui_snapshot.py
+ M ANA_MAX/tools/session_checkpoint_tool.py
+ M ANA_MAX/tools/tool_adapters.py
+ M ANA_MAX/tools/tool_healthcheck.py
+ M ANA_MAX/tools/tool_router_tool.py
+ M docs/AGENT_MEMORY.md
+ M docs/AGENT_STEROID_TOOLS.md
+ M docs/NEXT_SESSION_BOOTSTRAP.md
+ M docs/PUBLIC_RELEASE_SYNC_BACKLOG.md
+ M tests/runtime/test_agent_coach_recommend.py
+ M tests/runtime/test_tool_router_tool.py
+ M tests/runtime/test_vscode_extension.py
+ M vscode_extension/CHANGELOG.md
+ M vscode_extension/MARKETPLACE.md
+ M vscode_extension/README.md
+ M vscode_extension/assets/ana-max-icon.png
+ M vscode_extension/extension.js
+ M vscode_extension/package.json
+?? ANA_MAX/config/input_probe_authorized_targets.json
+?? ANA_MAX/core/agent_trace_schema.py
+?? ANA_MAX/dev_artifacts/audit/
+?? ANA_MAX/dev_artifacts/scripts/ana_agent_step.py
+?? ANA_MAX/dev_artifacts/scripts/ana_autonomy_runner.py
+?? ANA_MAX/dev_artifacts/scripts/ana_binary_map.py
+?? ANA_MAX/dev_artifacts/scripts/ana_code_map.py
+?? ANA_MAX/dev_artifacts/scripts/ana_desktop_smoke.py
+?? ANA_MAX/dev_artifacts/scripts/ana_file_activity_snapshot.py
+?? ANA_MAX/dev_artifacts/scripts/ana_frida.py
+?? ANA_MAX/dev_artifacts/scripts/ana_governance_check.py
+?? ANA_MAX/dev_artifacts/scripts/ana_graph_map.py
+?? ANA_MAX/dev_artifacts/scripts/ana_input_probe_spec.py
+?? ANA_MAX/dev_artifacts/scripts/ana_lab_hub.py
+?? ANA_MAX/dev_artifacts/scripts/ana_lab_state_summary.py
+?? ANA_MAX/dev_artifacts/scripts/ana_linux_readiness.py
+?? ANA_MAX/dev_artifacts/scripts/ana_live_reload_check.py
+?? ANA_MAX/dev_artifacts/scripts/ana_local_checkpoint.py
+?? ANA_MAX/dev_artifacts/scripts/ana_mcp.ps1
+?? ANA_MAX/dev_artifacts/scripts/ana_mcp_call.ps1
+?? ANA_MAX/dev_artifacts/scripts/ana_mcp_call.py
+?? ANA_MAX/dev_artifacts/scripts/ana_memory_archive.py
+?? ANA_MAX/dev_artifacts/scripts/ana_memory_hygiene.py
+?? ANA_MAX/dev_artifacts/scripts/ana_mirror_watch.py
+?? ANA_MAX/dev_artifacts/scripts/ana_nucleus_smoke.py
+?? ANA_MAX/dev_artifacts/scripts/ana_operator_status.py
+?? ANA_MAX/dev_artifacts/scripts/ana_patch_advisor.py
+?? ANA_MAX/dev_artifacts/scripts/ana_permission_manifest_coverage.py
+?? ANA_MAX/dev_artifacts/scripts/ana_post_reload_verify.py
+?? ANA_MAX/dev_artifacts/scripts/ana_reload_readiness.py
+?? ANA_MAX/dev_artifacts/scripts/ana_tool_profile_report.py
+?? ANA_MAX/dev_artifacts/scripts/ana_trace_report.py
+?? ANA_MAX/dev_artifacts/scripts/ana_under_hood.py
+?? ANA_MAX/dev_artifacts/scripts/ana_vsix_version_check.py
+?? ANA_MAX/dev_artifacts/scripts/install_latest_lab_vsix.ps1
+?? ANA_MAX/dev_artifacts/scripts/lab_quality_gate.py
+?? ANA_MAX/dev_artifacts/scripts/linux_bootstrap.sh
+?? ANA_MAX/dev_artifacts/scripts/linux_core_gate.sh
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-28T165952Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T045820Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T050430Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T051020Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T051203Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T051527Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T052050Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T053330Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T054026Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T054146Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T055802Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T060527Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T062250Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-29T115002Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T212040Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T212443Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T212853Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T213405Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T213750Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T213913Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T214301Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T214615Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T214738Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T214856Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T215231Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T215500Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T215820Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T221355Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T221849Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T222220Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T222756Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T223026Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T223313Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T223609Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T223848Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T224235Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T224504Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T224759Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T225035Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T225319Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T225415Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T225650Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T225940Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T230320Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T230606Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T230627Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T230857Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T231153Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T231448Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T231835Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T232144Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T232443Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T232730Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T233026Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T233249Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T233523Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T233748Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T234030Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T234308Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T234542Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T234837Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T235108Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T235356Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T235640Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-30T235959Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T000252Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T000554Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T001035Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T001333Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T003026Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T003250Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T003557Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T003859Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T004241Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T004540Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T004907Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T005209Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T005644Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T010024Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T010426Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T010817Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T011129Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T011441Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T011725Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T011841Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T012346Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T012909Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T013215Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T013426Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T013507Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T013811Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T015432Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T015714Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020021Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020240Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020612Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020710Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020750Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T020931Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T095612Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T100017Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T100345Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T100553Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T101054Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T101221Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T102524Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T103435Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T103728Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T104611Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T105217Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T110412Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T111031Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T111526Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T111930Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T112024Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T112449Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T112801Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T113244Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T113555Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T113910Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T114216Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T115233Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T115449Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T115732Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T120145Z0000.md
+?? ANA_MAX/docs/SESSION_CHECKPOINT_2026-05-31T120337Z0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T005329+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T005425+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T020610+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T020611+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T021312+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T023553+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T024227+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T024249+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T025442+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T030826+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T164854+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-28T165910+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-30T220707+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-30T223240+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002440+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002448+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002449+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002450+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002451+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002452+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002453+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002454+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002455+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002456+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002457+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002458+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002459+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002500+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002506+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T002928+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T095610+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T110957+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T111947+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T112037+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T114837+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T115829+0000.md
+?? ANA_MAX/docs/rem_sleep/REM_SLEEP_REPORT_2026-05-31T120551+0000.md
+?? ANA_MAX/tools/binary_map_tool.py
+?? ANA_MAX/tools/code_context_pack_tool.py
+?? ANA_MAX/tools/graph_context_pack_tool.py
+?? ANA_MAX/tools/input_api_probe_tool.py
+?? ANA_MAX/tools/session_audit_tool.py
+?? LINUX_START_HERE.md
+?? PRIVATE_FULL_LINUX_MOVE_START.md
+?? docs/ANA_AGENT_TRACE_SCHEMA.md
+?? docs/ANA_EXAMPLES_AND_TESTS_CHECKLIST.md
+?? docs/ANA_EXAMPLES_INDEX.md
+?? docs/ANA_LAB_LLM_INDEX.md
+?? docs/ANA_LAB_MASTER_CONTEXT.md
+?? docs/ANA_LAB_PROJECT_HISTORY.md
+?? docs/ANA_OPERATOR_RELOAD_RUNBOOK.md
+?? docs/ANA_PROFILE_MANIFEST.md
+?? docs/ANA_RESEARCH_INTAKE_2026-05-31.md
+?? docs/ANA_SERIOUS_PROJECT_RULES.md
+?? docs/CODEX_LAB_MANAGER_PROMPT.md
+?? docs/DOCS_INDEX.md
+?? docs/LAB_README.md
+?? docs/LAB_WORKSPACE_STRUCTURE.md
+?? docs/LINUX_MATE_MIGRATION_LANE.md
+?? docs/SAFETY_BOUNDARIES.md
+?? docs/examples/
+?? docs/templates/
+?? tests/runtime/test_agent_trace_schema.py
+?? tests/runtime/test_ana_autonomy_runner.py
+?? tests/runtime/test_ana_code_map.py
+?? tests/runtime/test_ana_file_activity_snapshot.py
+?? tests/runtime/test_ana_governance_check.py
+?? tests/runtime/test_ana_graph_map.py
+?? tests/runtime/test_ana_input_probe_spec.py
+?? tests/runtime/test_ana_lab_state_summary.py
+?? tests/runtime/test_ana_linux_readiness.py
+?? tests/runtime/test_ana_live_reload_check.py
+?? tests/runtime/test_ana_local_checkpoint.py
+?? tests/runtime/test_ana_mcp_call.py
+?? tests/runtime/test_ana_memory_archive.py
+?? tests/runtime/test_ana_memory_hygiene.py
+?? tests/runtime/test_ana_operator_status.py
+?? tests/runtime/test_ana_patch_advisor.py
+?? tests/runtime/test_ana_post_reload_verify.py
+?? tests/runtime/test_ana_reload_readiness.py
+?? tests/runtime/test_ana_tool_profile_report.py
+?? tests/runtime/test_ana_trace_report.py
+?? tests/runtime/test_ana_vsix_version_check.py
+?? tests/runtime/test_binary_map_tool.py
+?? tests/runtime/test_code_context_pack_tool.py
+?? tests/runtime/test_desktop_control_tool.py
+?? tests/runtime/test_error_radar_tool.py
+?? tests/runtime/test_graph_context_pack_tool.py
+?? tests/runtime/test_input_api_probe_tool.py
+?? tests/runtime/test_install_latest_lab_vsix.py
+?? tests/runtime/test_lab_quality_gate_contract.py
+?? tests/runtime/test_no_reload_quality_gate.py
+?? tests/runtime/test_session_audit_tool.py
+?? tests/runtime/test_session_checkpoint_tool.py
+?? tests/runtime/test_tool_healthcheck_tool.py
+?? vscode_extension/assets/ana-max-activity.svg
+```

@@ -1,0 +1,1 @@
+[TOOL end] agent_coach success=true message=Use error_radar next for failure; coach severity is ok.

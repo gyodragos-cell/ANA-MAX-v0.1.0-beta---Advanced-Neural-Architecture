@@ -1,0 +1,1 @@
+[GOLDEN-RULE] ANA preflight start: Capture microphone dictation into ANA Voice Inbox for Codex.

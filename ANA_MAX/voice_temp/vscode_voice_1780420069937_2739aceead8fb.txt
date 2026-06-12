@@ -1,0 +1,1 @@
+[GOLDEN-RULE] ANA preflight start: Run the broader lab quality gate after ANA checks context and current risks.

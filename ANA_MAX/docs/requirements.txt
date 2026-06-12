@@ -1,0 +1,51 @@
+# ANA MAX v18 - Requirements
+# ============================
+
+# Core
+flask>=3.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+pyyaml>=6.0
+
+# AI & Models
+google-generativeai>=0.8.0
+openai>=1.0.0
+
+# Web Automation
+playwright>=1.40.0
+beautifulsoup4>=4.12.0
+aiohttp>=3.9.0
+
+# Code Analysis
+pygls>=1.0.2
+jsonrpcclient>=4.0.2
+
+# Terminal & UI
+rich>=13.7.0
+colorama>=0.4.6
+httpx>=0.27.0
+
+# System
+psutil>=5.9.0
+pywinauto>=0.6.9
+pywin32>=306
+mss>=9.0.0
+pillow>=10.0.0
+pyttsx3>=2.90  # Voice commentary (TTS)
+paddleocr>=3.5.0  # OCR engine (recommended)
+paddlepaddle>=3.3.1  # PaddlePaddle backend for OCR
+edge-tts>=6.1.0  # Edge TTS voice (natural JARVIS voice)
+
+# Testing
+pytest>=8.0.0
+
+# Security & Mobile
+frida-tools>=14.0.0  # Dynamic instrumentation (Frida)
+frida>=16.0.0  # Frida core library
+
+# Desktop automation & OCR (added by smoke test)
+pyautogui>=0.9.55
+pygetwindow>=0.0.9
+pytesseract>=0.3.10
+opencv-python>=4.8.1.78
+numpy>=1.26.0

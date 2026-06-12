@@ -1,0 +1,7 @@
+{
+  "schema": "ana.osX.level_report.v1",
+  "os_level": "OS-2",
+  "status": "OMITTED",
+  "reason": "Intentionally omitted in this workspace",
+  "overall_success": true
+}

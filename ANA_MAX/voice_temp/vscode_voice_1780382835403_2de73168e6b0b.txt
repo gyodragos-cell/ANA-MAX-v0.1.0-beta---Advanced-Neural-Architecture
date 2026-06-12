@@ -1,0 +1,1 @@
+MCP call start foreground_ui_snapshot.. Tool start foreground_ui_snapshot.. MCP call start tool_router.. Tool start tool_router.. MCP call start graph_context_pack.. Tool start graph_context_pack.. Tool end tool_router success. Recommended 6 tools for code_change.. MCP call end tool_router success True.

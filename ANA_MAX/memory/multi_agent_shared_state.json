@@ -1,0 +1,385 @@
+{
+  "timestamp": "2026-06-12T08:00:14.998903",
+  "performance": {
+    "total_files": 756,
+    "total_bytes": 9411562,
+    "python_file_count": 243,
+    "top_level_area_count": 48
+  },
+  "structure": {
+    "module_count": 151,
+    "package_dir_count": 17,
+    "missing_init_total": 0,
+    "important_missing_init_count": 0,
+    "structure_health": "good"
+  },
+  "tests": {
+    "files_checked": 151,
+    "ok_count": 151,
+    "failed_count": 0,
+    "health": "good"
+  },
+  "skills": {
+    "module_count": 243,
+    "area_count": 26,
+    "total_functions": 916,
+    "total_classes": 188,
+    "entrypoint_count": 87,
+    "parse_error_count": 0
+  },
+  "graph": {
+    "total_nodes": 180,
+    "total_edges": 2622,
+    "node_types": {
+      "module": 53,
+      "tool": 49,
+      "script": 16,
+      "doc": 62
+    },
+    "evolution": {
+      "schema": "ana.os4.knowledge_graph_evolution.v1",
+      "previous_graph_present": true,
+      "added_nodes": [],
+      "removed_nodes": [],
+      "added_edges": [],
+      "removed_edges": [],
+      "hot_nodes": [
+        {
+          "id": "core_agent",
+          "name": "agent",
+          "type": "module",
+          "degree": 70
+        },
+        {
+          "id": "tool_adal_tool",
+          "name": "adal_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_adb_tool",
+          "name": "adb_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_agent_coach_tool",
+          "name": "agent_coach_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_ana_context_tool",
+          "name": "ana_context_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_autonomous_tool",
+          "name": "autonomous_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_binary_map_tool",
+          "name": "binary_map_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_code_context_pack_tool",
+          "name": "code_context_pack_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_codebase_understanding_tool",
+          "name": "codebase_understanding_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_conversation_learning_tool",
+          "name": "conversation_learning_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_debugger_tool",
+          "name": "debugger_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_desktop_control_tool",
+          "name": "desktop_control_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_edit_tool",
+          "name": "edit_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_error_radar_tool",
+          "name": "error_radar_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_event_stream_tool",
+          "name": "event_stream_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_file_patch_tool",
+          "name": "file_patch_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_git_tool",
+          "name": "git_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_graph_context_pack_tool",
+          "name": "graph_context_pack_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_hardware_scanner_tool",
+          "name": "hardware_scanner_tool",
+          "type": "tool",
+          "degree": 53
+        },
+        {
+          "id": "tool_input_api_probe_tool",
+          "name": "input_api_probe_tool",
+          "type": "tool",
+          "degree": 53
+        }
+      ],
+      "cold_nodes": [
+        {
+          "id": "doc_ANA_MEMORY",
+          "name": "ANA_MEMORY",
+          "type": "doc",
+          "path": "docs\\ANA_MEMORY.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_ARCHIVES",
+          "name": "ARCHIVES",
+          "type": "doc",
+          "path": "docs\\ARCHIVES.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_BENCHMARKS",
+          "name": "BENCHMARKS",
+          "type": "doc",
+          "path": "docs\\BENCHMARKS.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_BROWSER_PACK_V1",
+          "name": "BROWSER_PACK_V1",
+          "type": "doc",
+          "path": "docs\\BROWSER_PACK_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_CAPSULES_V1",
+          "name": "CAPSULES_V1",
+          "type": "doc",
+          "path": "docs\\CAPSULES_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_CAPSULE_SYNC_V1",
+          "name": "CAPSULE_SYNC_V1",
+          "type": "doc",
+          "path": "docs\\CAPSULE_SYNC_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_CHANGELOG",
+          "name": "CHANGELOG",
+          "type": "doc",
+          "path": "docs\\CHANGELOG.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_DISTRIBUTED_PIPELINE_V1",
+          "name": "DISTRIBUTED_PIPELINE_V1",
+          "type": "doc",
+          "path": "docs\\DISTRIBUTED_PIPELINE_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_LOCAL_LLM_BACKEND_V1",
+          "name": "LOCAL_LLM_BACKEND_V1",
+          "type": "doc",
+          "path": "docs\\LOCAL_LLM_BACKEND_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_LOCAL_LLM_SETUP_V1",
+          "name": "LOCAL_LLM_SETUP_V1",
+          "type": "doc",
+          "path": "docs\\LOCAL_LLM_SETUP_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OPTIMIZATIONS",
+          "name": "OPTIMIZATIONS",
+          "type": "doc",
+          "path": "docs\\OPTIMIZATIONS.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS20_FINAL_BASELINE",
+          "name": "OS20_FINAL_BASELINE",
+          "type": "doc",
+          "path": "docs\\OS20_FINAL_BASELINE.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS21_BASELINE_LOCK",
+          "name": "OS21_BASELINE_LOCK",
+          "type": "doc",
+          "path": "docs\\OS21_BASELINE_LOCK.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS21_FINALIZATION",
+          "name": "OS21_FINALIZATION",
+          "type": "doc",
+          "path": "docs\\OS21_FINALIZATION.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS21_PLAN",
+          "name": "OS21_PLAN",
+          "type": "doc",
+          "path": "docs\\OS21_PLAN.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_BOOT_SEQUENCE_V1",
+          "name": "OS22_BOOT_SEQUENCE_V1",
+          "type": "doc",
+          "path": "docs\\OS22_BOOT_SEQUENCE_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_LAUNCH_READINESS",
+          "name": "OS22_LAUNCH_READINESS",
+          "type": "doc",
+          "path": "docs\\OS22_LAUNCH_READINESS.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_LLM_CORE_V1",
+          "name": "OS22_LLM_CORE_V1",
+          "type": "doc",
+          "path": "docs\\OS22_LLM_CORE_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_REASONING_GRAPH_PRIMER",
+          "name": "OS22_REASONING_GRAPH_PRIMER",
+          "type": "doc",
+          "path": "docs\\OS22_REASONING_GRAPH_PRIMER.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_TOOL_AWARENESS_PACK",
+          "name": "OS22_TOOL_AWARENESS_PACK",
+          "type": "doc",
+          "path": "docs\\OS22_TOOL_AWARENESS_PACK.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_WEB_LEARNING_PIPELINE",
+          "name": "OS22_WEB_LEARNING_PIPELINE",
+          "type": "doc",
+          "path": "docs\\OS22_WEB_LEARNING_PIPELINE.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_WEB_SCRAPER_TOOL",
+          "name": "OS22_WEB_SCRAPER_TOOL",
+          "type": "doc",
+          "path": "docs\\OS22_WEB_SCRAPER_TOOL.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS22_WORKFLOW_PLAYBOOK",
+          "name": "OS22_WORKFLOW_PLAYBOOK",
+          "type": "doc",
+          "path": "docs\\OS22_WORKFLOW_PLAYBOOK.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS3_AUTONOMY",
+          "name": "OS3_AUTONOMY",
+          "type": "doc",
+          "path": "docs\\OS3_AUTONOMY.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS3_MODULES",
+          "name": "OS3_MODULES",
+          "type": "doc",
+          "path": "docs\\OS3_MODULES.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS3_OVERVIEW",
+          "name": "OS3_OVERVIEW",
+          "type": "doc",
+          "path": "docs\\OS3_OVERVIEW.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_OS3_RUNTIME",
+          "name": "OS3_RUNTIME",
+          "type": "doc",
+          "path": "docs\\OS3_RUNTIME.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_PERFORMANCE_LOG",
+          "name": "PERFORMANCE_LOG",
+          "type": "doc",
+          "path": "docs\\PERFORMANCE_LOG.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_PIPELINE_RECOVERY_V1",
+          "name": "PIPELINE_RECOVERY_V1",
+          "type": "doc",
+          "path": "docs\\PIPELINE_RECOVERY_V1.md",
+          "degree": 0
+        },
+        {
+          "id": "doc_PROJECT_SUMMARY",
+          "name": "PROJECT_SUMMARY",
+          "type": "doc",
+          "path": "docs\\PROJECT_SUMMARY.md",
+          "degree": 0
+        }
+      ],
+      "hot_node_count": 20,
+      "cold_node_count": 30
+    }
+  },
+  "agent_tasks": []
+}

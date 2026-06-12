@@ -1,0 +1,1 @@
+Tool end agent_coach success. Use code_context_pack next for project_state; coach severity is ok.. MCP call end agent_coach success True.

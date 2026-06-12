@@ -1,0 +1,1 @@
+[GOLDEN-RULE] ANA preflight start: Consolidate REM/session memory after ANA challenges current state.

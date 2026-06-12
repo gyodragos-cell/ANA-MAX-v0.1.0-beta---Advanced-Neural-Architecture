@@ -1,0 +1,1 @@
+[START] Launching c:\Users\billy\Desktop\ana_dev\ANA_MAX\main.py with c:\Users\billy\Desktop\ana_dev\.venv\Scripts\python.exe on port 8766.

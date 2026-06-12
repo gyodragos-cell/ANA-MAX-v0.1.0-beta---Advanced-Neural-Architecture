@@ -1,0 +1,42 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*\.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+dist/
+*.egg-info/
+
+# Environment
+.env
+.env.local_llm
+.env.*
+!.env.example
+
+# Local models
+local_models/
+
+# Logs and cache
+logs/
+cache/
+*.log
+
+# IDEs
+.vscode/
+.idea/
+.qoder/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary
+*.tmp
+*.bak
+*.swp

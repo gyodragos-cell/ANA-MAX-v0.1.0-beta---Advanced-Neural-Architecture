@@ -1,0 +1,244 @@
+{
+  "schema": "ana.os5.level_report.v1",
+  "os_level": "OS-5",
+  "status": "PASS",
+  "next": "OS-6",
+  "summary": {
+    "goal_count": 7,
+    "stable_goals": 7,
+    "active_goals": 0,
+    "phase_count": 11
+  },
+  "goals_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+  "strategy_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+  "details": {
+    "goals_engine": {
+      "schema": "ana.os5.goals.v1",
+      "generated_at": "2026-06-10T21:30:24.406434+00:00",
+      "engine": "self_goals_engine",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "source_reports": {
+        "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+        "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+        "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+        "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+        "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+        "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+        "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+      },
+      "goals": [
+        {
+          "id": "preserve_os_baseline",
+          "objective": "Keep health_score at 100 with warning_count at 0.",
+          "priority": "critical",
+          "status": "stable",
+          "metric": "health_score",
+          "target": "100",
+          "rationale": "OS-3/OS-4 baseline is the stability contract for every later layer.",
+          "evidence": [
+            "health_score=100",
+            "warning_count=0"
+          ],
+          "progress": 100
+        },
+        {
+          "id": "keep_parse_errors_zero",
+          "objective": "Maintain parse_error_count at 0 across skills and orchestration reports.",
+          "priority": "high",
+          "status": "stable",
+          "metric": "parse_error_count",
+          "target": "0",
+          "rationale": "Parsed reports must stay clean so later layers can compose safely.",
+          "evidence": [
+            "parse_error_count=0"
+          ],
+          "progress": 100
+        },
+        {
+          "id": "preserve_daemon_stability",
+          "objective": "Keep daemon cycles bounded and successful.",
+          "priority": "high",
+          "status": "stable",
+          "metric": "daemon_overall_success",
+          "target": "true",
+          "rationale": "Repeated bounded cycles are the safest local automation contract.",
+          "evidence": [
+            "daemon_success=True",
+            "daemon_cycles=1",
+            "daemon_cycles=2"
+          ],
+          "progress": 100
+        },
+        {
+          "id": "preserve_graph_quality",
+          "objective": "Keep knowledge graph dense enough for routing but additive-only.",
+          "priority": "medium",
+          "status": "stable",
+          "metric": "graph_density",
+          "target": "maintain",
+          "rationale": "Graph structure should remain analyzable as later layers read it.",
+          "evidence": [
+            "graph_nodes=152",
+            "graph_edges=2509",
+            "graph_density=16.507",
+            "graph_nodes=128",
+            "graph_edges=2357",
+            "graph_density=18.414",
+            "graph_nodes=113",
+            "graph_edges=1621",
+            "graph_density=14.345",
+            "graph_nodes=110",
+            "graph_edges=1474",
+            "graph_density=13.4",
+            "graph_nodes=101",
+            "graph_edges=1032",
+            "graph_density=10.218"
+          ],
+          "progress": 100
+        },
+        {
+          "id": "prepare_os6_adaptation",
+          "objective": "Keep the system ready for meta-adaptation, policy, and enterprise layers.",
+          "priority": "medium",
+          "status": "stable",
+          "metric": "evolution_success",
+          "target": "true",
+          "rationale": "Later OS layers depend on current reports being readable and additive.",
+          "evidence": [
+            "evolution_overall_success=True",
+            "reasoning_hypotheses=5",
+            "reasoning_hypotheses=4"
+          ],
+          "progress": 100
+        },
+        {
+          "id": "watch_graph_density",
+          "objective": "Track hot nodes and graph density so future refactors stay additive.",
+          "priority": "medium",
+          "status": "monitoring",
+          "metric": "graph_density",
+          "target": "<= 8.0",
+          "rationale": "Dense graphs can become hard to reason about as layers grow.",
+          "evidence": [
+            "graph_density=16.507",
+            "graph_density=18.414",
+            "graph_density=14.345",
+            "graph_density=13.4",
+            "graph_density=10.218"
+          ],
+          "progress": 70
+        },
+        {
+          "id": "respect_reasoning_hints",
+          "objective": "Feed reasoning-derived hints into the strategy layer.",
+          "priority": "medium",
+          "status": "stable",
+          "metric": "reasoning_strategy_hints",
+          "target": "present",
+          "rationale": "The reasoning engine already synthesizes signals that the goals layer can reuse.",
+          "evidence": [
+            "reasoning_strategies=7",
+            "reasoning_strategies=5",
+            "reasoning_strategies=3"
+          ],
+          "progress": 100
+        }
+      ],
+      "metrics": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "graph_nodes": 152,
+        "graph_edges": 2509,
+        "graph_density": 16.507,
+        "daemon_cycles": 1,
+        "daemon_success": true,
+        "daemon_last_cycle_success": true,
+        "evolution_overall_success": true,
+        "reasoning_hypotheses": 5,
+        "reasoning_strategies": 7,
+        "reasoning_priorities": 4
+      },
+      "status": {
+        "overall": "stable",
+        "goal_count": 7,
+        "stable_goal_count": 7,
+        "active_goal_count": 0
+      }
+    },
+    "strategy": {
+      "schema": "ana.os5.strategy.v1",
+      "generated_at": "2026-06-10T21:30:24.406434+00:00",
+      "engine": "self_goals_engine",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "source_reports": {
+        "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+        "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+        "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+        "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+        "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+        "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+        "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+      },
+      "priorities": [
+        {
+          "rank": 1,
+          "goal_id": "preserve_os_baseline",
+          "priority": "critical",
+          "reason": "Baseline health must stay at 100 and warnings at 0."
+        },
+        {
+          "rank": 2,
+          "goal_id": "keep_parse_errors_zero",
+          "priority": "high",
+          "reason": "Parse-free reports keep later OS layers safe and deterministic."
+        },
+        {
+          "rank": 3,
+          "goal_id": "preserve_daemon_stability",
+          "priority": "high",
+          "reason": "Bounded daemon cycles are the automation control point."
+        },
+        {
+          "rank": 4,
+          "goal_id": "preserve_graph_quality",
+          "priority": "medium",
+          "reason": "Graph quality drives later routing, policy, and orchestration layers."
+        },
+        {
+          "rank": 5,
+          "goal_id": "watch_graph_density",
+          "priority": "medium",
+          "reason": "The graph is becoming dense enough to watch for refactor candidates."
+        },
+        {
+          "rank": 6,
+          "goal_id": "respect_reasoning_hints",
+          "priority": "medium",
+          "reason": "Reasoning already provides local hints for the goals layer."
+        }
+      ],
+      "weights": {
+        "stability": 0.4,
+        "safety": 0.25,
+        "observability": 0.15,
+        "automation": 0.15000000000000002,
+        "adaptation": 0.15000000000000002
+      },
+      "phase_order": [
+        "profiling",
+        "skills",
+        "structuring",
+        "healing",
+        "evaluation",
+        "reasoning",
+        "goals",
+        "strategy_refresh",
+        "knowledge_graph",
+        "toolchain_discovery",
+        "daemon_loop"
+      ],
+      "last_update": "2026-06-10T21:30:24.406434+00:00"
+    }
+  }
+}

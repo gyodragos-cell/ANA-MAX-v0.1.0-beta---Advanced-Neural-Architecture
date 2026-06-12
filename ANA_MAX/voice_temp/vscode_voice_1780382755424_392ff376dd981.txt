@@ -1,0 +1,1 @@
+MCP call start agent_coach.. Tool start agent_coach.. Tool end agent_coach success. Use code_context_pack next for project_state; coach severity is warn.. MCP call end agent_coach success True.. MCP call start code_context_pack.. Tool start code_context_pack.

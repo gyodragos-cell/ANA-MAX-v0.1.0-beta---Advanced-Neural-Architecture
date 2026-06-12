@@ -1,0 +1,1 @@
+[AUTONOMY] ANA Autonomy: WARN (19 pass / 1 warn / 0 fail) trust=86% trace=20/20 aligned=True. [PASS] tool_router Recommended 6 tools for code_change.. [PASS] tool_healthcheck Healthcheck finalizat: 7 OK / 0 FAIL. [WARN] review_batch_runs

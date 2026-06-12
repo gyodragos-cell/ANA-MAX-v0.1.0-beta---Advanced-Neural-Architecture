@@ -1,0 +1,9 @@
+@echo off
+if defined VIRTUAL_ENV call deactivate
+set ANA_LOCAL_LLM_ENABLED=
+set ANA_LOCAL_LLM_BACKEND=
+set ANA_LOCAL_LLM_MODEL_NAME=
+set ANA_LOCAL_LLM_FALLBACK_MODEL_NAME=
+set ANA_LOCAL_LLM_DEVICE=
+set ANA_LOCAL_LLM_MODEL_PATH=
+echo ANA local LLM env deactivated.

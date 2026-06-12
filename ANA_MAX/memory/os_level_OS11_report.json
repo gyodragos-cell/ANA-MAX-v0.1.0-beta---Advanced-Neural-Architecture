@@ -1,0 +1,327 @@
+{
+  "schema": "ana.osX.level_report.v1",
+  "generated_at": "2026-06-10T08:25:10.221871+00:00",
+  "engine": "distributed_orchestrator",
+  "os_level": "OS-11",
+  "status": "PASS",
+  "next": "OS-12",
+  "dry_run": true,
+  "auto_retry_used": false,
+  "auto_healing_levels_used": 0,
+  "summary": {
+    "node_count": 4,
+    "edge_count": 3,
+    "agent_count": 5,
+    "healthy_agent_count": 5,
+    "agent_failure_count": 0,
+    "health_score": 100,
+    "warnings": 0,
+    "parse_error_count": 0,
+    "overall_success": true
+  },
+  "memory_snapshot": {
+    "schema": "ana.memory.evolution_snapshot.v1",
+    "generated_at": "2026-06-10T08:25:10.218667+00:00",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 1,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "low",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 1,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "consistency": {
+      "present": true,
+      "overall_consistent": true,
+      "contradiction_count": 0,
+      "regression_count": 0
+    },
+    "memory_system": {
+      "present": true,
+      "status": "OK",
+      "last_consolidation": "2026-06-10T08:05:46.415906+00:00",
+      "last_consistency_check": "2026-06-10T08:05:46.417909+00:00"
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "payload": {
+    "schema": "ana.os11.distributed_orchestrator.v1",
+    "generated_at": "2026-06-10T08:25:10.221871+00:00",
+    "engine": "distributed_orchestrator",
+    "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+    "dry_run": true,
+    "inputs": {
+      "agent_registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+      "shared_state": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\multi_agent_shared_state.json",
+      "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+      "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+      "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+    },
+    "topology": {
+      "schema": "ana.os11.distributed_topology.v1",
+      "generated_at": "2026-06-10T08:25:10.220668+00:00",
+      "engine": "distributed_orchestrator",
+      "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+      "local_only": true,
+      "simulated": true,
+      "dry_run": true,
+      "memory_context": {
+        "schema": "ana.memory.context.v1",
+        "core_memory_present": true,
+        "core_memory_schema_ok": true,
+        "history_length": 1,
+        "preferences": {
+          "stability_priority": "high",
+          "warnings_tolerance": "zero",
+          "evolution_aggressiveness": "low",
+          "goal_persistence": "high",
+          "memory_consolidation": "bounded"
+        },
+        "patterns": {
+          "stable_cycles": 1,
+          "warning_cycles": 0,
+          "parse_error_cycles": 0,
+          "evolution_failure_cycles": 0,
+          "daemon_failure_cycles": 0
+        },
+        "long_term_keys": [
+          "current_goal_ids",
+          "goal_frequency",
+          "last_consistency_contradiction_count",
+          "last_consistency_overall_consistent",
+          "last_consistency_regression_count",
+          "last_consolidation",
+          "last_daemon_success",
+          "last_goal_count",
+          "last_graph_density",
+          "last_graph_edges",
+          "last_graph_nodes",
+          "last_health_score"
+        ]
+      },
+      "nodes": [
+        {
+          "id": "node-1",
+          "role": "coordinator",
+          "status": "healthy",
+          "transport": "local-loopback",
+          "agent_slots": 3
+        },
+        {
+          "id": "node-2",
+          "role": "optimizer",
+          "status": "healthy",
+          "transport": "local-loopback",
+          "agent_slots": 3
+        },
+        {
+          "id": "node-3",
+          "role": "tester",
+          "status": "healthy",
+          "transport": "local-loopback",
+          "agent_slots": 3
+        },
+        {
+          "id": "node-4",
+          "role": "observer",
+          "status": "healthy",
+          "transport": "local-loopback",
+          "agent_slots": 3
+        }
+      ],
+      "edges": [
+        {
+          "source": "node-1",
+          "target": "node-2",
+          "type": "simulated",
+          "transport": "in-memory"
+        },
+        {
+          "source": "node-1",
+          "target": "node-3",
+          "type": "simulated",
+          "transport": "in-memory"
+        },
+        {
+          "source": "node-1",
+          "target": "node-4",
+          "type": "simulated",
+          "transport": "in-memory"
+        }
+      ],
+      "summary": {
+        "node_count": 4,
+        "edge_count": 3,
+        "agent_count": 5,
+        "healthy_agent_count": 5,
+        "agent_failure_count": 0,
+        "health_score": 100,
+        "warnings": 0,
+        "parse_error_count": 0
+      }
+    },
+    "agent_registry": {
+      "schema": "ana.os7.agent_registry.v1",
+      "generated_at": "2026-06-10T08:25:10.220668+00:00",
+      "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+      "agents": {
+        "optimizer": {
+          "role": "optimizer",
+          "status": "active",
+          "health_score": 100,
+          "failure_count": 0,
+          "success_count": 3,
+          "last_success_at": "2026-06-10T09:40:40.031165",
+          "last_failure_at": null,
+          "last_task": {
+            "task_type": "skills",
+            "status": "completed",
+            "timestamp": "2026-06-10T09:40:40.031165"
+          }
+        },
+        "tester": {
+          "role": "tester",
+          "status": "active",
+          "health_score": 100,
+          "failure_count": 0,
+          "success_count": 1,
+          "last_success_at": "2026-06-10T09:40:40.031165",
+          "last_failure_at": null,
+          "last_task": {
+            "task_type": "healing",
+            "status": "completed",
+            "timestamp": "2026-06-10T09:40:40.031165"
+          }
+        },
+        "documenter": {
+          "role": "documenter",
+          "status": "active",
+          "health_score": 100,
+          "failure_count": 0,
+          "success_count": 1,
+          "last_success_at": "2026-06-10T09:40:40.031165",
+          "last_failure_at": null,
+          "last_task": {
+            "task_type": "knowledge_graph",
+            "status": "completed",
+            "timestamp": "2026-06-10T09:40:40.031165"
+          }
+        },
+        "structurer": {
+          "role": "structurer",
+          "status": "active",
+          "health_score": 100,
+          "failure_count": 0,
+          "success_count": 1,
+          "last_success_at": "2026-06-10T09:40:40.031165",
+          "last_failure_at": null,
+          "last_task": {
+            "task_type": "canonical_layout",
+            "status": "completed",
+            "timestamp": "2026-06-10T09:40:40.031165"
+          }
+        },
+        "extractor": {
+          "role": "extractor",
+          "status": "active",
+          "health_score": 100,
+          "failure_count": 0,
+          "success_count": 1,
+          "last_success_at": "2026-06-10T09:40:40.031165",
+          "last_failure_at": null,
+          "last_task": {
+            "task_type": "github_patterns",
+            "status": "completed",
+            "timestamp": "2026-06-10T09:40:40.031165"
+          },
+          "requires_explicit_enable": true
+        }
+      },
+      "summary": {
+        "agent_count": 5,
+        "healthy_count": 5,
+        "failure_count_total": 0,
+        "success_count_total": 7
+      }
+    },
+    "memory_snapshot": {
+      "schema": "ana.memory.evolution_snapshot.v1",
+      "generated_at": "2026-06-10T08:25:10.218667+00:00",
+      "core_memory_present": true,
+      "core_memory_schema_ok": true,
+      "history_length": 1,
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "low",
+        "goal_persistence": "high",
+        "memory_consolidation": "bounded"
+      },
+      "patterns": {
+        "stable_cycles": 1,
+        "warning_cycles": 0,
+        "parse_error_cycles": 0,
+        "evolution_failure_cycles": 0,
+        "daemon_failure_cycles": 0
+      },
+      "consistency": {
+        "present": true,
+        "overall_consistent": true,
+        "contradiction_count": 0,
+        "regression_count": 0
+      },
+      "memory_system": {
+        "present": true,
+        "status": "OK",
+        "last_consolidation": "2026-06-10T08:05:46.415906+00:00",
+        "last_consistency_check": "2026-06-10T08:05:46.417909+00:00"
+      },
+      "long_term_keys": [
+        "current_goal_ids",
+        "goal_frequency",
+        "last_consistency_contradiction_count",
+        "last_consistency_overall_consistent",
+        "last_consistency_regression_count",
+        "last_consolidation",
+        "last_daemon_success",
+        "last_goal_count",
+        "last_graph_density",
+        "last_graph_edges",
+        "last_graph_nodes",
+        "last_health_score"
+      ]
+    },
+    "summary": {
+      "node_count": 4,
+      "edge_count": 3,
+      "agent_count": 5,
+      "healthy_agent_count": 5,
+      "agent_failure_count": 0,
+      "health_score": 100,
+      "warnings": 0,
+      "parse_error_count": 0
+    }
+  }
+}

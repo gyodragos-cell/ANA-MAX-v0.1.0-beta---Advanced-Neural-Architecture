@@ -1,0 +1,49 @@
+{
+  "schema": "ana.os8.architecture_proposals.v1",
+  "generated_at": "2026-06-10T09:02:21.823690+00:00",
+  "engine": "architecture_executor",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "source_reports": {
+    "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+    "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+    "meta_adaptation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+    "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json"
+  },
+  "proposals": [
+    {
+      "id": "split_orchestrator_layers",
+      "title": "Split orchestrator layers",
+      "confidence": 0.86,
+      "target_layer": "OS-8",
+      "risk": "low",
+      "benefit": "Keep layered orchestration focused and easier to test.",
+      "rationale": "Graph density 18.414 suggests a bounded decomposition point.",
+      "action": "simulate"
+    },
+    {
+      "id": "goal_to_policy_bridge",
+      "title": "Bridge goals to policy composition",
+      "confidence": 0.8,
+      "target_layer": "OS-9",
+      "risk": "low",
+      "benefit": "Feed goals and strategy into the policy engine without changing OS-3/OS-4 schemas.",
+      "rationale": "The goals and strategy layers are already producing deterministic ordering information.",
+      "action": "simulate"
+    },
+    {
+      "id": "history_guided_review",
+      "title": "Review architecture using meta-adaptation history",
+      "confidence": 0.74,
+      "target_layer": "OS-6",
+      "risk": "low",
+      "benefit": "Use prior adaptation snapshots to avoid redundant proposals.",
+      "rationale": "OS-6 history provides a trend line for stable additive evolution.",
+      "action": "simulate"
+    }
+  ],
+  "summary": {
+    "proposal_count": 3,
+    "simulation_count": 3
+  }
+}
