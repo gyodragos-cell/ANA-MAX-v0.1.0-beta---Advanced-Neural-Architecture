@@ -1,10 +1,15 @@
-﻿# RAGBridge
+---
+layout: default
+title: 'rag'
+---
 
-RAGBridge provides semantic memory and vector retrieval for OS‑22.
+# RAGBridge
+
+RAGBridge provides semantic memory and vector retrieval for OS-22.
 
 ---
 
-## 🧠 Capabilities
+## ?? Capabilities
 
 - vector embeddings  
 - semantic search  
@@ -13,7 +18,7 @@ RAGBridge provides semantic memory and vector retrieval for OS‑22.
 
 ---
 
-## 📁 Storage
+## ?? Storage
 
 RAGBridge stores:
 - documents  

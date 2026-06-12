@@ -1,10 +1,15 @@
-﻿# MCP – Model Context Protocol
+---
+layout: default
+title: 'mcp'
+---
 
-OS‑22 integrates with MCP servers to extend capabilities.
+# MCP � Model Context Protocol
+
+OS-22 integrates with MCP servers to extend capabilities.
 
 ---
 
-## 🔌 What MCP Enables
+## ?? What MCP Enables
 
 - IDE integration  
 - external tools  
@@ -13,12 +18,12 @@ OS‑22 integrates with MCP servers to extend capabilities.
 
 ---
 
-## 🧩 OS‑22 MCP Server
+## ?? OS-22 MCP Server
 
-OS‑22 exposes:
+OS-22 exposes:
 - ToolBridge  
 - RAGBridge  
-- Self‑Healing  
+- Self-Healing  
 - Context Engine  
 
-to any MCP‑compatible client.
+to any MCP-compatible client.

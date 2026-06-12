@@ -1,10 +1,15 @@
-﻿# Self‑Healing v2
+---
+layout: default
+title: 'self_healing'
+---
 
-Self‑Healing is the OS‑22 subsystem that detects and repairs runtime issues.
+# Self-Healing v2
+
+Self-Healing is the OS-22 subsystem that detects and repairs runtime issues.
 
 ---
 
-## 🩺 Detects
+## ?? Detects
 
 - tool failures  
 - invalid states  
@@ -14,7 +19,7 @@ Self‑Healing is the OS‑22 subsystem that detects and repairs runtime issues.
 
 ---
 
-## 🛠 Repairs
+## ?? Repairs
 
 - resets tool state  
 - rebuilds context  

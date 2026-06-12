@@ -1,18 +1,23 @@
-﻿# OS‑22 Roadmap
+---
+layout: default
+title: 'roadmap'
+---
 
-## 🔜 Coming Soon
+# OS-22 Roadmap
+
+## ?? Coming Soon
 
 - VSCode extension  
-- MCP server auto‑discovery  
+- MCP server auto-discovery  
 - ToolBridge v3  
-- RAGBridge multi‑vector memory  
-- Self‑Healing v3  
-- OS‑23 architecture  
+- RAGBridge multi-vector memory  
+- Self-Healing v3  
+- OS-23 architecture  
 
 ---
 
-## 🧪 Experimental Ideas
+## ?? Experimental Ideas
 
-- multi‑agent orchestration  
+- multi-agent orchestration  
 - distributed tool execution  
-- GPU‑accelerated context engine
+- GPU-accelerated context engine

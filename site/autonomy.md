@@ -1,19 +1,24 @@
-ï»¿# Autonomy v3
+---
+layout: default
+title: 'autonomy'
+---
+
+# Autonomy v3
 
 Autonomy controls how much initiative the agent can take.
 
 ---
 
-## ðŸŽš Levels
+## ?? Levels
 
-- Level 0 â€“ No autonomy  
-- Level 1 â€“ Suggestive autonomy  
-- Level 2 â€“ Conditional autonomy  
-- Level 3 â€“ Full autonomy with safety checks  
+- Level 0 – No autonomy  
+- Level 1 – Suggestive autonomy  
+- Level 2 – Conditional autonomy  
+- Level 3 – Full autonomy with safety checks  
 
 ---
 
-## ðŸ§® Confidence Scoring
+## ?? Confidence Scoring
 
 Autonomy decisions are based on:
 - model confidence  

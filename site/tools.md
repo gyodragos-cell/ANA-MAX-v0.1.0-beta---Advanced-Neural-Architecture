@@ -1,12 +1,17 @@
-﻿# ToolBridge
+---
+layout: default
+title: 'tools'
+---
 
-ToolBridge is the unified tool execution layer of OS‑22.
+# ToolBridge
+
+ToolBridge is the unified tool execution layer of OS-22.
 
 ---
 
-## 🧰 Features
+## ?? Features
 
-- 90+ built‑in tools  
+- 90+ built-in tools  
 - deterministic execution  
 - sandboxed environment  
 - error isolation  
@@ -14,7 +19,7 @@ ToolBridge is the unified tool execution layer of OS‑22.
 
 ---
 
-## 🛠 Tool Categories
+## ?? Tool Categories
 
 - System tools  
 - File tools  
@@ -25,7 +30,7 @@ ToolBridge is the unified tool execution layer of OS‑22.
 
 ---
 
-## ➕ Adding New Tools
+## ? Adding New Tools
 
 1. Create a Python file in `ANA_MAX/tools/`  
 2. Define metadata  

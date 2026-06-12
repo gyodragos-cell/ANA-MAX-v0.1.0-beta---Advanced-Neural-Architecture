@@ -1,12 +1,17 @@
-﻿# OS‑22 Architecture
+---
+layout: default
+title: 'architecture'
+---
 
-OS‑22 is built on a layered architecture:
+# OS-22 Architecture
 
-Input → Context → Engine → ToolBridge → Execution → Observability → Self‑Healing → Autonomy
+OS-22 is built on a layered architecture:
+
+Input ? Context ? Engine ? ToolBridge ? Execution ? Observability ? Self-Healing ? Autonomy
 
 ---
 
-## 🏗 Components
+## ?? Components
 
 ### **1. Input Layer**
 Normalizes user input, system events, and tool outputs.
@@ -18,7 +23,7 @@ Merges:
 - tool results  
 - system state  
 
-### **3. OS‑22 Engine**
+### **3. OS-22 Engine**
 Deterministic execution engine:
 - prompt engine  
 - local LLM backend  
@@ -38,7 +43,7 @@ Semantic memory + vector retrieval.
 ### **6. MCP**
 External tool servers via Model Context Protocol.
 
-### **7. Self‑Healing**
+### **7. Self-Healing**
 Detects:
 - tool failures  
 - context corruption  
