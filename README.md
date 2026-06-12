@@ -1,10 +1,15 @@
 ﻿# ANA MAX OS-22
 
+[![GitHub Pages](https://img.shields.io/badge/Site-Live-brightgreen)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 **Advanced Neural Architecture - Operating System 22**
 
 A local-first AI operating system and agent orchestrator with deterministic execution, self-healing capabilities, and strict security boundaries.
 
-## Overview
+---
+
+## 🚀 Overview
 
 ANA MAX OS-22 is a sophisticated local AI runtime that combines:
 
@@ -16,12 +21,14 @@ ANA MAX OS-22 is a sophisticated local AI runtime that combines:
 - **Self-Healing v2**: Automatic error detection and recovery
 - **Autonomy v3**: Controlled agent initiative with confidence scoring
 
-## Quick Start
+---
+
+## 📦 Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ANA-MAX-OS22.git
-cd ANA-MAX-OS22
+git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git
+cd ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture
 
 # Create virtual environment
 python -m venv .venv
@@ -38,7 +45,9 @@ cp .env.example .env
 scripts\os22\start_os22_lab_chat.bat
 ```
 
-## Architecture
+---
+
+## 🏗 Architecture
 
 ```
 Input Layer (User prompts, MCP requests)
@@ -54,7 +63,9 @@ Execution Layer (Sandbox: secure command execution)
 Observability (Telemetry, Self-Healing v2, Autonomy v3)
 ```
 
-## Documentation
+---
+
+## 📚 Documentation
 
 - [OS-22 Overview](docs/OS22_OVERVIEW.md)
 - [Architecture](docs/ARCHITECTURE.md)
@@ -65,9 +76,47 @@ Observability (Telemetry, Self-Healing v2, Autonomy v3)
 - [Autonomy](docs/AUTONOMY.md)
 - [Boot Sequence](docs/BOOT_SEQUENCE.md)
 
-## License
+---
 
-MIT License - see LICENSE file for details.
+## 🌐 Live Site
+
+Visit the official OS-22 site:  
+👉 [https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions!
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/my-feature`
+3. **Commit** your changes: `git commit -m "Add my feature"`
+4. **Push** to the branch: `git push origin feature/my-feature`
+5. **Open** a Pull Request
+
+### Code Style
+
+- Use type hints
+- Write docstrings
+- Follow PEP 8
+- Keep functions small and focused
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## ❤️ Support
+
+If you find this project useful, consider supporting development:
+
+- ⭐ Star the repository
+- 🐛 Report bugs via [Issues](https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/issues)
+- 💡 Suggest features via [Discussions](https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/discussions)
 
 ---
 
