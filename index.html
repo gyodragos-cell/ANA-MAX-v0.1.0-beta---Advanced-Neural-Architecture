@@ -1,417 +1,254 @@
-﻿<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ANA MAX - Advanced Neural Architecture</title>
+<title>ANA MAX — Advanced Neural Architecture</title>
+<meta name="description" content="The most powerful local AI operating system for Windows. 123 MCP Tools, Computer Vision, Kernel-level System Intelligence.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-<style>
-  :root {
-    --bg-base: #030305;
-    --bg-surface: rgba(15, 15, 20, 0.4);
-    --bg-surface-hover: rgba(25, 25, 35, 0.6);
-    --border-color: rgba(255, 255, 255, 0.06);
-    --border-glow: rgba(168, 85, 247, 0.4);
-    
-    --text-main: #ffffff;
-    --text-muted: #8b8b9e;
-    
-    --accent-1: #a855f7; /* Purple */
-    --accent-2: #06b6d4; /* Cyan */
-    --accent-3: #f43f5e; /* Rose */
-    --accent-4: #fbbf24; /* Amber */
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  body {
-    background-color: var(--bg-base);
-    color: var(--text-main);
-    font-family: 'Outfit', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  ::selection { background: var(--accent-1); color: #fff; }
-
-  /* Backgrounds */
-  #particles-js {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
-  }
-  .bg-gradient-orb {
-    position: fixed; border-radius: 50%; filter: blur(120px); opacity: 0.15; z-index: -1; pointer-events: none;
-    animation: float 20s infinite alternate ease-in-out;
-  }
-  .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--accent-1); }
-  .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: var(--accent-2); animation-delay: -5s; }
-
-  @keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(10%, 10%) scale(1.1); }
-  }
-
-  /* Layout */
-  .container {
-    max-width: 1200px; margin: 0 auto; padding: 80px 24px; position: relative; z-index: 10;
-  }
-
-  /* Typography */
-  .mono { font-family: 'Fira Code', monospace; }
-  
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 6px 16px; border-radius: 100px;
-    background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2);
-    color: var(--accent-2); font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
-    margin-bottom: 24px; text-transform: uppercase;
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
-  }
-  
-  .hero-badge .dot { width: 6px; height: 6px; background: var(--accent-2); border-radius: 50%; animation: pulse 2s infinite; }
-
-  h1.title {
-    font-size: clamp(40px, 8vw, 80px); font-weight: 800; line-height: 1; letter-spacing: -0.03em;
-    margin-bottom: 24px; text-align: center;
-  }
-  
-  /* Advanced Hologram Effect */
-  .hologram {
-    position: relative; display: inline-block;
-    background: linear-gradient(to right, #fff, #a855f7, #06b6d4);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .hologram::before, .hologram::after {
-    content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; opacity: 0.5;
-  }
-  .hologram::before {
-    left: 3px; text-shadow: -2px 0 red; animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
-  }
-  .hologram::after {
-    left: -3px; text-shadow: -2px 0 cyan; animation: glitch-anim-2 3s infinite linear alternate-reverse;
-  }
-
-  p.subtitle {
-    font-size: clamp(16px, 2vw, 20px); color: var(--text-muted); text-align: center; max-width: 700px; margin: 0 auto 48px;
-    line-height: 1.6;
-  }
-
-  /* Buttons */
-  .btn-group { display: flex; gap: 16px; justify-content: center; margin-bottom: 80px; }
-  .btn {
-    padding: 14px 28px; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-    color: white; border: none; box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(168, 85, 247, 0.5); }
-  
-  .btn-secondary {
-    background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-main);
-    backdrop-filter: blur(10px);
-  }
-  .btn-secondary:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); }
-
-  /* Bento Box Grid */
-  .bento-grid {
-    display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; margin-bottom: 80px;
-  }
-  
-  .bento-card {
-    background: var(--bg-surface); border: 1px solid var(--border-color);
-    border-radius: 20px; padding: 24px; position: relative; overflow: hidden;
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .bento-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
-  
-  /* Mouse tracking glow */
-  .bento-card::before {
-    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255,255,255,0.06), transparent 40%);
-    opacity: 0; transition: opacity 0.3s; z-index: 0; pointer-events: none;
-  }
-  .bento-card:hover::before { opacity: 1; }
-  
-  .bento-content { position: relative; z-index: 1; }
-
-  /* Specific Bento Sizes */
-  .bento-large { grid-column: span 8; grid-row: span 2; display: flex; flex-direction: column; justify-content: space-between;}
-  .bento-medium { grid-column: span 4; grid-row: span 2; }
-  .bento-small { grid-column: span 3; grid-row: span 1; display:flex; align-items: center; justify-content: center; flex-direction: column; text-align: center;}
-  
-  @media (max-width: 900px) {
-    .bento-large, .bento-medium { grid-column: span 12; }
-    .bento-small { grid-column: span 6; }
-  }
-
-  .stat-num { font-size: 48px; font-weight: 800; line-height: 1; margin-bottom: 8px; background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .stat-lbl { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;}
-
-  /* Architecture Diagram (CSS Only approach for extreme modernism) */
-  .arch-container {
-    width: 100%; height: 400px; position: relative; display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
-  }
-  
-  .arch-node {
-    background: rgba(10,10,15,0.8); border: 1px solid var(--accent-1); border-radius: 16px;
-    padding: 20px; width: 220px; text-align: center; position: relative; z-index: 2;
-    box-shadow: 0 0 30px rgba(168,85,247,0.1);
-  }
-  .arch-node.cyan { border-color: var(--accent-2); box-shadow: 0 0 30px rgba(6,182,212,0.1); }
-  .arch-node.rose { border-color: var(--accent-3); box-shadow: 0 0 30px rgba(244,63,94,0.1); }
-
-  .arch-icon { font-size: 24px; margin-bottom: 12px; }
-  .arch-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-  .arch-desc { font-size: 12px; color: var(--text-muted); font-family: 'Fira Code', monospace; }
-
-  /* Animated Connection Lines */
-  .connection {
-    position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: rgba(255,255,255,0.05); z-index: 1;
-  }
-  .data-packet {
-    position: absolute; top: -3px; left: 0; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--accent-2); box-shadow: 0 0 15px var(--accent-2);
-    animation: flowData 2s linear infinite;
-  }
-  
-  @keyframes flowData {
-    0% { left: 10%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { left: 90%; opacity: 0; }
-  }
-
-  /* List Styling */
-  ul.custom-list { list-style: none; margin-top: 16px; }
-  ul.custom-list li {
-    font-size: 13px; color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-  }
-  ul.custom-list li::before { content: '→'; color: var(--accent-2); font-family: 'Fira Code', monospace;}
-
-  /* Terminal Window */
-  .terminal {
-    background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-    overflow: hidden; font-family: 'Fira Code', monospace; font-size: 12px;
-  }
-  .term-header {
-    background: rgba(255,255,255,0.05); padding: 8px 16px; display: flex; gap: 6px; align-items: center;
-  }
-  .term-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .term-body { padding: 16px; color: #a1a1aa; line-height: 1.6; }
-  .term-body .prompt { color: var(--accent-2); }
-  .term-body .success { color: #4ade80; }
-
-</style>
 </head>
 <body>
-
-<div id="particles-js"></div>
-<div class="bg-gradient-orb orb-1"></div>
-<div class="bg-gradient-orb orb-2"></div>
-
-<div class="container">
-  
-  <header style="text-align: center;">
-    <div class="hero-badge">
-      <div class="dot"></div>
-      OS-22 / V2.0.0-RC Active
-    </div>
-    
-    <h1 class="title">
-      <span class="hologram" data-text="ANA MAX">ANA MAX</span><br>
-      <span style="font-weight: 300; font-size: 0.6em; color: var(--text-muted)">Neural Architecture</span>
-    </h1>
-    
-    <p class="subtitle" id="typewriter">
-      <!-- Injected via JS -->
-    </p>
-
+<div id="canvas-container"></div>
+<div class="page-content">
+  <section class="hero">
+    <div class="hero-badge"><div class="dot"></div>OS-22 Core · v2.0.0-RC · Active</div>
+    <h1 class="title"><span class="hologram-text" data-text="ANA MAX">ANA MAX</span><span class="title-sub">Advanced Neural Architecture</span></h1>
+    <p class="subtitle" id="typewriter"></p>
     <div class="btn-group">
-      <button class="btn btn-primary" onclick="window.location.href='https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture'">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        GitHub Repository
-      </button>
-      <button class="btn btn-secondary">
-        <span class="mono">127.0.0.1:8766</span>
-      </button>
+      <a class="btn btn-primary" href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>View on GitHub</a>
+      <button class="btn btn-secondary"><span class="mono" style="color:#00f0ff">&#x2B24;</span><span class="mono">127.0.0.1:8766</span></button>
     </div>
-  </header>
-
-  <!-- BENTO GRID -->
-  <div class="bento-grid">
-    
-    <!-- Large Arch Card -->
-    <div class="bento-card bento-large">
-      <div class="bento-content">
-        <h2 style="font-size: 24px; margin-bottom: 8px;">Deterministic Orchestration</h2>
-        <p style="color: var(--text-muted); font-size: 14px;">Real-time AI core mapping context to execution natively on Windows.</p>
-        
-        <div class="arch-container">
-          <div class="connection"><div class="data-packet"></div></div>
-          
-          <div class="arch-node">
-            <div class="arch-icon">🧠</div>
-            <div class="arch-title">Context Engine</div>
-            <div class="arch-desc">Observes & Predicts</div>
-          </div>
-          
-          <div class="arch-node cyan" style="transform: scale(1.1); z-index: 3;">
-            <div class="arch-icon">⚡</div>
-            <div class="arch-title">Orchestrator</div>
-            <div class="arch-desc">MCP JSON-RPC Core</div>
-          </div>
-          
-          <div class="arch-node rose">
-            <div class="arch-icon">⚙️</div>
-            <div class="arch-title">ToolBridge</div>
-            <div class="arch-desc">123 Local Tools</div>
-          </div>
-        </div>
-      </div>
+    <div class="scroll-indicator"><span>Scroll</span><div class="scroll-arrow"></div></div>
+  </section>
+  <section id="architecture"><div class="container">
+    <div class="section-label">// Architecture</div>
+    <h2 class="section-title">Deterministic Orchestration<br>at the Edge</h2>
+    <div class="bento-grid">
+      <div class="bento-card col-12"><div class="bento-inner"><div class="arch-flow">
+        <div class="arch-node"><div class="arch-icon">&#x1F9E0;</div><div class="arch-name">Context Engine</div><div class="arch-desc">Observe &gt; Predict</div></div>
+        <div class="arch-connector"></div>
+        <div class="arch-node cyan" style="transform:scale(1.08)"><div class="arch-icon">&#x26A1;</div><div class="arch-name">Orchestrator</div><div class="arch-desc">MCP JSON-RPC :8766</div></div>
+        <div class="arch-connector"></div>
+        <div class="arch-node rose"><div class="arch-icon">&#x2699;&#xFE0F;</div><div class="arch-name">ToolBridge</div><div class="arch-desc">123 Local Tools</div></div>
+        <div class="arch-connector"></div>
+        <div class="arch-node"><div class="arch-icon">&#x1F4BE;</div><div class="arch-name">Memory Cortex</div><div class="arch-desc">Self-heal · Learn</div></div>
+      </div></div></div>
+      <div class="bento-card col-3 stat-card"><div class="bento-inner"><div class="stat-num" data-count="123">0</div><div class="stat-lbl">MCP Tools</div></div></div>
+      <div class="bento-card col-3 stat-card"><div class="bento-inner"><div class="stat-num" data-count="11">0</div><div class="stat-lbl">Vision Nodes</div></div></div>
+      <div class="bento-card col-3 stat-card"><div class="bento-inner"><div class="stat-num" data-count="4">0</div><div class="stat-lbl">System Intel</div></div></div>
+      <div class="bento-card col-3 stat-card"><div class="bento-inner"><div class="stat-num" data-count="39">0</div><div class="stat-lbl">RAG Entries</div></div></div>
     </div>
-
-    <!-- Small Stats -->
-    <div class="bento-card bento-small">
-      <div class="bento-content">
-        <div class="stat-num">123</div>
-        <div class="stat-lbl">MCP Tools</div>
-      </div>
+  </div></section>
+  <section id="capabilities"><div class="container">
+    <div class="section-label">// Capabilities</div>
+    <h2 class="section-title">Beyond Standard AI.<br>Deep System Access.</h2>
+    <div class="bento-grid">
+      <div class="bento-card col-8 row-2"><div class="bento-inner">
+        <h3 style="font-size:22px;margin-bottom:4px">System Intelligence &amp; Security</h3>
+        <p style="color:#8b8b9e;font-size:14px;margin-bottom:8px">ANA MAX embeds deeply into the OS through Frida and low-level memory patching, operating as an autonomous pentest and orchestration lab.</p>
+        <ul class="feature-list">
+          <li><div class="feature-icon">&#x1F489;</div><div><strong>DLL Injection</strong> &#8212; Dynamic instrumentation via Frida v17.11.0 on x86_64 targets</div></li>
+          <li><div class="feature-icon">&#x1F9EC;</div><div><strong>Memory Patching</strong> &#8212; Runtime manipulation of active processes in real-time</div></li>
+          <li><div class="feature-icon">&#x1F500;</div><div><strong>Gemini Proxy v2</strong> &#8212; Intelligent multi-model routing: Qwen 7B (local) / Gemini (cloud)</div></li>
+          <li><div class="feature-icon">&#x1F504;</div><div><strong>Continual Learning</strong> &#8212; SQLite-backed self-healing with JSONL trajectory exports</div></li>
+          <li><div class="feature-icon">&#x1F441;&#xFE0F;</div><div><strong>Vision Pipeline</strong> &#8212; Desktop capture, OCR (PaddleOCR), semantic UI parsing, auto-click</div></li>
+          <li><div class="feature-icon">&#x1F6E1;&#xFE0F;</div><div><strong>Process Security</strong> &#8212; Real-time monitoring of security boundaries and integrity checks</div></li>
+        </ul>
+      </div></div>
+      <div class="bento-card col-4 row-2" style="display:flex;align-items:center;justify-content:center"><div class="bento-inner">
+        <div class="dna-rings"><div class="dna-ring dna-ring-1"></div><div class="dna-ring dna-ring-2"></div><div class="dna-ring dna-ring-3"></div><div class="dna-center">&#x1F9EC;</div></div>
+        <p style="text-align:center;margin-top:20px;color:#8b8b9e;font-size:12px;font-family:'Fira Code',monospace">Neural Evolution Engine</p>
+      </div></div>
+      <div class="bento-card col-6"><div class="bento-inner">
+        <h3 style="font-size:16px;margin-bottom:14px">Runtime Log</h3>
+        <div class="terminal"><div class="term-bar"><div class="term-dot" style="background:#ff5f56"></div><div class="term-dot" style="background:#ffbd2e"></div><div class="term-dot" style="background:#27c93f"></div></div>
+        <div class="term-body"><span class="c-cyan">PS C:\ana-manus&gt;</span> python main.py<br><span class="c-green">[OK]</span> MCP Server on <span class="c-purple">:8766</span><br><span class="c-green">[OK]</span> Registered <span class="c-purple">123</span> tool adapters<br><span class="c-green">[OK]</span> Memory Cortex loaded (SQLite)<br><span class="c-green">[OK]</span> Vision pipeline active<br><span class="c-green">[OK]</span> Gemini Proxy v2 initialized<br><span class="c-green">[OK]</span> RAG: 39 entries indexed<br><span class="c-yellow">[WAIT]</span> Listening for connections...</div></div>
+      </div></div>
+      <div class="bento-card col-6"><div class="bento-inner">
+        <h3 style="font-size:16px;margin-bottom:14px">Tech Stack</h3>
+        <table style="width:100%;font-size:13px;border-collapse:collapse">
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)"><td style="padding:8px 0;color:#8b8b9e">OS</td><td style="padding:8px 0;text-align:right">Windows 11 x64</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)"><td style="padding:8px 0;color:#8b8b9e">Runtime</td><td style="padding:8px 0;text-align:right">Python 3.12 + Flask</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)"><td style="padding:8px 0;color:#8b8b9e">AI Model</td><td style="padding:8px 0;text-align:right;color:#b366ff">Qwen2.5-Coder:7b</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)"><td style="padding:8px 0;color:#8b8b9e">Instrumentation</td><td style="padding:8px 0;text-align:right;color:#ff007f">Frida 17.11.0</td></tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06)"><td style="padding:8px 0;color:#8b8b9e">Emulator</td><td style="padding:8px 0;text-align:right">Nox Player (rooted)</td></tr>
+          <tr><td style="padding:8px 0;color:#8b8b9e">Protocol</td><td style="padding:8px 0;text-align:right;color:#00f0ff">JSON-RPC 2.0</td></tr>
+        </table>
+      </div></div>
     </div>
-    <div class="bento-card bento-small">
-      <div class="bento-content">
-        <div class="stat-num">11</div>
-        <div class="stat-lbl">Vision Nodes</div>
-      </div>
+  </div></section>
+  <section id="roadmap"><div class="container">
+    <div class="section-label">// Roadmap</div>
+    <h2 class="section-title">What's Next</h2>
+    <div class="roadmap-grid">
+      <div class="roadmap-card"><div class="roadmap-tag tag-next">v2.1</div><h4>&#x1F9EA; Malware Research Sandbox</h4><p>Autonomous execution, evasion analysis, and sandboxed detonation environment with full Frida integration.</p></div>
+      <div class="roadmap-card"><div class="roadmap-tag tag-next">v2.1</div><h4>&#x1F3AF; LoRA Auto-Tuning</h4><p>On-device model fine-tuning using collected execution trajectories. JSONL export to RTX training pipeline.</p></div>
+      <div class="roadmap-card"><div class="roadmap-tag tag-future">v3.0</div><h4>&#x1F441;&#xFE0F; Deep Sight "God View"</h4><p>3D spatial awareness for the Vision Agent. Understanding complex UI layouts and reverse-engineering from screenshots.</p></div>
+      <div class="roadmap-card"><div class="roadmap-tag tag-future">v3.0</div><h4>&#x1F41D; Agent Swarm Mode</h4><p>Multiple concurrent local agents: one does network fuzzing while another analyzes traffic in Wireshark simultaneously.</p></div>
     </div>
-    <div class="bento-card bento-small">
-      <div class="bento-content">
-        <div class="stat-num">4</div>
-        <div class="stat-lbl">System Intel</div>
-      </div>
-    </div>
-    <div class="bento-card bento-small">
-      <div class="bento-content">
-        <div class="stat-num">39</div>
-        <div class="stat-lbl">RAG Entries</div>
-      </div>
-    </div>
-
-    <!-- Terminal Details -->
-    <div class="bento-card bento-medium">
-      <div class="bento-content">
-        <h3 style="margin-bottom: 16px;">Runtime Log</h3>
-        <div class="terminal">
-          <div class="term-header">
-            <div class="term-dot" style="background:#ff5f56"></div>
-            <div class="term-dot" style="background:#ffbd2e"></div>
-            <div class="term-dot" style="background:#27c93f"></div>
-          </div>
-          <div class="term-body">
-            <span class="prompt">PS C:\></span> python main.py<br>
-            <span class="success">[OK]</span> MCP Server starting on port 8766<br>
-            <span class="success">[OK]</span> Registered 123 tool adapters<br>
-            <span class="success">[OK]</span> Memory Cortex loaded (SQLite)<br>
-            <span class="success">[OK]</span> Vision fallback active<br>
-            <span class="success">[OK]</span> Gemini Proxy initialized<br>
-            <span style="color:#eab308">[WAIT]</span> Listening for Devin/Cursor/Claude...
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Features -->
-    <div class="bento-card bento-large">
-      <div class="bento-content" style="display:flex; gap: 40px; height: 100%;">
-        <div style="flex: 1;">
-          <h2 style="font-size: 24px; margin-bottom: 16px;">System Intelligence & Security</h2>
-          <p style="color: var(--text-muted); font-size: 14px; line-height: 1.6;">
-            ANA MAX goes beyond standard API calls. It embeds deeply into the OS via Frida and low-level memory manipulation, acting as an autonomous pentest and orchestrator lab.
-          </p>
-          <ul class="custom-list">
-            <li><strong>DLL Injection</strong> - Dynamic instrumentation via Frida v17.11.0</li>
-            <li><strong>Memory Patching</strong> - Runtime manipulation of active processes</li>
-            <li><strong>Gemini Proxy</strong> - Multi-model routing (Qwen 7B local / Gemini cloud)</li>
-            <li><strong>Continual Learning</strong> - SQLite-based self-healing & error correction</li>
-          </ul>
-        </div>
-        <div style="flex: 1; display:flex; align-items:center; justify-content:center;">
-          <!-- decorative futuristic circle -->
-          <div style="width: 200px; height: 200px; border-radius: 50%; border: 1px dashed var(--accent-1); display:flex; align-items:center; justify-content:center; animation: spin 20s linear infinite;">
-            <div style="width: 160px; height: 160px; border-radius: 50%; border: 2px solid var(--accent-2); display:flex; align-items:center; justify-content:center; animation: spin 10s linear infinite reverse;">
-               <div style="font-size: 40px; animation: spin 10s linear infinite;">🧬</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div style="text-align:center; padding-top: 40px; border-top: 1px solid var(--border-color);">
-    <p class="mono" style="color: var(--text-muted); font-size: 12px;">© 2026 ANA MAX. Built for the local-first AI community.</p>
-  </div>
-
+  </div></section>
+  <footer class="site-footer"><div class="container"><p>&#169; 2026 ANA MAX · Advanced Neural Architecture · Built for the local-first AI &amp; Security community.</p></div></footer>
 </div>
-
+<style>
+:root{--bg-base:#030305;--bg-surface:rgba(12,12,18,0.55);--border-color:rgba(255,255,255,0.06);--text-main:#fff;--text-muted:#8b8b9e;--accent-purple:#b366ff;--accent-cyan:#00f0ff;--accent-rose:#ff007f}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg-base);color:var(--text-main);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
+::selection{background:var(--accent-purple);color:#fff}
+#canvas-container{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+#canvas-container canvas{display:block}
+.page-content{position:relative;z-index:10}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;position:relative}
+.hero *{pointer-events:auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:100px;background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.25);color:var(--accent-cyan);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;margin-bottom:32px;box-shadow:0 0 30px rgba(0,240,255,.15);animation:badge-glow 3s ease-in-out infinite alternate}
+@keyframes badge-glow{0%{box-shadow:0 0 20px rgba(0,240,255,.1)}100%{box-shadow:0 0 40px rgba(0,240,255,.25)}}
+.hero-badge .dot{width:6px;height:6px;background:var(--accent-cyan);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+h1.title{font-size:clamp(48px,9vw,96px);font-weight:800;line-height:.95;letter-spacing:-.04em;margin-bottom:28px}
+.hologram-text{display:inline-block;position:relative;background:linear-gradient(135deg,#fff 0%,#b366ff 40%,#00f0ff 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hologram-text::before{content:attr(data-text);position:absolute;top:0;left:2px;background:linear-gradient(135deg,#ff007f,#b366ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:glitch1 4s infinite}
+.hologram-text::after{content:attr(data-text);position:absolute;top:0;left:-2px;background:linear-gradient(135deg,#00f0ff,#b366ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:glitch2 4s infinite}
+@keyframes glitch1{0%,90%,100%{opacity:0;transform:translate(0)}92%{opacity:.6;transform:translate(3px,-1px)}94%{opacity:0}96%{opacity:.4;transform:translate(-2px,1px)}}
+@keyframes glitch2{0%,88%,100%{opacity:0;transform:translate(0)}90%{opacity:.5;transform:translate(-3px,1px)}93%{opacity:0}95%{opacity:.3;transform:translate(2px,-1px)}}
+.title-sub{font-weight:300;font-size:.5em;color:var(--text-muted);display:block;letter-spacing:.05em;margin-top:8px}
+p.subtitle{font-size:clamp(15px,1.8vw,19px);color:var(--text-muted);max-width:680px;margin:0 auto 48px;line-height:1.7;min-height:60px}
+.btn-group{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{padding:14px 28px;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:'Outfit',sans-serif}
+.btn-primary{background:linear-gradient(135deg,var(--accent-purple),var(--accent-cyan));color:#fff;border:none;box-shadow:0 8px 30px rgba(179,102,255,.3)}
+.btn-primary:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 15px 40px rgba(179,102,255,.45)}
+.btn-secondary{background:var(--bg-surface);border:1px solid var(--border-color);color:var(--text-main);backdrop-filter:blur(12px)}
+.btn-secondary:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+.mono{font-family:'Fira Code',monospace}
+.scroll-indicator{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted);font-size:11px;letter-spacing:.15em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+.scroll-arrow{width:24px;height:24px;border-right:2px solid var(--accent-cyan);border-bottom:2px solid var(--accent-cyan);transform:rotate(45deg);opacity:.5}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+section{padding:100px 0}
+.section-label{font-size:12px;color:var(--accent-cyan);text-transform:uppercase;letter-spacing:.2em;font-weight:600;margin-bottom:12px;font-family:'Fira Code',monospace}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;margin-bottom:48px;line-height:1.1}
+.bento-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.bento-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:20px;padding:28px;position:relative;overflow:hidden;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s}
+.bento-card:hover{transform:translateY(-6px);border-color:rgba(179,102,255,.3)}
+.bento-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(600px circle at var(--mx,50%) var(--my,50%),rgba(179,102,255,.08),rgba(0,240,255,.04) 40%,transparent 60%);opacity:0;transition:opacity .4s;z-index:0;pointer-events:none}
+.bento-card:hover::before{opacity:1}
+.bento-inner{position:relative;z-index:1}
+.col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-6{grid-column:span 6}.col-4{grid-column:span 4}.col-3{grid-column:span 3}.row-2{grid-row:span 2}
+@media(max-width:900px){.col-8,.col-6,.col-4{grid-column:span 12}.col-3{grid-column:span 6}}
+.stat-num{font-size:52px;font-weight:800;line-height:1;margin-bottom:6px;background:linear-gradient(135deg,#fff 30%,var(--accent-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.15em;font-weight:600}
+.stat-card{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:160px}
+.arch-flow{display:flex;align-items:center;justify-content:space-between;gap:0;padding:24px 0;position:relative}
+.arch-node{background:rgba(5,5,10,.9);border:1px solid var(--accent-purple);border-radius:16px;padding:20px 24px;text-align:center;position:relative;z-index:2;min-width:180px;box-shadow:0 0 30px rgba(179,102,255,.1);transition:transform .3s,box-shadow .3s}
+.arch-node:hover{transform:scale(1.05);box-shadow:0 0 50px rgba(179,102,255,.25)}
+.arch-node.cyan{border-color:var(--accent-cyan);box-shadow:0 0 30px rgba(0,240,255,.1)}
+.arch-node.cyan:hover{box-shadow:0 0 50px rgba(0,240,255,.25)}
+.arch-node.rose{border-color:var(--accent-rose);box-shadow:0 0 30px rgba(255,0,127,.1)}
+.arch-node.rose:hover{box-shadow:0 0 50px rgba(255,0,127,.25)}
+.arch-icon{font-size:28px;margin-bottom:10px}
+.arch-name{font-size:15px;font-weight:600;margin-bottom:4px}
+.arch-desc{font-size:11px;color:var(--text-muted);font-family:'Fira Code',monospace}
+.arch-connector{flex:1;height:2px;background:linear-gradient(90deg,rgba(179,102,255,.3),rgba(0,240,255,.3));position:relative;min-width:40px}
+.arch-connector::after{content:'';position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:var(--accent-cyan);box-shadow:0 0 12px var(--accent-cyan);animation:packet 2.5s linear infinite}
+@keyframes packet{0%{left:0;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+.feature-list{list-style:none;margin-top:20px}
+.feature-list li{font-size:14px;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.feature-list li strong{color:var(--text-main)}
+.feature-icon{flex-shrink:0;width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;background:rgba(179,102,255,.15);border:1px solid rgba(179,102,255,.3);color:var(--accent-purple)}
+.terminal{background:#0a0a0f;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;font-family:'Fira Code',monospace;font-size:12px}
+.term-bar{background:rgba(255,255,255,.04);padding:10px 16px;display:flex;gap:7px;align-items:center}
+.term-dot{width:11px;height:11px;border-radius:50%}
+.term-body{padding:18px 20px;color:#71717a;line-height:1.7}
+.term-body .c-green{color:#4ade80}
+.term-body .c-cyan{color:var(--accent-cyan)}
+.term-body .c-yellow{color:#eab308}
+.term-body .c-purple{color:var(--accent-purple)}
+.dna-rings{width:200px;height:200px;position:relative;margin:0 auto}
+.dna-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid;transform:translate(-50%,-50%)}
+.dna-ring-1{width:200px;height:200px;border-color:rgba(179,102,255,.3);border-style:dashed;animation:spin 25s linear infinite}
+.dna-ring-2{width:160px;height:160px;border-color:rgba(0,240,255,.4);animation:spin 15s linear infinite reverse}
+.dna-ring-3{width:120px;height:120px;border-color:rgba(255,0,127,.3);animation:spin 10s linear infinite}
+.dna-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:36px;filter:drop-shadow(0 0 20px rgba(0,240,255,.5))}
+@keyframes spin{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+.roadmap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.roadmap-card{background:var(--bg-surface);border:1px solid var(--border-color);border-radius:16px;padding:24px;backdrop-filter:blur(12px);transition:transform .3s,border-color .3s}
+.roadmap-card:hover{transform:translateY(-4px);border-color:rgba(0,240,255,.3)}
+.roadmap-card h4{font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.roadmap-card p{font-size:13px;color:var(--text-muted);line-height:1.5}
+.roadmap-tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.tag-next{background:rgba(0,240,255,.1);color:var(--accent-cyan);border:1px solid rgba(0,240,255,.2)}
+.tag-future{background:rgba(179,102,255,.1);color:var(--accent-purple);border:1px solid rgba(179,102,255,.2)}
+.site-footer{text-align:center;padding:48px 0;border-top:1px solid var(--border-color)}
+.site-footer p{font-family:'Fira Code',monospace;color:var(--text-muted);font-size:12px}
+</style>
 <script>
-  // Hover effect for bento cards
-  document.querySelectorAll('.bento-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', ${x}px);
-      card.style.setProperty('--mouse-y', ${y}px);
-    });
-  });
-
-  // Typewriter effect
-  const text = "The most powerful local AI operating system for Windows. Featuring 123 MCP Tools, Computer Vision, and Kernel-level System Intelligence.";
-  const el = document.getElementById('typewriter');
-  let i = 0;
-  function typeWriter() {
-    if (i < text.length) {
-      el.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(typeWriter, 30);
-    }
-  }
-  setTimeout(typeWriter, 500);
-
-  // Particles.js Neural Network Config
-  particlesJS('particles-js', {
-    particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: '#a855f7' },
-      shape: { type: 'circle' },
-      opacity: { value: 0.5, random: false },
-      size: { value: 3, random: true },
-      line_linked: { enable: true, distance: 150, color: '#06b6d4', opacity: 0.4, width: 1 },
-      move: { enable: true, speed: 1.5, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' }, resize: true },
-      modes: { grab: { distance: 200, line_linked: { opacity: 0.8 } } }
-    },
-    retina_detect: true
-  });
-
-  // Entry Animations
-  gsap.from('.bento-card', {
-    y: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.bento-grid', start: 'top 80%' }
-  });
+var scene=new THREE.Scene();
+var camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+var renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+document.getElementById('canvas-container').appendChild(renderer.domElement);
+var neuralGeo=new THREE.TorusKnotGeometry(18,4,200,32);
+var neuralMat=new THREE.PointsMaterial({size:0.05,color:0xb366ff,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending});
+var neuralMesh=new THREE.Points(neuralGeo,neuralMat);
+scene.add(neuralMesh);
+var coreGroup=new THREE.Group();
+var innerCoreGeo=new THREE.IcosahedronGeometry(4,2);
+var innerCoreMat=new THREE.MeshBasicMaterial({color:0xff007f,wireframe:true,transparent:true,opacity:0.8,blending:THREE.AdditiveBlending});
+var innerCore=new THREE.Mesh(innerCoreGeo,innerCoreMat);
+coreGroup.add(innerCore);
+var outerCoreGeo=new THREE.IcosahedronGeometry(6,1);
+var outerCoreMat=new THREE.MeshBasicMaterial({color:0x00f0ff,wireframe:true,transparent:true,opacity:0.4,blending:THREE.AdditiveBlending});
+var outerCore=new THREE.Mesh(outerCoreGeo,outerCoreMat);
+coreGroup.add(outerCore);
+var ringGeo=new THREE.RingGeometry(8,8.2,64);
+var ringMat=new THREE.MeshBasicMaterial({color:0x00f0ff,side:THREE.DoubleSide,transparent:true,opacity:0.5,blending:THREE.AdditiveBlending});
+var ring1=new THREE.Mesh(ringGeo,ringMat);
+ring1.rotation.x=Math.PI/2;
+coreGroup.add(ring1);
+var ring2=new THREE.Mesh(new THREE.RingGeometry(10,10.15,64),new THREE.MeshBasicMaterial({color:0xb366ff,side:THREE.DoubleSide,transparent:true,opacity:0.3,blending:THREE.AdditiveBlending}));
+ring2.rotation.y=Math.PI/2;
+coreGroup.add(ring2);
+scene.add(coreGroup);
+camera.position.z=40;
+coreGroup.position.y=2;
+var mouseX=0,mouseY=0;
+document.addEventListener('mousemove',function(e){mouseX=(e.clientX/window.innerWidth-0.5)*2;mouseY=(e.clientY/window.innerHeight-0.5)*2});
+var clock=new THREE.Clock();
+function animate(){
+  requestAnimationFrame(animate);
+  var time=clock.getElapsedTime();
+  neuralMesh.rotation.y+=0.001;neuralMesh.rotation.x+=0.0005;
+  innerCore.rotation.y-=0.01;innerCore.rotation.x-=0.005;
+  outerCore.rotation.y+=0.005;outerCore.rotation.z+=0.002;
+  ring1.rotation.z+=0.01;ring2.rotation.z-=0.008;
+  var s=1+Math.sin(time*2)*0.05;
+  coreGroup.scale.set(s,s,s);
+  neuralMesh.rotation.y+=mouseX*0.005;neuralMesh.rotation.x+=mouseY*0.005;
+  coreGroup.rotation.y+=mouseX*0.01;coreGroup.rotation.x+=mouseY*0.01;
+  var scrollY=window.scrollY,heroH=window.innerHeight,fade=Math.min(scrollY/heroH,1);
+  coreGroup.position.y=2-fade*15;
+  neuralMat.opacity=0.3*(1-fade*0.7);
+  innerCoreMat.opacity=0.8*(1-fade*0.5);
+  outerCoreMat.opacity=0.4*(1-fade*0.5);
+  renderer.render(scene,camera);
+}
+animate();
+window.addEventListener('resize',function(){camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+var twText="The most powerful local AI operating system for Windows. 123 MCP Tools, Computer Vision, and Kernel-level System Intelligence \u2014 running entirely on your machine.";
+var twEl=document.getElementById('typewriter');
+var twI=0;
+function typeWriter(){if(twI<twText.length){twEl.textContent+=twText.charAt(twI);twI++;setTimeout(typeWriter,25)}}
+setTimeout(typeWriter,600);
+document.querySelectorAll('.bento-card').forEach(function(card){card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect();card.style.setProperty('--mx',(e.clientX-r.left)+'px');card.style.setProperty('--my',(e.clientY-r.top)+'px')})});
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.stat-num[data-count]').forEach(function(el){var target=parseInt(el.dataset.count);ScrollTrigger.create({trigger:el,start:'top 85%',once:true,onEnter:function(){gsap.to({val:0},{val:target,duration:1.5,ease:'power2.out',onUpdate:function(){el.textContent=Math.round(this.targets()[0].val)}})}})});
+gsap.from('.bento-card',{y:60,opacity:0,duration:0.8,stagger:0.08,ease:'power3.out',scrollTrigger:{trigger:'.bento-grid',start:'top 85%'}});
+gsap.from('.roadmap-card',{y:40,opacity:0,duration:0.6,stagger:0.1,ease:'power3.out',scrollTrigger:{trigger:'.roadmap-grid',start:'top 85%'}});
+gsap.from('.arch-node',{scale:0.8,opacity:0,duration:0.6,stagger:0.15,ease:'back.out(1.5)',scrollTrigger:{trigger:'.arch-flow',start:'top 80%'}});
 </script>
 </body>
 </html>
