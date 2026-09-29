@@ -1,0 +1,3642 @@
+{
+  "schema": "ana.os3.self_skills.v1",
+  "engine": "self_skills_engine",
+  "generated_at": "2026-06-12T02:39:44.202348+00:00",
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "ana_max_root": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX",
+  "planned_actions": [
+    "include_area_summary",
+    "include_entrypoints",
+    "include_per_module_capabilities",
+    "include_function_and_class_totals"
+  ],
+  "summary": {
+    "module_count": 243,
+    "area_count": 26,
+    "total_functions": 916,
+    "total_classes": 188,
+    "entrypoint_count": 87,
+    "parse_error_count": 0
+  },
+  "areas": [
+    {
+      "area": "Desktop",
+      "module_count": 2,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "__init__.py",
+      "module_count": 1,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "agents",
+      "module_count": 6,
+      "function_count": 38,
+      "class_count": 7,
+      "entrypoint_count": 5
+    },
+    {
+      "area": "benchmarks",
+      "module_count": 2,
+      "function_count": 3,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "bridge",
+      "module_count": 1,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "chat_voice_bridge.py",
+      "module_count": 1,
+      "function_count": 14,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "config",
+      "module_count": 3,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "context",
+      "module_count": 3,
+      "function_count": 12,
+      "class_count": 0,
+      "entrypoint_count": 2
+    },
+    {
+      "area": "core",
+      "module_count": 15,
+      "function_count": 66,
+      "class_count": 20,
+      "entrypoint_count": 2
+    },
+    {
+      "area": "dashboard",
+      "module_count": 2,
+      "function_count": 3,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "dev_artifacts",
+      "module_count": 5,
+      "function_count": 17,
+      "class_count": 1,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "distributed",
+      "module_count": 4,
+      "function_count": 11,
+      "class_count": 3,
+      "entrypoint_count": 3
+    },
+    {
+      "area": "graph",
+      "module_count": 3,
+      "function_count": 13,
+      "class_count": 2,
+      "entrypoint_count": 2
+    },
+    {
+      "area": "kernel",
+      "module_count": 5,
+      "function_count": 16,
+      "class_count": 4,
+      "entrypoint_count": 4
+    },
+    {
+      "area": "knowledge",
+      "module_count": 5,
+      "function_count": 17,
+      "class_count": 4,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "local",
+      "module_count": 17,
+      "function_count": 120,
+      "class_count": 9,
+      "entrypoint_count": 4
+    },
+    {
+      "area": "main.py",
+      "module_count": 1,
+      "function_count": 14,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "mcp_stdio.py",
+      "module_count": 1,
+      "function_count": 8,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "orchestrators",
+      "module_count": 2,
+      "function_count": 2,
+      "class_count": 1,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "plugins",
+      "module_count": 2,
+      "function_count": 1,
+      "class_count": 3,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "proiect",
+      "module_count": 3,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "self_optimization",
+      "module_count": 42,
+      "function_count": 309,
+      "class_count": 14,
+      "entrypoint_count": 33
+    },
+    {
+      "area": "skills",
+      "module_count": 2,
+      "function_count": 3,
+      "class_count": 0,
+      "entrypoint_count": 1
+    },
+    {
+      "area": "tools",
+      "module_count": 113,
+      "function_count": 248,
+      "class_count": 120,
+      "entrypoint_count": 25
+    },
+    {
+      "area": "training",
+      "module_count": 1,
+      "function_count": 0,
+      "class_count": 0,
+      "entrypoint_count": 0
+    },
+    {
+      "area": "voice_toggle.py",
+      "module_count": 1,
+      "function_count": 1,
+      "class_count": 0,
+      "entrypoint_count": 1
+    }
+  ],
+  "entrypoints": [
+    "agents/agent_scheduler.py",
+    "agents/browser_recon_agent.py",
+    "agents/local_brain_agent.py",
+    "agents/web_recon_agent.py",
+    "agents/web_scraper_agent.py",
+    "benchmarks/perf_benchmark.py",
+    "chat_voice_bridge.py",
+    "context/context_exporter.py",
+    "context/context_injector.py",
+    "core/event_stream.py",
+    "core/mcp_server.py",
+    "dashboard/health_dashboard.py",
+    "distributed/distributed_pipeline.py",
+    "distributed/pipeline_reasoning_helper.py",
+    "distributed/pipeline_recovery.py",
+    "graph/reasoning_graph_builder.py",
+    "graph/reasoning_graph_query.py",
+    "kernel/agent_capability_registry.py",
+    "kernel/os21_baseline_lock.py",
+    "kernel/os21_finalizer.py",
+    "kernel/tool_virtualization_contracts.py",
+    "local/local_llm_backend.py",
+    "local/os22_boot.py",
+    "local/os22_doctor.py",
+    "local/rag_bridge.py",
+    "main.py",
+    "mcp_stdio.py",
+    "self_optimization/architecture_executor.py",
+    "self_optimization/cognitive_agents.py",
+    "self_optimization/compliance_engine.py",
+    "self_optimization/creative_synthesis_engine.py",
+    "self_optimization/distributed_orchestrator.py",
+    "self_optimization/ecosystem_engine.py",
+    "self_optimization/emergent_intelligence_engine.py",
+    "self_optimization/enterprise_orchestrator.py",
+    "self_optimization/error_model.py",
+    "self_optimization/fallback_engine.py",
+    "self_optimization/github_pattern_extractor.py",
+    "self_optimization/global_orchestrator.py",
+    "self_optimization/habit_routine_engine.py",
+    "self_optimization/knowledge_consolidation_v2.py",
+    "self_optimization/knowledge_graph_engine.py",
+    "self_optimization/long_horizon_planner.py",
+    "self_optimization/memory_consolidation_engine.py",
+    "self_optimization/meta_adaptation_engine.py",
+    "self_optimization/multi_agent_orchestrator.py",
+    "self_optimization/os4_daemon.py",
+    "self_optimization/personal_ai_studio.py",
+    "self_optimization/policy_engine.py",
+    "self_optimization/security_engine.py",
+    "self_optimization/self_consistency_engine.py",
+    "self_optimization/self_design_engine.py",
+    "self_optimization/self_evaluation_engine.py",
+    "self_optimization/self_evolution_engine.py",
+    "self_optimization/self_goals_engine.py",
+    "self_optimization/self_healing_engine.py",
+    "self_optimization/self_profiling_engine.py",
+    "self_optimization/self_reasoning_engine.py",
+    "self_optimization/self_skills_engine.py",
+    "self_optimization/self_structuring_engine.py",
+    "skills/skill_engine.py",
+    "tools/adb_tool.py",
+    "tools/ana_orchestrator.py",
+    "tools/ana_safe_tool_smoke_matrix.py",
+    "tools/apk_analyzer.py",
+    "tools/browser_pack.py",
+    "tools/check_tools.py",
+    "tools/code_search.py",
+    "tools/context_bridge.py",
+    "tools/event_stream_tool.py",
+    "tools/frida_automation.py",
+    "tools/list_tools.py",
+    "tools/live_debug_console.py",
+    "tools/live_voice_bridge.py",
+    "tools/memory_cortex.py",
+    "tools/proactive_interrupt.py",
+    "tools/remote_control_tool.py",
+    "tools/self_evolving_tool.py",
+    "tools/smoke_test_runner.py",
+    "tools/swarm_tool.py",
+    "tools/toolchain_discovery.py",
+    "tools/vector_memory_tool.py",
+    "tools/verify_professional_tools.py",
+    "tools/vision_fallback_tool.py",
+    "tools/watchdog.py",
+    "tools/web_scraper.py",
+    "voice_toggle.py"
+  ],
+  "skills": [
+    {
+      "module": "__init__.py",
+      "area": "__init__.py",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 2
+    },
+    {
+      "module": "agents/__init__.py",
+      "area": "agents",
+      "functions": [
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 33
+    },
+    {
+      "module": "agents/agent_scheduler.py",
+      "area": "agents",
+      "functions": [
+        "_read_json",
+        "_normalize_task",
+        "_run_from_cli"
+      ],
+      "classes": [
+        "AgentScheduler"
+      ],
+      "entrypoint": true,
+      "line_count": 229
+    },
+    {
+      "module": "agents/browser_recon_agent.py",
+      "area": "agents",
+      "functions": [
+        "_phase",
+        "_passive_phases",
+        "_active_phases",
+        "_selected_phases",
+        "build_browser_recon_plan",
+        "validate_browser_recon_plan",
+        "summarize_browser_recon_plan",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "ReconPhase",
+        "BrowserReconAgent"
+      ],
+      "entrypoint": true,
+      "line_count": 362
+    },
+    {
+      "module": "agents/local_brain_agent.py",
+      "area": "agents",
+      "functions": [
+        "_mapping",
+        "_stable_keys",
+        "_ascii_text",
+        "_is_identity_prompt",
+        "_identity_answer",
+        "_looks_like_pseudo_tool_output",
+        "_strip_output_artifacts",
+        "_repair_ascii_question_artifacts",
+        "main"
+      ],
+      "classes": [
+        "LocalBrainAgent"
+      ],
+      "entrypoint": true,
+      "line_count": 649
+    },
+    {
+      "module": "agents/web_recon_agent.py",
+      "area": "agents",
+      "functions": [
+        "_normalize_mode",
+        "_normalize_target",
+        "_unique_dicts",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "WebReconAgent"
+      ],
+      "entrypoint": true,
+      "line_count": 271
+    },
+    {
+      "module": "agents/web_scraper_agent.py",
+      "area": "agents",
+      "functions": [
+        "_phase",
+        "_normalize_mode",
+        "_normalize_targets",
+        "_passive_phases",
+        "_active_phases",
+        "_selected_phases",
+        "build_web_scraper_plan",
+        "validate_web_scraper_plan",
+        "summarize_web_scraper_plan",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "ScrapePhase",
+        "WebScraperAgent"
+      ],
+      "entrypoint": true,
+      "line_count": 374
+    },
+    {
+      "module": "benchmarks/__init__.py",
+      "area": "benchmarks",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "benchmarks/perf_benchmark.py",
+      "area": "benchmarks",
+      "functions": [
+        "percentile",
+        "output_dir",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 81
+    },
+    {
+      "module": "bridge/tool_bridge.py",
+      "area": "bridge",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "chat_voice_bridge.py",
+      "area": "chat_voice_bridge.py",
+      "functions": [
+        "speak",
+        "load_speaker",
+        "is_process_alive",
+        "acquire_single_instance_lock",
+        "release_single_instance_lock",
+        "get_clipboard_text",
+        "normalize_text",
+        "should_speak",
+        "contains_secret_words",
+        "chunk_text",
+        "speak_readout",
+        "audit_bridge_text",
+        "speak_queue",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 277
+    },
+    {
+      "module": "config/__init__.py",
+      "area": "config",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "config/local_llm_config.py",
+      "area": "config",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "config/plugins/__init__.py",
+      "area": "config",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 1
+    },
+    {
+      "module": "context/__init__.py",
+      "area": "context",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 1
+    },
+    {
+      "module": "context/context_exporter.py",
+      "area": "context",
+      "functions": [],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 24
+    },
+    {
+      "module": "context/context_injector.py",
+      "area": "context",
+      "functions": [
+        "_load_json",
+        "_report_summary",
+        "_load_os_level_reports",
+        "_level_from_name",
+        "_os_level_sort_key",
+        "_current_os_level",
+        "_bundle_summary",
+        "build_context_bundle",
+        "export_agent_bootstrap_prompt",
+        "build_export",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 202
+    },
+    {
+      "module": "core/__init__.py",
+      "area": "core",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 19
+    },
+    {
+      "module": "core/agent.py",
+      "area": "core",
+      "functions": [],
+      "classes": [
+        "BackendRoute",
+        "ANAAgent"
+      ],
+      "entrypoint": false,
+      "line_count": 544
+    },
+    {
+      "module": "core/agent_trace_schema.py",
+      "area": "core",
+      "functions": [
+        "utc_now",
+        "stable_digest",
+        "redact",
+        "make_span",
+        "validate_span"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 142
+    },
+    {
+      "module": "core/autonomous_agent.py",
+      "area": "core",
+      "functions": [],
+      "classes": [
+        "TaskStatus",
+        "TaskStep",
+        "TaskPlan",
+        "AutonomousAgent"
+      ],
+      "entrypoint": false,
+      "line_count": 1057
+    },
+    {
+      "module": "core/backends/__init__.py",
+      "area": "core",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 1
+    },
+    {
+      "module": "core/backends/ollama_backend.py",
+      "area": "core",
+      "functions": [
+        "_get_ollama_host",
+        "_get_ollama_model",
+        "init",
+        "_get_tool_registry",
+        "_clean_args",
+        "_is_read_only_request",
+        "_is_single_action_request",
+        "_is_mutating_action",
+        "_remap_local_app_open",
+        "_normalize_terminal_gui_command",
+        "_execute_tool",
+        "_select_tool_names",
+        "_router_mode_hint",
+        "_route_tool_names",
+        "_safe_compact_json",
+        "_desktop_listing",
+        "_drive_listing",
+        "_build_preflight_context",
+        "_maybe_answer_observation_query",
+        "_looks_like_creative_text_request",
+        "_save_last_creative_response",
+        "_load_last_creative_response",
+        "_maybe_handle_voice_request",
+        "_maybe_handle_local_app_open_request",
+        "_extract_search_query",
+        "_maybe_handle_search_request",
+        "_build_tools_text",
+        "_get_active_tool_count",
+        "_tool_catalog",
+        "_maybe_answer_tool_catalog_query",
+        "_normalize_text",
+        "_romania_now",
+        "_maybe_answer_current_facts",
+        "_looks_like_simple_chat",
+        "_parse_action_blocks",
+        "send"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 1357
+    },
+    {
+      "module": "core/backends/router.py",
+      "area": "core",
+      "functions": [
+        "init_backend",
+        "init_hybrid"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 53
+    },
+    {
+      "module": "core/bot_factory.py",
+      "area": "core",
+      "functions": [],
+      "classes": [
+        "BotFactory"
+      ],
+      "entrypoint": false,
+      "line_count": 188
+    },
+    {
+      "module": "core/browser_runtime.py",
+      "area": "core",
+      "functions": [
+        "get_browser_runtime"
+      ],
+      "classes": [
+        "BrowserRuntimeError",
+        "BrowserRuntime"
+      ],
+      "entrypoint": false,
+      "line_count": 528
+    },
+    {
+      "module": "core/config.py",
+      "area": "core",
+      "functions": [],
+      "classes": [
+        "Config"
+      ],
+      "entrypoint": false,
+      "line_count": 195
+    },
+    {
+      "module": "core/event_stream.py",
+      "area": "core",
+      "functions": [
+        "_topic_matches",
+        "_default_db_path",
+        "_normalize_event_type",
+        "_safe_json_loads",
+        "get_event_stream"
+      ],
+      "classes": [
+        "EventType",
+        "BusEvent",
+        "EventLog",
+        "EventBus",
+        "EventStream"
+      ],
+      "entrypoint": true,
+      "line_count": 546
+    },
+    {
+      "module": "core/mcp_server.py",
+      "area": "core",
+      "functions": [
+        "get_mcp_server",
+        "health",
+        "status",
+        "http_tools_list",
+        "tool_endpoint",
+        "dashboard",
+        "_get_ana_agent_fallback",
+        "mcp_handler",
+        "run_flask",
+        "start_mcp_with_bridge"
+      ],
+      "classes": [
+        "MCPServer",
+        "AdalBridge"
+      ],
+      "entrypoint": true,
+      "line_count": 572
+    },
+    {
+      "module": "core/smart_search.py",
+      "area": "core",
+      "functions": [
+        "get_search_engine"
+      ],
+      "classes": [
+        "SmartSearchEngine"
+      ],
+      "entrypoint": false,
+      "line_count": 645
+    },
+    {
+      "module": "core/testing/__init__.py",
+      "area": "core",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "core/vector_memory.py",
+      "area": "core",
+      "functions": [
+        "_workspace_root",
+        "_module_root",
+        "_resolve_db_path",
+        "_normalize_tags",
+        "_normalize_metadata",
+        "get_vector_memory"
+      ],
+      "classes": [
+        "SimpleEmbeddingModel",
+        "VectorMemoryCortex"
+      ],
+      "entrypoint": false,
+      "line_count": 487
+    },
+    {
+      "module": "dashboard/__init__.py",
+      "area": "dashboard",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 3
+    },
+    {
+      "module": "dashboard/health_dashboard.py",
+      "area": "dashboard",
+      "functions": [
+        "get_json",
+        "output_dir",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 151
+    },
+    {
+      "module": "Desktop/__init__.py",
+      "area": "Desktop",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "Desktop/test_qoder/__init__.py",
+      "area": "Desktop",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "dev_artifacts/__init__.py",
+      "area": "dev_artifacts",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "dev_artifacts/scripts/__init__.py",
+      "area": "dev_artifacts",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "dev_artifacts/scripts/ana_binary_map.py",
+      "area": "dev_artifacts",
+      "functions": [
+        "_detect_format",
+        "parse_binary"
+      ],
+      "classes": [
+        "BinaryMapResult"
+      ],
+      "entrypoint": false,
+      "line_count": 45
+    },
+    {
+      "module": "dev_artifacts/scripts/ana_code_map.py",
+      "area": "dev_artifacts",
+      "functions": [
+        "_now",
+        "_iter_files",
+        "_summarize",
+        "refresh",
+        "_load",
+        "stats",
+        "query"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 105
+    },
+    {
+      "module": "dev_artifacts/scripts/ana_graph_map.py",
+      "area": "dev_artifacts",
+      "functions": [
+        "_now",
+        "_load_code_map",
+        "build_graph",
+        "_load_graph",
+        "stats",
+        "query_graph",
+        "path_query",
+        "blast_radius"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 98
+    },
+    {
+      "module": "distributed/__init__.py",
+      "area": "distributed",
+      "functions": [
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 19
+    },
+    {
+      "module": "distributed/distributed_pipeline.py",
+      "area": "distributed",
+      "functions": [
+        "_read_json",
+        "_task_blueprint",
+        "_run_from_cli"
+      ],
+      "classes": [
+        "DistributedPipelineSkeleton"
+      ],
+      "entrypoint": true,
+      "line_count": 248
+    },
+    {
+      "module": "distributed/pipeline_reasoning_helper.py",
+      "area": "distributed",
+      "functions": [
+        "_list_count",
+        "main"
+      ],
+      "classes": [
+        "PipelineReasoningHelper"
+      ],
+      "entrypoint": true,
+      "line_count": 136
+    },
+    {
+      "module": "distributed/pipeline_recovery.py",
+      "area": "distributed",
+      "functions": [
+        "_as_string_list",
+        "_dedupe_in_order",
+        "_node_ref_from_shard",
+        "_pipeline_dict",
+        "_run_from_cli"
+      ],
+      "classes": [
+        "PipelineRecoveryPlanner"
+      ],
+      "entrypoint": true,
+      "line_count": 347
+    },
+    {
+      "module": "graph/__init__.py",
+      "area": "graph",
+      "functions": [
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 15
+    },
+    {
+      "module": "graph/reasoning_graph_builder.py",
+      "area": "graph",
+      "functions": [
+        "_read_json",
+        "_unique_by_key",
+        "_unique_edges",
+        "_normalized_capsule",
+        "_run_from_cli"
+      ],
+      "classes": [
+        "ReasoningGraphBuilder"
+      ],
+      "entrypoint": true,
+      "line_count": 435
+    },
+    {
+      "module": "graph/reasoning_graph_query.py",
+      "area": "graph",
+      "functions": [
+        "_as_graph",
+        "_nodes",
+        "_edges",
+        "_normalize_prefixed_id",
+        "_sort_nodes",
+        "_sort_edges",
+        "_run_from_cli"
+      ],
+      "classes": [
+        "ReasoningGraphQuery"
+      ],
+      "entrypoint": true,
+      "line_count": 288
+    },
+    {
+      "module": "kernel/__init__.py",
+      "area": "kernel",
+      "functions": [
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 28
+    },
+    {
+      "module": "kernel/agent_capability_registry.py",
+      "area": "kernel",
+      "functions": [
+        "_normalize_agent_id",
+        "_normalize_list",
+        "_capability_id",
+        "_capability_record",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "AgentCapabilityRegistry"
+      ],
+      "entrypoint": true,
+      "line_count": 391
+    },
+    {
+      "module": "kernel/os21_baseline_lock.py",
+      "area": "kernel",
+      "functions": [
+        "_schema_status",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "OS21BaselineLock"
+      ],
+      "entrypoint": true,
+      "line_count": 216
+    },
+    {
+      "module": "kernel/os21_finalizer.py",
+      "area": "kernel",
+      "functions": [
+        "run",
+        "main"
+      ],
+      "classes": [
+        "OS21Finalizer"
+      ],
+      "entrypoint": true,
+      "line_count": 242
+    },
+    {
+      "module": "kernel/tool_virtualization_contracts.py",
+      "area": "kernel",
+      "functions": [
+        "_as_mapping",
+        "_payload_keys",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "ToolVirtualizationContracts"
+      ],
+      "entrypoint": true,
+      "line_count": 303
+    },
+    {
+      "module": "knowledge/__init__.py",
+      "area": "knowledge",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 8
+    },
+    {
+      "module": "knowledge/capsule_merge.py",
+      "area": "knowledge",
+      "functions": [
+        "_normalize_value",
+        "_coerce_capsule",
+        "_item_key",
+        "_merge_lists",
+        "_path_join",
+        "_changed",
+        "_capsule_ref"
+      ],
+      "classes": [
+        "CapsuleMergeEngine"
+      ],
+      "entrypoint": false,
+      "line_count": 209
+    },
+    {
+      "module": "knowledge/capsule_schema.py",
+      "area": "knowledge",
+      "functions": [
+        "_normalize_value",
+        "_as_dict",
+        "_as_tuple_of_strings"
+      ],
+      "classes": [
+        "ReconCapsuleSchema"
+      ],
+      "entrypoint": false,
+      "line_count": 134
+    },
+    {
+      "module": "knowledge/capsule_store.py",
+      "area": "knowledge",
+      "functions": [
+        "_normalize_value",
+        "_coerce_capsule",
+        "_merge_lists",
+        "_merge_values"
+      ],
+      "classes": [
+        "CapsuleStore"
+      ],
+      "entrypoint": false,
+      "line_count": 155
+    },
+    {
+      "module": "knowledge/capsule_sync.py",
+      "area": "knowledge",
+      "functions": [
+        "_coerce_capsule",
+        "_capsule_map",
+        "_fingerprint"
+      ],
+      "classes": [
+        "CapsuleSyncEngine"
+      ],
+      "entrypoint": false,
+      "line_count": 169
+    },
+    {
+      "module": "local/__init__.py",
+      "area": "local",
+      "functions": [
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 123
+    },
+    {
+      "module": "local/agent_boot_banner.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_status",
+        "_nested",
+        "build_agent_boot_banner"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 77
+    },
+    {
+      "module": "local/agent_foundation.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "load_agent_foundation",
+        "summarize_agent_foundation",
+        "get_agent_foundation_status",
+        "_is_ascii_safe"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 95
+    },
+    {
+      "module": "local/agent_self_healing.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_log_healing_event",
+        "_with_telemetry",
+        "_tool_contracts",
+        "_resolve_workspace_path",
+        "diagnose_tool_request",
+        "_score_memory_item",
+        "_as_float",
+        "resolve_rag_conflicts",
+        "_query_terms",
+        "diagnose_rag_context",
+        "classify_text_issue",
+        "stabilize_reasoning_text",
+        "preflight_diagnostics",
+        "get_self_healing_status",
+        "parse_json_args"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 410
+    },
+    {
+      "module": "local/chat_response_coach.py",
+      "area": "local",
+      "functions": [
+        "_ascii_lower",
+        "_has_any",
+        "_is_rag_question",
+        "_is_collaboration_prompt",
+        "_is_greeting_prompt",
+        "_is_polite_status_prompt",
+        "_quality_issues",
+        "coach_chat_response"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 95
+    },
+    {
+      "module": "local/conversation_context.py",
+      "area": "local",
+      "functions": [
+        "ascii_text",
+        "compact_line"
+      ],
+      "classes": [
+        "ConversationTurn",
+        "ConversationMemory"
+      ],
+      "entrypoint": false,
+      "line_count": 73
+    },
+    {
+      "module": "local/local_llm_backend.py",
+      "area": "local",
+      "functions": [
+        "_ascii_error",
+        "_safe_int",
+        "_safe_float",
+        "_safe_bool",
+        "_ascii_text",
+        "_load_env_file",
+        "_env_value",
+        "main"
+      ],
+      "classes": [
+        "_TransformersGGUFSession",
+        "_LlamaCppSession",
+        "LocalLLMConfig",
+        "LocalLLMBackend"
+      ],
+      "entrypoint": true,
+      "line_count": 697
+    },
+    {
+      "module": "local/operator_intent_router.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_contains_all",
+        "_extract_script_name",
+        "_extract_folder_name",
+        "_desktop_python_script_intent",
+        "_extract_desktop_file_name",
+        "_extract_desktop_file_folder",
+        "_desktop_read_text_file_intent",
+        "_format_desktop_items",
+        "_extract_desktop_folder_inspection_name",
+        "_format_desktop_folder_items",
+        "_desktop_folder_inspection_intent",
+        "_desktop_inventory_intent",
+        "_open_calculator_intent",
+        "_open_named_app_intent",
+        "_extract_web_search_query",
+        "_browser_from_prompt",
+        "_search_engine_from_prompt",
+        "_browser_search_read_intent",
+        "_extract_first_url",
+        "_web_learn_url_intent",
+        "_web_learn_course_intent",
+        "_extract_desktop_report_name",
+        "_course_report_text",
+        "_browser_from_prompt_for_open",
+        "_web_course_extract_save_learn_intent",
+        "_desktop_screenshot_and_calculator_intent",
+        "_gb",
+        "_format_full_system_report",
+        "_full_system_report_intent",
+        "_process_inventory_intent",
+        "_installed_apps_intent",
+        "_frida_status_intent",
+        "_simple_math_intent",
+        "route_operator_intent"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 954
+    },
+    {
+      "module": "local/os22_boot.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_safe_list",
+        "_health_score",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "OS22BootSequence"
+      ],
+      "entrypoint": true,
+      "line_count": 298
+    },
+    {
+      "module": "local/os22_doctor.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_check",
+        "run_os22_doctor",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 196
+    },
+    {
+      "module": "local/prompt_engine.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "compose_system_prompt",
+        "get_tool_specs"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 40
+    },
+    {
+      "module": "local/prompt_profiles.py",
+      "area": "local",
+      "functions": [
+        "normalize_profile_name",
+        "available_prompt_profiles",
+        "get_profile",
+        "get_system_prompt",
+        "compose_system_prompt"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 322
+    },
+    {
+      "module": "local/rag_bridge.py",
+      "area": "local",
+      "functions": [
+        "_normalize_tags",
+        "get_rag_bridge"
+      ],
+      "classes": [
+        "RAGBridge"
+      ],
+      "entrypoint": true,
+      "line_count": 141
+    },
+    {
+      "module": "local/rag_prompt_policy.py",
+      "area": "local",
+      "functions": [
+        "_ascii_lower",
+        "should_use_rag_for_prompt",
+        "summarize_rag_prompt_policy"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 55
+    },
+    {
+      "module": "local/tool_dispatcher.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "_resolve_workspace_path",
+        "parse_tool_call",
+        "_result_text",
+        "execute_tool"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 438
+    },
+    {
+      "module": "local/tool_prompt_policy.py",
+      "area": "local",
+      "functions": [
+        "_ascii_lower",
+        "_has_any",
+        "select_tools_for_prompt",
+        "render_tool_specs",
+        "get_tool_specs_for_prompt",
+        "summarize_tool_prompt_policy"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 180
+    },
+    {
+      "module": "local/tool_telemetry.py",
+      "area": "local",
+      "functions": [
+        "_ascii_text",
+        "log_tool_event",
+        "read_tool_telemetry",
+        "read_event_stream_tool_telemetry",
+        "merge_tool_telemetry",
+        "summarize_tool_telemetry",
+        "load_tool_telemetry",
+        "build_tool_telemetry_report"
+      ],
+      "classes": [
+        "ToolEvent"
+      ],
+      "entrypoint": false,
+      "line_count": 185
+    },
+    {
+      "module": "main.py",
+      "area": "main.py",
+      "functions": [
+        "_signal_handler",
+        "_is_vscode_agent_session",
+        "_compact_agent_output",
+        "_print_tool_load",
+        "_load_tool_class",
+        "_build_runtime_agent",
+        "_build_parser",
+        "_print_banner",
+        "_configure_logging",
+        "_register_all_tools",
+        "_list_tools",
+        "_run_tests",
+        "_start_mcp_server",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 1275
+    },
+    {
+      "module": "mcp_stdio.py",
+      "area": "mcp_stdio.py",
+      "functions": [
+        "_validate_path",
+        "_validate_command",
+        "_sanitize_string",
+        "load_tools",
+        "_ensure_tools_loaded",
+        "_tool_schema",
+        "handle_request",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 346
+    },
+    {
+      "module": "orchestrators/__init__.py",
+      "area": "orchestrators",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 6
+    },
+    {
+      "module": "orchestrators/web_recon_orchestrator.py",
+      "area": "orchestrators",
+      "functions": [
+        "_json_key",
+        "_unique_items"
+      ],
+      "classes": [
+        "WebReconOrchestrator"
+      ],
+      "entrypoint": false,
+      "line_count": 182
+    },
+    {
+      "module": "plugins/__init__.py",
+      "area": "plugins",
+      "functions": [
+        "create_plugin_template"
+      ],
+      "classes": [
+        "PluginMetadata",
+        "Plugin",
+        "PluginManager"
+      ],
+      "entrypoint": false,
+      "line_count": 284
+    },
+    {
+      "module": "plugins/examples/__init__.py",
+      "area": "plugins",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "proiect/__init__.py",
+      "area": "proiect",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "proiect/browser_launcher.py",
+      "area": "proiect",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "proiect/index.py",
+      "area": "proiect",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 2
+    },
+    {
+      "module": "self_optimization/__init__.py",
+      "area": "self_optimization",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 2
+    },
+    {
+      "module": "self_optimization/anticipation_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "build_anticipation"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 53
+    },
+    {
+      "module": "self_optimization/architecture_executor.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_load_inputs",
+        "_graph_metrics",
+        "_candidate_proposals",
+        "_simulation",
+        "_verification",
+        "_level_report",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 236
+    },
+    {
+      "module": "self_optimization/cognitive_agents.py",
+      "area": "self_optimization",
+      "functions": [
+        "_agents",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 145
+    },
+    {
+      "module": "self_optimization/compliance_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_load_inputs",
+        "_violations",
+        "_verification",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 138
+    },
+    {
+      "module": "self_optimization/creative_synthesis_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_proposals",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 145
+    },
+    {
+      "module": "self_optimization/distributed_orchestrator.py",
+      "area": "self_optimization",
+      "functions": [
+        "_node_templates",
+        "_edge_templates",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 181
+    },
+    {
+      "module": "self_optimization/ecosystem_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_ecosystem_graph",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 117
+    },
+    {
+      "module": "self_optimization/emergent_behavior_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "build_emergent_behavior"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 49
+    },
+    {
+      "module": "self_optimization/emergent_intelligence_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_report_summary",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 139
+    },
+    {
+      "module": "self_optimization/emotional_mapping.py",
+      "area": "self_optimization",
+      "functions": [
+        "map_emotional_state"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 47
+    },
+    {
+      "module": "self_optimization/enterprise_orchestrator.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_inputs",
+        "_unwrap_level_report",
+        "_to_int",
+        "_enterprise_policies",
+        "_snapshot",
+        "_verification",
+        "_level_report",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 258
+    },
+    {
+      "module": "self_optimization/error_model.py",
+      "area": "self_optimization",
+      "functions": [
+        "validate",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 40
+    },
+    {
+      "module": "self_optimization/fallback_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "validate",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 40
+    },
+    {
+      "module": "self_optimization/github_pattern_extractor.py",
+      "area": "self_optimization",
+      "functions": [
+        "main"
+      ],
+      "classes": [
+        "Pattern",
+        "IntegrationProposal",
+        "GitHubPatternExtractor"
+      ],
+      "entrypoint": true,
+      "line_count": 350
+    },
+    {
+      "module": "self_optimization/global_orchestrator.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_load_inputs",
+        "_layer_snapshot",
+        "_detect_drift",
+        "_verification",
+        "_level_report",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 194
+    },
+    {
+      "module": "self_optimization/habit_routine_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_scan_text_file",
+        "_scan_memory_file",
+        "_extract_commands",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 177
+    },
+    {
+      "module": "self_optimization/knowledge_consolidation_v2.py",
+      "area": "self_optimization",
+      "functions": [
+        "_topic_clusters",
+        "_trend_summary",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 144
+    },
+    {
+      "module": "self_optimization/knowledge_graph_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "main"
+      ],
+      "classes": [
+        "Node",
+        "Edge",
+        "KnowledgeGraph",
+        "KnowledgeGraphEngine"
+      ],
+      "entrypoint": true,
+      "line_count": 470
+    },
+    {
+      "module": "self_optimization/long_horizon_planner.py",
+      "area": "self_optimization",
+      "functions": [
+        "_planned_steps",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 117
+    },
+    {
+      "module": "self_optimization/memory_consolidation_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_inputs",
+        "_summary",
+        "_goal_ids",
+        "_strategy_phase_order",
+        "_extract_signals",
+        "_apply_preferences",
+        "_apply_long_term",
+        "consolidate",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 373
+    },
+    {
+      "module": "self_optimization/memory_context.py",
+      "area": "self_optimization",
+      "functions": [
+        "_normalize_core_memory",
+        "_normalize_system_report",
+        "load_core_memory",
+        "save_core_memory",
+        "build_memory_context",
+        "memory_context_summary",
+        "get_preference",
+        "get_pattern",
+        "get_long_term",
+        "load_memory_system_report",
+        "update_memory_system_report"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 190
+    },
+    {
+      "module": "self_optimization/meta_adaptation_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_load_inputs",
+        "_history_files",
+        "_load_history",
+        "_current_metrics",
+        "_trend_lines",
+        "_strategy_delta",
+        "_decisions",
+        "_verification",
+        "_level_report",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 292
+    },
+    {
+      "module": "self_optimization/meta_reasoning.py",
+      "area": "self_optimization",
+      "functions": [
+        "build_meta_reasoning"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 61
+    },
+    {
+      "module": "self_optimization/multi_agent_orchestrator.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_json",
+        "_extract_payload",
+        "_run_module",
+        "main"
+      ],
+      "classes": [
+        "AgentTask",
+        "SharedState",
+        "MultiAgentOrchestrator"
+      ],
+      "entrypoint": true,
+      "line_count": 557
+    },
+    {
+      "module": "self_optimization/os3_common.py",
+      "area": "self_optimization",
+      "functions": [
+        "print_raw_json",
+        "ensure_dir"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 29
+    },
+    {
+      "module": "self_optimization/os4_daemon.py",
+      "area": "self_optimization",
+      "functions": [
+        "_memory_section",
+        "_utc_now",
+        "_extract_payload",
+        "_run_phase",
+        "_append_heartbeat",
+        "_write_report",
+        "run_daemon",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 238
+    },
+    {
+      "module": "self_optimization/osx_common.py",
+      "area": "self_optimization",
+      "functions": [
+        "utc_now",
+        "ensure_dir",
+        "read_json",
+        "write_json",
+        "read_text"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 59
+    },
+    {
+      "module": "self_optimization/osx_level_common.py",
+      "area": "self_optimization",
+      "functions": [
+        "utc_now",
+        "ensure_dir",
+        "read_json",
+        "write_json",
+        "emit_raw_json",
+        "load_memory_context",
+        "memory_context_summary",
+        "build_memory_snapshot",
+        "baseline_metrics",
+        "agent_registry_snapshot",
+        "level_report_path",
+        "build_level_report",
+        "write_level_report"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 188
+    },
+    {
+      "module": "self_optimization/personal_ai_studio.py",
+      "area": "self_optimization",
+      "functions": [
+        "_context_bundle",
+        "_agent_bootstrap_prompt",
+        "_load_level_reports",
+        "_final_summary",
+        "run_cycle",
+        "_stdout_view",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 189
+    },
+    {
+      "module": "self_optimization/policy_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_load_inputs",
+        "_build_policies",
+        "_system_policies_payload",
+        "_verification",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 205
+    },
+    {
+      "module": "self_optimization/security_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_inputs",
+        "_violations",
+        "_safe_cycles",
+        "_risky_marker_detected",
+        "_verification",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 160
+    },
+    {
+      "module": "self_optimization/self_consistency_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_inputs",
+        "_summary",
+        "_recent_history",
+        "_latest_metrics",
+        "_contradictions",
+        "_regressions",
+        "_recommendations",
+        "_verification",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 316
+    },
+    {
+      "module": "self_optimization/self_design_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_design_proposals",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 133
+    },
+    {
+      "module": "self_optimization/self_evaluation_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_utc_now",
+        "setup_logger",
+        "_read_json",
+        "observe",
+        "analyze",
+        "plan",
+        "act",
+        "verify",
+        "document",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 340
+    },
+    {
+      "module": "self_optimization/self_evolution_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_clean_text",
+        "_extract_json_output",
+        "_print_raw_json",
+        "_load_json_file",
+        "_load_memory_context",
+        "_memory_context_summary",
+        "_priority_rank",
+        "_memory_phase_order",
+        "_order_plan_steps",
+        "_run_engine",
+        "main"
+      ],
+      "classes": [
+        "EvolutionStep",
+        "EvolutionPlan",
+        "SelfEvolutionEngine"
+      ],
+      "entrypoint": true,
+      "line_count": 993
+    },
+    {
+      "module": "self_optimization/self_goals_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_to_int",
+        "_to_float",
+        "_goal_status",
+        "load_inputs",
+        "_eval_summary",
+        "_daemon_summary",
+        "_graph_metadata",
+        "_default_goals",
+        "_merge_existing_goals",
+        "_build_metrics",
+        "_build_goal_report",
+        "_build_strategy_report",
+        "_load_existing_goal_artifacts",
+        "_verify",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [
+        "GoalRecord"
+      ],
+      "entrypoint": true,
+      "line_count": 537
+    },
+    {
+      "module": "self_optimization/self_healing_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_utc_now",
+        "setup_logger",
+        "_rel_path",
+        "_abs_path",
+        "_should_skip_path",
+        "observe",
+        "_extract_imports",
+        "_module_to_candidate_paths",
+        "_is_probable_stdlib",
+        "_find_missing_modules",
+        "_find_duplicate_modules",
+        "analyze",
+        "plan",
+        "_compile_file",
+        "_can_parse_python",
+        "_minimal_syntax_fix",
+        "_backup_file",
+        "_archive_duplicate",
+        "act_detect",
+        "_build_detection_report",
+        "act_repair",
+        "verify",
+        "verify_repair",
+        "document",
+        "run_cycle",
+        "run_repair",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 1027
+    },
+    {
+      "module": "self_optimization/self_profiling_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_utc_now",
+        "_should_skip_dir",
+        "setup_logger",
+        "observe",
+        "analyze",
+        "plan",
+        "act",
+        "verify",
+        "document",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 330
+    },
+    {
+      "module": "self_optimization/self_reasoning_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_load_memory_context",
+        "_memory_context_summary",
+        "_get_preference",
+        "_utc_now",
+        "_read_json",
+        "_read_text_summary",
+        "observe",
+        "analyze",
+        "verify",
+        "document",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 554
+    },
+    {
+      "module": "self_optimization/self_skills_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_utc_now",
+        "setup_logger",
+        "_area_for_path",
+        "_parse_python_file",
+        "observe",
+        "analyze",
+        "plan",
+        "act",
+        "verify",
+        "document",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 328
+    },
+    {
+      "module": "self_optimization/self_structuring_engine.py",
+      "area": "self_optimization",
+      "functions": [
+        "_utc_now",
+        "setup_logger",
+        "_iter_package_dirs",
+        "_should_skip_dir",
+        "observe",
+        "analyze",
+        "plan",
+        "act",
+        "verify",
+        "document",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 340
+    },
+    {
+      "module": "skills/__init__.py",
+      "area": "skills",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 1
+    },
+    {
+      "module": "skills/skill_engine.py",
+      "area": "skills",
+      "functions": [
+        "run_skill",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 43
+    },
+    {
+      "module": "tools/__init__.py",
+      "area": "tools",
+      "functions": [
+        "load_tool",
+        "__getattr__"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 120
+    },
+    {
+      "module": "tools/adal_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "AdaLTool"
+      ],
+      "entrypoint": false,
+      "line_count": 110
+    },
+    {
+      "module": "tools/adb_tool.py",
+      "area": "tools",
+      "functions": [
+        "smoke_test"
+      ],
+      "classes": [
+        "ADBTool"
+      ],
+      "entrypoint": true,
+      "line_count": 446
+    },
+    {
+      "module": "tools/advanced_scanner.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "AdvancedScannerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 40
+    },
+    {
+      "module": "tools/agent_coach_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "AgentCoachTool"
+      ],
+      "entrypoint": false,
+      "line_count": 640
+    },
+    {
+      "module": "tools/ana_context_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "AnaContextTool"
+      ],
+      "entrypoint": false,
+      "line_count": 69
+    },
+    {
+      "module": "tools/ana_orchestrator.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "Step",
+        "TaskResult",
+        "AnaOrchestrator"
+      ],
+      "entrypoint": true,
+      "line_count": 1149
+    },
+    {
+      "module": "tools/ana_runtime_inspector.py",
+      "area": "tools",
+      "functions": [
+        "_sha256",
+        "_file_hashes",
+        "_psutil_module",
+        "_port_snapshot",
+        "_bridge_pid",
+        "_iter_files",
+        "_snapshot",
+        "_compare_envs",
+        "run"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 160
+    },
+    {
+      "module": "tools/ana_safe_tool_smoke_matrix.py",
+      "area": "tools",
+      "functions": [
+        "post_json",
+        "compact",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 231
+    },
+    {
+      "module": "tools/apk_analyzer.py",
+      "area": "tools",
+      "functions": [
+        "smoke_test"
+      ],
+      "classes": [
+        "APKAnalyzerTool"
+      ],
+      "entrypoint": true,
+      "line_count": 599
+    },
+    {
+      "module": "tools/autonomous_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "AutonomousTool"
+      ],
+      "entrypoint": false,
+      "line_count": 67
+    },
+    {
+      "module": "tools/base.py",
+      "area": "tools",
+      "functions": [
+        "_is_vscode_agent_session",
+        "_summarize_value",
+        "_summarize_kwargs",
+        "_compact_error",
+        "_auto_guidance_enabled",
+        "_is_bool_like",
+        "_matches_param_type",
+        "_permission_manifest_paths",
+        "_load_permission_manifest",
+        "_profile_allows_tool",
+        "_log_observability",
+        "_emit_observability_event",
+        "_normalize_tool_params"
+      ],
+      "classes": [
+        "ToolStatus",
+        "ToolResult",
+        "ToolParameter",
+        "ToolDefinition",
+        "Tool",
+        "ToolRegistry"
+      ],
+      "entrypoint": false,
+      "line_count": 891
+    },
+    {
+      "module": "tools/binary_map_tool.py",
+      "area": "tools",
+      "functions": [
+        "_load_binary_map_module"
+      ],
+      "classes": [
+        "BinaryMapTool"
+      ],
+      "entrypoint": false,
+      "line_count": 65
+    },
+    {
+      "module": "tools/browser_control.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "BrowserControlTool"
+      ],
+      "entrypoint": false,
+      "line_count": 523
+    },
+    {
+      "module": "tools/browser_pack.py",
+      "area": "tools",
+      "functions": [
+        "_tool_contract_map",
+        "build_browser_pack_manifest",
+        "validate_browser_pack",
+        "summarize_browser_pack",
+        "run",
+        "main"
+      ],
+      "classes": [
+        "ToolContract"
+      ],
+      "entrypoint": true,
+      "line_count": 312
+    },
+    {
+      "module": "tools/browser_search_tools.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_text",
+        "build_search_url",
+        "summarize_search_text",
+        "browser_search_read",
+        "dumps_result"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 128
+    },
+    {
+      "module": "tools/check_tools.py",
+      "area": "tools",
+      "functions": [
+        "check_tool"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 26
+    },
+    {
+      "module": "tools/clipboard_manager.py",
+      "area": "tools",
+      "functions": [
+        "run",
+        "_get_clipboard",
+        "_set_clipboard",
+        "_get_history",
+        "_clear_history",
+        "_transform_clipboard",
+        "_start_monitor",
+        "_stop_monitor"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 224
+    },
+    {
+      "module": "tools/code.py",
+      "area": "tools",
+      "functions": [
+        "analyze_code",
+        "run_code"
+      ],
+      "classes": [
+        "CodeTool"
+      ],
+      "entrypoint": false,
+      "line_count": 501
+    },
+    {
+      "module": "tools/code_context_pack_tool.py",
+      "area": "tools",
+      "functions": [
+        "_load_code_map_module",
+        "_load_graph_map_module",
+        "_text",
+        "_tokens",
+        "_candidate_terms",
+        "_compact_snapshot",
+        "_prefer_graph_files"
+      ],
+      "classes": [
+        "CodeContextPackTool"
+      ],
+      "entrypoint": false,
+      "line_count": 215
+    },
+    {
+      "module": "tools/code_search.py",
+      "area": "tools",
+      "functions": [
+        "smoke_test"
+      ],
+      "classes": [
+        "CodeSearchTool"
+      ],
+      "entrypoint": true,
+      "line_count": 579
+    },
+    {
+      "module": "tools/codebase_understanding_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "CodebaseUnderstandingTool"
+      ],
+      "entrypoint": false,
+      "line_count": 83
+    },
+    {
+      "module": "tools/context_bridge.py",
+      "area": "tools",
+      "functions": [
+        "inject_context_into_orchestrator"
+      ],
+      "classes": [
+        "WorkingContext",
+        "ContextBridge"
+      ],
+      "entrypoint": true,
+      "line_count": 994
+    },
+    {
+      "module": "tools/context_engine.py",
+      "area": "tools",
+      "functions": [
+        "_get_foreground_window",
+        "_get_visible_windows",
+        "_get_clipboard_preview",
+        "_get_processes",
+        "_get_perf",
+        "_classify_activity",
+        "_mem_store",
+        "_mem_get",
+        "_load_long_term_patterns",
+        "_save_long_term_patterns",
+        "_save_session_summary",
+        "_learn_from_log",
+        "_win_notify",
+        "_speak",
+        "_notify_user",
+        "_detect_intents",
+        "apply_feedback",
+        "register_feedback_callback",
+        "_observer_loop",
+        "start_observing",
+        "stop_observing",
+        "get_current_context",
+        "predict_intent",
+        "_build_summary",
+        "get_session_summary",
+        "record_action",
+        "run"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 709
+    },
+    {
+      "module": "tools/conversation_audit.py",
+      "area": "tools",
+      "functions": [
+        "now_iso",
+        "normalize_text",
+        "redact_private_text",
+        "contains_sensitive_words",
+        "_digest",
+        "_compact_metadata",
+        "build_conversation_entry",
+        "append_conversation_audit",
+        "_parse_ts",
+        "read_conversation_entries",
+        "summarize_conversation_audit"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 194
+    },
+    {
+      "module": "tools/conversation_learning_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ConversationLearningTool"
+      ],
+      "entrypoint": false,
+      "line_count": 159
+    },
+    {
+      "module": "tools/debug_tools.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 20
+    },
+    {
+      "module": "tools/debugger_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "DebuggerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 127
+    },
+    {
+      "module": "tools/desktop_capture.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "DesktopCaptureTool"
+      ],
+      "entrypoint": false,
+      "line_count": 472
+    },
+    {
+      "module": "tools/desktop_control_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "DesktopControlTool"
+      ],
+      "entrypoint": false,
+      "line_count": 256
+    },
+    {
+      "module": "tools/desktop_workspace.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_text",
+        "_safe_name",
+        "_desktop_dir",
+        "_is_hidden",
+        "_path_kind",
+        "_iso_modified",
+        "_file_size",
+        "_child_count",
+        "_desktop_item",
+        "list_desktop_items",
+        "inspect_desktop_folder",
+        "read_desktop_text_file",
+        "write_desktop_text_file",
+        "_default_script_content",
+        "create_desktop_python_script"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 542
+    },
+    {
+      "module": "tools/devtools_manager.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "DevToolsManager"
+      ],
+      "entrypoint": false,
+      "line_count": 60
+    },
+    {
+      "module": "tools/edge_tts_voice.py",
+      "area": "tools",
+      "functions": [
+        "_get_live_speak"
+      ],
+      "classes": [
+        "EdgeTTSVoice"
+      ],
+      "entrypoint": false,
+      "line_count": 246
+    },
+    {
+      "module": "tools/edit_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "EditTool"
+      ],
+      "entrypoint": false,
+      "line_count": 158
+    },
+    {
+      "module": "tools/error_radar_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ErrorRadarTool"
+      ],
+      "entrypoint": false,
+      "line_count": 201
+    },
+    {
+      "module": "tools/event_stream_tool.py",
+      "area": "tools",
+      "functions": [
+        "_as_int"
+      ],
+      "classes": [
+        "EventStreamTool"
+      ],
+      "entrypoint": true,
+      "line_count": 245
+    },
+    {
+      "module": "tools/EXTINDERE_TOOL_CALLING.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 232
+    },
+    {
+      "module": "tools/file_patch_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "FilePatchTool"
+      ],
+      "entrypoint": false,
+      "line_count": 98
+    },
+    {
+      "module": "tools/files.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "FilesTool"
+      ],
+      "entrypoint": false,
+      "line_count": 485
+    },
+    {
+      "module": "tools/foreground_ui_snapshot.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ForegroundUISnapshotTool"
+      ],
+      "entrypoint": false,
+      "line_count": 298
+    },
+    {
+      "module": "tools/frida_automation.py",
+      "area": "tools",
+      "functions": [
+        "smoke_test"
+      ],
+      "classes": [
+        "FridaTool"
+      ],
+      "entrypoint": true,
+      "line_count": 515
+    },
+    {
+      "module": "tools/git_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "GitTool"
+      ],
+      "entrypoint": false,
+      "line_count": 163
+    },
+    {
+      "module": "tools/graph_context_pack_tool.py",
+      "area": "tools",
+      "functions": [
+        "_load_module",
+        "_bool"
+      ],
+      "classes": [
+        "GraphContextPackTool"
+      ],
+      "entrypoint": false,
+      "line_count": 150
+    },
+    {
+      "module": "tools/hardware_scanner_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "HardwareScannerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 146
+    },
+    {
+      "module": "tools/IMPLEMENTARE_TOOL_CALLING_OLLAMA.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 270
+    },
+    {
+      "module": "tools/input_api_probe_tool.py",
+      "area": "tools",
+      "functions": [
+        "_load_spec_module",
+        "_authorized_targets",
+        "_is_authorized"
+      ],
+      "classes": [
+        "InputApiProbeTool"
+      ],
+      "entrypoint": false,
+      "line_count": 222
+    },
+    {
+      "module": "tools/list_all_tools.py",
+      "area": "tools",
+      "functions": [
+        "mcp_call"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 17
+    },
+    {
+      "module": "tools/list_tools.py",
+      "area": "tools",
+      "functions": [
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 71
+    },
+    {
+      "module": "tools/live_debug_console.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "LiveDebugConsoleTool"
+      ],
+      "entrypoint": true,
+      "line_count": 112
+    },
+    {
+      "module": "tools/live_desktop_viewer.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "DesktopStreamHandler",
+        "ThreadedHTTPServer",
+        "LiveDesktopViewerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 549
+    },
+    {
+      "module": "tools/live_tool_healer.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "PerformanceMetrics",
+        "AnomalyReport",
+        "LiveToolHealer"
+      ],
+      "entrypoint": false,
+      "line_count": 842
+    },
+    {
+      "module": "tools/live_voice_bridge.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_safe_text",
+        "_create_engine",
+        "_speak_with_system_speech",
+        "get_engine",
+        "speak",
+        "speak_async",
+        "get_live_voice",
+        "enable",
+        "disable",
+        "cleanup"
+      ],
+      "classes": [
+        "LiveVoiceBridge"
+      ],
+      "entrypoint": true,
+      "line_count": 200
+    },
+    {
+      "module": "tools/memory_cortex.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "MemoryCortex"
+      ],
+      "entrypoint": true,
+      "line_count": 705
+    },
+    {
+      "module": "tools/memory_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "MemoryTool"
+      ],
+      "entrypoint": false,
+      "line_count": 113
+    },
+    {
+      "module": "tools/mitm_analyzer_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "MITMAnalyzerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 145
+    },
+    {
+      "module": "tools/network_pentest_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "NetworkPentestTool"
+      ],
+      "entrypoint": false,
+      "line_count": 156
+    },
+    {
+      "module": "tools/network_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "NetworkTool"
+      ],
+      "entrypoint": false,
+      "line_count": 111
+    },
+    {
+      "module": "tools/ocr_tool.py",
+      "area": "tools",
+      "functions": [
+        "run",
+        "_check_engine",
+        "_get_engine",
+        "_ocr_screen",
+        "_ocr_file",
+        "_ocr_clipboard",
+        "_ocr_region",
+        "_perform_ocr"
+      ],
+      "classes": [
+        "OcrTool"
+      ],
+      "entrypoint": false,
+      "line_count": 276
+    },
+    {
+      "module": "tools/path_safety.py",
+      "area": "tools",
+      "functions": [
+        "is_relative_to",
+        "resolve_workspace_path",
+        "is_protected_path",
+        "safe_display_path"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 51
+    },
+    {
+      "module": "tools/privacy.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "PrivacyTool"
+      ],
+      "entrypoint": false,
+      "line_count": 360
+    },
+    {
+      "module": "tools/proactive_interrupt.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ProactiveInterrupt"
+      ],
+      "entrypoint": true,
+      "line_count": 612
+    },
+    {
+      "module": "tools/project_navigator_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ProjectNavigatorTool"
+      ],
+      "entrypoint": false,
+      "line_count": 137
+    },
+    {
+      "module": "tools/qa_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "QATool"
+      ],
+      "entrypoint": false,
+      "line_count": 127
+    },
+    {
+      "module": "tools/rag_store_text.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_text",
+        "chunk_text",
+        "rag_store_text"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 99
+    },
+    {
+      "module": "tools/remote_control_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "RemoteControlTool"
+      ],
+      "entrypoint": true,
+      "line_count": 289
+    },
+    {
+      "module": "tools/schema_diff.py",
+      "area": "tools",
+      "functions": [
+        "_schema_properties",
+        "_required_fields",
+        "diff",
+        "run"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 84
+    },
+    {
+      "module": "tools/science_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ScienceTool"
+      ],
+      "entrypoint": false,
+      "line_count": 114
+    },
+    {
+      "module": "tools/security_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SecurityTool"
+      ],
+      "entrypoint": false,
+      "line_count": 171
+    },
+    {
+      "module": "tools/self_evolving_tool.py",
+      "area": "tools",
+      "functions": [
+        "_call_llm"
+      ],
+      "classes": [
+        "SelfEvolvingTool"
+      ],
+      "entrypoint": true,
+      "line_count": 824
+    },
+    {
+      "module": "tools/session_audit_tool.py",
+      "area": "tools",
+      "functions": [
+        "_now_iso",
+        "_sha256",
+        "_redact",
+        "_compact_event",
+        "_extract_files",
+        "_summarize_test_output",
+        "_ui_digest",
+        "_latest_report",
+        "_trace_summary",
+        "_conversation_audit_summary",
+        "_identity_surface_summary",
+        "_score"
+      ],
+      "classes": [
+        "SessionAuditTool"
+      ],
+      "entrypoint": false,
+      "line_count": 409
+    },
+    {
+      "module": "tools/session_checkpoint_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SessionCheckpointTool"
+      ],
+      "entrypoint": false,
+      "line_count": 212
+    },
+    {
+      "module": "tools/session_lifecycle_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SessionLifecycleTool"
+      ],
+      "entrypoint": false,
+      "line_count": 116
+    },
+    {
+      "module": "tools/session_log_miner_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SessionLogMinerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 223
+    },
+    {
+      "module": "tools/session_rem_sleep_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SessionRemSleepTool"
+      ],
+      "entrypoint": false,
+      "line_count": 364
+    },
+    {
+      "module": "tools/smart_search_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SmartSearchTool"
+      ],
+      "entrypoint": false,
+      "line_count": 144
+    },
+    {
+      "module": "tools/smoke_test_runner.py",
+      "area": "tools",
+      "functions": [
+        "main"
+      ],
+      "classes": [
+        "TestResult",
+        "ToolTestReport",
+        "SmokeTestRunner"
+      ],
+      "entrypoint": true,
+      "line_count": 259
+    },
+    {
+      "module": "tools/swarm_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SwarmTool"
+      ],
+      "entrypoint": true,
+      "line_count": 212
+    },
+    {
+      "module": "tools/system.py",
+      "area": "tools",
+      "functions": [
+        "get_system_vitals",
+        "exec_shell"
+      ],
+      "classes": [
+        "SystemTool"
+      ],
+      "entrypoint": false,
+      "line_count": 400
+    },
+    {
+      "module": "tools/system_optimization_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "SystemOptimizationTool"
+      ],
+      "entrypoint": false,
+      "line_count": 238
+    },
+    {
+      "module": "tools/task_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "TaskTool"
+      ],
+      "entrypoint": false,
+      "line_count": 88
+    },
+    {
+      "module": "tools/terminal_tool.py",
+      "area": "tools",
+      "functions": [
+        "get_session"
+      ],
+      "classes": [
+        "PersistentShellSession",
+        "TerminalTool"
+      ],
+      "entrypoint": false,
+      "line_count": 470
+    },
+    {
+      "module": "tools/text_to_speech.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "TextToSpeechTool"
+      ],
+      "entrypoint": false,
+      "line_count": 116
+    },
+    {
+      "module": "tools/todo_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "TodoItem",
+        "TodoWriteTool"
+      ],
+      "entrypoint": false,
+      "line_count": 181
+    },
+    {
+      "module": "tools/tool_adapters.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ContextEngineAdapter",
+        "ProactiveInterruptAdapter",
+        "SelfEvolvingToolAdapter",
+        "MemoryCortexAdapter",
+        "AnaOrchestratorAdapter",
+        "ContextBridgeAdapter",
+        "WindowManagerAdapter",
+        "ClipboardManagerAdapter",
+        "OcrToolAdapter"
+      ],
+      "entrypoint": false,
+      "line_count": 280
+    },
+    {
+      "module": "tools/tool_contract_validator.py",
+      "area": "tools",
+      "functions": [
+        "_status_from_response",
+        "_tool_module_name",
+        "validate_tool",
+        "_candidate_tools",
+        "validate_all",
+        "run"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 98
+    },
+    {
+      "module": "tools/tool_healthcheck.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ToolHealthcheckTool"
+      ],
+      "entrypoint": false,
+      "line_count": 173
+    },
+    {
+      "module": "tools/tool_manifest_loader.py",
+      "area": "tools",
+      "functions": [
+        "_load_json",
+        "load_tool_manifest",
+        "get_tool_manifest",
+        "get_tool_contracts",
+        "get_tool_specs"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 319
+    },
+    {
+      "module": "tools/tool_mapper.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ToolMapper"
+      ],
+      "entrypoint": false,
+      "line_count": 34
+    },
+    {
+      "module": "tools/tool_router.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ToolScore",
+        "ToolRouteDecision",
+        "ToolRouter"
+      ],
+      "entrypoint": false,
+      "line_count": 293
+    },
+    {
+      "module": "tools/tool_router_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "ToolRouterTool"
+      ],
+      "entrypoint": false,
+      "line_count": 304
+    },
+    {
+      "module": "tools/toolchain_discovery.py",
+      "area": "tools",
+      "functions": [
+        "_utc_now",
+        "_rel",
+        "_is_dangerous",
+        "_class_names",
+        "_syntax_ok",
+        "_iter_python_files",
+        "discover_tools",
+        "verify",
+        "run_cycle",
+        "build_arg_parser",
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 215
+    },
+    {
+      "module": "tools/uia_click_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "UiaClickTool"
+      ],
+      "entrypoint": false,
+      "line_count": 39
+    },
+    {
+      "module": "tools/uia_type_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "UiaTypeTool"
+      ],
+      "entrypoint": false,
+      "line_count": 41
+    },
+    {
+      "module": "tools/v20/__init__.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 11
+    },
+    {
+      "module": "tools/vector_memory_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "VectorMemoryTool"
+      ],
+      "entrypoint": true,
+      "line_count": 211
+    },
+    {
+      "module": "tools/verdent_tools.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "BashExecTool",
+        "GlobSearchTool",
+        "GrepContentTool",
+        "GrepFileTool",
+        "WebFetchTool"
+      ],
+      "entrypoint": false,
+      "line_count": 392
+    },
+    {
+      "module": "tools/verify_professional_tools.py",
+      "area": "tools",
+      "functions": [
+        "test_tools"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 35
+    },
+    {
+      "module": "tools/vision_fallback_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "VisionFallbackTool"
+      ],
+      "entrypoint": true,
+      "line_count": 220
+    },
+    {
+      "module": "tools/vision_find_element_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "VisionFindElementTool"
+      ],
+      "entrypoint": false,
+      "line_count": 105
+    },
+    {
+      "module": "tools/vision_region_capture_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "VisionRegionCaptureTool"
+      ],
+      "entrypoint": false,
+      "line_count": 56
+    },
+    {
+      "module": "tools/voice_commentary.py",
+      "area": "tools",
+      "functions": [
+        "get_commentary"
+      ],
+      "classes": [
+        "VoiceCommentary"
+      ],
+      "entrypoint": false,
+      "line_count": 92
+    },
+    {
+      "module": "tools/voice_integration.py",
+      "area": "tools",
+      "functions": [
+        "_get_voice",
+        "speak_and_print",
+        "_install_wrapper"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 73
+    },
+    {
+      "module": "tools/watchdog.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "_LogHandler",
+        "WatchdogTool"
+      ],
+      "entrypoint": true,
+      "line_count": 113
+    },
+    {
+      "module": "tools/web.py",
+      "area": "tools",
+      "functions": [
+        "web_search"
+      ],
+      "classes": [
+        "WebTool"
+      ],
+      "entrypoint": false,
+      "line_count": 207
+    },
+    {
+      "module": "tools/web_ai_bridge.py",
+      "area": "tools",
+      "functions": [
+        "load_api_keys"
+      ],
+      "classes": [
+        "WebAIBridgeTool"
+      ],
+      "entrypoint": false,
+      "line_count": 391
+    },
+    {
+      "module": "tools/web_learning.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_text",
+        "_source_label",
+        "_summary",
+        "_main_html_fragment",
+        "_fetch_html",
+        "_normalize_url",
+        "_is_html_like",
+        "_course_path_prefix",
+        "_inside_path_prefix",
+        "_course_link_priority",
+        "_extract_links",
+        "web_learn_url",
+        "web_learn_course"
+      ],
+      "classes": [
+        "_LinkParser"
+      ],
+      "entrypoint": false,
+      "line_count": 438
+    },
+    {
+      "module": "tools/web_scraper.py",
+      "area": "tools",
+      "functions": [
+        "_ascii_text",
+        "_validate_http_url",
+        "html_to_text",
+        "_default_fetcher",
+        "web_scrape",
+        "smoke_test"
+      ],
+      "classes": [
+        "WebScraperTool"
+      ],
+      "entrypoint": true,
+      "line_count": 660
+    },
+    {
+      "module": "tools/window_manager.py",
+      "area": "tools",
+      "functions": [
+        "run",
+        "_list_windows",
+        "_focus_window",
+        "_snap_window",
+        "_tile_windows",
+        "_minimize_window",
+        "_maximize_window",
+        "_close_window"
+      ],
+      "classes": [
+        "WindowManagerTool"
+      ],
+      "entrypoint": false,
+      "line_count": 287
+    },
+    {
+      "module": "tools/windows_deep_sight.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "WindowsDeepSightTool"
+      ],
+      "entrypoint": false,
+      "line_count": 439
+    },
+    {
+      "module": "tools/windows_insight_tool.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "WindowsInsightTool"
+      ],
+      "entrypoint": false,
+      "line_count": 208
+    },
+    {
+      "module": "tools/windows_local_tools.py",
+      "area": "tools",
+      "functions": [
+        "_safe_name",
+        "_normalize_app_name",
+        "_expand_candidate",
+        "_browser_command",
+        "find_app",
+        "open_windows_app",
+        "open_url_in_windows_app",
+        "list_processes",
+        "_registry_app_entries",
+        "list_installed_apps",
+        "_memory_status",
+        "_disk_statuses",
+        "_powershell_json",
+        "_collect_hardware_snapshot",
+        "system_overview",
+        "frida_status",
+        "capture_desktop_screenshot",
+        "_normalize_expression",
+        "_eval_node",
+        "calculate_expression",
+        "dumps_result"
+      ],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 592
+    },
+    {
+      "module": "tools/windows_uia_bridge.py",
+      "area": "tools",
+      "functions": [],
+      "classes": [
+        "WindowsUiaBridgeTool"
+      ],
+      "entrypoint": false,
+      "line_count": 258
+    },
+    {
+      "module": "tools/workspace_situational_awareness.py",
+      "area": "tools",
+      "functions": [
+        "_to_bool"
+      ],
+      "classes": [
+        "WorkspaceSituationalAwarenessTool"
+      ],
+      "entrypoint": false,
+      "line_count": 262
+    },
+    {
+      "module": "training/lora_hooks.py",
+      "area": "training",
+      "functions": [],
+      "classes": [],
+      "entrypoint": false,
+      "line_count": 0
+    },
+    {
+      "module": "voice_toggle.py",
+      "area": "voice_toggle.py",
+      "functions": [
+        "main"
+      ],
+      "classes": [],
+      "entrypoint": true,
+      "line_count": 77
+    }
+  ],
+  "parse_errors": [],
+  "verification": {
+    "passed": true,
+    "checks": {
+      "report_non_empty": true,
+      "schema_present": true,
+      "skills_is_list": true,
+      "summary_counts_non_negative": true,
+      "skills_count_matches_summary": true,
+      "skills_non_empty": true
+    }
+  },
+  "pipeline": {
+    "observe": "complete",
+    "analyze": "complete",
+    "plan": "complete",
+    "act": "complete",
+    "verify": "complete",
+    "document": "complete"
+  }
+}

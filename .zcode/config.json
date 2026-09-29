@@ -1,0 +1,20 @@
+{
+  "mcp": {
+    "servers": {
+      "ana-max-core": {
+        "type": "stdio",
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": [
+          "C:\\Users\\billy\\Desktop\\ana-manus\\mcp_ana_bridge_core.py"
+        ]
+      },
+      "ana-max-advanced": {
+        "type": "stdio",
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": [
+          "C:\\Users\\billy\\Desktop\\ana-manus\\mcp_ana_bridge_advanced.py"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "infinite_loop_in_search": {
+    "data": {
+      "bug_type": "INFINITE_LOOP",
+      "symptom": "Timeout on result processing",
+      "root_cause": "Missing iteration limit in foreach loop",
+      "solution": "Add MAX_RESULTS constant and break on limit",
+      "applies_to": [
+        "smart_search",
+        "file_browser",
+        "code_indexer"
+      ],
+      "tests_added": [
+        "test_large_result_sets",
+        "test_timeout_handling"
+      ]
+    },
+    "timestamp": "2026-05-19T18:47:58.263074",
+    "uses": 0
+  },
+  "memory_leak_result_accumulation": {
+    "data": {
+      "bug_type": "MEMORY_LEAK",
+      "symptom": "Memory usage grows with result count",
+      "root_cause": "Accumulating results in list without cleanup",
+      "solution": "Use generator or process-and-forget pattern",
+      "applies_to": [
+        "smart_search",
+        "file_operations"
+      ],
+      "performance_improvement": "15x less memory"
+    },
+    "timestamp": "2026-05-19T18:47:58.278809",
+    "uses": 0
+  }
+}

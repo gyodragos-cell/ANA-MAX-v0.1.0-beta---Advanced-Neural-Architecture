@@ -1,0 +1,18 @@
+skills:
+  self.repair:
+    skill: self-repair
+    capability: self.repair
+    version: 1.0.0
+    enabled: true
+
+  health.check:
+    skill: health-check
+    capability: health.check
+    version: 1.0.0
+    enabled: true
+
+  fs.inspect:
+    skill: fs-inspect
+    capability: fs.inspect
+    version: 1.0.0
+    enabled: true

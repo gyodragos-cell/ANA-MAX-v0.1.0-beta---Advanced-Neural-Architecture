@@ -1,0 +1,74 @@
+{
+  "schema": "ana.os5.strategy.v1",
+  "generated_at": "2026-06-10T09:21:18.072680+00:00",
+  "engine": "self_goals_engine",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "source_reports": {
+    "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+    "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+    "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+    "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+    "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+    "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+    "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+  },
+  "priorities": [
+    {
+      "rank": 1,
+      "goal_id": "preserve_os_baseline",
+      "priority": "critical",
+      "reason": "Baseline health must stay at 100 and warnings at 0."
+    },
+    {
+      "rank": 2,
+      "goal_id": "keep_parse_errors_zero",
+      "priority": "high",
+      "reason": "Parse-free reports keep later OS layers safe and deterministic."
+    },
+    {
+      "rank": 3,
+      "goal_id": "preserve_daemon_stability",
+      "priority": "high",
+      "reason": "Bounded daemon cycles are the automation control point."
+    },
+    {
+      "rank": 4,
+      "goal_id": "preserve_graph_quality",
+      "priority": "medium",
+      "reason": "Graph quality drives later routing, policy, and orchestration layers."
+    },
+    {
+      "rank": 5,
+      "goal_id": "watch_graph_density",
+      "priority": "medium",
+      "reason": "The graph is becoming dense enough to watch for refactor candidates."
+    },
+    {
+      "rank": 6,
+      "goal_id": "respect_reasoning_hints",
+      "priority": "medium",
+      "reason": "Reasoning already provides local hints for the goals layer."
+    }
+  ],
+  "weights": {
+    "stability": 0.4,
+    "safety": 0.25,
+    "observability": 0.15,
+    "automation": 0.15000000000000002,
+    "adaptation": 0.15000000000000002
+  },
+  "phase_order": [
+    "profiling",
+    "skills",
+    "structuring",
+    "healing",
+    "evaluation",
+    "reasoning",
+    "goals",
+    "strategy_refresh",
+    "knowledge_graph",
+    "toolchain_discovery",
+    "daemon_loop"
+  ],
+  "last_update": "2026-06-10T09:21:18.072680+00:00"
+}

@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "description": "Authorized targets for security scanning - ONLY add systems you own or have written permission to test",
+  "targets": [
+    {
+      "name": "Localhost Testing",
+      "address": "127.0.0.1",
+      "authorization": "owner",
+      "notes": "Local development environment"
+    },
+    {
+      "name": "Home Network Lab",
+      "address": "192.168.1.0/24",
+      "authorization": "owner",
+      "notes": "Personal home network lab for testing"
+    }
+  ],
+  "rules": {
+    "require_authorization": true,
+    "log_all_scans": true,
+    "max_concurrent_scans": 3,
+    "blocked_targets": [
+      "government",
+      "military",
+      "healthcare",
+      "financial",
+      "critical_infrastructure"
+    ]
+  },
+  "audit_trail": {
+    "enabled": true,
+    "log_file": "logs/security_scan_audit.log"
+  }
+}

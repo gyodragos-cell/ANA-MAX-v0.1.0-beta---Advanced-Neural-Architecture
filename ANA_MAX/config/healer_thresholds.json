@@ -1,0 +1,9 @@
+{
+  "thresholds": {
+    "timeout_ms": 3000,
+    "memory_leak_mb": 5,
+    "cpu_spike_percent": 60,
+    "check_interval_seconds": 0.5,
+    "supervision_window_seconds": 30
+  }
+}

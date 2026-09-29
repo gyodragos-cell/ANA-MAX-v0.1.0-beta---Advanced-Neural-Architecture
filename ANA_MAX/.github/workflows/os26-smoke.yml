@@ -1,0 +1,23 @@
+name: OS-26 Smoke Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install psutil || true
+      - name: Run OS-26 smoke script
+        run: |
+          python tools/smoke_spawn_and_remediate.py

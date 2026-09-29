@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnaBook – Conectează-te cu lumea</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dark">
+
+<!-- ══════════════════════════════════════════════
+     TOPBAR
+═══════════════════════════════════════════════ -->
+<header id="topbar">
+  <div class="top-left">
+    <div class="logo">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="10" fill="#4f8ef7"/>
+        <text x="8" y="26" font-size="22" font-family="Inter,sans-serif" font-weight="700" fill="white">A</text>
+      </svg>
+      <span class="logo-text">AnaBook</span>
+    </div>
+    <div class="search-wrap">
+      <span class="icon-search">🔍</span>
+      <input id="searchInput" type="text" placeholder="Caută pe AnaBook..." autocomplete="off" />
+    </div>
+  </div>
+
+  <nav class="top-nav">
+    <button class="nav-btn active" title="Acasă">🏠</button>
+    <button class="nav-btn" title="Prieteni">👥</button>
+    <button class="nav-btn" title="Video">🎬</button>
+    <button class="nav-btn" title="Marketplace">🛒</button>
+    <button class="nav-btn" title="Grupuri">📣</button>
+  </nav>
+
+  <div class="top-right">
+    <button class="icon-btn" id="themeToggle" title="Toggle dark/light">🌙</button>
+    <button class="icon-btn" title="Mesaje">💬<span class="badge">3</span></button>
+    <button class="icon-btn" title="Notificari">🔔<span class="badge">7</span></button>
+    <div class="avatar-sm" title="Profilul meu">
+      <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=billy" alt="avatar" />
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     LAYOUT 3 COLOANE
+═══════════════════════════════════════════════ -->
+<main id="layout">
+
+  <!-- ── STÂNGA ── -->
+  <aside id="leftBar">
+    <a href="#" class="side-link active"><span>🏠</span> Acasă</a>
+    <a href="#" class="side-link"><span>👤</span> Profilul meu</a>
+    <a href="#" class="side-link"><span>👥</span> Prieteni</a>
+    <a href="#" class="side-link"><span>📣</span> Grupuri</a>
+    <a href="#" class="side-link"><span>🛒</span> Marketplace</a>
+    <a href="#" class="side-link"><span>🎬</span> Video</a>
+    <a href="#" class="side-link"><span>🕐</span> Amintiri</a>
+    <a href="#" class="side-link"><span>🔖</span> Salvate</a>
+    <a href="#" class="side-link"><span>⚙️</span> Setări</a>
+    <div class="side-footer">AnaBook © 2026 · Privacitate · Termeni</div>
+  </aside>
+
+  <!-- ── CENTRU ── -->
+  <section id="feed-col">
+
+    <!-- Stories -->
+    <div id="stories">
+      <div class="story add-story">
+        <div class="story-img add-icon">＋</div>
+        <span>Adaugă story</span>
+      </div>
+      <div class="story">
+        <div class="story-img" style="background:linear-gradient(135deg,#f093fb,#f5576c)">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=ana" alt="" class="story-avatar"/>
+        </div>
+        <span>Ana</span>
+      </div>
+      <div class="story">
+        <div class="story-img" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=ion" alt="" class="story-avatar"/>
+        </div>
+        <span>Ion</span>
+      </div>
+      <div class="story">
+        <div class="story-img" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=maria" alt="" class="story-avatar"/>
+        </div>
+        <span>Maria</span>
+      </div>
+      <div class="story">
+        <div class="story-img" style="background:linear-gradient(135deg,#fa709a,#fee140)">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=alex" alt="" class="story-avatar"/>
+        </div>
+        <span>Alex</span>
+      </div>
+      <div class="story">
+        <div class="story-img" style="background:linear-gradient(135deg,#a18cd1,#fbc2eb)">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=elena" alt="" class="story-avatar"/>
+        </div>
+        <span>Elena</span>
+      </div>
+    </div>
+
+    <!-- Composer -->
+    <div id="composer" class="card">
+      <div class="composer-top">
+        <div class="avatar-sm">
+          <img src="https://api.dicebear.com/8.x/avataaars/svg?seed=billy" alt="tu" />
+        </div>
+        <textarea id="postText" placeholder="La ce te gândești, Billy?" rows="1"></textarea>
+      </div>
+      <div class="composer-actions">
+        <button class="action-btn" onclick="addMedia('📷')">📷 Foto/Video</button>
+        <button class="action-btn" onclick="addMedia('😊')">😊 Sentiment</button>
+        <button class="action-btn" onclick="addMedia('📍')">📍 Check-in</button>
+        <button class="composer-submit" id="publishBtn">Postează</button>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div id="feed"></div>
+
+  </section>
+
+  <!-- ── DREAPTA ── -->
+  <aside id="rightBar">
+    <!-- Online friends -->
+    <div class="widget">
+      <h3 class="widget-title">Contacte <button class="widget-btn">···</button></h3>
+      <div class="friend-list" id="friendList"></div>
+    </div>
+
+    <!-- Suggested -->
+    <div class="widget">
+      <h3 class="widget-title">Persoane pe care le-ai putea cunoaște</h3>
+      <div id="suggested"></div>
+    </div>
+
+    <!-- Birthday -->
+    <div class="widget birthday">
+      <span class="bday-icon">🎂</span>
+      <div>
+        <strong>Ana Popescu</strong> și alți <strong>2</strong> au ziua azi.
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<!-- MODAL Story -->
+<div id="storyModal" class="modal hidden">
+  <div class="modal-overlay" onclick="closeStory()"></div>
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeStory()">✕</button>
+    <div id="storyContent"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

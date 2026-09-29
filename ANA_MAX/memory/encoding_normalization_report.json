@@ -1,0 +1,18 @@
+{
+  "schema": "ana.encoding_normalization.v1",
+  "timestamp": "2026-06-10T18:25:12.881769+00:00",
+  "root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "apply": false,
+  "ascii_only": true,
+  "extensions": [
+    ".bat",
+    ".cmd",
+    ".md",
+    ".ps1",
+    ".txt"
+  ],
+  "target_count": 97,
+  "finding_count": 0,
+  "changed_count": 0,
+  "findings": []
+}

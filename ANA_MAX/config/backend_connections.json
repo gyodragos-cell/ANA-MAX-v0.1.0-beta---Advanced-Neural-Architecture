@@ -1,0 +1,39 @@
+{
+  "connections": {
+    "ollama_to_mcp": {
+      "enabled": true,
+      "endpoint": "http://localhost:11434",
+      "mcp_config": "config/mcp_ana_max_agent.json",
+      "sync_interval": 30
+    },
+    "openrouter_to_mcp": {
+      "enabled": true,
+      "endpoint": "https://openrouter.ai/api/v1",
+      "mcp_config": "config/mcp_ana_max_agent.json",
+      "key_rotation": true,
+      "sync_interval": 30
+    },
+    "mcp_to_ollama": {
+      "enabled": true,
+      "fallback": true,
+      "priority": 2
+    },
+    "mcp_to_openrouter": {
+      "enabled": true,
+      "priority": 1
+    }
+  },
+  "orchestration": {
+    "default_backend": "ollama",
+    "fallback_backend": "openrouter",
+    "health_check_interval": 60,
+    "auto_failover": true,
+    "context_preservation": true
+  },
+  "logging": {
+    "backend_switch_log": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\logs\\backend_switch.log",
+    "agent_activity_log": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\logs\\persistent_agent.log",
+    "live_stream": true,
+    "log_level": "DEBUG"
+  }
+}

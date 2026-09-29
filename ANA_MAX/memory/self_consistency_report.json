@@ -1,0 +1,120 @@
+{
+  "schema": "ana.memory.self_consistency.v1",
+  "engine": "self_consistency_engine",
+  "generated_at": "2026-06-10T21:27:51.683559+00:00",
+  "dry_run": false,
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "inputs": {
+    "core_memory": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\core_memory.json",
+    "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+    "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+    "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+    "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json"
+  },
+  "core_memory_present": true,
+  "memory_context": {
+    "schema": "ana.memory.context.v1",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 9,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "medium",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 9,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "latest_metrics": {
+    "health_score": 100,
+    "warning_count": 0,
+    "parse_error_count": 0,
+    "evolution_overall_success": true,
+    "goal_status_overall": "stable",
+    "goal_count": 7,
+    "strategy_phase_order": [
+      "profiling",
+      "skills",
+      "structuring",
+      "healing",
+      "evaluation",
+      "reasoning",
+      "goals",
+      "strategy_refresh",
+      "knowledge_graph",
+      "toolchain_discovery",
+      "daemon_loop"
+    ],
+    "strategy_phase_count": 11,
+    "reasoning_strategy_count": 7,
+    "reasoning_hypothesis_count": 5
+  },
+  "contradictions": [],
+  "regressions": [],
+  "recommendations": {
+    "goals": [
+      {
+        "id": "maintain_current_goals",
+        "priority": "low",
+        "action": "Keep current goal alignment and continue bounded consolidation."
+      }
+    ],
+    "strategy": [
+      {
+        "id": "preserve_current_strategy",
+        "priority": "low",
+        "action": "Keep current phase order and weights because the memory layer is consistent."
+      }
+    ],
+    "adaptation": [
+      {
+        "id": "continue_memory_consolidation",
+        "priority": "low",
+        "action": "Continue bounded consolidation cycles and capture stable history snapshots."
+      }
+    ]
+  },
+  "overall_consistent": true,
+  "summary": {
+    "contradiction_count": 0,
+    "regression_count": 0,
+    "recommendation_count": 3,
+    "overall_consistent": true
+  },
+  "core_memory_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\core_memory.json",
+  "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json",
+  "system_report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\memory_system_report.json",
+  "verification": {
+    "passed": true,
+    "checks": {
+      "schema_present": true,
+      "contradictions_present": true,
+      "regressions_present": true,
+      "recommendations_present": true,
+      "summary_present": true
+    }
+  },
+  "elapsed_ms": 4.19
+}

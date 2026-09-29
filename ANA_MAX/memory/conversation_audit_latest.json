@@ -1,0 +1,16 @@
+{
+  "schema": "ana.conversation_audit.entry.v1",
+  "ts": "2026-06-08T18:34:03Z",
+  "source": "voice_queue",
+  "text": "ANA skipped a sensitive log line. [START] Health ready; tools=89. ANA MCP ready with 89 tools ready. Start ANA guard checking Codex. Failed ANA guard failed.",
+  "chars": 157,
+  "text_digest": "2cf32fe27a817ecb33139ca559c261ee10ea017f443023f9cb4b2a56ddb04c8c",
+  "spoken": true,
+  "copied_to_clipboard": false,
+  "submitted_to_focused_window": false,
+  "sensitive_skipped": false,
+  "truncated": false,
+  "metadata": {
+    "bridge": "chat_voice_bridge"
+  }
+}

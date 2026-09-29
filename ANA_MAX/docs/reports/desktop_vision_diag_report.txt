@@ -1,0 +1,23 @@
+======================================================================
+ANA MAX - DESKTOP VISION DIAGNOSTIC
+======================================================================
+time: 2026-05-20T05:09:12
+python: C:\Program Files\Python312\python.exe
+user getpass: billy
+env USERNAME: billy
+env SESSIONNAME: Console
+whoami: linnux\codexsandboxoffline
+
+query session:
+SESSIONNAME               USERNAME                 ID  STATE   TYPE        DEVICE
+ services                                            0  Disc
+>console                   billy                     1  Active
+
+visible windows:
+<none>
+
+screenshot methods:
+mss OK - diag_user_mss.png: size=1920x1080, bytes=6121, mean=[0.0, 0.0, 0.0], max_channel=0
+PIL FAIL - screen grab failed
+PIL all_screens FAIL - screen grab failed
+pyautogui FAIL - screen grab failed

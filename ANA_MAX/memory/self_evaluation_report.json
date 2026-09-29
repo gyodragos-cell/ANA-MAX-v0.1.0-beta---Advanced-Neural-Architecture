@@ -1,0 +1,85 @@
+{
+  "schema": "ana.os3.self_evaluation.v1",
+  "engine": "self_evaluation_engine",
+  "generated_at": "2026-06-12T02:40:17.123324+00:00",
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "ana_max_root": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX",
+  "planned_actions": [
+    "include_health_score",
+    "include_overall_status",
+    "include_health_indicators",
+    "include_warnings",
+    "include_suggestions",
+    "include_input_report_status"
+  ],
+  "input_reports": {
+    "profiling": {
+      "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+      "present": true
+    },
+    "structuring": {
+      "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+      "present": true
+    },
+    "healing": {
+      "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+      "present": true
+    },
+    "skills": {
+      "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+      "present": true
+    }
+  },
+  "summary": {
+    "overall_status": "healthy",
+    "health_score": 100,
+    "loaded_report_count": 4,
+    "missing_report_count": 0,
+    "warning_count": 0,
+    "suggestion_count": 0
+  },
+  "health_indicators": {
+    "profiling_total_files": 756,
+    "profiling_python_files": 243,
+    "structuring_health": "good",
+    "missing_init_total": 0,
+    "important_missing_init_count": 0,
+    "healing_health": "good",
+    "syntax_failures": 0,
+    "skills_module_count": 243,
+    "skills_function_count": 916,
+    "skills_entrypoint_count": 87
+  },
+  "warnings": [],
+  "suggestions": [],
+  "observation_snapshot": {
+    "missing_reports": [],
+    "invalid_reports": [],
+    "loaded_report_names": [
+      "healing",
+      "profiling",
+      "skills",
+      "structuring"
+    ]
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "report_non_empty": true,
+      "schema_present": true,
+      "json_serializable": true,
+      "overall_status_present": true,
+      "health_score_in_range": true,
+      "warnings_is_list": true,
+      "suggestions_is_list": true
+    }
+  },
+  "pipeline": {
+    "observe": "complete",
+    "analyze": "complete",
+    "plan": "complete",
+    "act": "complete",
+    "verify": "complete",
+    "document": "complete"
+  }
+}

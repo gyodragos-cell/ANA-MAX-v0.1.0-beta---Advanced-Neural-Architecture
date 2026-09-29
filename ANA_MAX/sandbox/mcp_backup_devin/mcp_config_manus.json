@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "ana-max-lab": {
+      "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+      "args": [
+        "C:\\Users\\billy\\Desktop\\ana-manus\\mcp_ana_bridge.py"
+      ],
+      "env": {
+        "ANA_MANUS_ROOT": "C:\\Users\\billy\\Desktop\\ana-manus",
+        "PYTHONPATH": "C:\\Users\\billy\\Desktop\\ana-manus;C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX",
+        "ANA_MCP_LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
+

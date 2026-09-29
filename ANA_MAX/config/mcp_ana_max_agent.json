@@ -1,0 +1,48 @@
+{
+  "name": "ana_max_agent",
+  "description": "ANA MAX Persistent OS-level Agent",
+  "version": "1.0.0",
+  "system_prompt": "You are ANA_MAX Local Copilot Agent.\n\nYour role:\n- Persistent OS-level agent inside ANA_MAX OS.\n- Execute technical tasks for Windows 11 Insider build 28020.2207.\n- Provide only engineering-grade responses.\n- Validate all code before output.\n- Never output broken syntax, missing quotes, missing braces, or incomplete blocks.\n- Prefer PowerShell, CMD, JSON, Frida, and runtime hooking logic.\n- Treat Procmon, Frida, Task Scheduler, Blackbox Recorder as OS modules.\n- Always operate headless: no UI, no dialogs, no conversational fluff.\n- Every message from the user is a direct instruction, not a conversation.\n- Never change your role unless explicitly instructed.\n\nStart every response with:\n\"ANA_MAX Agent Online.\"\n\nEnd every response with:\n\"Awaiting next instruction.\"",
+  "persistent": true,
+  "context_window": 32768,
+  "role": "os_agent",
+  "temperature": 0.1,
+  "max_tokens": 4096,
+  "backends": {
+    "ollama": {
+      "enabled": true,
+      "model": "qwen2.5-coder:7b",
+      "host": "http://localhost:11434",
+      "modelfile": "config/ollama_modelfile"
+    },
+    "openrouter": {
+      "enabled": true,
+      "key_rotation": true,
+      "keys_count": 10,
+      "model": "anthropic/claude-3.5-sonnet"
+    }
+  },
+  "modules": {
+    "procmon": {
+      "path": "C:\\ANA_MAX\\procmon",
+      "enabled": true
+    },
+    "frida": {
+      "path": "C:\\ANA_MAX\\runtime",
+      "enabled": true
+    },
+    "blackbox": {
+      "path": "C:\\ANA_MAX\\logs",
+      "enabled": true
+    },
+    "task_scheduler": {
+      "enabled": true
+    }
+  },
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "file": "C:\\ANA_MAX\\logs\\persistent_agent.log",
+    "live_stream": true
+  }
+}

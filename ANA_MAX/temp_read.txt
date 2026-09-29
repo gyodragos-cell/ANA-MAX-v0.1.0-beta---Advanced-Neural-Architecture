@@ -1,0 +1,190 @@
+"""
+Desktop Screen Capture Tool - Live Desktop Monitoring (OS27 Hyper++)
+====================================================================
+Author: ANA_MAX
+Date: 2026-05-13
+Category: monitoring
+
+Functions:
+- capture: Captureaza intregul desktop sau o zona specifica
+- capture_region: Captureaza o regiune specifica
+- capture_window: Captureaza o fereastra specifica
+- get_window_list: Lista ferestre active
+- monitor: Monitorizare continua (salveaza screenshot-uri periodice)
+
+OS27 Hyper++ Features:
+- Telemetry tracking for capture operations (capture, region, window, monitor)
+- Health monitoring for capture method reliability
+- MemoryCortex integration for capture errors and method learning
+- ContextEngine integration for desktop state awareness
+- SelfEvolvingTool integration for anomaly detection on capture failures
+- Structured logging with error detection
+
+Requires: Pillow (PIL), mss (optional pentru performanta mai buna)
+"""
+
+from __future__ import annotations
+
+import subprocess
+import os
+import logging
+import time
+import threading
+import traceback
+from collections import deque
+from typing import Optional, Dict, Any, List, Tuple
+from pathlib import Path
+from datetime import datetime
+
+from tools.watchdog_bus import bus
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# OS27 Hyper++ Ring Buffer & Monitor Thread Infrastructure
+# ---------------------------------------------------------------------------
+_ring_buffer: deque = deque(maxlen=10)  # stores last 10 frames as dicts
+_monitor_thread: Optional[threading.Thread] = None
+_monitor_stop_event = threading.Event()
+_method_stats: Dict[str, Dict[str, int]] = {}  # {method: {success: N, fail: N, total_ms: N}}
+
+
+def _update_method_stats(method: str, success: bool, duration_ms: float) -> None:
+    """Track per-method success/fail stats for intelligent auto-selection."""
+    if method not in _method_stats:
+        _method_stats[method] = {"success": 0, "fail": 0, "total_ms": 0}
+    if success:
+        _method_stats[method]["success"] += 1
+    else:
+        _method_stats[method]["fail"] += 1
+    _method_stats[method]["total_ms"] += int(duration_ms)
+
+
+def get_best_capture_method() -> str:
+    """Return the method with highest success rate and lowest latency."""
+    if not _method_stats:
+        return "dxcam"  # default
+    scored = []
+    for m, s in _method_stats.items():
+        total = s["success"] + s["fail"]
+        if total == 0:
+            continue
+        rate = s["success"] / total
+        avg_ms = s["total_ms"] / total if total else 9999
+        scored.append((m, rate, avg_ms))
+    if not scored:
+        return "dxcam"
+    # sort by success rate DESC, then avg latency ASC
+    scored.sort(key=lambda x: (-x[1], x[2]))
+    return scored[0][0]
+
+
+def _compute_frame_delta(img_a, img_b) -> float:
+    """Return change ratio (0.0-1.0) between two PIL Images."""
+    try:
+        from PIL import ImageChops, ImageStat
+        if img_a is None or img_b is None:
+            return 1.0  # treat as fully changed
+        if img_a.size != img_b.size:
+            return 1.0
+        diff = ImageChops.difference(img_a.convert("RGB"), img_b.convert("RGB"))
+        stat = ImageStat.Stat(diff)
+        # mean across RGB channels, normalized to 0-1
+        mean_diff = sum(stat.mean) / (3 * 255)
+        return mean_diff
+    except Exception:
+        return 1.0  # assume changed on error
+
+
+def _trigger_nervous_system(method: str, error: Exception, tb_str: str) -> Optional[dict]:
+    """Report capture failure to OS27 Nervous System for auto-patching."""
+    try:
+        from tools.os27_nervous_system import OS27NervousSystem
+        ns = OS27NervousSystem()
+        patch = ns.handle_tool_failure(
+            tool_name=f"desktop_capture.{method}",
+            error_message=str(error),
+            traceback_str=tb_str,
+            target_file_path=__file__,
+        )
+        if patch and patch.get("success"):
+            logger.info(f"[NervousSystem] Patch generated for {method}: line {patch.get('error_line')}")
+            bus.publish(source="NervousSystem", event_type="CAPTURE_PATCH", data=patch)
+        return patch
+    except Exception as ns_err:
+        logger.debug(f"NervousSystem unavailable: {ns_err}")
+        return None
+
+# OS27 Hyper++ Telemetry
+_capture_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_capture_telemetry(operation: str, success: bool, execution_time: float, method: str = "") -> None:
+    """Record OS27 Hyper++ telemetry for capture operations."""
+    if operation not in _capture_telemetry:
+        _capture_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+            "methods": {},
+        }
+    
+    _capture_telemetry[operation]["operation_count"] += 1
+    _capture_telemetry[operation]["total_time"] += execution_time
+    _capture_telemetry[operation]["last_execution_time"] = execution_time
+    _capture_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _capture_telemetry[operation]["success_count"] += 1
+    else:
+        _capture_telemetry[operation]["failure_count"] += 1
+    
+    if method:
+        if method not in _capture_telemetry[operation]["methods"]:
+            _capture_telemetry[operation]["methods"][method] = 0
+        _capture_telemetry[operation]["methods"][method] += 1
+
+
+def get_capture_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for capture operations."""
+    if operation:
+        return _capture_telemetry.get(operation, {})
+    return _capture_telemetry.copy()
+
+
+def get_capture_health() -> str:
+    """Get health status for capture tool based on telemetry."""
+    if not _capture_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _capture_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _capture_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
+
+
+class DesktopCaptureTool(Tool):
+    """OS27 Hyper++ Desktop Capture — threaded, ring-buffered, delta-aware, self-healing."""
+
+    def __init__(self) -> None:
+        self._screenshot_dir = Path(__file__).parent.parent / "screenshots"
+        self._screenshot_dir.mkdir(exist_ok=True)
+        self._last_capture: Optional[str] = None
+        self._last_pil_frame = None  # for delta detection
+        self._frame_buffer = deque(maxlen=10)
+        self._monitor_thread: Optional[threading.Thread] = None
+        self._monitor_stop_event = threading.Event()
+        self._monitor_lock = threading.Lock()
+

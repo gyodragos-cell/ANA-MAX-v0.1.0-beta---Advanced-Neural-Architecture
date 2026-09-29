@@ -1,0 +1,401 @@
+{
+  "checks": [
+    {
+      "detail": {
+        "executable": "C:\\Program Files\\Python312\\python.exe",
+        "exists": true,
+        "version": "3.12.0"
+      },
+      "name": "main_python_3_12",
+      "success": true
+    },
+    {
+      "detail": {
+        "executable": "C:\\Users\\billy\\Desktop\\ana_dev\\local_llm_env\\Scripts\\python.exe",
+        "exists": false,
+        "version": ""
+      },
+      "name": "local_python_3_11",
+      "success": false
+    },
+    {
+      "detail": [
+        {
+          "exists": true,
+          "path": "requirements.txt",
+          "size": 150
+        },
+        {
+          "exists": true,
+          "path": "requirements_local_llm.txt",
+          "size": 89
+        },
+        {
+          "exists": true,
+          "path": ".env.local_llm",
+          "size": 306
+        },
+        {
+          "exists": true,
+          "path": "scripts/local_llm/start_local_llm.py",
+          "size": 25279
+        },
+        {
+          "exists": true,
+          "path": "scripts/local_llm/validate_local_llm_setup.py",
+          "size": 7718
+        },
+        {
+          "exists": true,
+          "path": "scripts/local_llm/test_local_brain.py",
+          "size": 2005
+        },
+        {
+          "exists": true,
+          "path": "scripts/os22/start_os22_agent.bat",
+          "size": 601
+        },
+        {
+          "exists": true,
+          "path": "scripts/os22/os22_infer_smoke.py",
+          "size": 7949
+        },
+        {
+          "exists": true,
+          "path": "ANA_MAX/local/os22_doctor.py",
+          "size": 7566
+        },
+        {
+          "exists": true,
+          "path": "ANA_MAX/local/os22_boot.py",
+          "size": 12544
+        },
+        {
+          "exists": true,
+          "path": "ANA_MAX/local/local_llm_backend.py",
+          "size": 27457
+        },
+        {
+          "exists": true,
+          "path": "ANA_MAX/agents/local_brain_agent.py",
+          "size": 26239
+        }
+      ],
+      "name": "required_files",
+      "success": true
+    },
+    {
+      "detail": {
+        "accelerate": false,
+        "bs4": false,
+        "diskcache": false,
+        "gguf": false,
+        "llama_cpp": false,
+        "numpy": false,
+        "ollm": false,
+        "peft": false,
+        "pytest": false,
+        "requests": false,
+        "torch": false,
+        "transformers": false
+      },
+      "name": "local_llm_modules",
+      "success": false
+    },
+    {
+      "detail": {
+        "ANA_LOCAL_LLM_BACKEND": "llama_cpp",
+        "ANA_LOCAL_LLM_DEVICE": "cpu",
+        "ANA_LOCAL_LLM_ENABLED": "0",
+        "ANA_LOCAL_LLM_FALLBACK_MODEL_NAME": "qwen2.5-coder",
+        "ANA_LOCAL_LLM_MODEL_NAME": "qwen2.5-coder",
+        "ANA_LOCAL_LLM_MODEL_PATH": "local_models/qwen2.5-coder-q5_k_m.gguf",
+        "ANA_LOCAL_LLM_N_CTX": "4096",
+        "ANA_LOCAL_LLM_N_GPU_LAYERS": "0",
+        "ANA_LOCAL_LLM_N_THREADS": "6"
+      },
+      "name": "local_llm_env_file",
+      "success": true
+    },
+    {
+      "detail": {
+        "configured_model": "C:\\Users\\billy\\Desktop\\ana_dev\\local_models\\qwen2.5-coder-q5_k_m.gguf",
+        "configured_model_present": false,
+        "model_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\local_models",
+        "model_dir_present": true,
+        "models": []
+      },
+      "name": "local_models",
+      "success": false
+    },
+    {
+      "detail": {
+        "command": [
+          "C:\\Users\\billy\\Desktop\\ana_dev\\local_llm_env\\Scripts\\python.exe",
+          "scripts/local_llm/validate_local_llm_setup.py"
+        ],
+        "report": {
+          "error": "local_llm_python_missing",
+          "overall_ready": false
+        },
+        "returncode": 1,
+        "success": false
+      },
+      "name": "local_llm_validator",
+      "success": false
+    },
+    {
+      "detail": {
+        "command": [
+          "C:\\Program Files\\Python312\\python.exe",
+          "-m",
+          "ANA_MAX.local.os22_doctor",
+          "--profile",
+          "os22_core"
+        ],
+        "report": {
+          "check_count": 12,
+          "checks": [
+            {
+              "detail": {
+                "issues": [],
+                "status": "READY"
+              },
+              "name": "boot_sequence",
+              "success": true
+            },
+            {
+              "detail": {
+                "doc_count": 18,
+                "foundation": {
+                  "ascii_safe": true,
+                  "exists": false,
+                  "heading_count": 0,
+                  "headings": [],
+                  "line_count": 0,
+                  "path": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\OS22_AGENT_FOUNDATION.md",
+                  "preview": "",
+                  "schema": "ana.os22.agent_foundation.v1"
+                },
+                "local_only": true,
+                "metadata_only": true,
+                "missing": [
+                  "OS22_AGENT_SELF_INIT.md",
+                  "OS22_AGENT_BOOT_BANNER.md",
+                  "OS22_AGENT_CONTRACT.md",
+                  "OS22_AGENT_TRAINING_LESSONS.md",
+                  "OS22_AGENT_ADVANCED_TRAINING.md",
+                  "OS22_AGENT_SANDBOX_SCENARIOS.md",
+                  "OS22_AGENT_MASTER_CLASS.md",
+                  "OS22_AGENT_AUTONOMY_V1.md",
+                  "OS22_AGENT_AUTONOMY_V2.md",
+                  "OS22_AGENT_AUTONOMY_V3.md",
+                  "OS22_AGENT_SELF_HEALING_V1.md",
+                  "OS22_AGENT_SELF_HEALING_V2.md",
+                  "OS22_AGENT_MEMORY_PRIMER.md",
+                  "OS22_TOOL_AWARENESS_PACK.md",
+                  "OS22_REASONING_GRAPH_PRIMER.md",
+                  "OS22_WORKFLOW_PLAYBOOK.md",
+                  "OS22_AGENT_OPERATING_PACK.md",
+                  "OS22_AGENT_FOUNDATION.md"
+                ],
+                "present": [],
+                "ready": false,
+                "schema": "ana.os22.agent_foundation.v1"
+              },
+              "name": "agent_foundation",
+              "success": false
+            },
+            {
+              "detail": {
+                "blocked_actions": [
+                  "create_tools",
+                  "edit_manifest",
+                  "edit_architecture",
+                  "external_paths",
+                  "internet_access"
+                ],
+                "capabilities": [
+                  "diagnose_tool_request",
+                  "resolve_rag_conflicts",
+                  "classify_text_issue",
+                  "diagnose_rag_context",
+                  "stabilize_reasoning_text",
+                  "preflight_diagnostics"
+                ],
+                "local_only": true,
+                "metadata_only": true,
+                "ready": true,
+                "schema": "ana.os22.agent_self_healing.v2",
+                "telemetry_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\logs\\self_healing_telemetry.jsonl"
+              },
+              "name": "self_healing",
+              "success": true
+            },
+            {
+              "detail": {
+                "tool_count": 27,
+                "web_learning_tools": [
+                  "rag_store_text",
+                  "web_scrape"
+                ]
+              },
+              "name": "tool_manifest_web_learning",
+              "success": true
+            },
+            {
+              "detail": {
+                "desktop_inspect_issue": "none",
+                "desktop_list_issue": "none",
+                "desktop_tools": [
+                  "desktop_inspect_folder",
+                  "desktop_list_items"
+                ],
+                "tool_count": 27
+              },
+              "name": "desktop_visibility_tools",
+              "success": true
+            },
+            {
+              "detail": {
+                "content_tools": [
+                  "desktop_read_text_file",
+                  "desktop_write_text_file",
+                  "web_learn_course",
+                  "web_learn_url"
+                ],
+                "desktop_read_issue": "none",
+                "desktop_write_issue": "none",
+                "tool_count": 27,
+                "web_course_issue": "none",
+                "web_learn_issue": "none"
+              },
+              "name": "content_learning_tools",
+              "success": true
+            },
+            {
+              "detail": {
+                "issue_class": "tool_missing"
+              },
+              "name": "tool_diagnostic_invalid_tool",
+              "success": true
+            },
+            {
+              "detail": {
+                "issue_class": "tool_args_missing"
+              },
+              "name": "tool_diagnostic_missing_args",
+              "success": true
+            },
+            {
+              "detail": {
+                "issue_class": "rag_empty"
+              },
+              "name": "rag_empty_diagnostic",
+              "success": true
+            },
+            {
+              "detail": {
+                "selected_content": "new launch info"
+              },
+              "name": "rag_conflict_diagnostic",
+              "success": true
+            },
+            {
+              "detail": {
+                "issue_class": "reasoning_too_long",
+                "stabilized_word_count": 40
+              },
+              "name": "reasoning_stabilizer",
+              "success": true
+            },
+            {
+              "detail": {
+                "issue_count": 3,
+                "success": false
+              },
+              "name": "preflight_diagnostics",
+              "success": true
+            }
+          ],
+          "failed_checks": [
+            "agent_foundation"
+          ],
+          "local_only": true,
+          "metadata_only": true,
+          "next_step": "Inspect failed_checks before launch.",
+          "profile": "os22_core",
+          "python": "3.12.0",
+          "schema": "ana.os22.doctor.v1",
+          "status": "WARN",
+          "success": false
+        },
+        "returncode": 1,
+        "success": false
+      },
+      "name": "os22_doctor",
+      "success": false
+    },
+    {
+      "detail": {
+        "command": [
+          "C:\\Program Files\\Python312\\python.exe",
+          "-m",
+          "ANA_MAX.local.os22_boot",
+          "--validate",
+          "--profile",
+          "os22_core"
+        ],
+        "report": {
+          "result": {
+            "health_score": 90,
+            "issues": [
+              "agent_foundation_unavailable"
+            ],
+            "schema": "ana.os22.boot_sequence.v1",
+            "status": "READY",
+            "success": false
+          },
+          "success": false
+        },
+        "returncode": 1,
+        "success": false
+      },
+      "name": "os22_boot",
+      "success": false
+    },
+    {
+      "detail": {
+        "skipped": true,
+        "success": true
+      },
+      "name": "focused_tests",
+      "success": true
+    }
+  ],
+  "generated_at": "2026-07-16T01:26:38+00:00",
+  "install_recommendations": [
+    "Run: .\\local_llm_env\\Scripts\\python.exe -m pip install -r requirements_local_llm.txt",
+    "Optional: install beautifulsoup4 only if legacy WebScraperTool parse/extract operations are needed.",
+    "Optional: install ollm only if switching from llama_cpp to the old ollm backend."
+  ],
+  "launch_commands": {
+    "doctor": "python -m ANA_MAX.local.os22_doctor --profile os22_core",
+    "interactive": "scripts\\os22\\start_os22_agent.bat",
+    "launch_audit": "python scripts\\os22\\os22_launch_audit.py --write-report",
+    "strict_smoke": ".\\local_llm_env\\Scripts\\python.exe .\\scripts\\local_llm\\start_local_llm.py --smoke --profile os22_core --backend llama_cpp --model-path .\\local_models\\qwen2.5-coder-q5_k_m.gguf --prompt \"Return exactly: READY\" --max-tokens 16 --temperature 0"
+  },
+  "local_only": true,
+  "metadata_only": true,
+  "notes": [
+    "optional_bs4_missing",
+    "local_llm_env_flag_disabled_but_cli_launch_is_ready"
+  ],
+  "overall_success": false,
+  "profile": "os22_core",
+  "ready_for_human_testing": false,
+  "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os22_launch_audit_report.json",
+  "root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "schema": "ana.os22.launch_audit.v1",
+  "warnings": []
+}

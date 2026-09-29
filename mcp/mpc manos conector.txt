@@ -1,0 +1,20 @@
+
+Perfect! Voi verifica statusul creării conectorului MCP cu transport STDIO.
+Lite
+✅ Conectorul MCP cu transport STDIO a fost creat cu succes!
+Detalii conector:
+
+Nume: ana-max-bridge
+Tip: MCP/STDIO
+Comandă: 
+
+C:\Users\billy\Desktop\ana-manus\ANA_MAX\venv\Scripts\python.exe
+Argument: 
+
+C:\Users\billy\Desktop\ana-manus\mcp_ana_bridge.py
+Variabile de mediu:
+
+ANA_DEV_ROOT  : C:\Users\billy\Desktop\ana-manus
+PYTHONPATH  :   C:\Users\billy\Desktop\ana-manus
+Status: ⏳ În așteptarea confirmării tale în interfața Manus
+Pași următori:

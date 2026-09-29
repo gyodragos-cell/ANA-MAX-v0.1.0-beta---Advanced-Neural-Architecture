@@ -1,0 +1,30 @@
+{
+  "success": true,
+  "data": {
+    "file": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\screenshots\\desktop_20260522_013011.png",
+    "size": 303225,
+    "method": "mss",
+    "diagnostics": [
+      {
+        "method": "mss",
+        "captured": true,
+        "usable": true,
+        "reason": "ok",
+        "metrics": {
+          "bytes": 303225,
+          "width": 1920,
+          "height": 1080,
+          "mean": [
+            172.24,
+            174.42,
+            177.8
+          ],
+          "max_channel": 255,
+          "min_channel": 0
+        }
+      }
+    ]
+  },
+  "message": "Captura ecran salvata: desktop_20260522_013011.png",
+  "error": null
+}

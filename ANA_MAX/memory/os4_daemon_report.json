@@ -1,0 +1,1911 @@
+{
+  "schema": "ana.os4.daemon.v1",
+  "engine": "os4_daemon",
+  "started_at": "2026-06-10T21:28:46.597458+00:00",
+  "interval_seconds": 1,
+  "max_cycles": 2,
+  "timeout_seconds": 180,
+  "dry_run": false,
+  "cycles": [
+    {
+      "index": 1,
+      "timestamp": "2026-06-10T21:29:34.167936+00:00",
+      "memory": {
+        "schema": "ana.memory.context.v1",
+        "core_memory_present": true,
+        "core_memory_schema_ok": true,
+        "history_length": 9,
+        "preferences": {
+          "stability_priority": "high",
+          "warnings_tolerance": "zero",
+          "evolution_aggressiveness": "medium",
+          "goal_persistence": "high",
+          "memory_consolidation": "bounded"
+        },
+        "patterns": {
+          "stable_cycles": 9,
+          "warning_cycles": 0,
+          "parse_error_cycles": 0,
+          "evolution_failure_cycles": 0,
+          "daemon_failure_cycles": 0
+        },
+        "long_term_keys": [
+          "current_goal_ids",
+          "goal_frequency",
+          "last_consistency_contradiction_count",
+          "last_consistency_overall_consistent",
+          "last_consistency_regression_count",
+          "last_consolidation",
+          "last_daemon_success",
+          "last_goal_count",
+          "last_graph_density",
+          "last_graph_edges",
+          "last_graph_nodes",
+          "last_health_score"
+        ]
+      },
+      "phases": [
+        {
+          "name": "profiling",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 5169.32,
+          "module": "ANA_MAX.self_optimization.self_profiling_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_profiling_engine",
+            "dry_run": false,
+            "elapsed_ms": 5034.65,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "summary_has_totals": true,
+                "analysis_present": true,
+                "schema_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+            "summary": {
+              "total_files": 719,
+              "total_bytes": 8761822,
+              "python_file_count": 213,
+              "top_level_area_count": 45
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "skills",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 2656.45,
+          "module": "ANA_MAX.self_optimization.self_skills_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_skills_engine",
+            "dry_run": false,
+            "elapsed_ms": 2535.04,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "skills_is_list": true,
+                "summary_counts_non_negative": true,
+                "skills_count_matches_summary": true,
+                "skills_non_empty": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+            "summary": {
+              "module_count": 213,
+              "area_count": 23,
+              "total_functions": 707,
+              "total_classes": 169,
+              "entrypoint_count": 80,
+              "parse_error_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "structuring",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 13105.71,
+          "module": "ANA_MAX.self_optimization.self_structuring_engine",
+          "args": [
+            "--cycle",
+            "--dry-run"
+          ],
+          "payload": {
+            "engine": "self_structuring_engine",
+            "dry_run": true,
+            "fix_init": false,
+            "elapsed_ms": 12989.03,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "module_count_positive": true,
+                "rescanned_missing_init_count_matches": true
+              },
+              "remaining_important_missing_init": []
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 213,
+              "package_dir_count": 25,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "healing",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 23502.19,
+          "module": "ANA_MAX.self_optimization.self_healing_engine",
+          "args": [
+            "--cycle",
+            "--dry-run"
+          ],
+          "payload": {
+            "engine": "self_healing_engine",
+            "mode": "detect",
+            "dry_run": true,
+            "elapsed_ms": 23378.9,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "ok_plus_failed_matches_results": true,
+                "summary_counts_match": true,
+                "returncodes_consistent": true,
+                "dry_run_detection_ran": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+            "summary": {
+              "files_checked": 213,
+              "ok_count": 213,
+              "failed_count": 0,
+              "health": "dry_run"
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "evaluation",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 104.68,
+          "module": "ANA_MAX.self_optimization.self_evaluation_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_evaluation_engine",
+            "dry_run": false,
+            "elapsed_ms": 3.57,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "json_serializable": true,
+                "overall_status_present": true,
+                "health_score_in_range": true,
+                "warnings_is_list": true,
+                "suggestions_is_list": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+            "summary": {
+              "overall_status": "healthy",
+              "health_score": 100,
+              "loaded_report_count": 4,
+              "missing_report_count": 0,
+              "warning_count": 0,
+              "suggestion_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "reasoning",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 100.71,
+          "module": "ANA_MAX.self_optimization.self_reasoning_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_reasoning_engine",
+            "dry_run": false,
+            "elapsed_ms": 9.8,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "schema_present": true,
+                "hypotheses_present": true,
+                "strategies_present": true,
+                "priorities_present": true,
+                "health_signal_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+            "summary": {
+              "hypotheses": 5,
+              "strategies": 7,
+              "priorities": 4,
+              "health_score": 100,
+              "warning_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "goals",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 118.93,
+          "module": "ANA_MAX.self_optimization.self_goals_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "schema": "ana.os5.goals_engine.v1",
+            "engine": "self_goals_engine",
+            "generated_at": "2026-06-10T21:29:31.339054+00:00",
+            "dry_run": false,
+            "goals_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+            "strategy_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+            "goals": {
+              "schema": "ana.os5.goals.v1",
+              "generated_at": "2026-06-10T21:29:31.336705+00:00",
+              "engine": "self_goals_engine",
+              "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+              "source_reports": {
+                "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+                "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+                "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+                "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+                "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+                "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+                "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+              },
+              "goals": [
+                {
+                  "id": "preserve_os_baseline",
+                  "objective": "Keep health_score at 100 with warning_count at 0.",
+                  "priority": "critical",
+                  "status": "stable",
+                  "metric": "health_score",
+                  "target": "100",
+                  "rationale": "OS-3/OS-4 baseline is the stability contract for every later layer.",
+                  "evidence": [
+                    "health_score=100",
+                    "warning_count=0"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "keep_parse_errors_zero",
+                  "objective": "Maintain parse_error_count at 0 across skills and orchestration reports.",
+                  "priority": "high",
+                  "status": "stable",
+                  "metric": "parse_error_count",
+                  "target": "0",
+                  "rationale": "Parsed reports must stay clean so later layers can compose safely.",
+                  "evidence": [
+                    "parse_error_count=0"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "preserve_daemon_stability",
+                  "objective": "Keep daemon cycles bounded and successful.",
+                  "priority": "high",
+                  "status": "stable",
+                  "metric": "daemon_overall_success",
+                  "target": "true",
+                  "rationale": "Repeated bounded cycles are the safest local automation contract.",
+                  "evidence": [
+                    "daemon_success=True",
+                    "daemon_cycles=2",
+                    "daemon_cycles=1"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "preserve_graph_quality",
+                  "objective": "Keep knowledge graph dense enough for routing but additive-only.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "graph_density",
+                  "target": "maintain",
+                  "rationale": "Graph structure should remain analyzable as later layers read it.",
+                  "evidence": [
+                    "graph_nodes=152",
+                    "graph_edges=2509",
+                    "graph_density=16.507",
+                    "graph_nodes=128",
+                    "graph_edges=2357",
+                    "graph_density=18.414",
+                    "graph_nodes=113",
+                    "graph_edges=1621",
+                    "graph_density=14.345",
+                    "graph_nodes=110",
+                    "graph_edges=1474",
+                    "graph_density=13.4",
+                    "graph_nodes=101",
+                    "graph_edges=1032",
+                    "graph_density=10.218"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "prepare_os6_adaptation",
+                  "objective": "Keep the system ready for meta-adaptation, policy, and enterprise layers.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "evolution_success",
+                  "target": "true",
+                  "rationale": "Later OS layers depend on current reports being readable and additive.",
+                  "evidence": [
+                    "evolution_overall_success=True",
+                    "reasoning_hypotheses=5",
+                    "reasoning_hypotheses=4"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "watch_graph_density",
+                  "objective": "Track hot nodes and graph density so future refactors stay additive.",
+                  "priority": "medium",
+                  "status": "monitoring",
+                  "metric": "graph_density",
+                  "target": "<= 8.0",
+                  "rationale": "Dense graphs can become hard to reason about as layers grow.",
+                  "evidence": [
+                    "graph_density=16.507",
+                    "graph_density=18.414",
+                    "graph_density=14.345",
+                    "graph_density=13.4",
+                    "graph_density=10.218"
+                  ],
+                  "progress": 70
+                },
+                {
+                  "id": "respect_reasoning_hints",
+                  "objective": "Feed reasoning-derived hints into the strategy layer.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "reasoning_strategy_hints",
+                  "target": "present",
+                  "rationale": "The reasoning engine already synthesizes signals that the goals layer can reuse.",
+                  "evidence": [
+                    "reasoning_strategies=7",
+                    "reasoning_strategies=5",
+                    "reasoning_strategies=3"
+                  ],
+                  "progress": 100
+                }
+              ],
+              "metrics": {
+                "health_score": 100,
+                "warning_count": 0,
+                "parse_error_count": 0,
+                "graph_nodes": 152,
+                "graph_edges": 2509,
+                "graph_density": 16.507,
+                "daemon_cycles": 2,
+                "daemon_success": true,
+                "daemon_last_cycle_success": true,
+                "evolution_overall_success": true,
+                "reasoning_hypotheses": 5,
+                "reasoning_strategies": 7,
+                "reasoning_priorities": 4
+              },
+              "status": {
+                "overall": "stable",
+                "goal_count": 7,
+                "stable_goal_count": 7,
+                "active_goal_count": 0
+              }
+            },
+            "strategy": {
+              "schema": "ana.os5.strategy.v1",
+              "generated_at": "2026-06-10T21:29:31.336705+00:00",
+              "engine": "self_goals_engine",
+              "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+              "source_reports": {
+                "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+                "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+                "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+                "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+                "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+                "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+                "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+              },
+              "priorities": [
+                {
+                  "rank": 1,
+                  "goal_id": "preserve_os_baseline",
+                  "priority": "critical",
+                  "reason": "Baseline health must stay at 100 and warnings at 0."
+                },
+                {
+                  "rank": 2,
+                  "goal_id": "keep_parse_errors_zero",
+                  "priority": "high",
+                  "reason": "Parse-free reports keep later OS layers safe and deterministic."
+                },
+                {
+                  "rank": 3,
+                  "goal_id": "preserve_daemon_stability",
+                  "priority": "high",
+                  "reason": "Bounded daemon cycles are the automation control point."
+                },
+                {
+                  "rank": 4,
+                  "goal_id": "preserve_graph_quality",
+                  "priority": "medium",
+                  "reason": "Graph quality drives later routing, policy, and orchestration layers."
+                },
+                {
+                  "rank": 5,
+                  "goal_id": "watch_graph_density",
+                  "priority": "medium",
+                  "reason": "The graph is becoming dense enough to watch for refactor candidates."
+                },
+                {
+                  "rank": 6,
+                  "goal_id": "respect_reasoning_hints",
+                  "priority": "medium",
+                  "reason": "Reasoning already provides local hints for the goals layer."
+                }
+              ],
+              "weights": {
+                "stability": 0.4,
+                "safety": 0.25,
+                "observability": 0.15,
+                "automation": 0.15000000000000002,
+                "adaptation": 0.15000000000000002
+              },
+              "phase_order": [
+                "profiling",
+                "skills",
+                "structuring",
+                "healing",
+                "evaluation",
+                "reasoning",
+                "goals",
+                "strategy_refresh",
+                "knowledge_graph",
+                "toolchain_discovery",
+                "daemon_loop"
+              ],
+              "last_update": "2026-06-10T21:29:31.336705+00:00"
+            },
+            "verification": {
+              "passed": true,
+              "checks": {
+                "goals_schema": true,
+                "strategy_schema": true,
+                "goals_present": true,
+                "priorities_present": true,
+                "phase_order_present": true,
+                "metrics_present": true
+              }
+            },
+            "elapsed_ms": 11.22,
+            "summary": {
+              "goal_count": 7,
+              "stable_goals": 7,
+              "active_goals": 0,
+              "phase_count": 11
+            },
+            "level_report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS5_report.json"
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "knowledge_graph",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 228.71,
+          "module": "ANA_MAX.self_optimization.knowledge_graph_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "nodes_count": 152,
+            "edges_count": 2509,
+            "node_types": {
+              "module": 51,
+              "script": 15,
+              "tool": 49,
+              "doc": 37
+            },
+            "evolution": {
+              "schema": "ana.os4.knowledge_graph_evolution.v1",
+              "previous_graph_present": true,
+              "added_nodes": [],
+              "removed_nodes": [],
+              "added_edges": [],
+              "removed_edges": [],
+              "hot_nodes": [
+                {
+                  "id": "core_agent",
+                  "name": "agent",
+                  "type": "module",
+                  "degree": 55
+                },
+                {
+                  "id": "tool_adal_tool",
+                  "name": "adal_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_adb_tool",
+                  "name": "adb_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_agent_coach_tool",
+                  "name": "agent_coach_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_ana_context_tool",
+                  "name": "ana_context_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_autonomous_tool",
+                  "name": "autonomous_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_binary_map_tool",
+                  "name": "binary_map_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_code_context_pack_tool",
+                  "name": "code_context_pack_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_codebase_understanding_tool",
+                  "name": "codebase_understanding_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_conversation_learning_tool",
+                  "name": "conversation_learning_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_debugger_tool",
+                  "name": "debugger_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_desktop_control_tool",
+                  "name": "desktop_control_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_edit_tool",
+                  "name": "edit_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_error_radar_tool",
+                  "name": "error_radar_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_event_stream_tool",
+                  "name": "event_stream_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_file_patch_tool",
+                  "name": "file_patch_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_git_tool",
+                  "name": "git_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_graph_context_pack_tool",
+                  "name": "graph_context_pack_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_hardware_scanner_tool",
+                  "name": "hardware_scanner_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_input_api_probe_tool",
+                  "name": "input_api_probe_tool",
+                  "type": "tool",
+                  "degree": 51
+                }
+              ],
+              "cold_nodes": [
+                {
+                  "id": "doc_ANA_MEMORY",
+                  "name": "ANA_MEMORY",
+                  "type": "doc",
+                  "path": "docs\\ANA_MEMORY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ARCHIVES",
+                  "name": "ARCHIVES",
+                  "type": "doc",
+                  "path": "docs\\ARCHIVES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BENCHMARKS",
+                  "name": "BENCHMARKS",
+                  "type": "doc",
+                  "path": "docs\\BENCHMARKS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BROWSER_PACK_V1",
+                  "name": "BROWSER_PACK_V1",
+                  "type": "doc",
+                  "path": "docs\\BROWSER_PACK_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CAPSULES_V1",
+                  "name": "CAPSULES_V1",
+                  "type": "doc",
+                  "path": "docs\\CAPSULES_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CAPSULE_SYNC_V1",
+                  "name": "CAPSULE_SYNC_V1",
+                  "type": "doc",
+                  "path": "docs\\CAPSULE_SYNC_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CHANGELOG",
+                  "name": "CHANGELOG",
+                  "type": "doc",
+                  "path": "docs\\CHANGELOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_DISTRIBUTED_PIPELINE_V1",
+                  "name": "DISTRIBUTED_PIPELINE_V1",
+                  "type": "doc",
+                  "path": "docs\\DISTRIBUTED_PIPELINE_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OPTIMIZATIONS",
+                  "name": "OPTIMIZATIONS",
+                  "type": "doc",
+                  "path": "docs\\OPTIMIZATIONS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS20_FINAL_BASELINE",
+                  "name": "OS20_FINAL_BASELINE",
+                  "type": "doc",
+                  "path": "docs\\OS20_FINAL_BASELINE.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_BASELINE_LOCK",
+                  "name": "OS21_BASELINE_LOCK",
+                  "type": "doc",
+                  "path": "docs\\OS21_BASELINE_LOCK.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_FINALIZATION",
+                  "name": "OS21_FINALIZATION",
+                  "type": "doc",
+                  "path": "docs\\OS21_FINALIZATION.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_PLAN",
+                  "name": "OS21_PLAN",
+                  "type": "doc",
+                  "path": "docs\\OS21_PLAN.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_AUTONOMY",
+                  "name": "OS3_AUTONOMY",
+                  "type": "doc",
+                  "path": "docs\\OS3_AUTONOMY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_MODULES",
+                  "name": "OS3_MODULES",
+                  "type": "doc",
+                  "path": "docs\\OS3_MODULES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_OVERVIEW",
+                  "name": "OS3_OVERVIEW",
+                  "type": "doc",
+                  "path": "docs\\OS3_OVERVIEW.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_RUNTIME",
+                  "name": "OS3_RUNTIME",
+                  "type": "doc",
+                  "path": "docs\\OS3_RUNTIME.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PERFORMANCE_LOG",
+                  "name": "PERFORMANCE_LOG",
+                  "type": "doc",
+                  "path": "docs\\PERFORMANCE_LOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PIPELINE_RECOVERY_V1",
+                  "name": "PIPELINE_RECOVERY_V1",
+                  "type": "doc",
+                  "path": "docs\\PIPELINE_RECOVERY_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PROJECT_SUMMARY",
+                  "name": "PROJECT_SUMMARY",
+                  "type": "doc",
+                  "path": "docs\\PROJECT_SUMMARY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_REASONING_GRAPH_QUERY_V1",
+                  "name": "REASONING_GRAPH_QUERY_V1",
+                  "type": "doc",
+                  "path": "docs\\REASONING_GRAPH_QUERY_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_REASONING_GRAPH_V1",
+                  "name": "REASONING_GRAPH_V1",
+                  "type": "doc",
+                  "path": "docs\\REASONING_GRAPH_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ROADMAP",
+                  "name": "ROADMAP",
+                  "type": "doc",
+                  "path": "docs\\ROADMAP.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_SECURITY_NOTES",
+                  "name": "SECURITY_NOTES",
+                  "type": "doc",
+                  "path": "docs\\SECURITY_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TECHNICAL_NOTES",
+                  "name": "TECHNICAL_NOTES",
+                  "type": "doc",
+                  "path": "docs\\TECHNICAL_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TEST_REPORT",
+                  "name": "TEST_REPORT",
+                  "type": "doc",
+                  "path": "docs\\TEST_REPORT.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TOOL_VIRTUALIZATION_CONTRACTS_V1",
+                  "name": "TOOL_VIRTUALIZATION_CONTRACTS_V1",
+                  "type": "doc",
+                  "path": "docs\\TOOL_VIRTUALIZATION_CONTRACTS_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_WEB_RECON_ORCHESTRATOR",
+                  "name": "WEB_RECON_ORCHESTRATOR",
+                  "type": "doc",
+                  "path": "docs\\WEB_RECON_ORCHESTRATOR.md",
+                  "degree": 0
+                },
+                {
+                  "id": "script_OS20_BASELINE_LOCK",
+                  "name": "OS20_BASELINE_LOCK",
+                  "type": "script",
+                  "path": "scripts\\OS20_BASELINE_LOCK.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_agent_startup_check",
+                  "name": "agent_startup_check",
+                  "type": "script",
+                  "path": "scripts\\agent_startup_check.ps1",
+                  "degree": 0
+                }
+              ],
+              "hot_node_count": 20,
+              "cold_node_count": 30
+            },
+            "json_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+            "markdown_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\KNOWLEDGE_GRAPH.md",
+            "history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph_history"
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "toolchain_discovery",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 2588.36,
+          "module": "ANA_MAX.tools.toolchain_discovery",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "toolchain_discovery",
+            "dry_run": false,
+            "elapsed_ms": 2439.13,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "schema_present": true,
+                "active_tools_present": true,
+                "dangerous_require_explicit_enable": true,
+                "counts_present": true
+              }
+            },
+            "manifest_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\toolchain_manifest.json",
+            "summary": {
+              "active": 105,
+              "candidate": 215,
+              "dangerous_active": 11,
+              "dangerous_candidate": 19,
+              "syntax_failed_active": 0,
+              "syntax_failed_candidate": 0
+            },
+            "policy": {
+              "auto_enable": false,
+              "dangerous_tools": "report_only_requires_explicit_enable",
+              "validation": "syntax_only_no_import_no_registration"
+            }
+          },
+          "stderr_excerpt": ""
+        }
+      ],
+      "summary": {
+        "success": true,
+        "total": 9,
+        "completed": 9,
+        "failed": 0,
+        "elapsed_ms": 47576.58
+      }
+    },
+    {
+      "index": 2,
+      "timestamp": "2026-06-10T21:30:27.112040+00:00",
+      "memory": {
+        "schema": "ana.memory.context.v1",
+        "core_memory_present": true,
+        "core_memory_schema_ok": true,
+        "history_length": 9,
+        "preferences": {
+          "stability_priority": "high",
+          "warnings_tolerance": "zero",
+          "evolution_aggressiveness": "medium",
+          "goal_persistence": "high",
+          "memory_consolidation": "bounded"
+        },
+        "patterns": {
+          "stable_cycles": 9,
+          "warning_cycles": 0,
+          "parse_error_cycles": 0,
+          "evolution_failure_cycles": 0,
+          "daemon_failure_cycles": 0
+        },
+        "long_term_keys": [
+          "current_goal_ids",
+          "goal_frequency",
+          "last_consistency_contradiction_count",
+          "last_consistency_overall_consistent",
+          "last_consistency_regression_count",
+          "last_consolidation",
+          "last_daemon_success",
+          "last_goal_count",
+          "last_graph_density",
+          "last_graph_edges",
+          "last_graph_nodes",
+          "last_health_score"
+        ]
+      },
+      "phases": [
+        {
+          "name": "profiling",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 4403.41,
+          "module": "ANA_MAX.self_optimization.self_profiling_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_profiling_engine",
+            "dry_run": false,
+            "elapsed_ms": 4306.14,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "summary_has_totals": true,
+                "analysis_present": true,
+                "schema_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+            "summary": {
+              "total_files": 719,
+              "total_bytes": 8761822,
+              "python_file_count": 213,
+              "top_level_area_count": 45
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "skills",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 2824.14,
+          "module": "ANA_MAX.self_optimization.self_skills_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_skills_engine",
+            "dry_run": false,
+            "elapsed_ms": 2720.6,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "skills_is_list": true,
+                "summary_counts_non_negative": true,
+                "skills_count_matches_summary": true,
+                "skills_non_empty": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+            "summary": {
+              "module_count": 213,
+              "area_count": 23,
+              "total_functions": 707,
+              "total_classes": 169,
+              "entrypoint_count": 80,
+              "parse_error_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "structuring",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 14980.67,
+          "module": "ANA_MAX.self_optimization.self_structuring_engine",
+          "args": [
+            "--cycle",
+            "--dry-run"
+          ],
+          "payload": {
+            "engine": "self_structuring_engine",
+            "dry_run": true,
+            "fix_init": false,
+            "elapsed_ms": 14773.77,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "module_count_positive": true,
+                "rescanned_missing_init_count_matches": true
+              },
+              "remaining_important_missing_init": []
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+            "summary": {
+              "module_count": 213,
+              "package_dir_count": 25,
+              "missing_init_total": 0,
+              "important_missing_init_count": 0,
+              "structure_health": "good"
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "healing",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 26672.34,
+          "module": "ANA_MAX.self_optimization.self_healing_engine",
+          "args": [
+            "--cycle",
+            "--dry-run"
+          ],
+          "payload": {
+            "engine": "self_healing_engine",
+            "mode": "detect",
+            "dry_run": true,
+            "elapsed_ms": 26533.21,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "ok_plus_failed_matches_results": true,
+                "summary_counts_match": true,
+                "returncodes_consistent": true,
+                "dry_run_detection_ran": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+            "summary": {
+              "files_checked": 213,
+              "ok_count": 213,
+              "failed_count": 0,
+              "health": "dry_run"
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "evaluation",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 132.21,
+          "module": "ANA_MAX.self_optimization.self_evaluation_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_evaluation_engine",
+            "dry_run": false,
+            "elapsed_ms": 6.19,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "report_non_empty": true,
+                "schema_present": true,
+                "json_serializable": true,
+                "overall_status_present": true,
+                "health_score_in_range": true,
+                "warnings_is_list": true,
+                "suggestions_is_list": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+            "summary": {
+              "overall_status": "healthy",
+              "health_score": 100,
+              "loaded_report_count": 4,
+              "missing_report_count": 0,
+              "warning_count": 0,
+              "suggestion_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "reasoning",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 120.11,
+          "module": "ANA_MAX.self_optimization.self_reasoning_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "self_reasoning_engine",
+            "dry_run": false,
+            "elapsed_ms": 9.1,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "schema_present": true,
+                "hypotheses_present": true,
+                "strategies_present": true,
+                "priorities_present": true,
+                "health_signal_present": true
+              }
+            },
+            "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+            "summary": {
+              "hypotheses": 5,
+              "strategies": 7,
+              "priorities": 4,
+              "health_score": 100,
+              "warning_count": 0
+            }
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "goals",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 126.51,
+          "module": "ANA_MAX.self_optimization.self_goals_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "schema": "ana.os5.goals_engine.v1",
+            "engine": "self_goals_engine",
+            "generated_at": "2026-06-10T21:30:24.415277+00:00",
+            "dry_run": false,
+            "goals_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+            "strategy_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+            "goals": {
+              "schema": "ana.os5.goals.v1",
+              "generated_at": "2026-06-10T21:30:24.406434+00:00",
+              "engine": "self_goals_engine",
+              "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+              "source_reports": {
+                "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+                "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+                "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+                "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+                "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+                "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+                "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+              },
+              "goals": [
+                {
+                  "id": "preserve_os_baseline",
+                  "objective": "Keep health_score at 100 with warning_count at 0.",
+                  "priority": "critical",
+                  "status": "stable",
+                  "metric": "health_score",
+                  "target": "100",
+                  "rationale": "OS-3/OS-4 baseline is the stability contract for every later layer.",
+                  "evidence": [
+                    "health_score=100",
+                    "warning_count=0"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "keep_parse_errors_zero",
+                  "objective": "Maintain parse_error_count at 0 across skills and orchestration reports.",
+                  "priority": "high",
+                  "status": "stable",
+                  "metric": "parse_error_count",
+                  "target": "0",
+                  "rationale": "Parsed reports must stay clean so later layers can compose safely.",
+                  "evidence": [
+                    "parse_error_count=0"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "preserve_daemon_stability",
+                  "objective": "Keep daemon cycles bounded and successful.",
+                  "priority": "high",
+                  "status": "stable",
+                  "metric": "daemon_overall_success",
+                  "target": "true",
+                  "rationale": "Repeated bounded cycles are the safest local automation contract.",
+                  "evidence": [
+                    "daemon_success=True",
+                    "daemon_cycles=1",
+                    "daemon_cycles=2"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "preserve_graph_quality",
+                  "objective": "Keep knowledge graph dense enough for routing but additive-only.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "graph_density",
+                  "target": "maintain",
+                  "rationale": "Graph structure should remain analyzable as later layers read it.",
+                  "evidence": [
+                    "graph_nodes=152",
+                    "graph_edges=2509",
+                    "graph_density=16.507",
+                    "graph_nodes=128",
+                    "graph_edges=2357",
+                    "graph_density=18.414",
+                    "graph_nodes=113",
+                    "graph_edges=1621",
+                    "graph_density=14.345",
+                    "graph_nodes=110",
+                    "graph_edges=1474",
+                    "graph_density=13.4",
+                    "graph_nodes=101",
+                    "graph_edges=1032",
+                    "graph_density=10.218"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "prepare_os6_adaptation",
+                  "objective": "Keep the system ready for meta-adaptation, policy, and enterprise layers.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "evolution_success",
+                  "target": "true",
+                  "rationale": "Later OS layers depend on current reports being readable and additive.",
+                  "evidence": [
+                    "evolution_overall_success=True",
+                    "reasoning_hypotheses=5",
+                    "reasoning_hypotheses=4"
+                  ],
+                  "progress": 100
+                },
+                {
+                  "id": "watch_graph_density",
+                  "objective": "Track hot nodes and graph density so future refactors stay additive.",
+                  "priority": "medium",
+                  "status": "monitoring",
+                  "metric": "graph_density",
+                  "target": "<= 8.0",
+                  "rationale": "Dense graphs can become hard to reason about as layers grow.",
+                  "evidence": [
+                    "graph_density=16.507",
+                    "graph_density=18.414",
+                    "graph_density=14.345",
+                    "graph_density=13.4",
+                    "graph_density=10.218"
+                  ],
+                  "progress": 70
+                },
+                {
+                  "id": "respect_reasoning_hints",
+                  "objective": "Feed reasoning-derived hints into the strategy layer.",
+                  "priority": "medium",
+                  "status": "stable",
+                  "metric": "reasoning_strategy_hints",
+                  "target": "present",
+                  "rationale": "The reasoning engine already synthesizes signals that the goals layer can reuse.",
+                  "evidence": [
+                    "reasoning_strategies=7",
+                    "reasoning_strategies=5",
+                    "reasoning_strategies=3"
+                  ],
+                  "progress": 100
+                }
+              ],
+              "metrics": {
+                "health_score": 100,
+                "warning_count": 0,
+                "parse_error_count": 0,
+                "graph_nodes": 152,
+                "graph_edges": 2509,
+                "graph_density": 16.507,
+                "daemon_cycles": 1,
+                "daemon_success": true,
+                "daemon_last_cycle_success": true,
+                "evolution_overall_success": true,
+                "reasoning_hypotheses": 5,
+                "reasoning_strategies": 7,
+                "reasoning_priorities": 4
+              },
+              "status": {
+                "overall": "stable",
+                "goal_count": 7,
+                "stable_goal_count": 7,
+                "active_goal_count": 0
+              }
+            },
+            "strategy": {
+              "schema": "ana.os5.strategy.v1",
+              "generated_at": "2026-06-10T21:30:24.406434+00:00",
+              "engine": "self_goals_engine",
+              "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+              "source_reports": {
+                "reasoning": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_reasoning_report.json",
+                "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+                "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+                "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+                "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+                "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+                "consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+              },
+              "priorities": [
+                {
+                  "rank": 1,
+                  "goal_id": "preserve_os_baseline",
+                  "priority": "critical",
+                  "reason": "Baseline health must stay at 100 and warnings at 0."
+                },
+                {
+                  "rank": 2,
+                  "goal_id": "keep_parse_errors_zero",
+                  "priority": "high",
+                  "reason": "Parse-free reports keep later OS layers safe and deterministic."
+                },
+                {
+                  "rank": 3,
+                  "goal_id": "preserve_daemon_stability",
+                  "priority": "high",
+                  "reason": "Bounded daemon cycles are the automation control point."
+                },
+                {
+                  "rank": 4,
+                  "goal_id": "preserve_graph_quality",
+                  "priority": "medium",
+                  "reason": "Graph quality drives later routing, policy, and orchestration layers."
+                },
+                {
+                  "rank": 5,
+                  "goal_id": "watch_graph_density",
+                  "priority": "medium",
+                  "reason": "The graph is becoming dense enough to watch for refactor candidates."
+                },
+                {
+                  "rank": 6,
+                  "goal_id": "respect_reasoning_hints",
+                  "priority": "medium",
+                  "reason": "Reasoning already provides local hints for the goals layer."
+                }
+              ],
+              "weights": {
+                "stability": 0.4,
+                "safety": 0.25,
+                "observability": 0.15,
+                "automation": 0.15000000000000002,
+                "adaptation": 0.15000000000000002
+              },
+              "phase_order": [
+                "profiling",
+                "skills",
+                "structuring",
+                "healing",
+                "evaluation",
+                "reasoning",
+                "goals",
+                "strategy_refresh",
+                "knowledge_graph",
+                "toolchain_discovery",
+                "daemon_loop"
+              ],
+              "last_update": "2026-06-10T21:30:24.406434+00:00"
+            },
+            "verification": {
+              "passed": true,
+              "checks": {
+                "goals_schema": true,
+                "strategy_schema": true,
+                "goals_present": true,
+                "priorities_present": true,
+                "phase_order_present": true,
+                "metrics_present": true
+              }
+            },
+            "elapsed_ms": 10.84,
+            "summary": {
+              "goal_count": 7,
+              "stable_goals": 7,
+              "active_goals": 0,
+              "phase_count": 11
+            },
+            "level_report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os_level_OS5_report.json"
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "knowledge_graph",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 183.95,
+          "module": "ANA_MAX.self_optimization.knowledge_graph_engine",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "nodes_count": 152,
+            "edges_count": 2509,
+            "node_types": {
+              "script": 15,
+              "doc": 37,
+              "module": 51,
+              "tool": 49
+            },
+            "evolution": {
+              "schema": "ana.os4.knowledge_graph_evolution.v1",
+              "previous_graph_present": true,
+              "added_nodes": [],
+              "removed_nodes": [],
+              "added_edges": [],
+              "removed_edges": [],
+              "hot_nodes": [
+                {
+                  "id": "core_agent",
+                  "name": "agent",
+                  "type": "module",
+                  "degree": 55
+                },
+                {
+                  "id": "tool_adal_tool",
+                  "name": "adal_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_adb_tool",
+                  "name": "adb_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_agent_coach_tool",
+                  "name": "agent_coach_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_ana_context_tool",
+                  "name": "ana_context_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_autonomous_tool",
+                  "name": "autonomous_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_binary_map_tool",
+                  "name": "binary_map_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_code_context_pack_tool",
+                  "name": "code_context_pack_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_codebase_understanding_tool",
+                  "name": "codebase_understanding_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_conversation_learning_tool",
+                  "name": "conversation_learning_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_debugger_tool",
+                  "name": "debugger_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_desktop_control_tool",
+                  "name": "desktop_control_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_edit_tool",
+                  "name": "edit_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_error_radar_tool",
+                  "name": "error_radar_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_event_stream_tool",
+                  "name": "event_stream_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_file_patch_tool",
+                  "name": "file_patch_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_git_tool",
+                  "name": "git_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_graph_context_pack_tool",
+                  "name": "graph_context_pack_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_hardware_scanner_tool",
+                  "name": "hardware_scanner_tool",
+                  "type": "tool",
+                  "degree": 51
+                },
+                {
+                  "id": "tool_input_api_probe_tool",
+                  "name": "input_api_probe_tool",
+                  "type": "tool",
+                  "degree": 51
+                }
+              ],
+              "cold_nodes": [
+                {
+                  "id": "doc_ANA_MEMORY",
+                  "name": "ANA_MEMORY",
+                  "type": "doc",
+                  "path": "docs\\ANA_MEMORY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ARCHIVES",
+                  "name": "ARCHIVES",
+                  "type": "doc",
+                  "path": "docs\\ARCHIVES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BENCHMARKS",
+                  "name": "BENCHMARKS",
+                  "type": "doc",
+                  "path": "docs\\BENCHMARKS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_BROWSER_PACK_V1",
+                  "name": "BROWSER_PACK_V1",
+                  "type": "doc",
+                  "path": "docs\\BROWSER_PACK_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CAPSULES_V1",
+                  "name": "CAPSULES_V1",
+                  "type": "doc",
+                  "path": "docs\\CAPSULES_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CAPSULE_SYNC_V1",
+                  "name": "CAPSULE_SYNC_V1",
+                  "type": "doc",
+                  "path": "docs\\CAPSULE_SYNC_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_CHANGELOG",
+                  "name": "CHANGELOG",
+                  "type": "doc",
+                  "path": "docs\\CHANGELOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_DISTRIBUTED_PIPELINE_V1",
+                  "name": "DISTRIBUTED_PIPELINE_V1",
+                  "type": "doc",
+                  "path": "docs\\DISTRIBUTED_PIPELINE_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OPTIMIZATIONS",
+                  "name": "OPTIMIZATIONS",
+                  "type": "doc",
+                  "path": "docs\\OPTIMIZATIONS.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS20_FINAL_BASELINE",
+                  "name": "OS20_FINAL_BASELINE",
+                  "type": "doc",
+                  "path": "docs\\OS20_FINAL_BASELINE.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_BASELINE_LOCK",
+                  "name": "OS21_BASELINE_LOCK",
+                  "type": "doc",
+                  "path": "docs\\OS21_BASELINE_LOCK.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_FINALIZATION",
+                  "name": "OS21_FINALIZATION",
+                  "type": "doc",
+                  "path": "docs\\OS21_FINALIZATION.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS21_PLAN",
+                  "name": "OS21_PLAN",
+                  "type": "doc",
+                  "path": "docs\\OS21_PLAN.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_AUTONOMY",
+                  "name": "OS3_AUTONOMY",
+                  "type": "doc",
+                  "path": "docs\\OS3_AUTONOMY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_MODULES",
+                  "name": "OS3_MODULES",
+                  "type": "doc",
+                  "path": "docs\\OS3_MODULES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_OVERVIEW",
+                  "name": "OS3_OVERVIEW",
+                  "type": "doc",
+                  "path": "docs\\OS3_OVERVIEW.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_OS3_RUNTIME",
+                  "name": "OS3_RUNTIME",
+                  "type": "doc",
+                  "path": "docs\\OS3_RUNTIME.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PERFORMANCE_LOG",
+                  "name": "PERFORMANCE_LOG",
+                  "type": "doc",
+                  "path": "docs\\PERFORMANCE_LOG.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PIPELINE_RECOVERY_V1",
+                  "name": "PIPELINE_RECOVERY_V1",
+                  "type": "doc",
+                  "path": "docs\\PIPELINE_RECOVERY_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_PROJECT_SUMMARY",
+                  "name": "PROJECT_SUMMARY",
+                  "type": "doc",
+                  "path": "docs\\PROJECT_SUMMARY.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_REASONING_GRAPH_QUERY_V1",
+                  "name": "REASONING_GRAPH_QUERY_V1",
+                  "type": "doc",
+                  "path": "docs\\REASONING_GRAPH_QUERY_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_REASONING_GRAPH_V1",
+                  "name": "REASONING_GRAPH_V1",
+                  "type": "doc",
+                  "path": "docs\\REASONING_GRAPH_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_ROADMAP",
+                  "name": "ROADMAP",
+                  "type": "doc",
+                  "path": "docs\\ROADMAP.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_SECURITY_NOTES",
+                  "name": "SECURITY_NOTES",
+                  "type": "doc",
+                  "path": "docs\\SECURITY_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TECHNICAL_NOTES",
+                  "name": "TECHNICAL_NOTES",
+                  "type": "doc",
+                  "path": "docs\\TECHNICAL_NOTES.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TEST_REPORT",
+                  "name": "TEST_REPORT",
+                  "type": "doc",
+                  "path": "docs\\TEST_REPORT.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_TOOL_VIRTUALIZATION_CONTRACTS_V1",
+                  "name": "TOOL_VIRTUALIZATION_CONTRACTS_V1",
+                  "type": "doc",
+                  "path": "docs\\TOOL_VIRTUALIZATION_CONTRACTS_V1.md",
+                  "degree": 0
+                },
+                {
+                  "id": "doc_WEB_RECON_ORCHESTRATOR",
+                  "name": "WEB_RECON_ORCHESTRATOR",
+                  "type": "doc",
+                  "path": "docs\\WEB_RECON_ORCHESTRATOR.md",
+                  "degree": 0
+                },
+                {
+                  "id": "script_OS20_BASELINE_LOCK",
+                  "name": "OS20_BASELINE_LOCK",
+                  "type": "script",
+                  "path": "scripts\\OS20_BASELINE_LOCK.ps1",
+                  "degree": 0
+                },
+                {
+                  "id": "script_agent_startup_check",
+                  "name": "agent_startup_check",
+                  "type": "script",
+                  "path": "scripts\\agent_startup_check.ps1",
+                  "degree": 0
+                }
+              ],
+              "hot_node_count": 20,
+              "cold_node_count": 30
+            },
+            "json_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+            "markdown_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\KNOWLEDGE_GRAPH.md",
+            "history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph_history"
+          },
+          "stderr_excerpt": ""
+        },
+        {
+          "name": "toolchain_discovery",
+          "success": true,
+          "returncode": 0,
+          "elapsed_ms": 2512.17,
+          "module": "ANA_MAX.tools.toolchain_discovery",
+          "args": [
+            "--cycle"
+          ],
+          "payload": {
+            "engine": "toolchain_discovery",
+            "dry_run": false,
+            "elapsed_ms": 2376.49,
+            "verification": {
+              "passed": true,
+              "checks": {
+                "schema_present": true,
+                "active_tools_present": true,
+                "dangerous_require_explicit_enable": true,
+                "counts_present": true
+              }
+            },
+            "manifest_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\toolchain_manifest.json",
+            "summary": {
+              "active": 105,
+              "candidate": 215,
+              "dangerous_active": 11,
+              "dangerous_candidate": 19,
+              "syntax_failed_active": 0,
+              "syntax_failed_candidate": 0
+            },
+            "policy": {
+              "auto_enable": false,
+              "dangerous_tools": "report_only_requires_explicit_enable",
+              "validation": "syntax_only_no_import_no_registration"
+            }
+          },
+          "stderr_excerpt": ""
+        }
+      ],
+      "summary": {
+        "success": true,
+        "total": 9,
+        "completed": 9,
+        "failed": 0,
+        "elapsed_ms": 51956.86
+      }
+    }
+  ],
+  "overall_success": true,
+  "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+  "log_path": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\OS4_DAEMON_LOG.md",
+  "memory": {
+    "schema": "ana.memory.context.v1",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 9,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "medium",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 9,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "finished_at": "2026-06-10T21:30:27.128609+00:00"
+}

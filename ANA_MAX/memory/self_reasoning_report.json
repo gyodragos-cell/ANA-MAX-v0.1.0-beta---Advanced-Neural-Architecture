@@ -1,0 +1,195 @@
+{
+  "schema": "ana.os4.self_reasoning.v1",
+  "engine": "self_reasoning_engine",
+  "generated_at": "2026-06-10T21:30:24.289715+00:00",
+  "dry_run": false,
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "inputs": {
+    "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+    "evolution": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+    "performance_log": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\PERFORMANCE_LOG.md",
+    "skills": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+    "graph": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+    "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+    "meta_history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+    "architecture_proposals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json",
+    "system_policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+    "enterprise_policies": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\enterprise_policies.json",
+    "self_consistency": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_consistency_report.json"
+  },
+  "hypotheses": [
+    {
+      "id": "stable_baseline",
+      "confidence": 0.98,
+      "evidence": "OS-3 evaluation reports health_score=100 and warning_count=0.",
+      "impact": "OS-4 can stay additive and focus on observability/evolution."
+    },
+    {
+      "id": "skills_parse_clean",
+      "confidence": 0.95,
+      "evidence": "Self-skills report has parse_error_count=0.",
+      "impact": "Toolchain discovery can use static parsing safely."
+    },
+    {
+      "id": "graph_connected",
+      "confidence": 0.85,
+      "evidence": "Knowledge graph has 152 nodes and 2509 edges.",
+      "impact": "Graph density 16.507 supports hot/cold node analysis."
+    },
+    {
+      "id": "historical_failures_present",
+      "confidence": 0.6,
+      "evidence": "Performance log contains historical failure markers.",
+      "impact": "Prioritize current reports over historical log wording."
+    },
+    {
+      "id": "memory_context_loaded",
+      "confidence": 0.93,
+      "evidence": "core_memory_history_length=9.",
+      "impact": "Current reasoning can bias toward stable, bounded decisions."
+    }
+  ],
+  "strategies": [
+    {
+      "id": "protect_baseline",
+      "priority": "critical",
+      "mode": "guardrail",
+      "action": "Run evaluation after every OS-4 cycle and fail closed on warnings."
+    },
+    {
+      "id": "adaptive_graph",
+      "priority": "medium",
+      "mode": "observability",
+      "action": "Track graph diffs and use hot/cold nodes for refactor targeting."
+    },
+    {
+      "id": "bounded_daemon_cycles",
+      "priority": "high",
+      "mode": "automation",
+      "action": "Use bounded OS-4 daemon cycles for repeated local validation."
+    },
+    {
+      "id": "goal_feedback_loop",
+      "priority": "high",
+      "mode": "goals",
+      "action": "Feed the OS-5 goals report back into later orchestration layers."
+    },
+    {
+      "id": "respect_strategy_phase_order",
+      "priority": "medium",
+      "mode": "strategy",
+      "action": "Use OS-5 phase order as the deterministic source of truth: profiling, skills, structuring, healing, evaluation, reasoning, goals, strategy_refresh, knowledge_graph, toolchain_discovery, daemon_loop."
+    },
+    {
+      "id": "memory_zero_warning_bias",
+      "priority": "high",
+      "mode": "memory",
+      "action": "Prefer low-risk, bounded actions because the memory model expects zero warning tolerance."
+    },
+    {
+      "id": "memory_conservative_evolution",
+      "priority": "medium",
+      "mode": "memory",
+      "action": "Favor conservative additive changes until the memory history shows repeated stability."
+    }
+  ],
+  "priorities": [
+    {
+      "rank": 1,
+      "id": "preserve_os3_health",
+      "action": "Keep evaluation health_score at 100 and warning_count at 0.",
+      "priority": "critical"
+    },
+    {
+      "rank": 2,
+      "id": "run_reasoning_after_evaluation",
+      "action": "Run self_reasoning after every evaluation cycle.",
+      "priority": "high"
+    },
+    {
+      "rank": 3,
+      "id": "refresh_adaptive_graph",
+      "action": "Refresh graph history and diff after toolchain or doc changes.",
+      "priority": "medium"
+    },
+    {
+      "rank": 4,
+      "id": "discover_tools_safely",
+      "action": "Report candidate/dangerous tools without auto-registration.",
+      "priority": "medium"
+    }
+  ],
+  "signals": {
+    "health_score": 100,
+    "warning_count": 0,
+    "parse_error_count": 0,
+    "graph_nodes": 152,
+    "graph_edges": 2509,
+    "evolution_overall_success": true,
+    "strategy_priority_count": 6,
+    "strategy_phase_count": 11,
+    "architecture_candidate_count": 3,
+    "architecture_proposal_count": 3,
+    "policy_count": 6,
+    "enterprise_policy_count": 6,
+    "meta_history_exists": true,
+    "memory_context_present": true,
+    "memory_history_length": 9,
+    "memory_stability_priority": "high",
+    "memory_warnings_tolerance": "zero",
+    "memory_evolution_aggressiveness": "medium",
+    "memory_stable_cycles": 9,
+    "memory_warning_cycles": 0,
+    "memory_parse_error_cycles": 0,
+    "memory_consistency_present": true,
+    "memory_consistency_overall_consistent": true,
+    "memory_consistency_contradiction_count": 0,
+    "memory_consistency_regression_count": 0
+  },
+  "memory_context_summary": {
+    "schema": "ana.memory.context.v1",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 9,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "medium",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 9,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "long_term_keys": [
+      "current_goal_ids",
+      "goal_frequency",
+      "last_consistency_contradiction_count",
+      "last_consistency_overall_consistent",
+      "last_consistency_regression_count",
+      "last_consolidation",
+      "last_daemon_success",
+      "last_goal_count",
+      "last_graph_density",
+      "last_graph_edges",
+      "last_graph_nodes",
+      "last_health_score"
+    ]
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "schema_present": true,
+      "hypotheses_present": true,
+      "strategies_present": true,
+      "priorities_present": true,
+      "health_signal_present": true
+    }
+  },
+  "elapsed_ms": 9.1
+}

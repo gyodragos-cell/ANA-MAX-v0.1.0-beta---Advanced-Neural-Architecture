@@ -1,0 +1,88 @@
+{
+  "baseline_compatible": true,
+  "baseline_lock": {
+    "failed_module_count": 0,
+    "module_count": 16,
+    "overall_success": true,
+    "schema": "ana.os21.baseline_lock.v1",
+    "status": "PASS"
+  },
+  "baseline_validation": {
+    "issues": [],
+    "lock_name": "os21_baseline_lock_v1",
+    "module_count": 16,
+    "schema": "ana.os21.baseline_lock.v1",
+    "schemas": [
+      "ana.os21.agent_capability_registry.v1",
+      "ana.os21.agent_scheduler.v1",
+      "ana.os21.browser_pack.v1",
+      "ana.os21.browser_recon_agent.v1",
+      "ana.os21.capsule_merge.v1",
+      "ana.os21.capsule_store.v1",
+      "ana.os21.capsule_sync_plan.v1",
+      "ana.os21.distributed_pipeline.v1",
+      "ana.os21.pipeline_recovery.v1",
+      "ana.os21.reasoning_graph.v1",
+      "ana.os21.reasoning_graph_query.v1",
+      "ana.os21.recon_capsule.v1",
+      "ana.os21.tool_virtualization_contracts.v1",
+      "ana.os21.web_recon_agent.v1",
+      "ana.os21.web_recon_orchestrator.v1",
+      "ana.os21.web_scraper_agent.v1"
+    ],
+    "success": true
+  },
+  "boundary": {
+    "next_allowed_phase": "promotion_review_only",
+    "os22_started": false,
+    "ready_for_os22": false,
+    "reason": "User requested stop at OS-21 finalization.",
+    "stop_before": "OS-22"
+  },
+  "final_artifacts": [
+    "docs/OS21_PLAN.md",
+    "docs/OS21_BASELINE_LOCK.md",
+    "docs/TOOL_VIRTUALIZATION_CONTRACTS_V1.md",
+    "docs/AGENT_CAPABILITY_REGISTRY_V1.md",
+    "docs/TEST_REPORT.md",
+    "ANA_MAX/memory/os21_final_report.json",
+    "ANA_MAX/memory/os_level_OS21_report.json"
+  ],
+  "finalizer_name": "os21_finalizer_v1",
+  "generated_at": "2026-06-10T21:31:57.895158+00:00",
+  "kernel": {
+    "agent_registry": {
+      "agent_count": 3,
+      "capability_count": 10,
+      "schema": "ana.os21.agent_capability_registry.v1",
+      "tool_count": 2
+    },
+    "tool_virtualization": {
+      "execution_allowed": false,
+      "operation_contract_count": 31,
+      "schema": "ana.os21.tool_virtualization_contracts.v1",
+      "tool_count": 2
+    }
+  },
+  "local_only": true,
+  "metadata_only": true,
+  "no_runtime_execution": true,
+  "os_level": "OS-21",
+  "overall_success": true,
+  "schema": "ana.os21.finalizer.v1",
+  "status": "FINALIZED",
+  "summary": {
+    "failed_module_count": 0,
+    "finalizer_name": "os21_finalizer_v1",
+    "local_only": true,
+    "metadata_only": true,
+    "module_count": 16,
+    "os22_started": false,
+    "os_level": "OS-21",
+    "overall_success": true,
+    "ready_for_os22": false,
+    "schema": "ana.os21.finalizer.v1",
+    "status": "FINALIZED"
+  },
+  "version": "1.0"
+}

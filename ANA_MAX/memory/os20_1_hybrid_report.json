@@ -1,0 +1,29 @@
+{
+  "schema": "ana.os20_1.hybrid_report.v1",
+  "os_level": "OS-20.1",
+  "status": "PASS",
+  "overall_success": true,
+  "runtime_stability": true,
+  "direct_bridge_promoted": false,
+  "direct_bridge_optional_flag": "--enable-hybrid-tools",
+  "direct_bridge_reason": "OS-20 baseline lock requires 14/14 direct bridge core tools; hybrid browser is available only when explicitly enabled.",
+  "capabilities": [
+    "core.browser_runtime optional Playwright runtime",
+    "HTTP/system-browser fallback inspection",
+    "browser_control import repair",
+    "browser_control dom_refs operation",
+    "browser_control page_snapshot operation",
+    "ASCII/BOM normalization script for docs and scripts",
+    "direct_bridge optional hybrid loading",
+    "operation-level browser confirmation guard"
+  ],
+  "validation": {
+    "compileall": "PASS",
+    "browser_runtime_smoke": "PASS",
+    "encoding_normalization_findings": 0,
+    "os20_baseline_lock_runtime": "PASS",
+    "direct_bridge_default_14_of_14": "PASS",
+    "direct_bridge_hybrid_browser_control": "PASS",
+    "direct_bridge_browser_risk_guard": "PASS"
+  }
+}

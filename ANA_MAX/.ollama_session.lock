@@ -1,0 +1,8 @@
+{
+  "created_at": "2026-09-29T00:43:41.594477",
+  "ollama_running": false,
+  "pid": null,
+  "cmdline": null,
+  "host": "127.0.0.1",
+  "port": 11434
+}

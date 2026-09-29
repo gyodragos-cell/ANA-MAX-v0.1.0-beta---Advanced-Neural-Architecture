@@ -1,0 +1,69 @@
+{
+  "schema": "ana.full_auto_audit.v2",
+  "status": "PASS",
+  "generated_at": "2026-06-10T09:57:32.252246+00:00",
+  "runtime_stability": true,
+  "tool_self_healing_enabled": true,
+  "tool_diagnostic_enabled": true,
+  "tool_repair_simulation_enabled": true,
+  "missing_modules_resolved": true,
+  "missing_cli_resolved": true,
+  "drift_detected": false,
+  "health_score": 100,
+  "warnings": 0,
+  "parse_error_count": 0,
+  "overall_success": true,
+  "audit": {
+    "module_surfaces": {
+      "skill_engine": {
+        "path": "ANA_MAX/skills/skill_engine.py",
+        "exists": true
+      },
+      "skills_package": {
+        "path": "ANA_MAX/skills/__init__.py",
+        "exists": true
+      },
+      "fallback_engine": {
+        "path": "ANA_MAX/self_optimization/fallback_engine.py",
+        "exists": true
+      },
+      "error_model": {
+        "path": "ANA_MAX/self_optimization/error_model.py",
+        "exists": true
+      }
+    },
+    "cli_surfaces": {
+      "diagnostic": true,
+      "simulate_repair": true
+    },
+    "self_healing": {
+      "failed_count": 0,
+      "post_failed_count": 0,
+      "dry_run_no_mutations": true
+    },
+    "tool_validations": {
+      "skill_engine": true,
+      "fallback_engine": true,
+      "error_model": true
+    },
+    "os20": {
+      "current_os_level": "OS-20",
+      "personal_ai_studio_success": true,
+      "evolution_success": true
+    },
+    "structure": {
+      "missing_init_total": 0,
+      "structure_health": "good"
+    },
+    "direct_bridge_expected": {
+      "loaded_tools": 14,
+      "registered_tools": 14
+    },
+    "os_chain": {
+      "report_count": 20,
+      "pass_or_omitted_count": 20,
+      "ok": true
+    },
+    "warn_items": []
+  }
+}

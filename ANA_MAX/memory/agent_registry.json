@@ -1,0 +1,83 @@
+{
+  "schema": "ana.os7.agent_registry.v1",
+  "generated_at": "2026-06-10T09:41:04.188083",
+  "agents": {
+    "optimizer": {
+      "role": "optimizer",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 3,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "skills",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "tester": {
+      "role": "tester",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "healing",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "documenter": {
+      "role": "documenter",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "knowledge_graph",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "structurer": {
+      "role": "structurer",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "canonical_layout",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      }
+    },
+    "extractor": {
+      "role": "extractor",
+      "status": "active",
+      "health_score": 100,
+      "failure_count": 0,
+      "success_count": 1,
+      "last_success_at": "2026-06-10T09:40:40.031165",
+      "last_failure_at": null,
+      "last_task": {
+        "task_type": "github_patterns",
+        "status": "completed",
+        "timestamp": "2026-06-10T09:40:40.031165"
+      },
+      "requires_explicit_enable": true
+    }
+  },
+  "summary": {
+    "agent_count": 5,
+    "healthy_count": 5,
+    "failure_count_total": 0,
+    "success_count_total": 7
+  }
+}

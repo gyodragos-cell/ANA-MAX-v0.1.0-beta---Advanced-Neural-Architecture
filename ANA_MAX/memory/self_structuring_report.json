@@ -1,0 +1,71 @@
+{
+  "schema": "ana.os3.self_structuring.v1",
+  "engine": "self_structuring_engine",
+  "generated_at": "2026-06-10T05:23:06.122425+00:00",
+  "project_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "ana_max_root": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX",
+  "fix_init_requested": false,
+  "dry_run": false,
+  "planned_actions": [
+    {
+      "action": "report_structure",
+      "targets": []
+    }
+  ],
+  "summary": {
+    "module_count": 151,
+    "package_dir_count": 17,
+    "missing_init_total": 0,
+    "important_missing_init_count": 0,
+    "structure_health": "good"
+  },
+  "analysis": {
+    "missing_init_total": 0,
+    "important_missing_init": [],
+    "optional_missing_init": [],
+    "structure_health": "good"
+  },
+  "created_init_files": [],
+  "skipped_init_files": [],
+  "observation_snapshot": {
+    "missing_init_packages": [],
+    "existing_init_packages": [
+      ".",
+      "Desktop",
+      "Desktop/test_qoder",
+      "benchmarks",
+      "config",
+      "config/plugins",
+      "core",
+      "core/backends",
+      "core/testing",
+      "dashboard",
+      "dev_artifacts",
+      "dev_artifacts/scripts",
+      "plugins",
+      "plugins/examples",
+      "proiect",
+      "self_optimization",
+      "tools",
+      "tools/v20"
+    ]
+  },
+  "verification": {
+    "passed": true,
+    "checks": {
+      "report_non_empty": true,
+      "schema_present": true,
+      "module_count_positive": true,
+      "rescanned_missing_init_count_matches": true
+    },
+    "remaining_important_missing_init": []
+  },
+  "pipeline": {
+    "observe": "complete",
+    "analyze": "complete",
+    "plan": "complete",
+    "act": "complete",
+    "verify": "complete",
+    "document": "complete"
+  }
+}

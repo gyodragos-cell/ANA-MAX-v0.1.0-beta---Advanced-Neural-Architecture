@@ -1,0 +1,60 @@
+{
+  "status": "DONE",
+  "version": "4.0.0",
+  "summary": "Completed 1 steps in 5.6s",
+  "extracted_data": [
+    "This domain is for use in documentation examples without needing permission. Avoid use in operations."
+  ],
+  "session_log": [
+    {
+      "step_n": 0,
+      "step_label": "Navigation",
+      "action": "NAVIGATE",
+      "target": "https://example.com",
+      "result": "Loaded https://example.com",
+      "state": "INFO",
+      "url": "https://example.com",
+      "timestamp": 1789948876.7547293,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "Step 1",
+      "action": "STEP",
+      "target": null,
+      "result": "Extract the first paragraph",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789948878.754859,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "AI [heuristic]",
+      "action": "EXTRACT",
+      "target": "None",
+      "result": "Extract first substantial paragraph | conf=0.85",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789948880.7907677,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "Executor",
+      "action": "EXTRACT",
+      "target": "None",
+      "result": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+      "state": "SUCCESS",
+      "url": "https://example.com/",
+      "timestamp": 1789948880.827435,
+      "ocr_text": null,
+      "screenshot_b64": null
+    }
+  ],
+  "session_seconds": 5.6,
+  "ocr_available": true
+}

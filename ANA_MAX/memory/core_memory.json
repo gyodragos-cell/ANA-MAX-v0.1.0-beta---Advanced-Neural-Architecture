@@ -1,0 +1,440 @@
+{
+  "schema": "ana.memory.core.v1",
+  "long_term": {
+    "last_consolidation": "2026-06-10T21:27:41.677489+00:00",
+    "last_health_score": 100,
+    "last_warning_count": 0,
+    "last_parse_error_count": 0,
+    "last_overall_success": true,
+    "last_daemon_success": true,
+    "last_graph_nodes": 136,
+    "last_graph_edges": 2505,
+    "last_graph_density": 18.419,
+    "last_goal_count": 7,
+    "last_strategy_phase_count": 11,
+    "last_strategy_phase_order": [
+      "profiling",
+      "skills",
+      "structuring",
+      "healing",
+      "evaluation",
+      "reasoning",
+      "goals",
+      "strategy_refresh",
+      "knowledge_graph",
+      "toolchain_discovery",
+      "daemon_loop"
+    ],
+    "last_reasoning_strategy_count": 7,
+    "last_reasoning_hypothesis_count": 5,
+    "last_consistency_overall_consistent": true,
+    "last_consistency_contradiction_count": 0,
+    "last_consistency_regression_count": 0,
+    "goal_frequency": {
+      "preserve_os_baseline": 9,
+      "keep_parse_errors_zero": 9,
+      "preserve_daemon_stability": 9,
+      "preserve_graph_quality": 9,
+      "prepare_os6_adaptation": 9,
+      "watch_graph_density": 9,
+      "respect_reasoning_hints": 9
+    },
+    "current_goal_ids": [
+      "preserve_os_baseline",
+      "keep_parse_errors_zero",
+      "preserve_daemon_stability",
+      "preserve_graph_quality",
+      "prepare_os6_adaptation",
+      "watch_graph_density",
+      "respect_reasoning_hints"
+    ],
+    "strategy_phase_order": [
+      "profiling",
+      "skills",
+      "structuring",
+      "healing",
+      "evaluation",
+      "reasoning",
+      "goals",
+      "strategy_refresh",
+      "knowledge_graph",
+      "toolchain_discovery",
+      "daemon_loop"
+    ]
+  },
+  "short_term": {
+    "last_cycle": {
+      "timestamp": "2026-06-10T21:27:41.677489+00:00",
+      "health_score": 100,
+      "warning_count": 0,
+      "parse_error_count": 0,
+      "overall_success": true,
+      "daemon_success": true,
+      "goal_count": 7,
+      "strategy_phase_count": 11,
+      "consistency_present": true,
+      "consistency_overall_consistent": true
+    }
+  },
+  "preferences": {
+    "stability_priority": "high",
+    "warnings_tolerance": "zero",
+    "evolution_aggressiveness": "medium",
+    "goal_persistence": "high",
+    "memory_consolidation": "bounded"
+  },
+  "patterns": {
+    "stable_cycles": 9,
+    "warning_cycles": 0,
+    "parse_error_cycles": 0,
+    "evolution_failure_cycles": 0,
+    "daemon_failure_cycles": 0,
+    "goal_frequency": {
+      "preserve_os_baseline": 9,
+      "keep_parse_errors_zero": 9,
+      "preserve_daemon_stability": 9,
+      "preserve_graph_quality": 9,
+      "prepare_os6_adaptation": 9,
+      "watch_graph_density": 9,
+      "respect_reasoning_hints": 9
+    },
+    "issue_frequency": {
+      "stable_cycles": 9
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2026-06-10T08:05:46.415906+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 13.4,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "low"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:06:46.386792+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.414,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "low"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:19:24.793221+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.414,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:34:31.716010+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.414,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:39:32.395974+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.414,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:47:46.136059+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.414,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T09:54:04.756376+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.885,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T19:08:02.301521+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.419,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    },
+    {
+      "timestamp": "2026-06-10T21:27:41.677489+00:00",
+      "signals": {
+        "health_score": 100,
+        "warning_count": 0,
+        "parse_error_count": 0,
+        "overall_success": true,
+        "daemon_success": true,
+        "goal_count": 7,
+        "strategy_phase_count": 11,
+        "graph_density": 18.419,
+        "consistency_overall_consistent": true
+      },
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium"
+      },
+      "goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ],
+      "current_goal_ids": [
+        "preserve_os_baseline",
+        "keep_parse_errors_zero",
+        "preserve_daemon_stability",
+        "preserve_graph_quality",
+        "prepare_os6_adaptation",
+        "watch_graph_density",
+        "respect_reasoning_hints"
+      ]
+    }
+  ]
+}

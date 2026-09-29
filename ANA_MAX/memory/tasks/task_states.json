@@ -1,0 +1,372 @@
+{
+  "tsk_157284c2d1": {
+    "task_id": "tsk_157284c2d1",
+    "created_at": "2026-07-28T03:06:57.642431Z",
+    "task_desc": "listeaza cele mai recente 6 fisiere .py modificate in ANA_MAX/core si spune-mi size-ul fiecaruia",
+    "status": "failed",
+    "planner_result": {
+      "success": false,
+      "output": "Planificator ANA: 0/1 pasi reusiti.\nErori:\n- [stp_dc2b3794] file_operations: Text de cautat necesar",
+      "steps": [
+        {
+          "step_id": "stp_dc2b3794",
+          "description": "Note: Use error_radar next for failure; coach severity is critical.. Executa tool-ul 'file_operations' pentru: listeaza cele mai recente 6 fisiere .py modificate in ANA_MAX/core si spune-mi size-ul fiecaruia",
+          "tool_name": "file_operations",
+          "arguments": {
+            "task": "listeaza cele mai recente 6 fisiere .py modificate in ANA_MAX/core si spune-mi size-ul fiecaruia",
+            "query": "listeaza cele mai recente 6 fisiere .py modificate in ANA_MAX/core si spune-mi size-ul fiecaruia",
+            "operation": "edit",
+            "path": "ANA_MAX/core"
+          },
+          "checks": [
+            "Tool 'file_operations' trebuie sa intoarca success.",
+            "Nu trebuie sa apara erori critice."
+          ],
+          "status": "failed",
+          "result": {
+            "success": false,
+            "data": {
+              "auto_guidance": {
+                "agent_coach_recommend": {
+                  "severity": "critical",
+                  "headline": "Use error_radar next for failure; coach severity is critical.",
+                  "primary_tool": "error_radar",
+                  "tool_stack": [
+                    "error_radar",
+                    "agent_coach",
+                    "ana_memory",
+                    "debugger",
+                    "tool_healthcheck"
+                  ],
+                  "next_action": "Call error_radar, then Read the normalized error and auto_guidance if present. Verify before another action.",
+                  "router": {
+                    "mode": "failure",
+                    "headline": "Diagnose the first real failure and avoid retry loops.",
+                    "recommended_tools": [
+                      "error_radar",
+                      "agent_coach",
+                      "ana_memory",
+                      "debugger",
+                      "tool_healthcheck",
+                      "terminal",
+                      "file_operations",
+                      "edit",
+                      "smart_search"
+                    ],
+                    "tool_profiles": {
+                      "error_radar": [
+                        "core"
+                      ],
+                      "agent_coach": [
+                        "core"
+                      ],
+                      "ana_memory": [
+                        "private_lab"
+                      ],
+                      "debugger": [
+                        "core"
+                      ],
+                      "tool_healthcheck": [
+                        "core"
+                      ],
+                      "terminal": [
+                        "private_lab"
+                      ],
+                      "file_operations": [
+                        "core"
+                      ],
+                      "edit": [
+                        "core"
+                      ],
+                      "smart_search": [
+                        "core"
+                      ]
+                    },
+                    "active_profiles": [
+                      "core",
+                      "windows",
+                      "linux",
+                      "security_lab",
+                      "private_lab"
+                    ],
+                    "filtered_by_profile": [],
+                    "steps": [
+                      "Read the normalized error and auto_guidance if present.",
+                      "Search known fixes before another retry.",
+                      "Retry once with changed input, then verify."
+                    ],
+                    "guardrail": ""
+                  }
+                },
+                "coach": {
+                  "severity": "critical",
+                  "headline": "Agent is likely stuck or failing repeatedly. Pause, observe, then change strategy.",
+                  "signals": [
+                    {
+                      "type": "repeated_action",
+                      "tool": "file_operations",
+                      "count": 4,
+                      "args": {
+                        "task": "<str len=98>",
+                        "query": "<str len=98>",
+                        "operation": "'edit'",
+                        "path": "'ANA_MAX/core'"
+                      }
+                    },
+                    {
+                      "type": "repeated_error",
+                      "tool": "ana_memory",
+                      "count": 9,
+                      "error": "'VectorMemoryCortex' object has no attribute 'find_error_solution'"
+                    },
+                    {
+                      "type": "high_failure_ratio",
+                      "ratio": 0.35
+                    }
+                  ],
+                  "advice": [
+                    "Stop repeating file_operations with the same arguments. Check its output, then change input or verify state.",
+                    "Do not retry the same failing call. Inspect the schema/output, change one variable, then verify.",
+                    "Failure rate is high. Pause execution, summarize the last failures, and run a small healthcheck before more actions."
+                  ],
+                  "next_best_tools": [
+                    "tool_healthcheck",
+                    "agent_coach",
+                    "workspace_situational_awareness"
+                  ]
+                },
+                "tool_router": {
+                  "mode": "failure",
+                  "headline": "Diagnose the first real failure and avoid retry loops.",
+                  "recommended_tools": [
+                    "error_radar",
+                    "agent_coach",
+                    "ana_memory",
+                    "debugger",
+                    "tool_healthcheck",
+                    "terminal",
+                    "file_operations",
+                    "edit",
+                    "smart_search"
+                  ],
+                  "steps": [
+                    "Read the normalized error and auto_guidance if present.",
+                    "Search known fixes before another retry.",
+                    "Retry once with changed input, then verify."
+                  ],
+                  "guardrail": ""
+                }
+              },
+              "guidance_summary": {
+                "primary_tool": "error_radar",
+                "tool_stack": [
+                  "error_radar",
+                  "agent_coach",
+                  "ana_memory",
+                  "debugger",
+                  "tool_healthcheck"
+                ],
+                "next_action": "Call error_radar, then Read the normalized error and auto_guidance if present. Verify before another action.",
+                "headline": "Use error_radar next for failure; coach severity is critical.",
+                "source": "agent_coach_recommend"
+              }
+            },
+            "message": "Auto guidance attached from ANA memory/coach.",
+            "error": "Text de cautat necesar"
+          },
+          "error": "Text de cautat necesar",
+          "duration_ms": 12654.13
+        }
+      ],
+      "errors": [],
+      "task_id": "tsk_157284c2d1",
+      "started_at": "2026-07-28T03:06:44.952299Z",
+      "finished_at": "2026-07-28T03:06:57.642431Z"
+    },
+    "request_id": 500,
+    "updated_at": "2026-07-28T03:06:57.642431Z"
+  },
+  "tsk_98facff657": {
+    "task_id": "tsk_98facff657",
+    "created_at": "2026-07-28T03:07:43.547943Z",
+    "task_desc": "listeaza cele mai recente 15 fisiere .py modificate din ANA_MAX/tools",
+    "status": "failed",
+    "planner_result": {
+      "success": false,
+      "output": "Planificator ANA: 0/1 pasi reusiti.\nErori:\n- [stp_db79d6e2] file_operations: Text de cautat necesar",
+      "steps": [
+        {
+          "step_id": "stp_db79d6e2",
+          "description": "Note: Use error_radar next for failure; coach severity is critical.. Executa tool-ul 'file_operations' pentru: listeaza cele mai recente 15 fisiere .py modificate din ANA_MAX/tools",
+          "tool_name": "file_operations",
+          "arguments": {
+            "task": "listeaza cele mai recente 15 fisiere .py modificate din ANA_MAX/tools",
+            "query": "listeaza cele mai recente 15 fisiere .py modificate din ANA_MAX/tools",
+            "operation": "edit",
+            "path": "ANA_MAX/tools"
+          },
+          "checks": [
+            "Tool 'file_operations' trebuie sa intoarca success.",
+            "Nu trebuie sa apara erori critice."
+          ],
+          "status": "failed",
+          "result": {
+            "success": false,
+            "data": {
+              "auto_guidance": {
+                "agent_coach_recommend": {
+                  "severity": "critical",
+                  "headline": "Use error_radar next for failure; coach severity is critical.",
+                  "primary_tool": "error_radar",
+                  "tool_stack": [
+                    "error_radar",
+                    "agent_coach",
+                    "ana_memory",
+                    "debugger",
+                    "tool_healthcheck"
+                  ],
+                  "next_action": "Call error_radar, then Read the normalized error and auto_guidance if present. Verify before another action.",
+                  "router": {
+                    "mode": "failure",
+                    "headline": "Diagnose the first real failure and avoid retry loops.",
+                    "recommended_tools": [
+                      "error_radar",
+                      "agent_coach",
+                      "ana_memory",
+                      "debugger",
+                      "tool_healthcheck",
+                      "terminal",
+                      "file_operations",
+                      "edit",
+                      "smart_search"
+                    ],
+                    "tool_profiles": {
+                      "error_radar": [
+                        "core"
+                      ],
+                      "agent_coach": [
+                        "core"
+                      ],
+                      "ana_memory": [
+                        "private_lab"
+                      ],
+                      "debugger": [
+                        "core"
+                      ],
+                      "tool_healthcheck": [
+                        "core"
+                      ],
+                      "terminal": [
+                        "private_lab"
+                      ],
+                      "file_operations": [
+                        "core"
+                      ],
+                      "edit": [
+                        "core"
+                      ],
+                      "smart_search": [
+                        "core"
+                      ]
+                    },
+                    "active_profiles": [
+                      "core",
+                      "windows",
+                      "linux",
+                      "security_lab",
+                      "private_lab"
+                    ],
+                    "filtered_by_profile": [],
+                    "steps": [
+                      "Read the normalized error and auto_guidance if present.",
+                      "Search known fixes before another retry.",
+                      "Retry once with changed input, then verify."
+                    ],
+                    "guardrail": ""
+                  }
+                },
+                "coach": {
+                  "severity": "critical",
+                  "headline": "Agent is likely stuck or failing repeatedly. Pause, observe, then change strategy.",
+                  "signals": [
+                    {
+                      "type": "repeated_action",
+                      "tool": "live_tool_healer",
+                      "count": 5,
+                      "args": {
+                        "action": "'heal'",
+                        "tool_name": "'file_operations'",
+                        "last_error": "'Text de cautat necesar'"
+                      }
+                    },
+                    {
+                      "type": "repeated_error",
+                      "tool": "ana_memory",
+                      "count": 9,
+                      "error": "'VectorMemoryCortex' object has no attribute 'find_error_solution'"
+                    }
+                  ],
+                  "advice": [
+                    "Stop repeating live_tool_healer with the same arguments. Check its output, then change input or verify state.",
+                    "Do not retry the same failing call. Inspect the schema/output, change one variable, then verify."
+                  ],
+                  "next_best_tools": [
+                    "foreground_ui_snapshot",
+                    "windows_uia_bridge action=list_windows",
+                    "desktop_capture operation=capture",
+                    "workspace_situational_awareness",
+                    "tool_healthcheck"
+                  ]
+                },
+                "tool_router": {
+                  "mode": "failure",
+                  "headline": "Diagnose the first real failure and avoid retry loops.",
+                  "recommended_tools": [
+                    "error_radar",
+                    "agent_coach",
+                    "ana_memory",
+                    "debugger",
+                    "tool_healthcheck",
+                    "terminal",
+                    "file_operations",
+                    "edit",
+                    "smart_search"
+                  ],
+                  "steps": [
+                    "Read the normalized error and auto_guidance if present.",
+                    "Search known fixes before another retry.",
+                    "Retry once with changed input, then verify."
+                  ],
+                  "guardrail": ""
+                }
+              },
+              "guidance_summary": {
+                "primary_tool": "error_radar",
+                "tool_stack": [
+                  "error_radar",
+                  "agent_coach",
+                  "ana_memory",
+                  "debugger",
+                  "tool_healthcheck"
+                ],
+                "next_action": "Call error_radar, then Read the normalized error and auto_guidance if present. Verify before another action.",
+                "headline": "Use error_radar next for failure; coach severity is critical.",
+                "source": "agent_coach_recommend"
+              }
+            },
+            "message": "Auto guidance attached from ANA memory/coach.",
+            "error": "Text de cautat necesar"
+          },
+          "error": "Text de cautat necesar",
+          "duration_ms": 12339.13
+        }
+      ],
+      "errors": [],
+      "task_id": "tsk_98facff657",
+      "started_at": "2026-07-28T03:07:31.174881Z",
+      "finished_at": "2026-07-28T03:07:43.546937Z"
+    },
+    "request_id": 99,
+    "updated_at": "2026-07-28T03:07:43.547943Z"
+  }
+}

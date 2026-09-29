@@ -1,0 +1,28 @@
+{
+  "workspace": "ana-manus",
+  "mcp": {
+    "servers": {
+      "ana-max-core": {
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": ["C:\\Users\\billy\\Desktop\\ana-manus\\mcp_ana_bridge_core.py"],
+        "env": {
+          "ANA_MANUS_ROOT": "C:\\Users\\billy\\Desktop\\ana-manus",
+          "PYTHONPATH": "C:\\Users\\billy\\Desktop\\ana-manus;C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX"
+        }
+      },
+      "ana-max-advanced": {
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": ["C:\\Users\\billy\\Desktop\\ana-manus\\mcp_ana_bridge_advanced.py"],
+        "env": {
+          "ANA_MANUS_ROOT": "C:\\Users\\billy\\Desktop\\ana-manus",
+          "PYTHONPATH": "C:\\Users\\billy\\Desktop\\ana-manus;C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX"
+        }
+      }
+    }
+  },
+  "session": {
+    "persist": true,
+    "autoSave": true,
+    "restoreOnStartup": true
+  }
+}

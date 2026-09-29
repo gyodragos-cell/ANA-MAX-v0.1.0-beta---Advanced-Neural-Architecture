@@ -1,0 +1,319 @@
+{
+  "schema": "ana.os22.tool_manifest.v1",
+  "description": "Official tool manifest for ANA_MAX local LAB agent.",
+  "version": "1.0",
+  "local_only": true,
+  "tools": [
+    {
+      "name": "read_file",
+      "version": "1.0",
+      "category": "filesystem",
+      "args_schema": {
+        "path": "string"
+      },
+      "returns": "string",
+      "description": "Reads a UTF-8 text file from the local workspace."
+    },
+    {
+      "name": "write_file",
+      "version": "1.0",
+      "category": "filesystem",
+      "args_schema": {
+        "path": "string",
+        "content": "string"
+      },
+      "returns": "string",
+      "description": "Writes UTF-8 text to a file in the local workspace."
+    },
+    {
+      "name": "open_browser",
+      "version": "1.0",
+      "category": "browser",
+      "args_schema": {
+        "url": "string"
+      },
+      "returns": "string",
+      "description": "Opens a URL in the local browser controller."
+    },
+    {
+      "name": "system_info",
+      "version": "1.0",
+      "category": "system",
+      "args_schema": {},
+      "returns": "string",
+      "description": "Returns basic information about the local LAB environment."
+    },
+    {
+      "name": "current_time",
+      "version": "1.0",
+      "category": "system",
+      "args_schema": {},
+      "returns": "string",
+      "description": "Returns the current local date, time, weekday, and timezone."
+    },
+    {
+      "name": "open_windows_app",
+      "version": "1.0",
+      "category": "windows",
+      "args_schema": {
+        "app_name": "string"
+      },
+      "returns": "json",
+      "description": "Opens a safe allowlisted local Windows app such as calculator, notepad, Brave, Chrome, Edge, paint, or explorer."
+    },
+    {
+      "name": "open_url_in_windows_app",
+      "version": "1.0",
+      "category": "windows",
+      "args_schema": {
+        "app_name": "string",
+        "url": "string"
+      },
+      "required_args": [
+        "url"
+      ],
+      "returns": "json",
+      "description": "Opens an http/https URL in a safe allowlisted local browser such as Brave, Chrome, or Edge."
+    },
+    {
+      "name": "find_app",
+      "version": "1.0",
+      "category": "windows_inventory",
+      "args_schema": {
+        "app_name": "string"
+      },
+      "returns": "json",
+      "description": "Finds a safe allowlisted local Windows app command or executable path without launching it."
+    },
+    {
+      "name": "process_list",
+      "version": "1.0",
+      "category": "os_inventory",
+      "args_schema": {
+        "name_filter": "string",
+        "max_items": "integer"
+      },
+      "returns": "json",
+      "description": "Lists local Windows processes through tasklist with optional name filtering."
+    },
+    {
+      "name": "installed_apps",
+      "version": "1.0",
+      "category": "os_inventory",
+      "args_schema": {
+        "query": "string",
+        "max_items": "integer"
+      },
+      "returns": "json",
+      "description": "Lists installed Windows applications from registry uninstall metadata."
+    },
+    {
+      "name": "system_overview",
+      "version": "1.0",
+      "category": "os_inventory",
+      "args_schema": {},
+      "returns": "json",
+      "description": "Returns local OS, CPU, Python, workspace, and disk metadata."
+    },
+    {
+      "name": "frida_status",
+      "version": "1.0",
+      "category": "os_inventory",
+      "args_schema": {},
+      "returns": "json",
+      "description": "Reports whether the local Frida Python module is available; status only, no attach or instrumentation."
+    },
+    {
+      "name": "desktop_screenshot",
+      "version": "1.0",
+      "category": "desktop",
+      "args_schema": {},
+      "returns": "json",
+      "description": "Captures a local Desktop screenshot to ANA_MAX logs/screenshots."
+    },
+    {
+      "name": "desktop_list_items",
+      "version": "1.0",
+      "category": "filesystem_desktop",
+      "args_schema": {
+        "max_items": "integer",
+        "include_hidden": "boolean"
+      },
+      "required_args": [],
+      "returns": "json",
+      "description": "Lists visible Desktop files and folders as metadata without reading file contents."
+    },
+    {
+      "name": "desktop_inspect_folder",
+      "version": "1.0",
+      "category": "filesystem_desktop",
+      "args_schema": {
+        "folder_name": "string",
+        "max_items": "integer",
+        "include_hidden": "boolean"
+      },
+      "required_args": [
+        "folder_name"
+      ],
+      "returns": "json",
+      "description": "Lists one Desktop folder's visible child files and folders as metadata without reading file contents."
+    },
+    {
+      "name": "desktop_read_text_file",
+      "version": "1.0",
+      "category": "filesystem_desktop",
+      "args_schema": {
+        "file_name": "string",
+        "folder_name": "string",
+        "max_chars": "integer"
+      },
+      "required_args": [
+        "file_name"
+      ],
+      "returns": "json",
+      "description": "Reads a bounded allowed text file from the Desktop or one Desktop folder."
+    },
+    {
+      "name": "desktop_write_text_file",
+      "version": "1.0",
+      "category": "filesystem_desktop",
+      "args_schema": {
+        "file_name": "string",
+        "folder_name": "string",
+        "content": "string"
+      },
+      "required_args": [
+        "file_name",
+        "content"
+      ],
+      "returns": "json",
+      "description": "Writes ASCII-safe text or Markdown to the Desktop with backup on overwrite."
+    },
+    {
+      "name": "calculate_expression",
+      "version": "1.0",
+      "category": "math",
+      "args_schema": {
+        "expression": "string"
+      },
+      "returns": "json",
+      "description": "Evaluates a safe arithmetic expression such as 5*5."
+    },
+    {
+      "name": "web_fetch",
+      "version": "1.0",
+      "category": "web",
+      "args_schema": {
+        "url": "string"
+      },
+      "returns": "string",
+      "description": "Fetches a URL and returns simplified text content."
+    },
+    {
+      "name": "web_scrape",
+      "version": "1.0",
+      "category": "web",
+      "args_schema": {
+        "url": "string",
+        "max_chars": "integer"
+      },
+      "returns": "json",
+      "description": "Fetches an http/https URL, extracts clean text, and returns bounded JSON metadata."
+    },
+    {
+      "name": "web_learn_url",
+      "version": "1.0",
+      "category": "web_learning",
+      "args_schema": {
+        "url": "string",
+        "source_label": "string",
+        "max_chars": "integer",
+        "chunk_size": "integer",
+        "chunk_overlap": "integer"
+      },
+      "required_args": [
+        "url"
+      ],
+      "returns": "json",
+      "description": "Scrapes one http/https URL, summarizes it, and stores bounded text chunks into RAG."
+    },
+    {
+      "name": "web_learn_course",
+      "version": "1.0",
+      "category": "web_learning",
+      "args_schema": {
+        "start_url": "string",
+        "source_label": "string",
+        "max_pages": "integer",
+        "max_depth": "integer",
+        "same_domain": "boolean",
+        "max_chars_per_page": "integer",
+        "chunk_size": "integer",
+        "chunk_overlap": "integer"
+      },
+      "required_args": [
+        "start_url"
+      ],
+      "returns": "json",
+      "description": "Learns a bounded same-domain course or documentation path into RAG across multiple pages."
+    },
+    {
+      "name": "browser_search_read",
+      "version": "1.0",
+      "category": "web_browser",
+      "args_schema": {
+        "query": "string",
+        "browser": "string",
+        "engine": "string",
+        "max_chars": "integer"
+      },
+      "returns": "json",
+      "description": "Builds a web search URL, opens it in an allowlisted local browser, and reads the same page through web_scrape."
+    },
+    {
+      "name": "vector_search",
+      "version": "1.0",
+      "category": "rag",
+      "args_schema": {
+        "query": "string"
+      },
+      "returns": "string",
+      "description": "Searches semantic memory for similar chunks."
+    },
+    {
+      "name": "vector_store",
+      "version": "1.0",
+      "category": "rag",
+      "args_schema": {
+        "text": "string"
+      },
+      "returns": "string",
+      "description": "Stores text into semantic memory."
+    },
+    {
+      "name": "rag_store_text",
+      "version": "1.0",
+      "category": "rag",
+      "args_schema": {
+        "text": "string",
+        "source": "string",
+        "chunk_size": "integer",
+        "chunk_overlap": "integer"
+      },
+      "returns": "json",
+      "description": "Stores text chunks into RAGBridge with source metadata."
+    },
+    {
+      "name": "desktop_create_python_script",
+      "version": "1.0",
+      "category": "filesystem_desktop",
+      "args_schema": {
+        "folder_name": "string",
+        "script_name": "string",
+        "content": "string"
+      },
+      "returns": "json",
+      "description": "Creates a folder on the user's Desktop and writes a Python script inside it, with backup on overwrite."
+    }
+  ]
+}

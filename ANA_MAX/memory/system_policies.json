@@ -1,0 +1,92 @@
+{
+  "schema": "ana.os9.system_policies.v1",
+  "generated_at": "2026-06-10T07:41:11.212433+00:00",
+  "engine": "policy_engine",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "source_reports": {
+    "evaluation": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+    "daemon": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\os4_daemon_report.json",
+    "goals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+    "meta_history": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+    "registry": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+    "proposals": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json"
+  },
+  "policies": [
+    {
+      "id": "preserve_baseline_health",
+      "priority": "critical",
+      "source": "evaluation + daemon",
+      "constraint": "health_score must remain 100 and warning_count must remain 0.",
+      "status": "enabled",
+      "enforcement": "fail_closed_on_warning",
+      "evidence": [
+        "health_score=100",
+        "warning_count=0",
+        "daemon_overall_success=True",
+        "daemon_cycles=2"
+      ]
+    },
+    {
+      "id": "respect_phase_order",
+      "priority": "high",
+      "source": "os5 strategy",
+      "constraint": "Downstream orchestration must follow the deterministic OS-5 phase_order.",
+      "status": "enabled",
+      "enforcement": "read_only_phase_order",
+      "evidence": [
+        "phase_order_count=11"
+      ]
+    },
+    {
+      "id": "maintain_goal_feedback",
+      "priority": "high",
+      "source": "os5 goals",
+      "constraint": "Goals remain the source of truth for OS-6+ adaptation decisions.",
+      "status": "enabled",
+      "enforcement": "goal_to_policy_bridge",
+      "evidence": [
+        "goal_count=7"
+      ]
+    },
+    {
+      "id": "keep_agent_registry_healthy",
+      "priority": "medium",
+      "source": "os7 registry",
+      "constraint": "Agent registry failure_count must stay at zero during the baseline ladder.",
+      "status": "enabled",
+      "enforcement": "registry_health_gate",
+      "evidence": [
+        "registry_agent_count=5"
+      ]
+    },
+    {
+      "id": "review_architecture_proposals",
+      "priority": "medium",
+      "source": "os8 proposals",
+      "constraint": "Architecture proposals are review-only until explicitly promoted by a later layer.",
+      "status": "enabled",
+      "enforcement": "proposal_review_gate",
+      "evidence": [
+        "proposal_count=0"
+      ]
+    },
+    {
+      "id": "track_meta_history",
+      "priority": "medium",
+      "source": "os6 history",
+      "constraint": "Meta-adaptation history should be read-only input for policy composition.",
+      "status": "enabled",
+      "enforcement": "history_read_only",
+      "evidence": [
+        "meta_history_count=1"
+      ]
+    }
+  ],
+  "summary": {
+    "policy_count": 6,
+    "critical_count": 1,
+    "enabled_count": 6,
+    "daemon_overall_success": true
+  }
+}

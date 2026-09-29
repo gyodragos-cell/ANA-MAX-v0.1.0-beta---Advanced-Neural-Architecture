@@ -1,0 +1,790 @@
+{
+  "schema": "ana.os3.self_evolution.fast_parallel.v1",
+  "mode": "fast_parallel",
+  "timestamp": "2026-06-12T05:39:38.774033",
+  "workspace_root": "C:\\Users\\billy\\Desktop\\ana_dev",
+  "timeout_seconds": 180,
+  "max_workers": 3,
+  "phases": {
+    "skills": {
+      "engine": "self_skills_engine",
+      "dry_run": false,
+      "elapsed_ms": 5292.26,
+      "verification": {
+        "passed": true,
+        "checks": {
+          "report_non_empty": true,
+          "schema_present": true,
+          "skills_is_list": true,
+          "summary_counts_non_negative": true,
+          "skills_count_matches_summary": true,
+          "skills_non_empty": true
+        }
+      },
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_skills_report.json",
+      "summary": {
+        "module_count": 243,
+        "area_count": 26,
+        "total_functions": 916,
+        "total_classes": 188,
+        "entrypoint_count": 87,
+        "parse_error_count": 0
+      },
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.self_skills_engine",
+        "args": [
+          "--cycle"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 5433.32
+      }
+    },
+    "profiling": {
+      "engine": "self_profiling_engine",
+      "dry_run": false,
+      "elapsed_ms": 5764.01,
+      "verification": {
+        "passed": true,
+        "checks": {
+          "report_non_empty": true,
+          "summary_has_totals": true,
+          "analysis_present": true,
+          "schema_present": true
+        }
+      },
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_profiling_report.json",
+      "summary": {
+        "total_files": 756,
+        "total_bytes": 9411562,
+        "python_file_count": 243,
+        "top_level_area_count": 48
+      },
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.self_profiling_engine",
+        "args": [
+          "--cycle"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 5896.42
+      }
+    },
+    "knowledge_graph": {
+      "nodes_count": 180,
+      "edges_count": 2622,
+      "node_types": {
+        "module": 53,
+        "tool": 49,
+        "script": 16,
+        "doc": 62
+      },
+      "evolution": {
+        "schema": "ana.os4.knowledge_graph_evolution.v1",
+        "previous_graph_present": true,
+        "added_nodes": [],
+        "removed_nodes": [],
+        "added_edges": [],
+        "removed_edges": [],
+        "hot_nodes": [
+          {
+            "id": "core_agent",
+            "name": "agent",
+            "type": "module",
+            "degree": 70
+          },
+          {
+            "id": "tool_adal_tool",
+            "name": "adal_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_adb_tool",
+            "name": "adb_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_agent_coach_tool",
+            "name": "agent_coach_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_ana_context_tool",
+            "name": "ana_context_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_autonomous_tool",
+            "name": "autonomous_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_binary_map_tool",
+            "name": "binary_map_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_code_context_pack_tool",
+            "name": "code_context_pack_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_codebase_understanding_tool",
+            "name": "codebase_understanding_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_conversation_learning_tool",
+            "name": "conversation_learning_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_debugger_tool",
+            "name": "debugger_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_desktop_control_tool",
+            "name": "desktop_control_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_edit_tool",
+            "name": "edit_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_error_radar_tool",
+            "name": "error_radar_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_event_stream_tool",
+            "name": "event_stream_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_file_patch_tool",
+            "name": "file_patch_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_git_tool",
+            "name": "git_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_graph_context_pack_tool",
+            "name": "graph_context_pack_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_hardware_scanner_tool",
+            "name": "hardware_scanner_tool",
+            "type": "tool",
+            "degree": 53
+          },
+          {
+            "id": "tool_input_api_probe_tool",
+            "name": "input_api_probe_tool",
+            "type": "tool",
+            "degree": 53
+          }
+        ],
+        "cold_nodes": [
+          {
+            "id": "doc_ANA_MEMORY",
+            "name": "ANA_MEMORY",
+            "type": "doc",
+            "path": "docs\\ANA_MEMORY.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_ARCHIVES",
+            "name": "ARCHIVES",
+            "type": "doc",
+            "path": "docs\\ARCHIVES.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_BENCHMARKS",
+            "name": "BENCHMARKS",
+            "type": "doc",
+            "path": "docs\\BENCHMARKS.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_BROWSER_PACK_V1",
+            "name": "BROWSER_PACK_V1",
+            "type": "doc",
+            "path": "docs\\BROWSER_PACK_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_CAPSULES_V1",
+            "name": "CAPSULES_V1",
+            "type": "doc",
+            "path": "docs\\CAPSULES_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_CAPSULE_SYNC_V1",
+            "name": "CAPSULE_SYNC_V1",
+            "type": "doc",
+            "path": "docs\\CAPSULE_SYNC_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_CHANGELOG",
+            "name": "CHANGELOG",
+            "type": "doc",
+            "path": "docs\\CHANGELOG.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_DISTRIBUTED_PIPELINE_V1",
+            "name": "DISTRIBUTED_PIPELINE_V1",
+            "type": "doc",
+            "path": "docs\\DISTRIBUTED_PIPELINE_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_LOCAL_LLM_BACKEND_V1",
+            "name": "LOCAL_LLM_BACKEND_V1",
+            "type": "doc",
+            "path": "docs\\LOCAL_LLM_BACKEND_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_LOCAL_LLM_SETUP_V1",
+            "name": "LOCAL_LLM_SETUP_V1",
+            "type": "doc",
+            "path": "docs\\LOCAL_LLM_SETUP_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OPTIMIZATIONS",
+            "name": "OPTIMIZATIONS",
+            "type": "doc",
+            "path": "docs\\OPTIMIZATIONS.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS20_FINAL_BASELINE",
+            "name": "OS20_FINAL_BASELINE",
+            "type": "doc",
+            "path": "docs\\OS20_FINAL_BASELINE.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS21_BASELINE_LOCK",
+            "name": "OS21_BASELINE_LOCK",
+            "type": "doc",
+            "path": "docs\\OS21_BASELINE_LOCK.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS21_FINALIZATION",
+            "name": "OS21_FINALIZATION",
+            "type": "doc",
+            "path": "docs\\OS21_FINALIZATION.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS21_PLAN",
+            "name": "OS21_PLAN",
+            "type": "doc",
+            "path": "docs\\OS21_PLAN.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_BOOT_SEQUENCE_V1",
+            "name": "OS22_BOOT_SEQUENCE_V1",
+            "type": "doc",
+            "path": "docs\\OS22_BOOT_SEQUENCE_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_LAUNCH_READINESS",
+            "name": "OS22_LAUNCH_READINESS",
+            "type": "doc",
+            "path": "docs\\OS22_LAUNCH_READINESS.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_LLM_CORE_V1",
+            "name": "OS22_LLM_CORE_V1",
+            "type": "doc",
+            "path": "docs\\OS22_LLM_CORE_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_REASONING_GRAPH_PRIMER",
+            "name": "OS22_REASONING_GRAPH_PRIMER",
+            "type": "doc",
+            "path": "docs\\OS22_REASONING_GRAPH_PRIMER.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_TOOL_AWARENESS_PACK",
+            "name": "OS22_TOOL_AWARENESS_PACK",
+            "type": "doc",
+            "path": "docs\\OS22_TOOL_AWARENESS_PACK.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_WEB_LEARNING_PIPELINE",
+            "name": "OS22_WEB_LEARNING_PIPELINE",
+            "type": "doc",
+            "path": "docs\\OS22_WEB_LEARNING_PIPELINE.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_WEB_SCRAPER_TOOL",
+            "name": "OS22_WEB_SCRAPER_TOOL",
+            "type": "doc",
+            "path": "docs\\OS22_WEB_SCRAPER_TOOL.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS22_WORKFLOW_PLAYBOOK",
+            "name": "OS22_WORKFLOW_PLAYBOOK",
+            "type": "doc",
+            "path": "docs\\OS22_WORKFLOW_PLAYBOOK.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS3_AUTONOMY",
+            "name": "OS3_AUTONOMY",
+            "type": "doc",
+            "path": "docs\\OS3_AUTONOMY.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS3_MODULES",
+            "name": "OS3_MODULES",
+            "type": "doc",
+            "path": "docs\\OS3_MODULES.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS3_OVERVIEW",
+            "name": "OS3_OVERVIEW",
+            "type": "doc",
+            "path": "docs\\OS3_OVERVIEW.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_OS3_RUNTIME",
+            "name": "OS3_RUNTIME",
+            "type": "doc",
+            "path": "docs\\OS3_RUNTIME.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_PERFORMANCE_LOG",
+            "name": "PERFORMANCE_LOG",
+            "type": "doc",
+            "path": "docs\\PERFORMANCE_LOG.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_PIPELINE_RECOVERY_V1",
+            "name": "PIPELINE_RECOVERY_V1",
+            "type": "doc",
+            "path": "docs\\PIPELINE_RECOVERY_V1.md",
+            "degree": 0
+          },
+          {
+            "id": "doc_PROJECT_SUMMARY",
+            "name": "PROJECT_SUMMARY",
+            "type": "doc",
+            "path": "docs\\PROJECT_SUMMARY.md",
+            "degree": 0
+          }
+        ],
+        "hot_node_count": 20,
+        "cold_node_count": 30
+      },
+      "json_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph.json",
+      "markdown_saved": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\KNOWLEDGE_GRAPH.md",
+      "history_dir": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\knowledge_graph_history",
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.knowledge_graph_engine",
+        "args": [
+          "--cycle"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 213.58
+      }
+    },
+    "structuring": {
+      "engine": "self_structuring_engine",
+      "dry_run": true,
+      "fix_init": false,
+      "elapsed_ms": 15858.72,
+      "verification": {
+        "passed": true,
+        "checks": {
+          "report_non_empty": true,
+          "schema_present": true,
+          "module_count_positive": true,
+          "rescanned_missing_init_count_matches": true
+        },
+        "remaining_important_missing_init": [
+          "bridge",
+          "training"
+        ]
+      },
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_structuring_report.json",
+      "summary": {
+        "module_count": 243,
+        "package_dir_count": 28,
+        "missing_init_total": 2,
+        "important_missing_init_count": 2,
+        "structure_health": "needs_attention"
+      },
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.self_structuring_engine",
+        "args": [
+          "--cycle",
+          "--dry-run"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 16010.35
+      }
+    },
+    "healing": {
+      "engine": "self_healing_engine",
+      "mode": "detect",
+      "dry_run": true,
+      "elapsed_ms": 32668.16,
+      "verification": {
+        "passed": true,
+        "checks": {
+          "report_non_empty": true,
+          "schema_present": true,
+          "ok_plus_failed_matches_results": true,
+          "summary_counts_match": true,
+          "returncodes_consistent": true,
+          "dry_run_detection_ran": true
+        }
+      },
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_healing_report.json",
+      "summary": {
+        "files_checked": 243,
+        "ok_count": 243,
+        "failed_count": 0,
+        "health": "dry_run"
+      },
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.self_healing_engine",
+        "args": [
+          "--cycle",
+          "--dry-run"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 32790.53
+      }
+    },
+    "evaluation": {
+      "engine": "self_evaluation_engine",
+      "dry_run": false,
+      "elapsed_ms": 7.52,
+      "verification": {
+        "passed": true,
+        "checks": {
+          "report_non_empty": true,
+          "schema_present": true,
+          "json_serializable": true,
+          "overall_status_present": true,
+          "health_score_in_range": true,
+          "warnings_is_list": true,
+          "suggestions_is_list": true
+        }
+      },
+      "report_path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_evaluation_report.json",
+      "summary": {
+        "overall_status": "healthy",
+        "health_score": 100,
+        "loaded_report_count": 4,
+        "missing_report_count": 0,
+        "warning_count": 0,
+        "suggestion_count": 0
+      },
+      "_runner": {
+        "module": "ANA_MAX.self_optimization.self_evaluation_engine",
+        "args": [
+          "--cycle"
+        ],
+        "returncode": 0,
+        "elapsed_ms": 132.53
+      }
+    },
+    "planning": {
+      "timestamp": "2026-06-12T05:40:17.147973",
+      "horizon_hours": 24,
+      "steps": [
+        {
+          "phase": "structuring",
+          "action": "dry_run_cycle",
+          "priority": "high",
+          "estimated_minutes": 5
+        },
+        {
+          "phase": "skills",
+          "action": "manifest_refresh",
+          "priority": "medium",
+          "estimated_minutes": 5
+        },
+        {
+          "phase": "knowledge_graph",
+          "action": "graph_refresh",
+          "priority": "medium",
+          "estimated_minutes": 10
+        }
+      ],
+      "priorities": [
+        "structuring",
+        "skills",
+        "knowledge_graph"
+      ],
+      "estimated_completion": "2026-06-12T06:00:17.147973",
+      "memory_snapshot": {
+        "schema": "ana.memory.evolution_snapshot.v1",
+        "generated_at": "2026-06-12T02:39:38.774033+00:00",
+        "core_memory_present": true,
+        "core_memory_schema_ok": true,
+        "history_length": 9,
+        "preferences": {
+          "stability_priority": "high",
+          "warnings_tolerance": "zero",
+          "evolution_aggressiveness": "medium",
+          "goal_persistence": "high",
+          "memory_consolidation": "bounded"
+        },
+        "patterns": {
+          "stable_cycles": 9,
+          "warning_cycles": 0,
+          "parse_error_cycles": 0,
+          "evolution_failure_cycles": 0,
+          "daemon_failure_cycles": 0
+        },
+        "consistency": {
+          "present": true,
+          "overall_consistent": true,
+          "contradiction_count": 0,
+          "regression_count": 0
+        },
+        "memory_system": {
+          "present": true,
+          "status": "OK",
+          "last_consolidation": "2026-06-10T21:27:41.677489+00:00",
+          "last_consistency_check": "2026-06-10T21:27:51.683559+00:00"
+        },
+        "phase_order_hint": [
+          "profiling",
+          "structuring",
+          "healing",
+          "skills",
+          "evaluation",
+          "reasoning",
+          "goals",
+          "strategy_refresh",
+          "knowledge_graph",
+          "toolchain_discovery",
+          "daemon_loop"
+        ]
+      }
+    }
+  },
+  "overall_success": true,
+  "artifacts": {
+    "evolution_report": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_report.json",
+    "roadmap": "C:\\Users\\billy\\Desktop\\ana_dev\\docs\\ROADMAP.md",
+    "os5": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+    "strategy": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json"
+  },
+  "additive_layers": {
+    "schema": "ana.osX.additive_snapshot.v1",
+    "layers": {
+      "os5": {
+        "ready": true,
+        "reports": {
+          "self_goals": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\self_goals.json",
+            "bytes": 5276
+          },
+          "evolution_strategy": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy.json",
+            "bytes": 2511
+          },
+          "evolution_strategy_history": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+            "snapshots": 1
+          }
+        }
+      },
+      "os6": {
+        "ready": true,
+        "reports": {
+          "meta_adaptation_history": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\evolution_strategy_history",
+            "snapshots": 1
+          }
+        }
+      },
+      "os7": {
+        "ready": true,
+        "reports": {
+          "agent_registry": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\agent_registry.json",
+            "bytes": 2308
+          }
+        }
+      },
+      "os8": {
+        "ready": true,
+        "reports": {
+          "architecture_proposals": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\architecture_proposals.json",
+            "bytes": 2013
+          }
+        }
+      },
+      "os9": {
+        "ready": true,
+        "reports": {
+          "system_policies": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\system_policies.json",
+            "bytes": 3232
+          }
+        }
+      },
+      "os10": {
+        "ready": true,
+        "reports": {
+          "enterprise_policies": {
+            "exists": true,
+            "path": "C:\\Users\\billy\\Desktop\\ana_dev\\ANA_MAX\\memory\\enterprise_policies.json",
+            "bytes": 2854
+          }
+        }
+      }
+    },
+    "memory": {
+      "schema": "ana.memory.evolution_snapshot.v1",
+      "generated_at": "2026-06-12T02:39:38.789813+00:00",
+      "core_memory_present": true,
+      "core_memory_schema_ok": true,
+      "history_length": 9,
+      "preferences": {
+        "stability_priority": "high",
+        "warnings_tolerance": "zero",
+        "evolution_aggressiveness": "medium",
+        "goal_persistence": "high",
+        "memory_consolidation": "bounded"
+      },
+      "patterns": {
+        "stable_cycles": 9,
+        "warning_cycles": 0,
+        "parse_error_cycles": 0,
+        "evolution_failure_cycles": 0,
+        "daemon_failure_cycles": 0
+      },
+      "consistency": {
+        "present": true,
+        "overall_consistent": true,
+        "contradiction_count": 0,
+        "regression_count": 0
+      },
+      "memory_system": {
+        "present": true,
+        "status": "OK",
+        "last_consolidation": "2026-06-10T21:27:41.677489+00:00",
+        "last_consistency_check": "2026-06-10T21:27:51.683559+00:00"
+      },
+      "phase_order_hint": [
+        "profiling",
+        "structuring",
+        "healing",
+        "skills",
+        "evaluation",
+        "reasoning",
+        "goals",
+        "strategy_refresh",
+        "knowledge_graph",
+        "toolchain_discovery",
+        "daemon_loop"
+      ]
+    }
+  },
+  "memory_snapshot": {
+    "schema": "ana.memory.evolution_snapshot.v1",
+    "generated_at": "2026-06-12T02:39:38.774033+00:00",
+    "core_memory_present": true,
+    "core_memory_schema_ok": true,
+    "history_length": 9,
+    "preferences": {
+      "stability_priority": "high",
+      "warnings_tolerance": "zero",
+      "evolution_aggressiveness": "medium",
+      "goal_persistence": "high",
+      "memory_consolidation": "bounded"
+    },
+    "patterns": {
+      "stable_cycles": 9,
+      "warning_cycles": 0,
+      "parse_error_cycles": 0,
+      "evolution_failure_cycles": 0,
+      "daemon_failure_cycles": 0
+    },
+    "consistency": {
+      "present": true,
+      "overall_consistent": true,
+      "contradiction_count": 0,
+      "regression_count": 0
+    },
+    "memory_system": {
+      "present": true,
+      "status": "OK",
+      "last_consolidation": "2026-06-10T21:27:41.677489+00:00",
+      "last_consistency_check": "2026-06-10T21:27:51.683559+00:00"
+    },
+    "phase_order_hint": [
+      "profiling",
+      "structuring",
+      "healing",
+      "skills",
+      "evaluation",
+      "reasoning",
+      "goals",
+      "strategy_refresh",
+      "knowledge_graph",
+      "toolchain_discovery",
+      "daemon_loop"
+    ]
+  }
+}
