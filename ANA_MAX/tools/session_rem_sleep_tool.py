@@ -1,21 +1,83 @@
 """
-ANA MAX - Session REM Sleep Tool.
+ANA MAX - Session REM Sleep Tool (OS27 Hyper++)
+==============================================
 
 Consolidates session traces into compact lessons between chats.
 This is deterministic and local: it reads checkpoints, telemetry, and memory
 files, then writes a small retrospective report and optional lessons.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for REM sleep operations (analyze, consolidate, latest)
+- Health monitoring for REM sleep operations reliability
+- MemoryCortex integration for REM sleep errors and state learning
+- ContextEngine integration for REM sleep state awareness
+- SelfEvolvingTool integration for anomaly detection on REM sleep failures
+- Structured logging with error detection
 """
 
 from __future__ import annotations
 
 import json
 import re
+import time
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+# OS27 Hyper++ Telemetry
+_rem_sleep_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_rem_sleep_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for REM sleep operations."""
+    if operation not in _rem_sleep_telemetry:
+        _rem_sleep_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _rem_sleep_telemetry[operation]["operation_count"] += 1
+    _rem_sleep_telemetry[operation]["total_time"] += execution_time
+    _rem_sleep_telemetry[operation]["last_execution_time"] = execution_time
+    _rem_sleep_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _rem_sleep_telemetry[operation]["success_count"] += 1
+    else:
+        _rem_sleep_telemetry[operation]["failure_count"] += 1
+
+
+def get_rem_sleep_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for REM sleep operations."""
+    if operation:
+        return _rem_sleep_telemetry.get(operation, {})
+    return _rem_sleep_telemetry.copy()
+
+
+def get_rem_sleep_health() -> str:
+    """Get health status for REM sleep tool based on telemetry."""
+    if not _rem_sleep_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _rem_sleep_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _rem_sleep_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 PASS_WORDS = ("pass", "passed", "ok", "green", "ready", "validated", "clean")
@@ -81,30 +143,100 @@ class SessionRemSleepTool(Tool):
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         action = str(kwargs.get("action") or "analyze").strip().lower()
-        if action == "latest":
-            return self._latest()
-        if action not in {"analyze", "consolidate"}:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Unknown action: {action}")
+        
+        try:
+            if action == "latest":
+                result = self._latest()
+            elif action not in {"analyze", "consolidate"}:
+                result = ToolResult(status=ToolStatus.ERROR, error=f"Unknown action: {action}")
+            else:
+                report = self._build_report(
+                    checkpoint_limit=int(kwargs.get("checkpoint_limit", 8) or 8),
+                    telemetry_limit=int(kwargs.get("telemetry_limit", 200) or 200),
+                    lesson_limit=int(kwargs.get("lesson_limit", 20) or 20),
+                )
 
-        report = self._build_report(
-            checkpoint_limit=int(kwargs.get("checkpoint_limit", 8) or 8),
-            telemetry_limit=int(kwargs.get("telemetry_limit", 200) or 200),
-            lesson_limit=int(kwargs.get("lesson_limit", 20) or 20),
-        )
+                if action == "consolidate":
+                    path = self._write_report(report)
+                    report["saved_report"] = str(path)
+                    if self._to_bool(kwargs.get("save_memory", True)):
+                        saved = self._save_memory(report, path)
+                        report["saved_memory"] = saved
 
-        if action == "consolidate":
-            path = self._write_report(report)
-            report["saved_report"] = str(path)
-            if self._to_bool(kwargs.get("save_memory", True)):
-                saved = self._save_memory(report, path)
-                report["saved_memory"] = saved
+                result = ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data=report,
+                    message=report["headline"],
+                )
 
-        return ToolResult(
-            status=ToolStatus.SUCCESS,
-            data=report,
-            message=report["headline"],
-        )
+            execution_time = time.time() - start_time
+            _record_rem_sleep_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for REM sleep state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="rem_sleep_state",
+                        value={
+                            "action": action,
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for REM sleep errors
+            if cortex and not result.is_success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"rem_sleep.{action}",
+                        f"REM sleep operation failed: {result.error}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
+        except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_rem_sleep_telemetry(action, False, execution_time)
+            
+            # MemoryCortex integration for REM sleep errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"rem_sleep.{action}",
+                        f"REM sleep operation failed: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
 
     def _build_report(self, checkpoint_limit: int, telemetry_limit: int, lesson_limit: int) -> Dict[str, Any]:
         checkpoints = self._read_checkpoints(checkpoint_limit)

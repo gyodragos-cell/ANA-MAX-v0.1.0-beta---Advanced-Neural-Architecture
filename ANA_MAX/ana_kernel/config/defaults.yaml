@@ -1,0 +1,15 @@
+mode: dev
+services:
+  - fs
+  - http
+  - shell
+  - llm
+event_bus:
+  replay_limit: 100
+fallback:
+  max_attempts: 1
+sandbox:
+  max_input_keys: 32
+  allow_external_effects: false
+logging:
+  level: info

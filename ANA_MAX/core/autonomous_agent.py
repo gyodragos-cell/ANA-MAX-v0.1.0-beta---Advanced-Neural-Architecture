@@ -181,8 +181,8 @@ class AutonomousAgent:
         # Modelele locale mici nu genereaza mereu planuri JSON complexe corect.
         # Folosim intotdeauna _simple_plan care:
         #   1. Incearca fallback deterministic (folder/terminal/web) - fara LLM
-        #   2. Altfel trimite la text-injection (ACTION blocks)
-        logger.info("AutonomousAgent: Bypass JSON plan, folosim Ollama text-injection.")
+        #   2. Altfel trimite la protocolul semantic (ACTION blocks)
+        logger.info("AutonomousAgent: Bypass JSON plan, folosim Ollama semantic action protocol.")
         return self._simple_plan(task)
 
         if self.ana is None or getattr(self.ana, "backend", "none") == "none":
@@ -262,7 +262,7 @@ class AutonomousAgent:
             return TaskPlan(
                 task_description=task,
                 steps=steps,
-                reasoning="Read-only request: use think/text-injection only",
+                reasoning="Read-only request: use think/semantic protocol only",
                 total_steps=len(steps),
             )
 

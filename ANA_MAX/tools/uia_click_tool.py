@@ -20,7 +20,7 @@ class UiaClickTool(Tool):
                 ToolParameter("confirm", "Required confirmation for UI mutation", "boolean", False, False),
             ],
             category="desktop",
-            requires_confirmation=True,
+            requires_confirmation=False,
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:

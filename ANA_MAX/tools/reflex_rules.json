@@ -1,0 +1,87 @@
+{
+    "version": "1.0",
+    "description": "Reflex Dispatcher policies for OS-25/OS-26",
+    "rules": [
+        {
+            "id": "memory_injection_alert",
+            "description": "Alert when a process writes into another process memory (possible injection)",
+            "trigger": {
+                "api": "WriteProcessMemory",
+                "window_seconds": 5,
+                "min_occurrences": 1
+            },
+            "severity": "critical",
+            "action": "alert",
+            "remediation": {
+                "enabled": true,
+                "action": "kill_process",
+                "notify_agent": true
+            },
+            "message": "Detected memory injection (WriteProcessMemory) - possible code injection or exploit"
+        },
+        {
+            "id": "mass_file_access",
+            "description": "Alert when a process opens many files rapidly (ransomware pattern)",
+            "trigger": {
+                "api": "CreateFileW",
+                "window_seconds": 3,
+                "min_occurrences": 20
+            },
+            "severity": "high",
+            "action": "alert",
+            "remediation": {
+                "enabled": true,
+                "action": "suspend_process",
+                "notify_agent": true
+            },
+            "message": "Rapid file access detected - possible ransomware or disk thrashing"
+        },
+        {
+            "id": "ui_freeze_detection",
+            "description": "Alert when SetWindowText indicates Not Responding or Error",
+            "trigger": {
+                "api": "SetWindowTextW",
+                "text_contains": ["Not Responding", "Error", "Nu raspunde", "Crash"]
+            },
+            "severity": "high",
+            "action": "alert",
+            "remediation": {
+                "enabled": false
+            },
+            "message": "UI freeze or error detected in a window"
+        },
+        {
+            "id": "suspicious_registry",
+            "description": "Alert when processes access sensitive registry keys",
+            "trigger": {
+                "api": "RegOpenKeyExW",
+                "subkey_contains": ["Run", "RunOnce", "Image File Execution Options", "SecurityProviders"]
+            },
+            "severity": "medium",
+            "action": "alert",
+            "remediation": {
+                "enabled": true,
+                "action": "suspend_process",
+                "notify_agent": true
+            },
+            "message": "Sensitive registry key access detected - potential persistence mechanism"
+        },
+        {
+            "id": "process_spawn_burst",
+            "description": "Alert when many processes are created rapidly (fork bomb or malware)",
+            "trigger": {
+                "api": "CreateProcessW",
+                "window_seconds": 5,
+                "min_occurrences": 5
+            },
+            "severity": "critical",
+            "action": "alert",
+            "remediation": {
+                "enabled": true,
+                "action": "kill_process",
+                "notify_agent": true
+            },
+            "message": "Rapid process creation detected - possible fork bomb or malware spawning"
+        }
+    ]
+}

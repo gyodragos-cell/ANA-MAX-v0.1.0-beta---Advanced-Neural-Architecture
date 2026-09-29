@@ -20,7 +20,7 @@ $Maintenance = Invoke-JsonCommand @("powershell", "-NoProfile", "-ExecutionPolic
 $ScanRoots = @(
     (Join-Path $ProjectRoot "scripts"),
     (Join-Path $ProjectRoot "tests"),
-    (Join-Path $ProjectRoot "cascade_integration")
+    (Join-Path $ProjectRoot "ANA_MAX\bridge")
 )
 $ScanFiles = Get-ChildItem -LiteralPath $ScanRoots -Recurse -File -Include "*.ps1", "*.py" -ErrorAction SilentlyContinue |
     Where-Object { $_.FullName -notmatch "\\__pycache__\\" }

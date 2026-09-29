@@ -1,0 +1,8 @@
+ANA, rulează diagnostica auto pe întregul proiect pentru a verifica integritatea codului (ca și cum ai umple teviile cu apă și unde nu trece apa trebuie reparat):
+
+1. Identifică toate fișierele Python din proiect.
+2. Rulează `error_radar` pe fiecare fișier pentru a detecta erori.
+3. Generează un raport de erori în `self_diagnose_report.md`.
+4. Dacă sunt erori, aplică auto-reparații minore unde este posibil, sau oferă recomandări clare pentru fiecare punct problemă.
+
+Activează acum!

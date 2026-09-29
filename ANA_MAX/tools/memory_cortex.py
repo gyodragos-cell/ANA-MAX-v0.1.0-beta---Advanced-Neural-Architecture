@@ -1,6 +1,6 @@
 """
-ANA MAX - memory_cortex.py
-===========================
+ANA MAX - memory_cortex.py (OS27 Hyper++)
+===========================================
 Stratul de memorie care sta INTRE tine si orice LLM.
 
 Problema pe care o rezolva:
@@ -24,6 +24,13 @@ Categorii de memorie:
   3. PROCEDURAL - cum faci lucrurile (fluxuri de lucru, comenzi preferate)
   4. ERROR_LOG  - greseli LLM + fix-urile tale (cel mai important)
 
+OS27 Hyper++ Features:
+- Telemetry tracking for all operations
+- Health monitoring for database operations
+- ContextEngine integration for memory updates
+- SelfEvolvingTool integration for anomaly analysis on repeated errors
+- Performance metrics and timeout protection
+
 Integrare in main.py:
     from tools.memory_cortex import MemoryCortex
 
@@ -45,15 +52,90 @@ import logging
 import sqlite3
 import time
 from datetime import datetime, timedelta
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, List, Optional
+import os
+
+try:
+    import chromadb
+    from chromadb.config import Settings
+    CHROMA_AVAILABLE = True
+except ImportError:
+    CHROMA_AVAILABLE = False
 
 logger = logging.getLogger("ANA.MemoryCortex")
+
+# OS27 Hyper++ Telemetry
+_memory_telemetry: dict[str, dict[str, Any]] = {}
+
+# Singleton instance to prevent repeated initialization
+_memory_cortex_singleton = None
+
+
+def _record_memory_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for memory operations."""
+    if operation not in _memory_telemetry:
+        _memory_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _memory_telemetry[operation]["operation_count"] += 1
+    _memory_telemetry[operation]["total_time"] += execution_time
+    _memory_telemetry[operation]["last_execution_time"] = execution_time
+    _memory_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _memory_telemetry[operation]["success_count"] += 1
+    else:
+        _memory_telemetry[operation]["failure_count"] += 1
+
+
+def get_memory_telemetry(operation: str | None = None) -> dict[str, Any] | dict[str, dict[str, Any]]:
+    """Get telemetry for memory operations."""
+    if operation:
+        return _memory_telemetry.get(operation)
+    return _memory_telemetry.copy()
+
+
+def get_memory_health() -> str:
+    """Get health status for memory cortex based on telemetry."""
+    if not _memory_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _memory_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _memory_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 # -- Constante -----------------------------------------------------------------
 MAX_CONTEXT_MEMORIES   = 10    # cate memorii injectam per prompt
 MAX_ERRORS_INJECTED    = 5     # cate greseli anterioare injectam
 SIMILARITY_THRESHOLD   = 0.3   # prag pentru "prompt similar"
 MEMORY_DECAY_DAYS      = 90    # memoriile foarte vechi si nefolosite se arhiveaza
+
+
+def get_memory_cortex() -> Optional['MemoryCortex']:
+    """Get or create singleton MemoryCortex instance to prevent repeated initialization."""
+    global _memory_cortex_singleton
+    if _memory_cortex_singleton is None:
+        try:
+            _memory_cortex_singleton = MemoryCortex()
+            logger.info("MemoryCortex singleton created")
+        except Exception as e:
+            logger.warning(f"Failed to create MemoryCortex singleton: {e}")
+    return _memory_cortex_singleton
 
 
 # -----------------------------------------------------------------------------
@@ -75,6 +157,19 @@ class MemoryCortex:
         project: str = "",
         verbose: bool = False,
     ):
+        # Singleton pattern - if already initialized, skip
+        global _memory_cortex_singleton
+        if _memory_cortex_singleton is not None:
+            # Reuse existing instance
+            self.db_path   = _memory_cortex_singleton.db_path
+            self.user_name = _memory_cortex_singleton.user_name
+            self.project   = _memory_cortex_singleton.project
+            self.verbose   = _memory_cortex_singleton.verbose
+            self._session_id = _memory_cortex_singleton._session_id
+            self._session_context = _memory_cortex_singleton._session_context
+            logger.info("MemoryCortex: Reusing existing singleton instance")
+            return
+
         self.db_path   = db_path
         self.user_name = user_name
         self.project   = project
@@ -84,7 +179,24 @@ class MemoryCortex:
         self._session_context: List[dict] = []  # conversatia curenta
 
         self._ensure_tables()
+        self._init_chroma()
         logger.info(" MemoryCortex initializat.")
+        
+        # Set singleton
+        _memory_cortex_singleton = self
+
+    def _init_chroma(self):
+        self.chroma_client = None
+        self.chroma_collection = None
+        if CHROMA_AVAILABLE:
+            try:
+                db_dir = os.path.dirname(os.path.abspath(self.db_path))
+                chroma_path = os.path.join(db_dir, "chroma_db")
+                self.chroma_client = chromadb.PersistentClient(path=chroma_path)
+                self.chroma_collection = self.chroma_client.get_or_create_collection(name="ana_episodic")
+                logger.info(" ChromaDB initializat pentru memorie vectoriala.")
+            except Exception as e:
+                logger.warning(f" Failed to init ChromaDB: {e}")
 
     # -- DB Setup --------------------------------------------------------------
     def _ensure_tables(self):
@@ -155,15 +267,14 @@ class MemoryCortex:
         context_tags: Optional[List[str]] = None,
     ) -> str:
         """
-        Trimite un prompt la LLM cu memoria injectata automat.
+        Trimite un prompt la LLM cu memoria injectata automat with OS27 Hyper++ telemetry.
 
         Parametri:
             prompt      : intrebarea / comanda ta originala
             llm_fn      : functia care apeleaza LLM-ul tau
                           trebuie sa accepte un string si sa returneze un string
                           Exemplu: lambda p: ollama_generate(p)
-            context_tags: taguri optionale pentru filtrarea memoriei
-                          Exemplu: ["python", "window_manager"]
+            context_tags: taguri optionale pentru filtrarea memoriei                          Exemplu: ["python", "window_manager"]
 
         Returneaza:
             Raspunsul LLM (string)
@@ -177,37 +288,50 @@ class MemoryCortex:
 
             response = cortex.ask("Cum repari o eroare de timeout?", my_llm)
         """
-        # 1. Construim prompt-ul imbogatit cu memorie
-        enriched_prompt = self._enrich_prompt(prompt, context_tags)
-
-        if self.verbose:
-            injected_lines = enriched_prompt.count("\n") - prompt.count("\n")
-            logger.info(f"Prompt imbogatit cu {injected_lines} linii de memorie.")
-
-        # 2. Trimitem la LLM
-        start = time.time()
+        start_time = time.time()
+        operation = "ask"
+        
         try:
-            response = llm_fn(enriched_prompt)
+            # 1. Construim prompt-ul imbogatit cu memorie
+            enriched_prompt = self._enrich_prompt(prompt, context_tags)
+
+            if self.verbose:
+                injected_lines = enriched_prompt.count("\n") - prompt.count("\n")
+                logger.info(f"Prompt imbogatit cu {injected_lines} linii de memorie.")
+
+            # 2. Trimitem la LLM
+            start = time.time()
+            try:
+                response = llm_fn(enriched_prompt)
+            except Exception as e:
+                logger.error(f"LLM call failed: {e}")
+                raise
+
+            elapsed = time.time() - start
+
+            # 3. Salvam in memorie episodica
+            self._save_episode(prompt, response, elapsed)
+
+            # 4. Adaugam in contextul sesiunii curente
+            self._session_context.append({
+                "role": "user", "content": prompt,
+                "timestamp": datetime.now().isoformat()
+            })
+            self._session_context.append({
+                "role": "assistant", "content": response,
+                "timestamp": datetime.now().isoformat()
+            })
+
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, True, execution_time)
+            logger.debug(f"Ask completed in {execution_time:.3f}s (LLM: {elapsed:.3f}s)")
+            
+            return response
         except Exception as e:
-            logger.error(f"LLM call failed: {e}")
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, False, execution_time)
+            logger.error(f"Ask failed: {e}")
             raise
-
-        elapsed = time.time() - start
-
-        # 3. Salvam in memorie episodica
-        self._save_episode(prompt, response, elapsed)
-
-        # 4. Adaugam in contextul sesiunii curente
-        self._session_context.append({
-            "role": "user", "content": prompt,
-            "timestamp": datetime.now().isoformat()
-        })
-        self._session_context.append({
-            "role": "assistant", "content": response,
-            "timestamp": datetime.now().isoformat()
-        })
-
-        return response
 
     # -- Corectare greseli -----------------------------------------------------
     def correct(
@@ -219,7 +343,7 @@ class MemoryCortex:
         tags: Optional[List[str]] = None,
     ):
         """
-        Inregistreaza o greseala a LLM-ului si raspunsul corect.
+        Inregistreaza o greseala a LLM-ului si raspunsul corect with OS27 Hyper++ telemetry.
         Data viitoare cand apare un prompt similar, ANA va sti sa evite greseala.
 
         Parametri:
@@ -238,58 +362,88 @@ class MemoryCortex:
                 tags=["python", "screenshot"]
             )
         """
+        start_time = time.time()
+        operation = "correct"
         tags_str = json.dumps(tags or [])
+        
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                # Verificam daca aceasta greseala exista deja
+                existing = conn.execute(
+                    """SELECT id, times_repeated FROM cortex_errors
+                       WHERE error_type = ? AND bad_response = ?
+                       LIMIT 1""",
+                    (error_type, bad_response[:500])
+                ).fetchone()
 
-        with sqlite3.connect(self.db_path) as conn:
-            # Verificam daca aceasta greseala exista deja
-            existing = conn.execute(
-                """SELECT id, times_repeated FROM cortex_errors
-                   WHERE error_type = ? AND bad_response = ?
-                   LIMIT 1""",
-                (error_type, bad_response[:500])
-            ).fetchone()
-
-            if existing:
-                # Incrementam contorul - LLM a repetat greseala!
-                conn.execute(
-                    """UPDATE cortex_errors
-                       SET times_repeated = times_repeated + 1,
-                           last_seen = ?
-                       WHERE id = ?""",
-                    (datetime.now().isoformat(), existing[0])
-                )
-                times = existing[1] + 1
-                logger.warning(
-                    f"[WARN] LLM a repetat aceeasi greseala de {times} ori! "
-                    f"Tip: {error_type}"
-                )
-            else:
-                conn.execute(
-                    """INSERT INTO cortex_errors
-                       (timestamp, error_type, prompt_context, bad_response,
-                        correct_response, last_seen, tags)
-                       VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                    (
-                        datetime.now().isoformat(),
-                        error_type,
-                        original_prompt[:500],
-                        bad_response[:1000],
-                        correct_response[:1000],
-                        datetime.now().isoformat(),
-                        tags_str,
+                if existing:
+                    # Incrementam contorul - LLM a repetat greseala!
+                    conn.execute(
+                        """UPDATE cortex_errors
+                           SET times_repeated = times_repeated + 1,
+                               last_seen = ?
+                           WHERE id = ?""",
+                        (datetime.now().isoformat(), existing[0])
                     )
+                    times = existing[1] + 1
+                    logger.warning(
+                        f"[WARN] LLM a repetat aceeasi greseala de {times} ori! "
+                        f"Tip: {error_type}"
+                    )
+                    
+                    # OS27 Hyper++: Integrate with SelfEvolvingTool for repeated errors
+                    if times >= 3:
+                        try:
+                            from tools.self_evolving_tool import SelfEvolvingTool
+                            evolving = SelfEvolvingTool()
+                            evolving.analyze_anomaly(
+                                file_path="memory_cortex",
+                                anomaly_type="repeated_llm_error",
+                                anomaly_details={
+                                    "error_type": error_type,
+                                    "times_repeated": times,
+                                    "prompt_context": original_prompt[:500],
+                                    "bad_response": bad_response[:500],
+                                    "correct_response": correct_response[:500],
+                                }
+                            )
+                            logger.info(f"Sent repeated error to self_evolving_tool: {error_type}")
+                        except Exception as e:
+                            logger.warning(f"Self-evolving tool integration failed: {e}")
+                else:
+                    conn.execute(
+                        """INSERT INTO cortex_errors
+                           (timestamp, error_type, prompt_context, bad_response,
+                            correct_response, last_seen, tags)
+                           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                        (
+                            datetime.now().isoformat(),
+                            error_type,
+                            original_prompt[:500],
+                            bad_response[:1000],
+                            correct_response[:1000],
+                            datetime.now().isoformat(),
+                            tags_str,
+                        )
+                    )
+
+                # Marcam episodul original ca corectat
+                prompt_hash = self._hash(original_prompt)
+                conn.execute(
+                    """UPDATE cortex_episodic
+                       SET corrected = 1, correction = ?
+                       WHERE prompt_hash = ?""",
+                    (correct_response[:500], prompt_hash)
                 )
 
-            # Marcam episodul original ca corectat
-            prompt_hash = self._hash(original_prompt)
-            conn.execute(
-                """UPDATE cortex_episodic
-                   SET corrected = 1, correction = ?
-                   WHERE prompt_hash = ?""",
-                (correct_response[:500], prompt_hash)
-            )
-
-        logger.info(f" Corectie inregistrata: {error_type}")
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, True, execution_time)
+            logger.info(f" Corectie inregistrata: {error_type} in {execution_time:.3f}s")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, False, execution_time)
+            logger.error(f"Correct failed: {e}")
+            raise
 
     # -- Invata fapte despre user ----------------------------------------------
     def remember(
@@ -300,7 +454,7 @@ class MemoryCortex:
         confidence: float = 1.0,
     ):
         """
-        Salveaza un fapt permanent despre tine sau proiectul tau.
+        Salveaza un fapt permanent despre tine sau proiectul tau with OS27 Hyper++ telemetry.
 
         Exemplu:
             cortex.remember("limbaj_preferat", "Python")
@@ -309,22 +463,33 @@ class MemoryCortex:
             cortex.remember("proiect_activ", "ANA MAX")
             cortex.remember("librarie_screenshot", "mss, nu PIL")
         """
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                """INSERT INTO cortex_semantic (category, key, value, confidence, timestamp)
-                   VALUES (?, ?, ?, ?, ?)
-                   ON CONFLICT(category, key) DO UPDATE SET
-                       value = excluded.value,
-                       confidence = excluded.confidence,
-                       timestamp = excluded.timestamp""",
-                (category, key, value, confidence, datetime.now().isoformat())
-            )
-        logger.info(f" Memorat: [{category}] {key} = {value}")
+        start_time = time.time()
+        operation = "remember"
+        
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute(
+                    """INSERT INTO cortex_semantic (category, key, value, confidence, timestamp)
+                       VALUES (?, ?, ?, ?, ?)
+                       ON CONFLICT(category, key) DO UPDATE SET
+                           value = excluded.value,
+                           confidence = excluded.confidence,
+                           timestamp = excluded.timestamp""",
+                    (category, key, value, confidence, datetime.now().isoformat())
+                )
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, True, execution_time)
+            logger.info(f" Memorat: [{category}] {key} = {value} in {execution_time:.3f}s")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, False, execution_time)
+            logger.error(f"Remember failed: {e}")
+            raise
 
     # -- Invata pattern de succes ----------------------------------------------
     def learned_success(self, task_type: str, pattern: str, notes: str = ""):
         """
-        Marcheaza un pattern ca functionand bine.
+        Marcheaza un pattern ca functionand bine with OS27 Hyper++ telemetry.
 
         Exemplu:
             cortex.learned_success(
@@ -333,26 +498,39 @@ class MemoryCortex:
                 notes="salvat din sesiunea de debug din 15 mai"
             )
         """
-        with sqlite3.connect(self.db_path) as conn:
-            existing = conn.execute(
-                "SELECT id FROM cortex_procedural WHERE task_type = ? AND pattern = ?",
-                (task_type, pattern)
-            ).fetchone()
+        start_time = time.time()
+        operation = "learned_success"
+        
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                existing = conn.execute(
+                    "SELECT id FROM cortex_procedural WHERE task_type = ? AND pattern = ?",
+                    (task_type, pattern)
+                ).fetchone()
 
-            if existing:
-                conn.execute(
-                    """UPDATE cortex_procedural
-                       SET success_count = success_count + 1, last_used = ?
-                       WHERE id = ?""",
-                    (datetime.now().isoformat(), existing[0])
-                )
-            else:
-                conn.execute(
-                    """INSERT INTO cortex_procedural
-                       (task_type, pattern, last_used, notes)
-                       VALUES (?, ?, ?, ?)""",
-                    (task_type, pattern, datetime.now().isoformat(), notes)
-                )
+                if existing:
+                    conn.execute(
+                        """UPDATE cortex_procedural
+                           SET success_count = success_count + 1, last_used = ?
+                           WHERE id = ?""",
+                        (datetime.now().isoformat(), existing[0])
+                    )
+                else:
+                    conn.execute(
+                        """INSERT INTO cortex_procedural
+                           (task_type, pattern, last_used, notes)
+                           VALUES (?, ?, ?, ?)""",
+                        (task_type, pattern, datetime.now().isoformat(), notes)
+                    )
+            
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, True, execution_time)
+            logger.debug(f"Learned success recorded in {execution_time:.3f}s")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_memory_telemetry(operation, False, execution_time)
+            logger.error(f"Learned success failed: {e}")
+            raise
 
     # -- Enrich prompt ---------------------------------------------------------
     def _enrich_prompt(self, prompt: str, tags: Optional[List[str]] = None) -> str:
@@ -511,7 +689,33 @@ Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspund
         return relevant[:3]
 
     def _get_similar_episodes(self, prompt: str) -> List[dict]:
-        """Gaseste episoade similare din trecut pe baza cuvintelor cheie."""
+        """Gaseste episoade similare din trecut (folosind ChromaDB Vector Search daca e disponibil, altfel fallback la cuvinte cheie)."""
+        if self.chroma_collection:
+            try:
+                # Vector Semantic Search
+                results = self.chroma_collection.query(query_texts=[prompt], n_results=2)
+                if results and results.get("documents") and results["documents"][0]:
+                    scored = []
+                    # Docs format: "Prompt: <p>\nResponse: <r>"
+                    for idx, doc in enumerate(results["documents"][0]):
+                        parts = doc.split("\nResponse: ", 1)
+                        p = parts[0].replace("Prompt: ", "") if len(parts) > 0 else doc
+                        r = parts[1] if len(parts) > 1 else ""
+                        meta = results["metadatas"][0][idx] if results.get("metadatas") else {}
+                        
+                        scored.append({
+                            "timestamp": meta.get("timestamp", ""),
+                            "prompt": p,
+                            "response": r,
+                            "corrected": 0,
+                            "correction": "",
+                            "score": 100 - idx  # top result gets higher score
+                        })
+                    return scored
+            except Exception as e:
+                logger.warning(f"ChromaDB search fallback: {e}")
+                
+        # Fallback keyword match
         prompt_words = [w for w in prompt.lower().split() if len(w) > 4]
         if not prompt_words:
             return []
@@ -560,6 +764,34 @@ Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspund
                     datetime.now().isoformat(),
                 )
             )
+            
+        if self.chroma_collection:
+            try:
+                doc_text = f"Prompt: {prompt}\nResponse: {response}"
+                self.chroma_collection.add(
+                    documents=[doc_text],
+                    metadatas=[{"timestamp": datetime.now().isoformat(), "type": "episodic"}],
+                    ids=[prompt_hash]
+                )
+            except Exception as e:
+                logger.warning(f"ChromaDB insert failed: {e}")
+
+    def semantic_search(self, query: str, n_results: int = 3) -> List[str]:
+        """ Cauta in memoria episodica vectorizata. """
+        if not self.chroma_collection:
+            return []
+            
+        try:
+            results = self.chroma_collection.query(
+                query_texts=[query],
+                n_results=n_results
+            )
+            if results and results.get("documents") and results["documents"][0]:
+                return results["documents"][0]
+            return []
+        except Exception as e:
+            logger.warning(f"ChromaDB query failed: {e}")
+            return []
 
     # -- Utils -----------------------------------------------------------------
     def _hash(self, text: str) -> str:
@@ -567,6 +799,7 @@ Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspund
 
     # -- Stats & Report --------------------------------------------------------
     def get_memory_stats(self) -> dict:
+        """Get memory statistics with OS27 Hyper++ telemetry included."""
         with sqlite3.connect(self.db_path) as conn:
             episodes   = conn.execute("SELECT COUNT(*) FROM cortex_episodic").fetchone()[0]
             facts      = conn.execute("SELECT COUNT(*) FROM cortex_semantic").fetchone()[0]
@@ -593,12 +826,15 @@ Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspund
             "top_repeated_errors": [
                 {"type": r[0], "times": r[1]} for r in top_errors
             ],
+            "os27_hyper_telemetry": get_memory_telemetry(),
+            "health_status": get_memory_health(),
         }
 
     def print_memory_report(self):
+        """Print memory report with OS27 Hyper++ telemetry."""
         stats = self.get_memory_stats()
         print("\n" + "="*60)
-        print(" ANA MAX - MEMORY CORTEX REPORT")
+        print(" ANA MAX - MEMORY CORTEX REPORT (OS27 Hyper++)")
         print("="*60)
         print(f"Memorii episodice:          {stats['episodic_memories']}")
         print(f"Fapte cunoscute:            {stats['known_facts']}")
@@ -606,10 +842,15 @@ Tinand cont de tot ce stii despre utilizator si de greselile anterioare, raspund
         print(f"Greseli LLM inregistrate:   {stats['llm_errors_caught']}")
         print(f"De cate ori LLM a repetat:  {stats['times_llm_repeated_error']}")
         print(f"Corectii aplicate:          {stats['corrections_applied']}")
+        print(f"Health Status:              {stats['health_status']}")
         if stats["top_repeated_errors"]:
             print("\nTop greseli repetate:")
             for e in stats["top_repeated_errors"]:
                 print(f"  [WARN]  {e['type']}: repetat de {e['times']} ori")
+        if stats["os27_hyper_telemetry"]:
+            print("\nOS27 Hyper++ Telemetry:")
+            for op, tel in stats["os27_hyper_telemetry"].items():
+                print(f"  {op}: {tel['operation_count']} ops, {tel['success_count']} success, {tel['failure_count']} failures")
         print("="*60 + "\n")
 
     def forget(self, category: str = None, older_than_days: int = None):

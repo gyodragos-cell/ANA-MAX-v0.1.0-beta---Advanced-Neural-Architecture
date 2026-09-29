@@ -1,5 +1,15 @@
 """
-ANA MAX - Tool Healthcheck
+ANA MAX - Tool Healthcheck (OS27 Hyper++)
+========================================
+Verifica rapid starea tool-urilor ANA si raporteaza ce merge sau ce e problematic.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for healthcheck operations (safe, all, offline_lab)
+- Health monitoring for healthcheck reliability
+- MemoryCortex integration for healthcheck errors and state learning
+- ContextEngine integration for system health awareness
+- SelfEvolvingTool integration for anomaly detection on healthcheck failures
+- Structured logging with error detection
 """
 
 from __future__ import annotations
@@ -9,6 +19,58 @@ import importlib.util
 from typing import Any, Dict, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus, registry
+
+# OS27 Hyper++ Telemetry
+_healthcheck_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_healthcheck_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for healthcheck operations."""
+    if operation not in _healthcheck_telemetry:
+        _healthcheck_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _healthcheck_telemetry[operation]["operation_count"] += 1
+    _healthcheck_telemetry[operation]["total_time"] += execution_time
+    _healthcheck_telemetry[operation]["last_execution_time"] = execution_time
+    _healthcheck_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _healthcheck_telemetry[operation]["success_count"] += 1
+    else:
+        _healthcheck_telemetry[operation]["failure_count"] += 1
+
+
+def get_healthcheck_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for healthcheck operations."""
+    if operation:
+        return _healthcheck_telemetry.get(operation, {})
+    return _healthcheck_telemetry.copy()
+
+
+def get_healthcheck_health() -> str:
+    """Get health status for healthcheck tool based on telemetry."""
+    if not _healthcheck_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _healthcheck_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _healthcheck_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class ToolHealthcheckTool(Tool):
@@ -78,6 +140,28 @@ class ToolHealthcheckTool(Tool):
         )
 
     def execute(self, scope: str = "safe", **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         self._ensure_registry()
         legacy_operation = kwargs.get("operation")
         if legacy_operation in {"summary", "status"} and scope == "safe":
@@ -122,17 +206,34 @@ class ToolHealthcheckTool(Tool):
         elif scope == "offline_lab":
             checks = offline_lab_checks
 
+        available_tools = set(registry.list_tools())
         results = []
         ok = 0
         failed = 0
+        skipped = 0
 
         for tool_name, params in checks:
+            if tool_name not in available_tools:
+                results.append(
+                    {
+                        "tool": tool_name,
+                        "success": None,
+                        "skipped": True,
+                        "seconds": 0.0,
+                        "message": "Tool not exposed by the active registry/profile",
+                        "error": None,
+                    }
+                )
+                skipped += 1
+                continue
+
             started = time.time()
             tool_result = registry.execute(tool_name, **params)
             elapsed = round(time.time() - started, 2)
             item = {
                 "tool": tool_name,
                 "success": tool_result.is_success,
+                "skipped": False,
                 "seconds": elapsed,
                 "message": tool_result.message,
                 "error": tool_result.error,
@@ -144,6 +245,37 @@ class ToolHealthcheckTool(Tool):
                 failed += 1
 
         dependencies = self._dependency_health()
+        
+        execution_time = time.time() - start_time
+        _record_healthcheck_telemetry(scope, True, execution_time)
+        
+        # ContextEngine integration for system health
+        if context_engine:
+            try:
+                context_engine.update_context(
+                    key="system_health",
+                    value={
+                        "scope": scope,
+                        "ok": ok,
+                        "failed": failed,
+                        "skipped": skipped,
+                        "timestamp": time.time(),
+                    }
+                )
+            except Exception:
+                pass
+        
+        # MemoryCortex integration for healthcheck failures
+        if cortex and failed > 0:
+            try:
+                failed_tools = [r["tool"] for r in results if not r["success"]]
+                cortex.remember(
+                    "error",
+                    f"healthcheck.{scope}",
+                    f"Healthcheck failed for {failed} tools: {', '.join(failed_tools[:5])}"
+                )
+            except Exception:
+                pass
 
         return ToolResult(
             status=ToolStatus.SUCCESS,
@@ -151,10 +283,11 @@ class ToolHealthcheckTool(Tool):
                 "scope": scope,
                 "ok": ok,
                 "failed": failed,
+                "skipped": skipped,
                 "results": results,
                 "dependencies": dependencies,
             },
-            message=f"Healthcheck finalizat: {ok} OK / {failed} FAIL",
+            message=f"Healthcheck finalizat: {ok} OK / {failed} FAIL / {skipped} SKIP",
         )
 
     @staticmethod

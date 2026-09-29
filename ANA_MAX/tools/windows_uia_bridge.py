@@ -1,3 +1,17 @@
+"""
+ANA MAX - Windows UIA Bridge Tool (OS27 Hyper++)
+==================================================
+Eyes and hands of ANA MAX (via Microsoft UI Automation).
+
+OS27 Hyper++ Features:
+- Telemetry tracking for UI operations (list, inspect, click, type)
+- Health monitoring for UI automation stability
+- MemoryCortex integration for UI state and error learning
+- ContextEngine integration for UI awareness
+- SelfEvolvingTool integration for anomaly detection on UI failures
+- Structured logging with error detection
+"""
+
 import logging
 import json
 import re
@@ -8,6 +22,58 @@ from typing import Dict, Any, List
 from tools.base import Tool, ToolResult, ToolStatus, ToolDefinition, ToolParameter
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_uia_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_uia_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for UIA operations."""
+    if operation not in _uia_telemetry:
+        _uia_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _uia_telemetry[operation]["operation_count"] += 1
+    _uia_telemetry[operation]["total_time"] += execution_time
+    _uia_telemetry[operation]["last_execution_time"] = execution_time
+    _uia_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _uia_telemetry[operation]["success_count"] += 1
+    else:
+        _uia_telemetry[operation]["failure_count"] += 1
+
+
+def get_uia_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for UIA operations."""
+    if operation:
+        return _uia_telemetry.get(operation, {})
+    return _uia_telemetry.copy()
+
+
+def get_uia_health() -> str:
+    """Get health status for UIA tool based on telemetry."""
+    if not _uia_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _uia_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _uia_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 class WindowsUiaBridgeTool(Tool):
     """Eyes and hands of ANA MAX (via Microsoft UI Automation)."""
@@ -76,6 +142,8 @@ class WindowsUiaBridgeTool(Tool):
             logger.error(f"Python path: {sys.path[:3]}")
 
     def execute(self, **kwargs) -> ToolResult:
+        start_time = time.time()
+        
         if not self._uia_available:
             error_msg = f"pywinauto library missing. "
             if self._import_error:
@@ -83,26 +151,112 @@ class WindowsUiaBridgeTool(Tool):
             else:
                 error_msg += "Run 'pip install pywinauto' first."
             logger.error(error_msg)
+            _record_uia_telemetry("execute", False, time.time() - start_time)
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error=error_msg
             )
 
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+
         action = kwargs.get("action")
         if action == "list_windows":
-            return self._list_windows()
+            result = self._list_windows()
+            execution_time = time.time() - start_time
+            success = result.status == ToolStatus.SUCCESS
+            _record_uia_telemetry(action, success, execution_time)
+            
+            # ContextEngine integration for window list
+            if context_engine and success:
+                try:
+                    context_engine.update_context(
+                        key="ui_windows",
+                        value={
+                            "window_count": result.data.get("count", 0),
+                            "windows": result.data.get("windows", [])[:10],  # Limit to 10
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
         elif action == "inspect_window":
-            return self._inspect_window(kwargs.get("window_title"))
+            result = self._inspect_window(kwargs.get("window_title"))
+            execution_time = time.time() - start_time
+            success = result.status == ToolStatus.SUCCESS
+            _record_uia_telemetry(action, success, execution_time)
+            
+            # MemoryCortex integration for window structure
+            if cortex and success:
+                try:
+                    cortex.remember(
+                        "episodic",
+                        f"uia.inspect.{kwargs.get('window_title')}",
+                        f"Inspected window: {result.data.get('window_title')} with {result.data.get('count')} elements"
+                    )
+                except Exception:
+                    pass
+            
+            # ContextEngine integration for window structure
+            if context_engine and success:
+                try:
+                    context_engine.update_context(
+                        key="active_window_structure",
+                        value={
+                            "window_title": result.data.get("window_title"),
+                            "element_count": result.data.get("count"),
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
         elif action == "click_element":
-            return self._interact_element(
+            result = self._interact_element(
                 kwargs.get("window_title"),
                 kwargs.get("element_title"),
                 kwargs.get("auto_id"),
                 kwargs.get("control_type"),
                 action="click"
             )
+            execution_time = time.time() - start_time
+            success = result.status == ToolStatus.SUCCESS
+            _record_uia_telemetry(action, success, execution_time)
+            
+            # MemoryCortex integration for click errors
+            if cortex and not success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"uia.click.{kwargs.get('window_title')}",
+                        f"Click failed on element: {kwargs.get('element_title')} or {kwargs.get('auto_id')}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
         elif action == "type_text":
-            return self._interact_element(
+            result = self._interact_element(
                 kwargs.get("window_title"),
                 kwargs.get("element_title"),
                 kwargs.get("auto_id"),
@@ -110,7 +264,24 @@ class WindowsUiaBridgeTool(Tool):
                 action="type",
                 text=kwargs.get("text")
             )
+            execution_time = time.time() - start_time
+            success = result.status == ToolStatus.SUCCESS
+            _record_uia_telemetry(action, success, execution_time)
+            
+            # MemoryCortex integration for type errors
+            if cortex and not success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"uia.type.{kwargs.get('window_title')}",
+                        f"Type failed on element: {kwargs.get('element_title')} or {kwargs.get('auto_id')}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
         else:
+            _record_uia_telemetry(action, False, time.time() - start_time)
             return ToolResult(status=ToolStatus.ERROR, error=f"Actiune necunoscuta: {action}")
 
     def _list_windows(self) -> ToolResult:

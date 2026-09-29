@@ -1,0 +1,8 @@
+learned_rules:
+  fallback_adjustments: []
+  routing_adjustments: []
+  skill_adjustments: []
+  config_adjustments: []
+  diagnostics_history: []
+  self_repair_triggers: []
+  executed_fallbacks: []

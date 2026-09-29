@@ -1,0 +1,96 @@
+{
+  "status": "DONE",
+  "version": "4.0.0",
+  "summary": "Completed 2 steps in 12.93s",
+  "extracted_data": [
+    "If you choose to \u201cAccept all,\u201d we will also use cookies and data, including IP addresses, to"
+  ],
+  "session_log": [
+    {
+      "step_n": 0,
+      "step_label": "Navigation",
+      "action": "NAVIGATE",
+      "target": "https://www.google.com/travel/flights?hl=en",
+      "result": "Loaded https://www.google.com/travel/flights?hl=en",
+      "state": "INFO",
+      "url": "https://www.google.com/travel/flights?hl=en",
+      "timestamp": 1789949187.123183,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "Step 1",
+      "action": "STEP",
+      "target": null,
+      "result": "Search ZRH to LHR",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789949189.1245606,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "AI [heuristic]",
+      "action": "TYPE",
+      "target": "35",
+      "result": "Type 'zrh to lhr' in search input | conf=0.90",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789949191.165531,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 1,
+      "step_label": "Executor",
+      "action": "TYPE",
+      "target": "35",
+      "result": "Typed 'zrh to lhr' -> ENTER -> https://consent.google.com/m?continue=https://www.google.com/travel/flights?hl%3Den&gl=RO&m=0&pc=flt&cm=2&hl=en&src=1",
+      "state": "SUCCESS",
+      "url": "https://consent.google.com/m?continue=https://www.google.com/travel/flights?hl%3Den&gl=RO&m=0&pc=flt&cm=2&hl=en&src=1",
+      "timestamp": 1789949193.6389883,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 2,
+      "step_label": "Step 2",
+      "action": "STEP",
+      "target": null,
+      "result": "Extract price",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789949194.644823,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 2,
+      "step_label": "AI [heuristic]",
+      "action": "EXTRACT",
+      "target": "None",
+      "result": "Extract first substantial paragraph | conf=0.85",
+      "state": "INFO",
+      "url": "",
+      "timestamp": 1789949196.6939616,
+      "ocr_text": null,
+      "screenshot_b64": null
+    },
+    {
+      "step_n": 2,
+      "step_label": "Executor",
+      "action": "EXTRACT",
+      "target": "None",
+      "result": "If you choose to \u201cAccept all,\u201d we will also use cookies and data, including IP addresses, to",
+      "state": "SUCCESS",
+      "url": "https://consent.google.com/m?continue=https://www.google.com/travel/flights?hl%3Den&gl=RO&m=0&pc=flt&cm=2&hl=en&src=1",
+      "timestamp": 1789949196.718903,
+      "ocr_text": null,
+      "screenshot_b64": null
+    }
+  ],
+  "session_seconds": 12.93,
+  "ocr_available": true
+}

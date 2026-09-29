@@ -1,0 +1,117 @@
+name: os27-guardian
+description: >
+  Agent dedicat pentru diagnoză, auto-reparare și monitorizare OS27 Hyper++.
+  Folosește MCP Serverul OS27 Universal v3 ca backend principal.
+  Backend-uri reale din ANA_MAX/tools/ — zero stubs.
+
+model: claude-3-opus
+mode: mcp
+
+mcp:
+  servers:
+    - id: os27-hyper-mcp
+      command: ["python", "mcp/os27_mcp_server.py"]
+      env:
+        PYTHONIOENCODING: "utf-8"
+        PYTHONPATH: "c:/Users/billy/Desktop/ana-manus/ANA_MAX"
+      capabilities:
+        tools: true
+
+tools:
+  allow:
+    # Tool Brain
+    - os27_tool_brain_discovery
+    - os27_tool_brain_priority_map
+    - os27_tool_brain_smoke_test
+    - os27_tool_brain_graph
+    # Context Engine
+    - os27_context_engine_read_state
+    - os27_context_engine_reflexes
+    # Memory Cortex
+    - os27_memory_cortex_save
+    - os27_memory_cortex_load
+    - os27_memory_cortex_reset
+    - os27_memory_cortex_validate
+    # System Integrity Hyper
+    - os27_system_integrity_hyper_scan
+    # Watchdog Bus
+    - os27_watchdog_bus_start
+    - os27_watchdog_bus_stop
+    - os27_watchdog_bus_read
+    # Telemetry Engine
+    - os27_telemetry_engine_read
+    - os27_telemetry_engine_save
+    # Dashboard Feeder
+    - os27_dashboard_feeder_snapshot
+    # Error Radar & Self Heal
+    - os27_error_radar_scan
+    - os27_self_heal
+
+policies:
+  - safe_mode_only
+  - can_run_os27_tools
+  - ask_before_destructive
+
+instructions: |
+  Esti OS27 Guardian — agentul central de mentenanta, securitate si auto-reparare.
+
+  ## La Initializare (obligatoriu, in ordine):
+  1. `os27_watchdog_bus_start` — porneste monitorizarea evenimentelor
+  2. `os27_tool_brain_discovery` — descopera toate tool-urile disponibile
+  3. `os27_memory_cortex_validate` — verifica integritatea bazei de date
+  4. `os27_dashboard_feeder_snapshot` — genereaza starea initiala
+
+  ## Monitorizare Continua (la fiecare 30 min sau la cerere):
+  1. `os27_system_integrity_hyper_scan` — audit complet
+  2. `os27_error_radar_scan` — scanare erori
+  3. `os27_telemetry_engine_read` — citeste telemetrie agregata
+  4. Daca tool-uri broken → `os27_self_heal(deep=True)` fara confirmare
+
+  ## Reguli:
+  - Nu modifica fisiere din venv/ sau archives/
+  - Nu sterge date din memory cortex fara confirmare explicita
+  - Foloseste `os27_context_engine_reflexes` pentru a vedea regulile de securitate active
+  - Format raport: ACTION → RESULT → NEXT STEP
+
+reflexes:
+  - name: auto-heal-on-critical-error
+    trigger: "critical_error_detected"
+    action: "call:os27_self_heal"
+    params:
+      deep: true
+
+  - name: auto-fix-broken-tools
+    trigger: "broken_tool_detected"
+    action: "call:os27_self_heal"
+    params:
+      deep: true
+
+  - name: start-watchdog-on-init
+    trigger: "agent_initialized"
+    action: "call:os27_watchdog_bus_start"
+    params: {}
+
+  - name: validate-memory-on-init
+    trigger: "agent_initialized"
+    action: "call:os27_memory_cortex_validate"
+    params: {}
+
+  - name: periodic-integrity-scan
+    trigger: "cron:*/30 * * * *"
+    action: "call:os27_system_integrity_hyper_scan"
+    params: {}
+
+  - name: periodic-error-radar
+    trigger: "cron:*/30 * * * *"
+    action: "call:os27_error_radar_scan"
+    params: {}
+
+  - name: periodic-dashboard
+    trigger: "cron:*/30 * * * *"
+    action: "call:os27_dashboard_feeder_snapshot"
+    params: {}
+
+  - name: periodic-telemetry-save
+    trigger: "cron:*/30 * * * *"
+    action: "call:os27_telemetry_engine_save"
+    params: {}

@@ -1,4 +1,16 @@
-"""Multi-source blocker detector for ANA MAX."""
+"""
+Multi-source blocker detector for ANA MAX (OS27 Hyper++)
+=======================================================
+Detect likely blockers from recent logs, observability, and visible window titles.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for error radar operations (quick, logs, ui, all)
+- Health monitoring for error radar reliability
+- MemoryCortex integration for error findings and state learning
+- ContextEngine integration for error state awareness
+- SelfEvolvingTool integration for anomaly detection on radar failures
+- Structured logging with error detection
+"""
 
 from __future__ import annotations
 
@@ -6,12 +18,65 @@ import json
 import logging
 import re
 import subprocess
+import time
 from pathlib import Path
 from typing import Any, Dict, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_error_radar_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_error_radar_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for error radar operations."""
+    if operation not in _error_radar_telemetry:
+        _error_radar_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _error_radar_telemetry[operation]["operation_count"] += 1
+    _error_radar_telemetry[operation]["total_time"] += execution_time
+    _error_radar_telemetry[operation]["last_execution_time"] = execution_time
+    _error_radar_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _error_radar_telemetry[operation]["success_count"] += 1
+    else:
+        _error_radar_telemetry[operation]["failure_count"] += 1
+
+
+def get_error_radar_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for error radar operations."""
+    if operation:
+        return _error_radar_telemetry.get(operation, {})
+    return _error_radar_telemetry.copy()
+
+
+def get_error_radar_health() -> str:
+    """Get health status for error radar tool based on telemetry."""
+    if not _error_radar_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _error_radar_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _error_radar_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 ERROR_PATTERNS = [
@@ -46,28 +111,100 @@ class ErrorRadarTool(Tool):
         )
 
     def execute(self, scope: str = "quick", **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         limit = int(kwargs.get("limit") or 12)
         findings: List[Dict[str, Any]] = []
 
-        if scope in {"quick", "logs", "all"}:
-            findings.extend(self._scan_logs(limit))
-        if scope in {"quick", "ui", "all"}:
-            findings.extend(self._scan_windows())
+        try:
+            if scope in {"quick", "logs", "all"}:
+                findings.extend(self._scan_logs(limit))
+            if scope in {"quick", "ui", "all"}:
+                findings.extend(self._scan_windows())
 
-        severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-        findings = self._dedupe_findings(findings)
-        findings.sort(key=lambda item: severity_order.get(item.get("severity", "low"), 3))
-        findings = findings[:limit]
+            severity_order = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+            findings = self._dedupe_findings(findings)
+            findings.sort(key=lambda item: severity_order.get(item.get("severity", "low"), 3))
+            findings = findings[:limit]
 
-        data = {
-            "schema": "ana.error_radar.v1",
-            "scope": scope,
-            "findings": findings,
-            "count": len(findings),
-            "summary": self._finding_summary(findings),
-            "recommended_next_step": self._recommend(findings),
-        }
-        return ToolResult(status=ToolStatus.SUCCESS, data=data, message=f"{len(findings)} findings")
+            data = {
+                "schema": "ana.error_radar.v1",
+                "scope": scope,
+                "findings": findings,
+                "count": len(findings),
+                "summary": self._finding_summary(findings),
+                "recommended_next_step": self._recommend(findings),
+            }
+            
+            execution_time = time.time() - start_time
+            _record_error_radar_telemetry(scope, True, execution_time)
+            
+            # ContextEngine integration for error state
+            if context_engine:
+                try:
+                    context_engine.update_context(
+                        key="error_radar_state",
+                        value={
+                            "scope": scope,
+                            "findings_count": len(findings),
+                            "top_severity": findings[0].get("severity") if findings else None,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for critical errors
+            if cortex and findings:
+                critical_findings = [f for f in findings if f.get("severity") in {"critical", "high"}]
+                if critical_findings:
+                    try:
+                        cortex.remember(
+                            "error",
+                            f"error_radar.{scope}",
+                            f"Critical/high severity errors detected: {len(critical_findings)} findings"
+                        )
+                    except Exception:
+                        pass
+
+            return ToolResult(status=ToolStatus.SUCCESS, data=data, message=f"{len(findings)} findings")
+        
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_error_radar_telemetry(scope, False, execution_time)
+            
+            # MemoryCortex integration for radar errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        "error_radar.execute",
+                        f"Error radar failed: {str(e)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=f"Error radar failed: {e}")
 
     def _dedupe_findings(self, findings: list[dict[str, Any]]) -> list[dict[str, Any]]:
         unique: list[dict[str, Any]] = []

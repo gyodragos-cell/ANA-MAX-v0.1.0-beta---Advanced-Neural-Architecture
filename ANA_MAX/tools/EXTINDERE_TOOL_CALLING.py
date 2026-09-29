@@ -191,7 +191,8 @@ Adauga in _send_ollama():
                 return f"[FAIL] Eroare la executie: {e}"
 """
 
-print("""
+if __name__ == "__main__":
+    print("""
 
    EXEMPLE DE EXTINDERE TOOL CALLING
 

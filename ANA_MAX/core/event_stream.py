@@ -233,6 +233,58 @@ class EventStream:
         )
         self._conn.commit()
 
+        # Dynamic migration: handle legacy schema (ts/type columns) and new schema (timestamp/event_type)
+        try:
+            cursor = self._conn.cursor()
+            cursor.execute("PRAGMA table_info(events)")
+            columns = [row[1] for row in cursor.fetchall()]
+            if columns:
+                has_event_type = "event_type" in columns
+                has_type = "type" in columns
+                has_timestamp = "timestamp" in columns
+                has_ts = "ts" in columns
+
+                if not has_event_type and has_type:
+                    # Legacy schema: rename by recreating table
+                    cursor.executescript(
+                        """
+                        CREATE TABLE IF NOT EXISTS events_new (
+                            id TEXT PRIMARY KEY,
+                            timestamp REAL NOT NULL,
+                            event_type TEXT NOT NULL,
+                            source TEXT,
+                            data TEXT DEFAULT '{}',
+                            metadata TEXT DEFAULT '{}',
+                            screenshot_path TEXT,
+                            duration REAL,
+                            success INTEGER DEFAULT 1
+                        );
+                        INSERT INTO events_new (id, timestamp, event_type, source, data, success)
+                            SELECT
+                                CAST(rowid AS TEXT),
+                                COALESCE(ts, strftime('%s', 'now')),
+                                COALESCE(type, 'unknown'),
+                                NULL,
+                                COALESCE(payload, '{}'),
+                                1
+                            FROM events;
+                        DROP TABLE events;
+                        ALTER TABLE events_new RENAME TO events;
+                        CREATE INDEX IF NOT EXISTS idx_event_type ON events(event_type);
+                        CREATE INDEX IF NOT EXISTS idx_timestamp ON events(timestamp);
+                        """
+                    )
+                    self._conn.commit()
+                elif not has_event_type:
+                    cursor.execute("ALTER TABLE events ADD COLUMN event_type TEXT DEFAULT 'unknown'")
+                    self._conn.commit()
+                if has_event_type and not has_timestamp:
+                    cursor.execute("ALTER TABLE events ADD COLUMN timestamp REAL DEFAULT 0")
+                    self._conn.commit()
+        except Exception as migration_exc:
+            sys.stderr.write(f"Migration error: {migration_exc}\n")
+
+
     def subscribe(self, callback: Callable[[Dict[str, Any]], None]) -> None:
         if callback not in self._subscribers:
             self._subscribers.append(callback)

@@ -1,42 +1,105 @@
 ﻿# Python
 __pycache__/
 *.py[cod]
-*\.class
-*.so
-.Python
-env/
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.spec
+
+# Virtual environments
 venv/
 .venv/
-build/
-dist/
-*.egg-info/
+env/
+.env/
+ANA_MAX/venv/
 
-# Environment
+# Environment variables
 .env
-.env.local_llm
-.env.*
-!.env.example
+*.env
+.env.local
+.env.*.local
 
-# Local models
-local_models/
-
-# Logs and cache
-logs/
-cache/
+# Logs
 *.log
+logs/
+ANA_MAX/logs/
+ana_max.log
+errors.log
 
-# IDEs
+# Database / Vector stores
+*.db
+*.sqlite
+*.sqlite3
+chroma_db/
+chromadb/
+*.chroma/
+ANA_MAX/chromadb/
+ANA_MAX/chroma_db/
+
+# Screenshots / captures
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+screenshots/
+captures/
+desktop_*.png
+
+# Models (too large)
+*.bin
+*.safetensors
+*.gguf
+*.ggml
+models/
+*.model
+
+# IDE
 .vscode/
 .idea/
-.qoder/
-*.code-workspace
-
-# OS
+*.swp
+*.swo
 .DS_Store
 Thumbs.db
-desktop.ini
 
-# Temporary
+# Temp
+tmp/
+temp/
 *.tmp
 *.bak
-*.swp
+
+# OS
+desktop.ini
+$RECYCLE.BIN/
+
+# Secrets / keys
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Session files (private runtime data)
+ANA_MAX/docs/ANA_MEMORY.md
+docs/ANA_MEMORY.md
+
+# Large binary files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Node (if any)
+node_modules/
+
+nul
+ANA_MAX/nul
+
+*openrouter*
+*key*.txt
+apikeys*

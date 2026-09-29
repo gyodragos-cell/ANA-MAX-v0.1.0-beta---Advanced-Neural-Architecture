@@ -97,7 +97,7 @@ class Config:
                 },
                 'ollama': {
                     'api_url': 'http://localhost:11434/api/generate',
-                    'model': 'qwen2.5:7b',
+                    'model': 'qwen2.5-coder:7b',
                     'temperature': 0.7,
                     'max_tokens': 2000,
                 }

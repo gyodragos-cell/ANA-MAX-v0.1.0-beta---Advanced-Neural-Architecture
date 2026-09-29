@@ -61,12 +61,14 @@ Note tehnice:
 
 import json
 import logging
+import os
+import re
 import time
 import traceback
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger("ANA.Orchestrator")
 
@@ -90,6 +92,19 @@ class Step:
 
 
 @dataclass
+class HyperSummary:
+    """Hyper Enterprise summary with OS27 telemetry."""
+    file_analysis_used: bool = False
+    anomalies_detected: int = 0
+    memory_entries_written: int = 0
+    context_updates: int = 0
+    self_healing_attempts: int = 0
+    proactive_interrupts: int = 0
+    file_structure_hints: List[str] = field(default_factory=list)
+    entropy_scores: List[float] = field(default_factory=list)
+
+
+@dataclass
 class TaskResult:
     """Rezultatul complet al unui task orchestrat."""
     task: str
@@ -102,6 +117,7 @@ class TaskResult:
     visual_proof: Optional[str] = None   # path la screenshot final
     learned: List[str] = field(default_factory=list)  # ce a invatat ANA
     errors: List[str] = field(default_factory=list)
+    hyper_summary: HyperSummary = field(default_factory=HyperSummary)
 
 
 # -----------------------------------------------------------------------------
@@ -121,7 +137,7 @@ class AnaOrchestrator:
         project_root: str = ".",
         voice_feedback: bool = True,
         auto_verify: bool = True,       # screenshot dupa fiecare pas important
-        dry_run: bool = False,          # simuleaza fara a executa (pentru test)
+        dry_run: bool = False,          # OS27 UNCENSORED MODE - Always execute real operations
     ):
         self.db_path      = db_path
         self.llm_url      = llm_url
@@ -135,10 +151,16 @@ class AnaOrchestrator:
         self._cortex   = None   # MemoryCortex
         self._evolver  = None   # SelfEvolvingTool
         self._pi       = None   # ProactiveInterrupt
+        self._context  = None   # ContextEngine
         self._tts      = None   # voce
+
+        # Hyper telemetry
+        self._hyper_telemetry: Dict[str, Any] = {}
+        self._file_analysis_cache: Dict[str, Any] = {}
 
         self._load_subsystems()
         self._register_tools()
+        self._initial_integrity = self._run_system_integrity_check()
 
         logger.info(" AnaOrchestrator initializat.")
 
@@ -167,6 +189,22 @@ class AnaOrchestrator:
             logger.info("   SelfEvolvingTool incarcat")
         except ImportError:
             logger.warning("  [WARN] SelfEvolvingTool indisponibil")
+
+        # Context Engine
+        try:
+            from tools.context_engine import ContextEngine
+            self._context = ContextEngine()
+            logger.info("   ContextEngine incarcat")
+        except ImportError:
+            logger.warning("  [WARN] ContextEngine indisponibil")
+
+        # Proactive Interrupt
+        try:
+            from tools.proactive_interrupt import ProactiveInterrupt
+            self._pi = ProactiveInterrupt()
+            logger.info("   ProactiveInterrupt incarcat")
+        except ImportError:
+            logger.warning("  [WARN] ProactiveInterrupt indisponibil")
 
         # TTS
         if self.voice_feedback:
@@ -233,6 +271,18 @@ class AnaOrchestrator:
                 "capabilities": ["retea", "ping", "port", "dns", "conexiune"],
                 "loader": self._load_tool("tools.network_tool", "NetworkTool"),
             },
+
+            "large_file_reader_hyper": {
+                "description": "OS27 Hyper Enterprise streaming reader for massive files (10k–100M+ lines). Compression-aware, semantic chunking, anomaly detection, MCP-ready.",
+                "capabilities": ["citeste fisiere mari", "analiza cod", "analiza log-uri", "detectie anomalii", "chunking semantic", "compression"],
+                "loader": self._load_tool("tools.large_file_reader_ultimate", "LargeFileReaderHyperTool"),
+            },
+
+            "system_integrity_check": {
+                "description": "OS27 Hyper++ audit pentru ANA MAX (tool registry, backends, config, deps, logs, AI Core).",
+                "capabilities": ["audit", "healthcheck", "system_integrity"],
+                "loader": self._load_tool("tools.system_integrity_tool", "SystemIntegrityCheckTool"),
+            },
         }
 
     def _load_tool(self, module_path: str, class_name: str):
@@ -247,6 +297,30 @@ class AnaOrchestrator:
                 logger.warning(f"Tool {class_name} indisponibil: {e}")
                 return None
         return factory
+
+    def _run_system_integrity_check(self) -> Optional[Dict[str, Any]]:
+        """Ruleaza SystemIntegrityCheckTool la startup pentru OS27 Hyper++ audit."""
+        try:
+            tool_factory = self._tool_registry.get("system_integrity_check", {}).get("loader")
+            if not tool_factory:
+                logger.warning("SystemIntegrityCheckTool loader indisponibil")
+                return None
+            
+            tool = tool_factory()
+            if not tool:
+                logger.warning("SystemIntegrityCheckTool indisponibil")
+                return None
+            
+            result = tool.execute(mode="quick")
+            if result.is_success:
+                logger.info(f"OS27 Hyper++ System Integrity: {result.data.get('overall_health', 'unknown')}")
+                return result.data
+            else:
+                logger.warning(f"System integrity check failed: {result.error}")
+                return None
+        except Exception as e:
+            logger.warning(f"System integrity check exception: {e}")
+            return None
 
     # -- API PRINCIPAL: execute ------------------------------------------------
     def execute(
@@ -284,8 +358,78 @@ class AnaOrchestrator:
         # 2. GANDESTE - consulta memoria
         memory_context = self._think(task)
 
+        # AUTO-DETECTION: Verifica daca necesita analiza de fisier
+        file_analysis = self._detect_file_analysis_need(task, visual_context)
+        hyper_summary = HyperSummary()
+        
+        if file_analysis:
+            logger.info(f"   Auto-detectat nevoi de analiza fisier: {file_analysis}")
+            hyper_summary.file_analysis_used = True
+            
+            # Adauga pas de analiza fisier la inceputul planului
+            try:
+                lfr_tool = self._tool_registry["large_file_reader_hyper"]["loader"]()
+                if lfr_tool:
+                    analysis_result = lfr_tool.execute(
+                        file_path=file_analysis["file_path"],
+                        chunk_size=500,
+                        max_chunks=5,
+                        integrate_memory=True,
+                        integrate_context=True,
+                    )
+                    if analysis_result.status == "success":
+                        logger.info("Analiza fisier completata cu succes")
+                        
+                        # Extract metadata for hyper summary
+                        metadata = analysis_result.data.get("metadata", {})
+                        hyper_summary.anomalies_detected = len(metadata.get("anomaly_hints", []))
+                        hyper_summary.file_structure_hints = [metadata.get("structure_hint", "unknown")]
+                        hyper_summary.entropy_scores = [metadata.get("entropy_bits_per_byte", 0.0)]
+                        
+                        # Adaugam rezultatul la context pentru planning
+                        if context is None:
+                            context = ""
+                        context += f"\n\nFILE ANALYSIS RESULT:\n{analysis_result.message}\n"
+                        context += f"Structure: {metadata.get('structure_hint')}\n"
+                        context += f"Code/Text: {metadata.get('code_vs_text_hint')}\n"
+                        context += f"Entropy: {metadata.get('entropy_bits_per_byte', 0):.2f} bits/byte\n"
+                        context += f"Anomalies: {metadata.get('anomaly_hints', [])}\n"
+                        
+                        # Cache for later use
+                        self._file_analysis_cache[file_analysis["file_path"]] = {
+                            "metadata": metadata,
+                            "chunks": analysis_result.data.get("chunks", []),
+                            "timestamp": time.time()
+                        }
+            except Exception as e:
+                logger.warning(f"Auto file analysis failed: {e}")
+
+        # Update context engine with current task
+        if self._context:
+            try:
+                self._context.update_context(
+                    key="active_task",
+                    value={
+                        "task": task,
+                        "timestamp": time.time(),
+                        "file_analyzed": file_analysis["file_path"] if file_analysis else None,
+                        "anomalies_detected": hyper_summary.anomalies_detected,
+                    }
+                )
+                hyper_summary.context_updates += 1
+            except Exception as e:
+                logger.debug(f"Context update failed: {e}")
+
+        # Start proactive interrupt for long tasks
+        if self._pi and max_steps > 5:
+            try:
+                self._pi.start()
+                logger.info("   Proactive interrupt activat")
+            except Exception as e:
+                logger.debug(f"Proactive interrupt start failed: {e}")
+
         # 3. PLANIFICA - creeaza planul de executie
-        plan = self._plan(task, visual_context, memory_context, context, max_steps)
+        plan = self._plan(task, visual_context, memory_context, context, max_steps, hyper_summary)
 
         if not plan:
             return TaskResult(
@@ -301,7 +445,7 @@ class AnaOrchestrator:
             logger.info(f"  [{step.id}] {step.description}  {step.tool}")
 
         # 4. EXECUTA - ruleaza pasii
-        results = self._execute_plan(plan)
+        results = self._execute_plan(plan, task, hyper_summary)
 
         # 5. VERIFICA - screenshot final
         final_screenshot = self._verify_final_state(task)
@@ -309,11 +453,18 @@ class AnaOrchestrator:
         # 6. RAPORTEAZA - sintetizeaza ce s-a intamplat
         duration = time.time() - start_time
         task_result = self._build_result(
-            task, plan, results, final_screenshot, duration
+            task, plan, results, final_screenshot, duration, hyper_summary
         )
 
-        # 7. INVATA - salveaza in memory_cortex
-        self._learn_from_execution(task, plan, task_result)
+        # 7. INVATA - salveaza in memory_cortex (deep integration)
+        self._learn_from_execution(task, plan, task_result, file_analysis)
+
+        # Stop proactive interrupt
+        if self._pi:
+            try:
+                self._pi.stop()
+            except Exception as e:
+                logger.debug(f"Proactive interrupt stop failed: {e}")
 
         self._speak(
             f"Task finalizat in {duration:.0f} secunde. "
@@ -380,28 +531,104 @@ class AnaOrchestrator:
 
     # -- 2. GANDESTE -----------------------------------------------------------
     def _think(self, task: str) -> dict:
-        """Consulta memoria pentru context relevant."""
+        """
+        Consulta memory_cortex pentru context istoric.
+        """
         memory = {
-            "similar_tasks": [],
+            "episodic_memories": [],
             "known_errors": [],
-            "preferences": [],
+            "total_memories": 0,
         }
 
-        if not self._cortex:
-            return memory
+        if self._cortex:
+            try:
+                # Cauta task-uri similare
+                similar = self._cortex.search(
+                    query=task,
+                    memory_type="episodic",
+                    limit=5
+                )
+                memory["episodic_memories"] = similar
 
-        try:
-            stats = self._cortex.get_memory_stats()
-            memory["total_memories"] = stats.get("episodic_memories", 0)
-            memory["known_errors"] = stats.get("top_repeated_errors", [])
-            logger.info(
-                f"   Memorie: {stats.get('episodic_memories', 0)} episoade, "
-                f"{stats.get('llm_errors_caught', 0)} erori cunoscute"
-            )
-        except Exception as e:
-            logger.debug(f"Memory check failed: {e}")
+                # Cauta erori cunoscute
+                stats = self._cortex.get_memory_stats()
+                memory["total_memories"] = stats.get("episodic_memories", 0)
+                memory["known_errors"] = stats.get("top_repeated_errors", [])
+                logger.info(
+                    f"   Memorie: {stats.get('episodic_memories', 0)} episoade, "
+                    f"{stats.get('llm_errors_caught', 0)} erori cunoscute"
+                )
+            except Exception as e:
+                logger.debug(f"Memory check failed: {e}")
 
         return memory
+
+    # -- AUTO-DETECTION for File Analysis --------------------------------------
+    def _detect_file_analysis_need(self, task: str, visual_context: dict) -> dict | None:
+        """
+        Auto-detecteaza daca task-ul necesita analiza de fisier.
+        Smarter detection using task text, screen_text, and active window.
+        """
+        task_lower = task.lower()
+        
+        # Manual trigger pentru SystemIntegrityCheckTool
+        if any(keyword in task_lower for keyword in ["system integrity", "healthcheck", "audit os", "audit system"]):
+            return {"tool_name": "system_integrity_check", "args": {"mode": "full"}}
+        
+        # Keywords pentru analiza de fisier (expanded)
+        file_keywords = [
+            "fisier", "file", "analiza", "analizeaza", "citeste", "read",
+            "log", "logs", "eroare", "error", "cod", "code", "python",
+            "json", "yaml", "yml", "sql", "html", "xml", "structura", "structure",
+            "inspect", "verifica", "check", "cauta", "search", "grep",
+            "functie", "function", "clasa", "class", "metoda", "method",
+            "config", "configuration", "settings", "env", "environment"
+        ]
+
+        # Daca task-ul contine keywords de fisier
+        if any(keyword in task_lower for keyword in file_keywords):
+            # Cauta paths in task
+            path_pattern = r'["\']?([a-zA-Z]:\\[^"\']+\.[a-zA-Z0-9]+)["\']?|["\']?([/\w\-./]+\.[a-zA-Z0-9]+)["\']?'
+            matches = re.findall(path_pattern, task)
+            
+            if matches:
+                for match in matches:
+                    path = match[0] if match[0] else match[1]
+                    if os.path.exists(path):
+                        logger.info(f"   Auto-detectat fisier din task: {path}")
+                        return {"file_path": path, "reason": "explicit_path"}
+            
+            # Check screen_text for file paths
+            screen_text = visual_context.get("screen_text", "")
+            if screen_text:
+                screen_matches = re.findall(path_pattern, screen_text)
+                for match in screen_matches:
+                    path = match[0] if match[0] else match[1]
+                    if os.path.exists(path):
+                        logger.info(f"   Auto-detectat fisier din OCR: {path}")
+                        return {"file_path": path, "reason": "screen_text"}
+            
+            # Daca nu are path explicit, foloseste fereastra activa
+            if visual_context.get("active_window"):
+                active_window = visual_context["active_window"]
+                file_extensions = [".py", ".js", ".ts", ".json", ".yaml", ".yml", ".log", ".txt", ".sql", ".html", ".xml", ".cfg", ".ini", ".env"]
+                if any(ext in active_window.lower() for ext in file_extensions):
+                    # Extrage path din titlul ferestrei
+                    if "\\" in active_window or "/" in active_window:
+                        potential_path = active_window.split(" - ")[0].strip()
+                        if os.path.exists(potential_path):
+                            logger.info(f"   Auto-detectat fisier din fereastra: {potential_path}")
+                            return {"file_path": potential_path, "reason": "active_window"}
+            
+            # Infer from project root for common files
+            if any(kw in task_lower for kw in ["config", "settings", "env"]):
+                for common_file in [".env", "config.yaml", "settings.json", "requirements.txt"]:
+                    potential_path = self.project_root / common_file
+                    if potential_path.exists():
+                        logger.info(f"   Auto-detectat fisier comun: {potential_path}")
+                        return {"file_path": str(potential_path), "reason": "inferred_common"}
+        
+        return None
 
     # -- 3. PLANIFICA ----------------------------------------------------------
     def _plan(
@@ -411,11 +638,31 @@ class AnaOrchestrator:
         memory_context: dict,
         extra_context: Optional[str],
         max_steps: int,
+        hyper_summary: HyperSummary,
     ) -> List[Step]:
         """
         Foloseste LLM-ul pentru a crea un plan de executie structurat.
         Injecteaza contextul vizual si memoria in prompt.
         """
+        
+        # Critical task trigger: insert system integrity check before critical actions
+        task_lower = task.lower()
+        critical_keywords = ["deploy", "fix", "repair", "update", "install", "critical"]
+        needs_integrity_check = any(keyword in task_lower for keyword in critical_keywords)
+        
+        if needs_integrity_check:
+            logger.info("Task critic detectat - se ruleaza SystemIntegrityCheckTool inainte")
+            integrity_step = Step(
+                id=0,
+                description="Ruleaza audit OS27 Hyper++ inainte de actiuni critice",
+                tool="system_integrity_check",
+                action="execute",
+                args={"mode": "full", "include_logs": True, "include_temp_scan": True},
+                depends_on=[],
+                visual_verify=False,
+                retry_count=1,
+                status="pending",
+            )
 
         # Construim descrierea toolurilor disponibile
         tools_desc = "\n".join(
@@ -440,6 +687,18 @@ class AnaOrchestrator:
                 for e in memory_context["known_errors"]
             )
 
+        # File intelligence injection
+        file_intelligence_context = ""
+        if hyper_summary.file_analysis_used:
+            file_intelligence_context = f"\n\nFILE INTELLIGENCE:\n"
+            if hyper_summary.file_structure_hints:
+                file_intelligence_context += f"Structure detected: {', '.join(hyper_summary.file_structure_hints)}\n"
+            if hyper_summary.entropy_scores:
+                file_intelligence_context += f"Entropy: {hyper_summary.entropy_scores[0]:.2f} bits/byte\n"
+            if hyper_summary.anomalies_detected > 0:
+                file_intelligence_context += f"Anomalies detected: {hyper_summary.anomalies_detected}\n"
+            file_intelligence_context += "Consider using large_file_reader_hyper for deep analysis.\n"
+
         prompt = f"""Esti orchestratorul ANA MAX, un agent AI pentru Windows.
 
 TOOLURI DISPONIBILE:
@@ -449,6 +708,7 @@ STAREA CURENTA A ECRANULUI:
 {visual_summary if visual_summary else "Indisponibila"}
 
 {errors_warning}
+{file_intelligence_context}
 
 TASK DE EXECUTAT:
 {task}
@@ -500,7 +760,7 @@ Raspunde STRICT in JSON, fara text suplimentar:
             logger.info(f"   Plan LLM: {data.get('plan_summary', '')}")
             logger.info(f"    Estimat: {data.get('estimated_minutes', '?')} minute")
 
-            return [
+            steps = [
                 Step(
                     id=s.get("id", i+1),
                     description=s.get("description", ""),
@@ -513,6 +773,16 @@ Raspunde STRICT in JSON, fara text suplimentar:
                 )
                 for i, s in enumerate(steps_data)
             ]
+            
+            # Insert integrity step at the beginning if needed
+            if needs_integrity_check:
+                # Renumber existing steps
+                for step in steps:
+                    step.id += 1
+                    step.depends_on = [d + 1 for d in step.depends_on]
+                steps.insert(0, integrity_step)
+            
+            return steps
 
         except Exception as e:
             logger.error(f"Planning failed: {e}")
@@ -540,7 +810,7 @@ Raspunde STRICT in JSON, fara text suplimentar:
         ]
 
     # -- 4. EXECUTA ------------------------------------------------------------
-    def _execute_plan(self, plan: List[Step]) -> Dict[int, Any]:
+    def _execute_plan(self, plan: List[Step], task: str, hyper_summary: HyperSummary) -> Dict[int, Any]:
         """
         Executa planul pas cu pas.
         Fiecare pas: verifica dependente  ruleaza  verifica vizual  retry daca fail.
@@ -599,13 +869,19 @@ Raspunde STRICT in JSON, fara text suplimentar:
                         # Self-healing: incearca sa repare toolul
                         if self._evolver:
                             try:
-                                # Construim calea modulului manual (robust, fara _module_to_path)
-                                tool_file = self.project_root / "tools" / f"{step.tool}.py"
-                                if tool_file.exists():
-                                    repair_fn = getattr(self._evolver, "_repair_file", None)
-                                    if repair_fn:
-                                        repair_fn(str(tool_file), traceback.format_exc())
-                                        logger.info(f"   Self-healing aplicat pe {step.tool}")
+                                self._evolver.analyze_anomaly(
+                                    file_path=str(self.project_root / "tools" / f"{step.tool}.py"),
+                                    anomaly_type="tool_failure",
+                                    anomaly_details={
+                                        "tool": step.tool,
+                                        "action": step.action,
+                                        "args": step.args,
+                                        "error": step.error,
+                                        "traceback": traceback.format_exc(),
+                                        "task_context": task,
+                                    }
+                                )
+                                logger.info(f"   Self-healing analysis sent for {step.tool}")
                             except Exception as heal_err:
                                 logger.debug(f"Self-healing failed (non-critical): {heal_err}")
 
@@ -698,6 +974,7 @@ Raspunde STRICT in JSON, fara text suplimentar:
         results: Dict,
         final_screenshot: Optional[str],
         duration: float,
+        hyper_summary: HyperSummary,
     ) -> TaskResult:
         done    = [s for s in plan if s.status == "done"]
         failed  = [s for s in plan if s.status == "failed"]
@@ -726,10 +1003,11 @@ Raspunde STRICT in JSON, fara text suplimentar:
             summary="\n".join(summary_parts),
             visual_proof=final_screenshot,
             errors=[f"Pas {s.id}: {s.error}" for s in failed],
+            hyper_summary=hyper_summary,
         )
 
     # -- 7. INVATA -------------------------------------------------------------
-    def _learn_from_execution(self, task: str, plan: List[Step], result: TaskResult):
+    def _learn_from_execution(self, task: str, plan: List[Step], result: TaskResult, file_analysis: dict | None):
         """
         Salveaza ce a functionat si ce nu in memory_cortex.
         Foloseste metode defensive - functioneaza indiferent de versiunea cortex-ului.
@@ -738,8 +1016,26 @@ Raspunde STRICT in JSON, fara text suplimentar:
             return
 
         try:
+            memory_entries = 0
             tools_used = list(dict.fromkeys(s.tool for s in plan if s.status == "done"))
             pattern = f"Tooluri in ordine: {'  '.join(tools_used)}"
+
+            # Save task execution to episodic memory
+            if hasattr(self._cortex, "remember"):
+                self._cortex.remember(
+                    key=f"task_execution:{int(time.time())}",
+                    value={
+                        "task": task[:200],
+                        "tools_used": tools_used,
+                        "success": result.success,
+                        "duration_sec": result.duration_sec,
+                        "steps_done": result.steps_done,
+                        "steps_failed": result.steps_failed,
+                        "file_analyzed": file_analysis["file_path"] if file_analysis else None,
+                    },
+                    memory_type="episodic"
+                )
+                memory_entries += 1
 
             if result.success:
                 # Incearca metodele posibile ale MemoryCortex in ordine de preferinta
@@ -768,8 +1064,9 @@ Raspunde STRICT in JSON, fara text suplimentar:
 
                 result.learned.append(f"Pattern salvat: {pattern}")
                 logger.info(f"   Salvat in memorie: {pattern}")
+                result.hyper_summary.memory_entries_written = memory_entries
 
-            # Salvam erorile pentru evitare viitoare
+            # Salvam erorile pentru evitare viitoare (deep error memory)
             for step in plan:
                 if step.status == "failed" and step.error:
                     error_entry = {
@@ -777,7 +1074,16 @@ Raspunde STRICT in JSON, fara text suplimentar:
                         "action": step.action,
                         "error": step.error[:200],
                         "task_context": task[:100],
+                        "timestamp": time.time(),
                     }
+
+                    if hasattr(self._cortex, "remember"):
+                        self._cortex.remember(
+                            key=f"tool_failure:{step.tool}:{int(time.time())}",
+                            value=error_entry,
+                            memory_type="error"
+                        )
+                        memory_entries += 1
 
                     if hasattr(self._cortex, "correct"):
                         self._cortex.correct(
@@ -787,17 +1093,23 @@ Raspunde STRICT in JSON, fara text suplimentar:
                             error_type=f"tool_failure_{step.tool}",
                             tags=[step.tool],
                         )
-                    elif hasattr(self._cortex, "store"):
-                        self._cortex.store(
-                            category="orchestrator_error",
-                            key=f"error_{step.tool}_{int(time.time())}",
-                            value=json.dumps(error_entry),
-                        )
-                    elif hasattr(self._cortex, "remember"):
+
+            # Save structure hints to semantic memory
+            if file_analysis and result.hyper_summary.file_structure_hints:
+                for hint in result.hyper_summary.file_structure_hints:
+                    if hint != "unknown" and hasattr(self._cortex, "remember"):
                         self._cortex.remember(
-                            context=f"error|{step.tool}",
-                            content=json.dumps(error_entry),
+                            key=f"structure:{hint}:{int(time.time())}",
+                            value={
+                                "file_path": file_analysis.get("file_path"),
+                                "hint": hint,
+                                "confidence": 0.9,
+                            },
+                            memory_type="semantic"
                         )
+                        memory_entries += 1
+
+            result.hyper_summary.memory_entries_written = memory_entries
 
         except Exception as e:
             logger.debug(f"Learning failed (non-critical): {e}")
@@ -813,6 +1125,10 @@ Raspunde STRICT in JSON, fara text suplimentar:
             return "debug_task"
         if any(w in task_lower for w in ["fisier", "folder", "salveaza", "citeste"]):
             return "file_task"
+        if any(w in task_lower for w in ["log", "eroare", "traceback", "debug"]):
+            return "log_analysis_task"
+        if any(w in task_lower for w in ["analiza", "inspect", "structure"]):
+            return "code_analysis_task"
         return "general_task"
 
     # -- Print result ----------------------------------------------------------
@@ -964,7 +1280,7 @@ Raspunde STRICT in JSON, fara text suplimentar:
                 memory_stats = {"error": "indisponibil"}
 
         return {
-            "orchestrator": "ANA MAX Orchestrator v0.1.0",
+            "orchestrator": "ANA MAX OS27 Hyper Orchestrator v1.0.0",
             "dry_run": self.dry_run,
             "auto_verify": self.auto_verify,
             "voice_feedback": self.voice_feedback,
@@ -973,9 +1289,12 @@ Raspunde STRICT in JSON, fara text suplimentar:
             "tools_total": len(self._tool_registry),
             "memory_cortex": bool(self._cortex),
             "self_evolving": bool(self._evolver),
+            "context_engine": bool(self._context),
+            "proactive_interrupt": bool(self._pi),
             "memory_stats": memory_stats,
             "llm_url": self.llm_url,
             "llm_model": self.llm_model,
+            "hyper_telemetry": self._hyper_telemetry,
         }
 
     # -- MCP Server integration ------------------------------------------------
@@ -1041,6 +1360,13 @@ Raspunde STRICT in JSON, fara text suplimentar:
                     "visual_proof": result.visual_proof,
                     "learned":      result.learned,
                     "errors":       result.errors,
+                    "hyper_summary": {
+                        "file_analysis_used": result.hyper_summary.file_analysis_used,
+                        "anomalies_detected": result.hyper_summary.anomalies_detected,
+                        "memory_entries_written": result.hyper_summary.memory_entries_written,
+                        "context_updates": result.hyper_summary.context_updates,
+                        "self_healing_attempts": result.hyper_summary.self_healing_attempts,
+                    },
                 })
             except Exception as e:
                 return jsonify({"error": str(e)}), 500

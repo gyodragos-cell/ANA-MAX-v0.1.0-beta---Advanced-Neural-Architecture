@@ -1,0 +1,43 @@
+# ANA MAX Skills — Skill Registry Configuration
+# White-hat engineer standard: explicit capability declarations,
+# versioned, enable/disable per capability without code changes.
+
+skills:
+
+  # -----------------------------------------------------------------------
+  # health.check — System health monitoring
+  # Checks: tool registry, Ollama, skill engine, memory pressure.
+  # Safe to call at any time; zero mutations.
+  # -----------------------------------------------------------------------
+  health.check:
+    skill: health-check
+    capability: health.check
+    version: "1.0.0"
+    enabled: true
+    rate_limit: null       # unrestricted — read-only skill
+    tags: [monitoring, safe, read-only]
+
+  # -----------------------------------------------------------------------
+  # self.repair — Automated error diagnosis and patch application
+  # Destructive: rate-limited to 3 patch sequences per session.
+  # Requires: error_radar_tool, file_patch_tool, smoke_test_runner
+  # -----------------------------------------------------------------------
+  self.repair:
+    skill: self-repair
+    capability: self.repair
+    version: "1.0.0"
+    enabled: true
+    rate_limit: 3          # max 3 repair sequences per session
+    tags: [repair, mutating, rate-limited]
+
+  # -----------------------------------------------------------------------
+  # fs.inspect — File system inspection and analysis
+  # Safe: read-only FS scan. May be slow on large trees.
+  # -----------------------------------------------------------------------
+  fs.inspect:
+    skill: fs-inspect
+    capability: fs.inspect
+    version: "1.0.0"
+    enabled: true
+    rate_limit: null
+    tags: [filesystem, safe, read-only]

@@ -1,5 +1,38 @@
 # ANA MAX Mother Lab Changelog
 
+## 2026-08-07 - MCP Tool Expansion & Mitmproxy Whitehat Testing
+
+### Added
+- **MCP Bridges Expansion**: Extended MCP infrastructure from 31 to 56 total tools
+  - `ana-max-core`: 16 → 26 tools (+10 new: smart_search, code_context_pack, tool_healthcheck, live_debug_console, procmon_monitor, memory_cortex, context_engine, privacy_shield, session_checkpoint, qa_tool, conversation_audit, graph_context_pack)
+  - `ana-max-advanced`: 15 → 30 tools (+15 new: foreground_ui_snapshot, live_desktop_viewer, windows_deep_sight, windows_uia_bridge, frida_automation, network_pentest_tool, mitm_analyzer_tool, adb_tool, apk_analyzer, watchdog, reflex_dispatcher, session_audit_tool, clipboard_manager, workspace_situational_awareness, advanced_scanner)
+- **Mitmproxy Integration**: Installed mitmproxy 12.2.3 for whitehat testing
+  - Created `ANA_MAX/tools/mitmproxy_live_analyzer.py` with vulnerability scanning
+  - Created `START_MITM_LIVE.bat` for quick launch
+  - Created `test_mcp_smoke.py` for MCP bridge validation
+  - Created `test_mitmproxy.py` for mitmproxy installation verification
+- **Security Testing Capabilities**:
+  - Real-time vulnerability scanning (XSS, SQLi, Path Traversal, SSRF, Info Disclosure)
+  - Sensitive data detection (passwords, API keys, tokens)
+  - Reverse proxy mode for ANA MCP traffic interception
+  - JSON export for agent analysis
+
+### Modified
+- **`.agents/mcp.json`**: Updated MCP configuration to use dual bridges (ana-max-core + ana-max-advanced) instead of single ana-max-lab bridge
+- **`requirements.txt`**: Added `mitmproxy>=12.0.0` for whitehat testing capabilities
+- **`mcp_ana_bridge_core.py`**: Added 12 new core tools with delegate implementations
+- **`mcp_ana_bridge_advanced.py`**: Added 15 new advanced tools with delegate implementations
+
+### Fixed
+- **MCP Configuration**: Resolved "ana ma lab appears yellow" issue by updating `.agents/mcp.json` to use correct bridge files
+- **Dependency Conflicts**: Resolved typing-extensions compatibility (upgraded to 4.16.0 for pydantic compatibility)
+
+### Technical Notes
+- Excluded voice and OCR tools from MCP expansion per user requirements
+- All new MCP tools are currently delegates to local ANA implementations
+- Mitmproxy chosen over Charles Proxy for superior Python integration and automation capabilities
+- Smoke test validates both MCP bridges load correctly with expected tool counts
+
 ## 2026-06-06 - Direct Web Chat Interface & Fast Conversation Mode
 
 - Added `/chat` route in `main.py` serving a premium web chat UI.

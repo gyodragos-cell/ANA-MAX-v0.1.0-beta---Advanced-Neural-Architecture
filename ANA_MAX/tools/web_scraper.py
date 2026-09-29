@@ -63,13 +63,18 @@ def _default_fetcher(url: str, timeout: int) -> tuple[str, str, int]:
         url,
         headers={"User-Agent": "ANA_MAX_OS22_WebLearning/1.0"},
     )
-    with urlopen(request, timeout=timeout) as response:
-        raw = response.read()
-        content_type = response.headers.get("Content-Type", "")
-        charset = response.headers.get_content_charset() or "utf-8"
-        text = raw.decode(charset, errors="replace")
-        status_code = int(getattr(response, "status", 200) or 200)
-    return text, content_type, status_code
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            raw = response.read()
+            content_type = response.headers.get("Content-Type", "")
+            charset = response.headers.get_content_charset() or "utf-8"
+            text = raw.decode(charset, errors="replace")
+            status_code = int(getattr(response, "status", 200) or 200)
+        return text, content_type, status_code
+    except Exception as exc:
+        if "getaddrinfo failed" in str(exc) or "timeout" in str(exc).lower() or "not known" in str(exc):
+            raise Exception("Reteaua este indisponibila. Bazeaza-te pe datele locale.") from exc
+        raise
 
 
 def web_scrape(
@@ -260,8 +265,13 @@ class WebScraperTool(Tool):
             }
             default_headers.update(headers)
 
-            response = requests.get(url, headers=default_headers, timeout=timeout, allow_redirects=True)
-            response.raise_for_status()
+            try:
+                response = requests.get(url, headers=default_headers, timeout=timeout, allow_redirects=True)
+                response.raise_for_status()
+            except requests.exceptions.RequestException as exc:
+                if isinstance(exc, (requests.exceptions.ConnectionError, requests.exceptions.Timeout)):
+                    return ToolResult(status=ToolStatus.ERROR, error="Reteaua este indisponibila. Bazeaza-te pe datele locale.")
+                raise
 
             content_type = response.headers.get("Content-Type", "")
             is_binary = any(x in content_type for x in ["image", "pdf", "zip", "octet"])
@@ -519,8 +529,13 @@ class WebScraperTool(Tool):
             }
             default_headers.update(headers)
 
-            response = requests.get(url, headers=default_headers, timeout=timeout, stream=True)
-            response.raise_for_status()
+            try:
+                response = requests.get(url, headers=default_headers, timeout=timeout, stream=True)
+                response.raise_for_status()
+            except requests.exceptions.RequestException as exc:
+                if isinstance(exc, (requests.exceptions.ConnectionError, requests.exceptions.Timeout)):
+                    return ToolResult(status=ToolStatus.ERROR, error="Reteaua este indisponibila. Bazeaza-te pe datele locale.")
+                raise
 
             with open(output_path, "wb") as f:
                 for chunk in response.iter_content(chunk_size=8192):

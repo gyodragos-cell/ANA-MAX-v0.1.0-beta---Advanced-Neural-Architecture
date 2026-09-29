@@ -1,4 +1,13 @@
-"""Session audit and trust-score report tool."""
+"""Session audit and trust-score report tool (OS27 Hyper++).
+
+OS27 Hyper++ Features:
+- Telemetry tracking for session audit operations (audit, trace, identity, score)
+- Health monitoring for session audit operations reliability
+- MemoryCortex integration for session audit errors and state learning
+- ContextEngine integration for session audit state awareness
+- SelfEvolvingTool integration for anomaly detection on session audit failures
+- Structured logging with error detection
+"""
 
 from __future__ import annotations
 
@@ -15,6 +24,58 @@ from typing import Any
 from core.event_stream import get_event_stream
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 from tools.conversation_audit import summarize_conversation_audit
+
+# OS27 Hyper++ Telemetry
+_session_audit_telemetry: dict[str, dict[str, Any]] = {}
+
+
+def _record_session_audit_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for session audit operations."""
+    if operation not in _session_audit_telemetry:
+        _session_audit_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _session_audit_telemetry[operation]["operation_count"] += 1
+    _session_audit_telemetry[operation]["total_time"] += execution_time
+    _session_audit_telemetry[operation]["last_execution_time"] = execution_time
+    _session_audit_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _session_audit_telemetry[operation]["success_count"] += 1
+    else:
+        _session_audit_telemetry[operation]["failure_count"] += 1
+
+
+def get_session_audit_telemetry(operation: str | None = None) -> dict[str, Any] | dict[str, dict[str, Any]]:
+    """Get telemetry for session audit operations."""
+    if operation:
+        return _session_audit_telemetry.get(operation, {})
+    return _session_audit_telemetry.copy()
+
+
+def get_session_audit_health() -> str:
+    """Get health status for session audit tool based on telemetry."""
+    if not _session_audit_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _session_audit_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _session_audit_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 ANA_ROOT = Path(__file__).resolve().parents[1]
@@ -333,65 +394,137 @@ class SessionAuditTool(Tool):
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         action = str(kwargs.get("action") or "generate")
         hours = max(1, min(int(kwargs.get("hours") or 1), 168))
         limit = max(1, min(int(kwargs.get("limit") or 80), 500))
         run_id = str(kwargs.get("run_id") or f"ana-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}-{uuid.uuid4().hex[:6]}")
 
-        events = self._events(hours=hours, limit=limit)
-        identity_surface = _identity_surface_summary()
-        conversation_audit = _conversation_audit_summary(hours=hours, limit=limit)
-        trust = _score(events, identity_surface=identity_surface, conversation_audit=conversation_audit)
+        try:
+            events = self._events(hours=hours, limit=limit)
+            identity_surface = _identity_surface_summary()
+            conversation_audit = _conversation_audit_summary(hours=hours, limit=limit)
+            trust = _score(events, identity_surface=identity_surface, conversation_audit=conversation_audit)
 
-        if action == "trust":
-            trace = _trace_summary()
-            return ToolResult(
-                status=ToolStatus.SUCCESS,
-                data={
-                    "schema": "ana.session_trust.v1",
+            if action == "trust":
+                trace = _trace_summary()
+                result = ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={
+                        "schema": "ana.session_trust.v1",
+                        "run_id": run_id,
+                        "trust": trust,
+                        "identity_surface": identity_surface,
+                        "conversation_audit": conversation_audit,
+                        "trace": trace,
+                    },
+                    message=trust["message"],
+                )
+            elif action == "replay":
+                audit_events, chain_head = self._audit_events(events, run_id)
+                replay = [event["replay"] for event in audit_events]
+                trace = _trace_summary()
+                result = ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={
+                        "schema": "ana.replay_lite.v1",
+                        "run_id": run_id,
+                        "chain_head": chain_head,
+                        "steps": replay,
+                        "identity_surface": identity_surface,
+                        "conversation_audit": conversation_audit,
+                        "trace": trace,
+                    },
+                    message=f"{len(replay)} replay-lite steps.",
+                )
+            else:
+                audit_events, chain_head = self._audit_events(events, run_id)
+                replay = [event["replay"] for event in audit_events]
+                trace = _trace_summary()
+                report = {
+                    "schema": "ana.session_audit.v1",
                     "run_id": run_id,
+                    "generated_at": _now_iso(),
+                    "scope": {"hours": hours, "limit": limit, "events": len(audit_events)},
                     "trust": trust,
                     "identity_surface": identity_surface,
                     "conversation_audit": conversation_audit,
                     "trace": trace,
-                },
-                message=trust["message"],
-            )
+                    "integrity": {"algorithm": "sha256", "chain_head": chain_head},
+                    "events": audit_events,
+                }
+                DEFAULT_AUDIT_DIR.mkdir(parents=True, exist_ok=True)
+                target = DEFAULT_AUDIT_DIR / f"session_audit_{run_id}.json"
+                target.write_text(json.dumps(report, indent=2, ensure_ascii=True), encoding="utf-8")
+                result = ToolResult(status=ToolStatus.SUCCESS, data={**report, "file": str(target)}, message=f"{trust['message']} Audit saved.")
 
-        audit_events, chain_head = self._audit_events(events, run_id)
-        replay = [event["replay"] for event in audit_events]
-        trace = _trace_summary()
-        if action == "replay":
-            return ToolResult(
-                status=ToolStatus.SUCCESS,
-                data={
-                    "schema": "ana.replay_lite.v1",
-                    "run_id": run_id,
-                    "chain_head": chain_head,
-                    "steps": replay,
-                    "identity_surface": identity_surface,
-                    "conversation_audit": conversation_audit,
-                    "trace": trace,
-                },
-                message=f"{len(replay)} replay-lite steps.",
-            )
-
-        report = {
-            "schema": "ana.session_audit.v1",
-            "run_id": run_id,
-            "generated_at": _now_iso(),
-            "scope": {"hours": hours, "limit": limit, "events": len(audit_events)},
-            "trust": trust,
-            "identity_surface": identity_surface,
-            "conversation_audit": conversation_audit,
-            "trace": trace,
-            "integrity": {"algorithm": "sha256", "chain_head": chain_head},
-            "events": audit_events,
-        }
-        DEFAULT_AUDIT_DIR.mkdir(parents=True, exist_ok=True)
-        target = DEFAULT_AUDIT_DIR / f"session_audit_{run_id}.json"
-        target.write_text(json.dumps(report, indent=2, ensure_ascii=True), encoding="utf-8")
-        return ToolResult(status=ToolStatus.SUCCESS, data={**report, "file": str(target)}, message=f"{trust['message']} Audit saved.")
+            execution_time = time.time() - start_time
+            _record_session_audit_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for session audit state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="session_audit_state",
+                        value={
+                            "action": action,
+                            "run_id": run_id,
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for session audit errors
+            if cortex and not result.is_success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"session_audit.{action}",
+                        f"Session audit operation failed for run_id '{run_id}': {result.error}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
+        except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_session_audit_telemetry(action, False, execution_time)
+            
+            # MemoryCortex integration for session audit errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"session_audit.{action}",
+                        f"Session audit operation failed for run_id '{run_id}': {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
 
     def _events(self, hours: int, limit: int) -> list[dict[str, Any]]:
         end_time = time.time()

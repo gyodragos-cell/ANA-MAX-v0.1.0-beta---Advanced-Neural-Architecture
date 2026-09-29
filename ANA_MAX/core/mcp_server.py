@@ -183,7 +183,7 @@ class AdalBridge:
                     # Capture tool instance in closure safely
                     def make_handler(_tool=tool_instance):
                         def handler(**kwargs):
-                            res = _tool.execute(**kwargs)
+                            res = _tool.safe_execute(**kwargs)
                             if isinstance(res, dict):
                                 return res
                             try:
@@ -277,7 +277,7 @@ def get_mcp_server() -> MCPServer:
                     # Create handler with default arg to capture current tool_instance
                     def make_handler(_tool=tool_instance):
                         def handler(**kwargs):
-                            result = _tool.execute(**kwargs)
+                            result = _tool.safe_execute(**kwargs)
                             if hasattr(result, 'data') and result.data:
                                 return result.data
                             return result.message if result.message else str(result)

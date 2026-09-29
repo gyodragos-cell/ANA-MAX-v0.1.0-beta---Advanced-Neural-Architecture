@@ -73,13 +73,13 @@ import pytest
 from target_module import {func_name}
 
 def test_{func_name}_success():
-    # TODO: Define valid input
-    # result = {func_name}(...)
-    # assert result == expected
+    \"\"\"Test {func_name} with valid input.\"\"\"
+    # Example: result = {func_name}(valid_input)
+    # assert result == expected_output
     pass
 
 def test_{func_name}_error_handling():
-    # TODO: Test invalid input
+    \"\"\"Test {func_name} with invalid/null input.\"\"\"
     with pytest.raises(Exception):
         {func_name}(None)
 """

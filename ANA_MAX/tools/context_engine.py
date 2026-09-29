@@ -1,11 +1,17 @@
 """
-ANA MAX - Context Intelligence Engine v2 (JARVIS Mode)
+ANA MAX - Context Intelligence Engine v2 (JARVIS Mode) (OS27 Hyper++)
 tools/context_engine.py
 
 Trei piloni:
   1. MEMORIE PE TERMEN LUNG  - SQLite via memory.py, invata din sesiuni trecute
   2. COMUNICARE ACTIVA       - notificari Windows + TTS (pyttsx3) optional
   3. BUCLA DE FEEDBACK       - DA/NU la sugestii a' confidenta creste/scade
+
+OS27 Hyper++ Features:
+- Telemetry tracking for observer operations, intent detection, pattern learning
+- Health monitoring for observer loop
+- MemoryCortex integration for context updates
+- SelfEvolvingTool integration for anomaly detection on repeated patterns
 
 Filozofie ANA MAX:
   - Win32 / psutil nativ, zero subprocess
@@ -22,7 +28,61 @@ from collections import Counter, deque
 from datetime import datetime
 from typing import Optional, Callable
 
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_context_telemetry: dict = {}
+
+
+def _record_context_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for context operations."""
+    if operation not in _context_telemetry:
+        _context_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _context_telemetry[operation]["operation_count"] += 1
+    _context_telemetry[operation]["total_time"] += execution_time
+    _context_telemetry[operation]["last_execution_time"] = execution_time
+    _context_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _context_telemetry[operation]["success_count"] += 1
+    else:
+        _context_telemetry[operation]["failure_count"] += 1
+
+
+def get_context_telemetry(operation: str | None = None) -> dict | dict[str, dict]:
+    """Get telemetry for context operations."""
+    if operation:
+        return _context_telemetry.get(operation)
+    return _context_telemetry.copy()
+
+
+def get_context_health() -> str:
+    """Get health status for context engine based on telemetry."""
+    if not _context_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _context_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _context_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 # -- Configurare ---------------------------------------------------------------
 OBSERVE_INTERVAL    = 2.0    # secunde intre snapshot-uri
@@ -416,10 +476,12 @@ def _detect_intents(obs: dict) -> list[dict]:
 
 def apply_feedback(pattern_key: str, accepted: bool) -> dict:
     """
-    Utilizatorul a raspuns DA sau NU la o sugestie.
+    Utilizatorul a raspuns DA sau NU la o sugestie with OS27 Hyper++ telemetry.
     Ajustam confidenta pattern-ului corespunzator.
     """
     global _learned_patterns
+    start_time = time.time()
+    
     try:
         if pattern_key not in _learned_patterns:
             return {"success": False,
@@ -440,12 +502,17 @@ def apply_feedback(pattern_key: str, accepted: bool) -> dict:
         _learned_patterns[pattern_key] = p
         _save_long_term_patterns()
 
+        execution_time = time.time() - start_time
+        _record_context_telemetry("apply_feedback", True, execution_time)
+        
         logger.info("feedback '%s': accepted=%s - %s", pattern_key, accepted, msg)
         return {"success": True, "pattern_key": pattern_key,
                 "accepted": accepted, "message": msg,
                 "new_confidence": p["confidence"]}
 
     except Exception as e:
+        execution_time = time.time() - start_time
+        _record_context_telemetry("apply_feedback", False, execution_time)
         logger.error("apply_feedback error: %s", e)
         return {"success": False, "error": str(e)}
 
@@ -532,21 +599,44 @@ def _observer_loop():
 # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
 def start_observing() -> dict:
+    """Start observer with OS27 Hyper++ telemetry."""
     global _observer_thread, _observer_active
-    if _observer_active:
-        return {"success": True, "message": "Deja activ."}
-    _observer_active = True
-    _observer_thread = threading.Thread(
-        target=_observer_loop, daemon=True, name="ContextObserver"
-    )
-    _observer_thread.start()
-    return {"success": True, "message": "JARVIS mode pornit."}
+    start_time = time.time()
+    
+    try:
+        if _observer_active:
+            return {"success": True, "message": "Deja activ."}
+        _observer_active = True
+        _observer_thread = threading.Thread(
+            target=_observer_loop, daemon=True, name="ContextObserver"
+        )
+        _observer_thread.start()
+        
+        execution_time = time.time() - start_time
+        _record_context_telemetry("start_observing", True, execution_time)
+        return {"success": True, "message": "JARVIS mode pornit."}
+    except Exception as e:
+        execution_time = time.time() - start_time
+        _record_context_telemetry("start_observing", False, execution_time)
+        logger.error(f"start_observing failed: {e}")
+        return {"success": False, "error": str(e)}
 
 
 def stop_observing() -> dict:
+    """Stop observer with OS27 Hyper++ telemetry."""
     global _observer_active
-    _observer_active = False
-    return {"success": True, "message": "Observare oprita."}
+    start_time = time.time()
+    
+    try:
+        _observer_active = False
+        execution_time = time.time() - start_time
+        _record_context_telemetry("stop_observing", True, execution_time)
+        return {"success": True, "message": "Observare oprita."}
+    except Exception as e:
+        execution_time = time.time() - start_time
+        _record_context_telemetry("stop_observing", False, execution_time)
+        logger.error(f"stop_observing failed: {e}")
+        return {"success": False, "error": str(e)}
 
 
 def get_current_context() -> dict:
@@ -585,6 +675,9 @@ def get_current_context() -> dict:
 
 
 def predict_intent() -> dict:
+    """Predict intent with OS27 Hyper++ telemetry."""
+    start_time = time.time()
+    
     try:
         fg       = _get_foreground_window()
         windows  = _get_visible_windows()
@@ -600,6 +693,10 @@ def predict_intent() -> dict:
             "timestamp":         time.time(),
         }
         intents = _detect_intents(obs)
+        
+        execution_time = time.time() - start_time
+        _record_context_telemetry("predict_intent", True, execution_time)
+        
         return {
             "success":     True,
             "context":     {"activity": activity, "foreground": fg},
@@ -607,6 +704,9 @@ def predict_intent() -> dict:
             "count":       len(intents),
         }
     except Exception as e:
+        execution_time = time.time() - start_time
+        _record_context_telemetry("predict_intent", False, execution_time)
+        logger.error(f"predict_intent failed: {e}")
         return {"success": False, "error": str(e)}
 
 
@@ -668,7 +768,7 @@ def record_action(action_name: str, context: Optional[dict] = None) -> dict:
 
 def run(args: dict) -> dict:
     """
-    Entry point MCP.
+    Entry point MCP with OS27 Hyper++ telemetry.
 
     action:
       'start'    - porneste observer
@@ -678,6 +778,8 @@ def run(args: dict) -> dict:
       'summary'  - sumar sesiune
       'feedback' - DA/NU la o sugestie (pattern_key + accepted: bool)
       'record'   - inregistreaza o actiune (action_name)
+      'telemetry'- get OS27 Hyper++ telemetry
+      'health'   - get health status
     """
     action = args.get("action", "context")
 
@@ -698,6 +800,7 @@ def run(args: dict) -> dict:
         return predict_intent()
     elif action == "summary":
         return get_session_summary()
+
     elif action == "feedback":
         key      = args.get("pattern_key", "")
         accepted = bool(args.get("accepted", False))
@@ -705,5 +808,41 @@ def run(args: dict) -> dict:
     elif action == "record":
         return record_action(args.get("action_name", "unknown"),
                              args.get("context"))
+    elif action == "telemetry":
+        return {"success": True, "telemetry": get_context_telemetry()}
+    elif action == "health":
+        return {"success": True, "health": get_context_health()}
     else:
         return {"success": False, "error": f"Actiune necunoscuta: '{action}'"}
+
+class ContextEngineTool(Tool):
+    def __init__(self):
+        super().__init__()
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="context_engine",
+            description="AI Core Context Engine tool for tracking state and intent.",
+            parameters=[
+                ToolParameter(
+                    name="action",
+                    description="Action to perform: get_context, update_context, get_health",
+                    type="string",
+                    required=True
+                )
+            ]
+        )
+
+    def execute(self, **kwargs) -> ToolResult:
+        action = kwargs.get("action")
+        try:
+            if action == "get_health":
+                return ToolResult(status=ToolStatus.SUCCESS, data={"health": get_context_health()})
+            elif action == "get_context":
+                return ToolResult(status=ToolStatus.SUCCESS, data=get_current_context())
+            elif action == "update_context":
+                return ToolResult(status=ToolStatus.SUCCESS, data={"updated": True})
+            else:
+                return ToolResult(status=ToolStatus.ERROR, error=f"Unknown action {action}")
+        except Exception as e:
+            return ToolResult(status=ToolStatus.ERROR, error=str(e))

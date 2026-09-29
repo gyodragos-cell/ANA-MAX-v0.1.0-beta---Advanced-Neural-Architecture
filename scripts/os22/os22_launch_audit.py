@@ -178,7 +178,7 @@ def _file_checks() -> list[dict[str, Any]]:
 
 
 def _model_checks(env_values: dict[str, str]) -> dict[str, Any]:
-    configured = env_values.get("ANA_LOCAL_LLM_MODEL_PATH", "local_models/phi3-medium-q5_k_m.gguf")
+    configured = env_values.get("ANA_LOCAL_LLM_MODEL_PATH", "local_models/qwen2.5-coder-q5_k_m.gguf")
     configured_path = Path(configured)
     if not configured_path.is_absolute():
         configured_path = ROOT / configured_path
@@ -331,7 +331,7 @@ def build_launch_audit(
             "interactive": "scripts\\os22\\start_os22_agent.bat",
             "doctor": "python -m ANA_MAX.local.os22_doctor --profile os22_core",
             "launch_audit": "python scripts\\os22\\os22_launch_audit.py --write-report",
-            "strict_smoke": ".\\local_llm_env\\Scripts\\python.exe .\\scripts\\local_llm\\start_local_llm.py --smoke --profile os22_core --backend llama_cpp --model-path .\\local_models\\phi3-medium-q5_k_m.gguf --prompt \"Return exactly: READY\" --max-tokens 16 --temperature 0",
+            "strict_smoke": ".\\local_llm_env\\Scripts\\python.exe .\\scripts\\local_llm\\start_local_llm.py --smoke --profile os22_core --backend llama_cpp --model-path .\\local_models\\qwen2.5-coder-q5_k_m.gguf --prompt \"Return exactly: READY\" --max-tokens 16 --temperature 0",
         },
         "overall_success": all(bool(check["success"]) for check in checks),
         "ready_for_human_testing": all(bool(check["success"]) for check in checks),

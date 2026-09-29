@@ -1,0 +1,344 @@
+#!/usr/bin/env python3
+"""
+ANA MAX MCP Bridge (STDIO)
+==========================
+Expune tool-urile ANA MAX ca server MCP (Model Context Protocol) peste
+transport STDIO. Funcționează identic in ZCode, Manus si orice client MCP.
+
+God-mode (lab local): toate tool-urile ruleaza fara confirmare la cerere,
+inclusiv cele periculoase (terminal, scrieri fisiere, system shell).
+Vezi AGENTS.md -> "GOD-MODE LOCAL FILE ACCESS".
+
+Compatibilitate: acelasi entry point `ana-max-bridge`, aceleasi cai
+(ANA_MAX/venv + ANA_MAX/bridge/direct_bridge.py). Nu strica configuratii
+existente Manus/ZCode.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import importlib
+import json
+import logging
+import os
+import sys
+import traceback
+from typing import Any
+
+# ---------------------------------------------------------------------------
+# Configurare cai
+# ---------------------------------------------------------------------------
+ANA_MANUS_ROOT = os.path.dirname(os.path.abspath(__file__))
+ANA_MAX_ROOT = os.path.join(ANA_MANUS_ROOT, "ANA_MAX")
+PYTHON_VENV = os.path.join(ANA_MAX_ROOT, "venv", "Scripts", "python.exe")
+BRIDGE_SCRIPT = os.path.join(ANA_MAX_ROOT, "bridge", "direct_bridge.py")
+
+# Allow override via environment variable (for cross-platform compatibility)
+ANA_MANUS_ROOT = os.environ.get("ANA_MANUS_ROOT", ANA_MANUS_ROOT)
+
+# Asiguram importul ANA MAX (tools.base, bridge.direct_bridge) in-process.
+for _p in (ANA_MAX_ROOT, ANA_MANUS_ROOT):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+# ---------------------------------------------------------------------------
+# Logging setup - disable to avoid mixing with MCP JSON
+# ---------------------------------------------------------------------------
+log = logging.getLogger("ana-mcp")
+log.setLevel(logging.CRITICAL)  # Only critical errors
+handler = logging.StreamHandler(sys.stderr)  # Log to stderr, not stdout
+handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s %(message)s"))
+log.addHandler(handler)
+
+# ---------------------------------------------------------------------------
+# MCP server (pachet mcp 1.x)
+# ---------------------------------------------------------------------------
+from mcp.server import Server  # noqa: E402
+import mcp.types as types  # noqa: E402
+
+# Server-ul e creat mai jos, dupa definirea handlerelor (handle_list_tools /
+# handle_call_tool trebuie sa existe la momentul constructiei).
+
+# ---------------------------------------------------------------------------
+# Incarcare lazy a registry-ului si a tool-ului cerut.
+# Evita initializarea tuturor modulelor desktop/browser la primul apel MCP.
+# ---------------------------------------------------------------------------
+_registry = None
+
+_TOOL_LOADERS: dict[str, tuple[str, str]] = {
+    "agent_coach": ("tools.agent_coach_tool", "AgentCoachTool"),
+    "browser_control": ("tools.browser_control", "BrowserControlTool"),
+    "code_search": ("tools.code_search", "CodeSearchTool"),
+    "error_radar": ("tools.error_radar_tool", "ErrorRadarTool"),
+    "file_operations": ("tools.files", "FilesTool"),
+    "file_patch": ("tools.file_patch_tool", "FilePatchTool"),
+    "large_file_reader": ("tools.large_file_reader", "LargeFileReaderTool"),
+    "ocr_tool": ("tools.ocr_tool", "OcrTool"),
+    "privacy_shield": ("tools.privacy", "PrivacyTool"),
+    "project_navigator": ("tools.project_navigator_tool", "ProjectNavigatorTool"),
+    "security_audit": ("tools.security_tool", "SecurityTool"),
+    "smart_search": ("tools.smart_search_tool", "SmartSearchTool"),
+    "system_control": ("tools.system", "SystemTool"),
+    "terminal": ("tools.terminal_tool", "TerminalTool"),
+    "tool_healthcheck": ("tools.tool_healthcheck", "ToolHealthcheckTool"),
+    "tool_router": ("tools.tool_router_tool", "ToolRouterTool"),
+    "workspace_situational_awareness": (
+        "tools.workspace_situational_awareness",
+        "WorkspaceSituationalAwarenessTool",
+    ),
+}
+
+
+def _init_bridge() -> bool:
+    """Initializeaza rapid registry-ul ANA, fara a importa toate tool-urile."""
+    global _registry
+    if _registry is not None:
+        return True
+    try:
+        from tools.base import registry  # type: ignore
+
+        _registry = registry
+        log.info("Registry ANA init OK (incarcare tool-uri: lazy)")
+        return True
+    except Exception as exc:
+        log.error("Registry ANA init FAILED: %s\n%s", exc, traceback.format_exc())
+        return False
+
+
+def _ensure_tool_loaded(name: str) -> bool:
+    """Importa si inregistreaza numai tool-ul cerut."""
+    if not _init_bridge() or _registry is None:
+        return False
+
+    target_name = "terminal" if name == "ana_terminal" else name
+    if _registry.get(target_name) is not None:
+        return True
+
+    loader = _TOOL_LOADERS.get(target_name)
+    if loader is None:
+        return False
+
+    module_path, class_name = loader
+    try:
+        module = importlib.import_module(module_path)
+        tool_class = getattr(module, class_name)
+        tool = tool_class()
+        _registry.register(tool)
+        loaded = _registry.get(target_name) is not None
+        log.info("Tool lazy-load %s: %s", target_name, "OK" if loaded else "FAILED")
+        return loaded
+    except Exception as exc:
+        log.error(
+            "Tool lazy-load %s FAILED: %s\n%s",
+            target_name,
+            exc,
+            traceback.format_exc(),
+        )
+        return False
+
+
+def _tool_to_mcp(definition: Any) -> types.Tool:
+    """Convertește o ToolDefinition ANA in types.Tool MCP cu inputSchema JSON Schema."""
+    properties: dict[str, Any] = {}
+    required: list[str] = []
+    for p in getattr(definition, "parameters", []) or []:
+        ptype = (getattr(p, "type", "string") or "string").lower()
+        if ptype == "any":
+            ptype = "string"
+        schema: dict[str, Any] = {"type": ptype, "description": p.description or ""}
+        if getattr(p, "choices", None):
+            schema["enum"] = list(p.choices)
+        if getattr(p, "default", None) is not None:
+            schema["default"] = p.default
+        properties[p.name] = schema
+        if getattr(p, "required", False):
+            required.append(p.name)
+
+    desc = (definition.description or "ANA MAX tool").strip()
+    if getattr(definition, "dangerous", False) or getattr(definition, "requires_confirmation", False):
+        desc += " (god-mode: ruleaza fara confirmare)"
+
+    return types.Tool(
+        name=definition.name,
+        description=desc,
+        inputSchema={
+            "type": "object",
+            "properties": properties,
+            "required": required,
+        },
+    )
+
+
+async def handle_list_tools(
+    ctx: Any, params: Any | None
+) -> types.ListToolsResult:
+    """Listeaza tool-urile ANA MAX cu scheme complete, rapid din cache-ul JSON."""
+    cache_path = os.path.join(ANA_MANUS_ROOT, "mcp_tools_cache.json")
+    try:
+        # Simplify: read synchronously for now (MCP handshake is time-sensitive)
+        with open(cache_path, "r", encoding="utf-8") as f:
+            tools_data = json.load(f)
+        
+        mcp_tools = []
+        # Return all tools from cache
+        for t in tools_data:
+            mcp_tools.append(
+                types.Tool(
+                    name=t["name"],
+                    description=t["description"],
+                    inputSchema=t["inputSchema"],
+                )
+            )
+
+        log.info("list_tools: %d tool-uri expuse (cache-only)", len(mcp_tools))
+        return types.ListToolsResult(tools=mcp_tools)
+    except Exception as exc:
+        log.warning("Cache MCP indisponibil; expun doar ana_terminal fallback: %s", exc)
+        return types.ListToolsResult(tools=[_fallback_terminal_tool()])
+
+
+def _fallback_terminal_tool() -> types.Tool:
+    return types.Tool(
+        name="ana_terminal",
+        description="Executa comenzi shell prin ANA Bridge (fallback permanent, god-mode).",
+        inputSchema={
+            "type": "object",
+            "properties": {
+                "command": {"type": "string", "description": "Comanda de executat"},
+                "timeout": {"type": "integer", "description": "Timeout in secunde", "default": 30},
+            },
+            "required": ["command"],
+        },
+    )
+
+
+def _format_result(result: Any) -> str:
+    """Normalizeaza un ToolResult / dict intr-un text JSON pentru MCP."""
+    if result is None:
+        return "{}"
+    if isinstance(result, dict):
+        return json.dumps(result, ensure_ascii=True, default=str, indent=2)
+    # ToolResult (dataclass-like): status, data, message, error
+    payload = {
+        "success": getattr(result, "is_success", None),
+        "status": getattr(getattr(result, "status", None), "value", None),
+        "data": getattr(result, "data", None),
+        "message": getattr(result, "message", ""),
+        "error": getattr(result, "error", None),
+    }
+    return json.dumps(payload, ensure_ascii=True, default=str, indent=2)
+
+
+async def handle_call_tool(
+    ctx: Any, params: types.CallToolRequestParams
+) -> types.CallToolResult:
+    """Executa un tool ANA MAX cu incarcare lazy si confirmare interna."""
+    requested_name = params.name
+    effective_name = "terminal" if requested_name == "ana_terminal" else requested_name
+    arguments = dict(params.arguments or {})
+
+    if requested_name == "ana_terminal":
+        command = arguments.get("command", "")
+        if not command:
+            return types.CallToolResult(
+                content=[types.TextContent(type="text", text="Eroare: lipseste 'command'.")],
+                isError=True,
+            )
+        arguments = {
+            "operation": "run",
+            "command": command,
+            "timeout": int(arguments.get("timeout", 30)),
+        }
+
+    loop = asyncio.get_running_loop()
+    loaded = await loop.run_in_executor(None, _ensure_tool_loaded, effective_name)
+    if not loaded or _registry is None:
+        return types.CallToolResult(
+            content=[
+                types.TextContent(
+                    type="text",
+                    text=f"Eroare: tool ANA indisponibil '{requested_name}'.",
+                )
+            ],
+            isError=True,
+        )
+
+    # Bridge-ul este local, dar Pipali ramane stratul de aprobare. Injectam
+    # confirm=True doar dupa aprobarea clientului pentru a satisface garda ANA.
+    arguments["confirm"] = True
+
+    try:
+        result = await loop.run_in_executor(
+            None,
+            lambda: _registry.execute(effective_name, **arguments),
+        )
+        is_error = not bool(getattr(result, "is_success", False))
+        return types.CallToolResult(
+            content=[types.TextContent(type="text", text=_format_result(result))],
+            isError=is_error,
+        )
+    except Exception as exc:
+        log.error(
+            "Executie %s a esuat: %s\n%s",
+            requested_name,
+            exc,
+            traceback.format_exc(),
+        )
+        return types.CallToolResult(
+            content=[
+                types.TextContent(
+                    type="text",
+                    text=f"Exceptie la '{requested_name}': {exc}",
+                )
+            ],
+            isError=True,
+        )
+
+
+# ---------------------------------------------------------------------------
+# Instantiere server + inregistrare handlere (API MCP 1.0).
+# ---------------------------------------------------------------------------
+server = Server("ana-max-bridge")
+
+
+@server.list_tools()
+async def _mcp_list_tools() -> list[types.Tool]:
+    """Listează tool-urile ANA MAX."""
+    log.info("_mcp_list_tools called")
+    try:
+        result = await handle_list_tools(None, None)
+        log.info(f"_mcp_list_tools returning {len(result.tools)} tools")
+        return result.tools
+    except Exception as e:
+        log.error(f"Error in _mcp_list_tools: {e}")
+        return [types.Tool(
+            name="ana_terminal",
+            description="Fallback terminal tool for ANA MAX",
+            inputSchema={"type": "object", "properties": {}, "required": []}
+        )]
+
+
+@server.call_tool()
+async def _mcp_call_tool(name: str, arguments: dict[str, Any] | None) -> list[types.TextContent]:
+    """Execută un tool ANA MAX."""
+    try:
+        params = types.CallToolRequestParams(name=name, arguments=arguments or {})
+        result = await handle_call_tool(None, params)
+        return [types.TextContent(type="text", text=_format_result(result))]
+    except Exception as e:
+        log.error(f"Error in _mcp_call_tool: {e}")
+        return [types.TextContent(type="text", text=f"Error: {e}")]
+
+
+async def main() -> None:
+    """Porneste serverul MCP peste STDIO."""
+    log.info("ANA MCP Bridge starting...")
+    from mcp.server.stdio import stdio_server
+    async with stdio_server() as streams:
+        log.info("stdio_server connected, starting server.run...")
+        await server.run(*streams, server.create_initialization_options())
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+

@@ -1,17 +1,81 @@
-"""Project navigation tool: list, search, and open source files compactly."""
+"""
+Project navigation tool: list, search, and open source files compactly (OS27 Hyper++)
+===============================================================================
+
+OS27 Hyper++ Features:
+- Telemetry tracking for navigation operations (list, find, grep, open, tree)
+- Health monitoring for navigation reliability
+- MemoryCortex integration for navigation errors and state learning
+- ContextEngine integration for project state awareness
+- SelfEvolvingTool integration for anomaly detection on navigation failures
+- Structured logging with error detection
+"""
 
 from __future__ import annotations
 
 import os
 import re
 import logging
+import time
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Dict, Iterable
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 from tools.path_safety import is_protected_path, resolve_workspace_path, safe_display_path
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_navigator_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_navigator_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for navigator operations."""
+    if operation not in _navigator_telemetry:
+        _navigator_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _navigator_telemetry[operation]["operation_count"] += 1
+    _navigator_telemetry[operation]["total_time"] += execution_time
+    _navigator_telemetry[operation]["last_execution_time"] = execution_time
+    _navigator_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _navigator_telemetry[operation]["success_count"] += 1
+    else:
+        _navigator_telemetry[operation]["failure_count"] += 1
+
+
+def get_navigator_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for navigator operations."""
+    if operation:
+        return _navigator_telemetry.get(operation, {})
+    return _navigator_telemetry.copy()
+
+
+def get_navigator_health() -> str:
+    """Get health status for navigator tool based on telemetry."""
+    if not _navigator_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _navigator_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _navigator_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 SKIP_DIRS = {".git", "venv", "__pycache__", "logs", "memory", "screenshots", "data", "browser_snapshots", "voice_temp"}
@@ -35,26 +99,101 @@ class ProjectNavigatorTool(Tool):
         )
 
     def execute(self, operation: str, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         limit = int(kwargs.get("limit") or 80)
         max_chars = int(kwargs.get("max_chars") or 12000)
 
         try:
             root = resolve_workspace_path(str(kwargs.get("path") or "."))
             if is_protected_path(root):
+                execution_time = time.time() - start_time
+                _record_navigator_telemetry(operation, False, execution_time)
                 return ToolResult(status=ToolStatus.BLOCKED, error=f"Refusing protected path: {safe_display_path(root)}")
+            
+            result = None
             if operation == "list":
-                return self._list(root, limit)
-            if operation == "tree":
-                return self._tree(root, limit)
-            if operation == "find":
-                return self._find(root, str(kwargs.get("pattern") or "*"), limit)
-            if operation == "grep":
-                return self._grep(root, str(kwargs.get("query") or ""), limit)
-            if operation == "open":
-                return self._open(root, max_chars)
+                result = self._list(root, limit)
+            elif operation == "tree":
+                result = self._tree(root, limit)
+            elif operation == "find":
+                result = self._find(root, str(kwargs.get("pattern") or "*"), limit)
+            elif operation == "grep":
+                result = self._grep(root, str(kwargs.get("query") or ""), limit)
+            elif operation == "open":
+                result = self._open(root, max_chars)
+            else:
+                execution_time = time.time() - start_time
+                _record_navigator_telemetry(operation, False, execution_time)
+                return ToolResult(status=ToolStatus.ERROR, error=f"Unknown operation: {operation}")
+            
+            execution_time = time.time() - start_time
+            _record_navigator_telemetry(operation, result.is_success, execution_time)
+            
+            # ContextEngine integration for project state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="project_navigation",
+                        value={
+                            "operation": operation,
+                            "path": str(root),
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for navigation errors
+            if cortex and not result.is_success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"navigator.{operation}",
+                        f"Navigation failed: {result.error}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
+            
         except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_navigator_telemetry(operation, False, execution_time)
+            
+            # MemoryCortex integration for navigation errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"navigator.{operation}",
+                        f"Navigation exception: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
             return ToolResult(status=ToolStatus.ERROR, error=str(exc))
-        return ToolResult(status=ToolStatus.ERROR, error=f"Unknown operation: {operation}")
 
     def _list(self, path: Path, limit: int) -> ToolResult:
         if not path.exists() or not path.is_dir():

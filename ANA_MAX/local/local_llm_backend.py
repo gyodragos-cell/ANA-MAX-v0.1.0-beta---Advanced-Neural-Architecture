@@ -26,8 +26,8 @@ from .prompt_engine import compose_system_prompt
 BACKEND_SCHEMA = "ana.os21.local_llm_backend.v1"
 DEFAULT_BACKEND = "ollm"
 LLAMA_CPP_BACKEND = "llama_cpp"
-DEFAULT_MODEL = "phi3-medium"
-DEFAULT_FALLBACK_MODEL = "phi3-medium"
+DEFAULT_MODEL = "qwen2.5-coder"
+DEFAULT_FALLBACK_MODEL = "qwen2.5-coder"
 ENV_FILE = ROOT / ".env.local_llm"
 
 

@@ -1,12 +1,21 @@
 """
-A.N.A. v15.0 - System Tools
-===========================
+A.N.A. v15.0 - System Tools (OS27 Hyper++)
+===========================================
 Instrumente pentru monitorizare si control sistem.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for system operations (vitals, processes, kill_process, shell, speak, health_check, empty_recycle_bin)
+- Health monitoring for system operations reliability
+- MemoryCortex integration for system errors and state learning
+- ContextEngine integration for system state awareness
+- SelfEvolvingTool integration for anomaly detection on system failures
+- Structured logging with error detection
 """
 
 import os
 import subprocess
 import logging
+import time
 from typing import Optional, Dict, Any
 
 try:
@@ -24,6 +33,58 @@ except ImportError:
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_system_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_system_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for system operations."""
+    if operation not in _system_telemetry:
+        _system_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _system_telemetry[operation]["operation_count"] += 1
+    _system_telemetry[operation]["total_time"] += execution_time
+    _system_telemetry[operation]["last_execution_time"] = execution_time
+    _system_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _system_telemetry[operation]["success_count"] += 1
+    else:
+        _system_telemetry[operation]["failure_count"] += 1
+
+
+def get_system_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for system operations."""
+    if operation:
+        return _system_telemetry.get(operation, {})
+    return _system_telemetry.copy()
+
+
+def get_system_health() -> str:
+    """Get health status for system tool based on telemetry."""
+    if not _system_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _system_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _system_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class SystemTool(Tool):
@@ -82,7 +143,7 @@ class SystemTool(Tool):
                     description="Operatiunea de executat",
                     type="string",
                     required=True,
-                    choices=["vitals", "processes", "kill_process", "shell", "speak", "health_check"]
+                    choices=["vitals", "processes", "kill_process", "shell", "speak", "health_check", "empty_recycle_bin"]
                 ),
                 ToolParameter(
                     name="target",
@@ -92,7 +153,7 @@ class SystemTool(Tool):
                 ),
                 ToolParameter(
                     name="confirm",
-                    description="Seteaza true pentru operatii mutante: shell sau kill_process",
+                    description="Seteaza true pentru operatii mutante: shell, kill_process sau empty_recycle_bin",
                     type="boolean",
                     required=False,
                     default=False,
@@ -105,6 +166,28 @@ class SystemTool(Tool):
     
     def execute(self, operation: str, target: Optional[str] = None, **kwargs) -> ToolResult:
         """Executa operatiunea de sistem."""
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         operations = {
             "vitals": self._get_vitals,
             "processes": self._list_processes,
@@ -112,22 +195,54 @@ class SystemTool(Tool):
             "shell": self._execute_shell,
             "speak": self._speak,
             "health_check": self._health_check,
+            "empty_recycle_bin": self._empty_recycle_bin,
         }
-        
-        if operation not in operations:
-            return ToolResult(
-                status=ToolStatus.ERROR,
-                error=f"Operatiune necunoscuta: {operation}"
-            )
 
-        if operation in {"shell", "kill_process"} and not kwargs.get("confirm", False):
+        if operation not in operations:
+            logger.warning(f"Operatiune invalida '{operation}' ceruta de LLM, fallback la 'vitals'")
+            operation = "vitals"
+
+        if operation in {"shell", "kill_process", "empty_recycle_bin"} and not kwargs.get("confirm", False):
+            execution_time = time.time() - start_time
+            _record_system_telemetry(operation, False, execution_time)
             return ToolResult(
                 status=ToolStatus.REQUIRES_CONFIRMATION,
                 error=f"Operatiunea '{operation}' necesita confirm=true",
                 message="Confirm required for mutating system operation",
             )
+
+        result = operations[operation](target, **kwargs)
         
-        return operations[operation](target, **kwargs)
+        execution_time = time.time() - start_time
+        _record_system_telemetry(operation, result.is_success, execution_time)
+        
+        # ContextEngine integration for system state
+        if context_engine and result.is_success:
+            try:
+                context_engine.update_context(
+                    key="system_state",
+                    value={
+                        "operation": operation,
+                        "target": target,
+                        "success": result.is_success,
+                        "timestamp": time.time(),
+                    }
+                )
+            except Exception:
+                pass
+        
+        # MemoryCortex integration for system errors
+        if cortex and not result.is_success:
+            try:
+                cortex.remember(
+                    "error",
+                    f"system.{operation}",
+                    f"System operation failed for {target}: {result.error}"
+                )
+            except Exception:
+                pass
+        
+        return result
     
     def _get_vitals(self, target: Optional[str] = None, **kwargs) -> ToolResult:
         """Obtine vitalele sistemului."""
@@ -357,16 +472,16 @@ class SystemTool(Tool):
         """Analizeaza sanatatea sistemului si ofera sugestii."""
         if not HAS_PSUTIL:
             return ToolResult(status=ToolStatus.ERROR, error="psutil necesar.")
-            
+
         suggestions = []
         cpu = psutil.cpu_percent(interval=0.5)
         ram = psutil.virtual_memory().percent
-        
+
         if cpu > 80:
             suggestions.append("[WARN] CPU foarte incarcat. Inchide procesele inutile.")
         if ram > 85:
             suggestions.append("[WARN] Memorie RAM limitata. Recomand curatarea cache-ului.")
-            
+
         # Disk check
         try:
             disk = psutil.disk_usage('C:' if os.name == 'nt' else '/')
@@ -374,15 +489,69 @@ class SystemTool(Tool):
                 suggestions.append(f" Spatiu pe disc critic ({disk.percent}%). Sterge fisiere temporare.")
         except Exception as exc:
             logger.debug("Disk health check unavailable: %s", exc)
-        
+
         if not suggestions:
             suggestions.append(" Sistemul functioneaza optim. Nicio problema detectata.")
-            
+
         return ToolResult(
             status=ToolStatus.SUCCESS,
             data="\n".join(suggestions),
             message="Health check complet"
         )
+
+    def _empty_recycle_bin(self, target: Optional[str] = None, **kwargs) -> ToolResult:
+        """Goleste cosul de gunoi (Recycle Bin)."""
+        try:
+            if os.name == 'nt':
+                # Windows - folosim PowerShell Clear-RecycleBin
+                result = subprocess.run(
+                    ['powershell', '-Command', 'Clear-RecycleBin -Force'],
+                    capture_output=True,
+                    text=True,
+                    timeout=60
+                )
+                if result.returncode == 0:
+                    return ToolResult(
+                        status=ToolStatus.SUCCESS,
+                        data="Cosul de gunoi a fost golit cu succes",
+                        message="Recycle bin emptied"
+                    )
+                else:
+                    return ToolResult(
+                        status=ToolStatus.ERROR,
+                        error=f"Eroare la golirea cosului: {result.stderr}"
+                    )
+            else:
+                # Linux/Mac - folosim trash-cli sau rm
+                try:
+                    result = subprocess.run(
+                        ['trash-empty'],
+                        capture_output=True,
+                        text=True,
+                        timeout=60
+                    )
+                    if result.returncode == 0:
+                        return ToolResult(
+                            status=ToolStatus.SUCCESS,
+                            data="Cosul de gunoi a fost golit cu succes",
+                            message="Recycle bin emptied"
+                        )
+                except FileNotFoundError:
+                    # Fallback pentru Linux fara trash-cli
+                    return ToolResult(
+                        status=ToolStatus.ERROR,
+                        error="Comanda trash-empty nu este disponibila. Instaleaza trash-cli: sudo apt install trash-cli"
+                    )
+        except subprocess.TimeoutExpired:
+            return ToolResult(
+                status=ToolStatus.ERROR,
+                error="Timeout la golirea cosului de gunoi"
+            )
+        except Exception as e:
+            return ToolResult(
+                status=ToolStatus.ERROR,
+                error=f"Eroare la golirea cosului: {e}"
+            )
 
 
 # Functii simple pentru compatibilitate

@@ -1,9 +1,12 @@
-"""Minimal static binary/text metadata parser for ANA binary_map tool."""
+"""
+Minimal static binary/text metadata parser for ANA binary_map tool.
+Optimized for Windows executables (.exe, .dll, .sys) and text/script files.
+"""
 
 from __future__ import annotations
-
 import hashlib
 import re
+import math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -14,12 +17,14 @@ class BinaryMapResult:
     architecture: str
     size: int
     sha256: str
+    entropy: float
     strings: list[str]
 
 
 def _detect_format(data: bytes) -> tuple[str, str]:
+    """Detect file format and architecture based on magic bytes."""
     if data.startswith(b"MZ"):
-        return "PE", "unknown"
+        return "PE", "unknown"  # Windows Portable Executable
     if data.startswith(b"\x7fELF"):
         arch = "64-bit" if len(data) > 5 and data[4] == 2 else "32-bit"
         return "ELF", arch
@@ -28,10 +33,20 @@ def _detect_format(data: bytes) -> tuple[str, str]:
     return "text/unknown", "n/a"
 
 
+def _entropy(data: bytes) -> float:
+    """Calculate Shannon entropy to estimate randomness/compression."""
+    if not data:
+        return 0.0
+    freq = [data.count(byte) / len(data) for byte in range(256)]
+    return -sum(p * math.log2(p) for p in freq if p > 0)
+
+
 def parse_binary(path: str | Path, max_bytes: int = 26_214_400, strings_limit: int = 80) -> BinaryMapResult:
+    """Parse binary or text file and extract metadata."""
     path = Path(path)
     data = path.read_bytes()[:max(1, int(max_bytes))]
     file_format, architecture = _detect_format(data)
+    entropy = _entropy(data)
     strings = [
         match.decode("utf-8", errors="ignore")
         for match in re.findall(rb"[\x20-\x7e]{4,}", data)
@@ -41,5 +56,18 @@ def parse_binary(path: str | Path, max_bytes: int = 26_214_400, strings_limit: i
         architecture=architecture,
         size=path.stat().st_size,
         sha256=hashlib.sha256(data).hexdigest(),
+        entropy=round(entropy, 3),
         strings=strings,
     )
+
+
+if __name__ == "__main__":
+    # Example usage
+    test_path = input("Enter file path to analyze: ").strip()
+    result = parse_binary(test_path)
+    print(f"Format: {result.format}")
+    print(f"Architecture: {result.architecture}")
+    print(f"Size: {result.size} bytes")
+    print(f"SHA256: {result.sha256}")
+    print(f"Entropy: {result.entropy}")
+    print("Strings sample:", result.strings[:10])

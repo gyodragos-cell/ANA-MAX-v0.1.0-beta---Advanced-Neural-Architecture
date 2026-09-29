@@ -1,0 +1,30 @@
+{
+  "ana-max-core": {
+    "total_tools": 26,
+    "tested": 6,
+    "fully_functional": 2,
+    "partial_functional": 1,
+    "delegate_only": 3,
+    "details": {
+      "terminal": "[PASS] FULLY FUNCTIONAL - executa comenzi corect",
+      "file_operations": "[PASS] FULLY FUNCTIONAL - listeaza fisiere corect",
+      "system_inspector": "[WARN] PARTIAL - ruleaza dar nu returneaza date complete",
+      "agent_coach": "[WARN] DELEGATE - 'not implemented yet' (necesita ANA telemetry)",
+      "tool_healthcheck": "[WARN] DELEGATE - 'delegates to ANA local tool'",
+      "code_context_pack": "[WARN] DELEGATE - 'delegates to ANA local tool'"
+    }
+  },
+  "ana-max-advanced": {
+    "total_tools": 30,
+    "tested": 4,
+    "fully_functional": 2,
+    "partial_functional": 1,
+    "delegate_only": 1,
+    "details": {
+      "web_search": "[PASS] FULLY FUNCTIONAL - returneaza HTML din DuckDuckGo",
+      "browser_control": "[PASS] FULLY FUNCTIONAL - deschide browser corect",
+      "desktop_capture": "[WARN] DELEGATE - 'not implemented yet' (necesita screenshot library)",
+      "windows_uia_bridge": "[WARN] DELEGATE - 'delegates to ANA local tool'"
+    }
+  }
+}

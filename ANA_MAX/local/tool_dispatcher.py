@@ -426,8 +426,20 @@ def execute_tool(tool_name: str, args: dict[str, Any]) -> str:
             )
 
         else:
-            status = "error"
-            result_text = f"[tool_dispatcher] unknown tool: {tool}"
+            try:
+                from ANA_MAX.core.async_dispatcher import get_dispatcher
+                wait_ms = int(normalized_args.pop("wait_ms", 10000))
+                disp = get_dispatcher()
+                res = disp.dispatch(tool, normalized_args, wait_ms=wait_ms)
+                if res.get("async"):
+                    status = "success"
+                    result_text = json.dumps(res, ensure_ascii=True, sort_keys=True)
+                else:
+                    status = "success"
+                    result_text = _result_text(res.get("result"))
+            except Exception as e:
+                status = "error"
+                result_text = f"[tool_dispatcher] async fallback error: {_ascii_text(e)}"
 
     except Exception as exc:
         status = "error"

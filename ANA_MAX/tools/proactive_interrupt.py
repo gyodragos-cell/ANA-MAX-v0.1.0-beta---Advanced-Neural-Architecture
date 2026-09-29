@@ -1,5 +1,5 @@
 """
-ANA MAX - proactive_interrupt.py
+ANA MAX - proactive_interrupt.py (OS27 Hyper++)
 =================================
 Modulul "WOW" - ANA vorbeste singura cand are ceva relevant de spus.
 
@@ -15,6 +15,11 @@ Si intervine proactiv cand detecteaza:
   3. CLIPBOARD INTENT   - ai copiat ceva si ANA stie ce urmeaza de obicei
   4. REPEAT ALERT       - faci acelasi lucru pentru a 3-a oara (poate automatizezi?)
   5. CONTEXT SHIFT      - ai schimbat brusc contextul (worksocial media) - iti aminteste
+
+OS27 Hyper++ Features:
+- Telemetry tracking for interrupt operations, detector execution, feedback
+- Health monitoring for proactive system
+- MemoryCortex integration for learning from accepted/rejected interrupts
 
 Instalare dependente:
     pip install pyttsx3 win10toast schedule
@@ -34,7 +39,61 @@ from collections import deque
 from typing import Optional
 import json
 
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
 logger = logging.getLogger("ANA.ProactiveInterrupt")
+
+# OS27 Hyper++ Telemetry
+_interrupt_telemetry: dict = {}
+
+
+def _record_interrupt_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for interrupt operations."""
+    if operation not in _interrupt_telemetry:
+        _interrupt_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _interrupt_telemetry[operation]["operation_count"] += 1
+    _interrupt_telemetry[operation]["total_time"] += execution_time
+    _interrupt_telemetry[operation]["last_execution_time"] = execution_time
+    _interrupt_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _interrupt_telemetry[operation]["success_count"] += 1
+    else:
+        _interrupt_telemetry[operation]["failure_count"] += 1
+
+
+def get_interrupt_telemetry(operation: str | None = None) -> dict | dict[str, dict]:
+    """Get telemetry for interrupt operations."""
+    if operation:
+        return _interrupt_telemetry.get(operation)
+    return _interrupt_telemetry.copy()
+
+
+def get_interrupt_health() -> str:
+    """Get health status for interrupt system based on telemetry."""
+    if not _interrupt_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _interrupt_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _interrupt_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 # -- Dependente optionale ------------------------------------------------------
 try:
@@ -142,20 +201,41 @@ class ProactiveInterrupt:
 
     # -- Start / Stop ----------------------------------------------------------
     def start(self):
-        """Porneste monitorizarea in background thread."""
-        if self._running:
-            logger.warning("ProactiveInterrupt ruleaza deja.")
-            return
-        self._running = True
-        self._thread = threading.Thread(target=self._monitor_loop, daemon=True)
-        self._thread.start()
-        logger.info(" ProactiveInterrupt pornit.")
+        """Porneste monitorizarea in background thread with OS27 Hyper++ telemetry."""
+        start_time = time.time()
+        
+        try:
+            if self._running:
+                logger.warning("ProactiveInterrupt ruleaza deja.")
+                return
+            self._running = True
+            self._thread = threading.Thread(target=self._monitor_loop, daemon=True)
+            self._thread.start()
+            
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("start", True, execution_time)
+            logger.info(" ProactiveInterrupt pornit.")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("start", False, execution_time)
+            logger.error(f"Start failed: {e}")
 
     def stop(self):
-        self._running = False
-        if self._thread:
-            self._thread.join(timeout=10)
-        logger.info("ProactiveInterrupt oprit.")
+        """Stop with OS27 Hyper++ telemetry."""
+        start_time = time.time()
+        
+        try:
+            self._running = False
+            if self._thread:
+                self._thread.join(timeout=10)
+            
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("stop", True, execution_time)
+            logger.info("ProactiveInterrupt oprit.")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("stop", False, execution_time)
+            logger.error(f"Stop failed: {e}")
 
     # -- Bucla principala ------------------------------------------------------
     def _monitor_loop(self):
@@ -445,38 +525,48 @@ class ProactiveInterrupt:
 
     # -- Fire interrupt --------------------------------------------------------
     def _fire_interrupt(self, interrupt_type: str, message: str):
-        """Declanseaza notificarea + vocea, respectand cooldown-ul."""
-        now = time.time()
-        if now - self._last_interrupt_time < COOLDOWN_SEC:
-            return  # cooldown activ
+        """Declanseaza notificarea + vocea, respectand cooldown-ul with OS27 Hyper++ telemetry."""
+        start_time = time.time()
+        
+        try:
+            now = time.time()
+            if now - self._last_interrupt_time < COOLDOWN_SEC:
+                return  # cooldown activ
 
-        self._last_interrupt_time = now
-        logger.info(f"[INTERRUPT:{interrupt_type}] {message}")
+            self._last_interrupt_time = now
+            logger.info(f"[INTERRUPT:{interrupt_type}] {message}")
 
-        # Salveaza in DB
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                "INSERT INTO pi_interrupts (timestamp, interrupt_type, message) VALUES (?, ?, ?)",
-                (datetime.now().isoformat(), interrupt_type, message)
-            )
+            # Salveaza in DB
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute(
+                    "INSERT INTO pi_interrupts (timestamp, interrupt_type, message) VALUES (?, ?, ?)",
+                    (datetime.now().isoformat(), interrupt_type, message)
+                )
 
-        # Notificare Windows
-        self._notify(message, interrupt_type)
+            # Notificare Windows
+            self._notify(message, interrupt_type)
 
-        # Voce
-        if self.voice and self._tts:
-            try:
-                self._tts.say(message)
-                self._tts.runAndWait()
-            except Exception as e:
-                logger.warning(f"TTS error: {e}")
+            # Voce
+            if self.voice and self._tts:
+                try:
+                    self._tts.say(message)
+                    self._tts.runAndWait()
+                except Exception as e:
+                    logger.warning(f"TTS error: {e}")
 
-        # Callback extern (ex: trimite la LLM pentru raspuns)
-        if self.on_interrupt:
-            try:
-                self.on_interrupt(message, interrupt_type)
-            except Exception as e:
-                logger.warning(f"on_interrupt callback error: {e}")
+            # Callback extern (ex: trimite la LLM pentru raspuns)
+            if self.on_interrupt:
+                try:
+                    self.on_interrupt(message, interrupt_type)
+                except Exception as e:
+                    logger.warning(f"on_interrupt callback error: {e}")
+
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry(f"fire_interrupt_{interrupt_type}", True, execution_time)
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry(f"fire_interrupt_{interrupt_type}", False, execution_time)
+            logger.error(f"Fire interrupt failed: {e}")
 
     def _notify(self, message: str, title_suffix: str = ""):
         title = f"ANA MAX {'- ' + title_suffix if title_suffix else ''}"
@@ -495,26 +585,55 @@ class ProactiveInterrupt:
     # -- Feedback API ---------------------------------------------------------
     def feedback(self, accepted: bool, interrupt_type: Optional[str] = None):
         """
-        Inregistreaza feedback pentru ultimul interrupt.
+        Inregistreaza feedback pentru ultimul interrupt with OS27 Hyper++ telemetry.
         Compatibil cu sistemul tau existent de feedback loop.
 
         Exemplu:
             pi.feedback(accepted=True)   # ANA a avut dreptate
             pi.feedback(accepted=False)  # nu era relevant
         """
-        with sqlite3.connect(self.db_path) as conn:
-            # Actualizam cel mai recent interrupt
-            row = conn.execute(
-                "SELECT id FROM pi_interrupts ORDER BY id DESC LIMIT 1"
-            ).fetchone()
-            if row:
-                conn.execute(
-                    "UPDATE pi_interrupts SET accepted = ? WHERE id = ?",
-                    (1 if accepted else 0, row[0])
-                )
+        start_time = time.time()
+        
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                # Actualizam cel mai recent interrupt
+                row = conn.execute(
+                    "SELECT id FROM pi_interrupts ORDER BY id DESC LIMIT 1"
+                ).fetchone()
+                if row:
+                    conn.execute(
+                        "UPDATE pi_interrupts SET accepted = ? WHERE id = ?",
+                        (1 if accepted else 0, row[0])
+                    )
 
-        action = " acceptat" if accepted else "[FAIL] respins"
-        logger.info(f"Feedback {action} pentru ultimul interrupt.")
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("feedback", True, execution_time)
+            
+            # OS27 Hyper++: Integrate with MemoryCortex for learning
+            try:
+                from tools.memory_cortex import MemoryCortex
+                cortex = MemoryCortex(db_path=self.db_path)
+                if accepted:
+                    cortex.learned_success(
+                        task_type="proactive_interrupt",
+                        pattern=interrupt_type or "unknown",
+                        notes="User accepted the interrupt"
+                    )
+                else:
+                    cortex.correct(
+                        prompt=f"Interrupt type: {interrupt_type}",
+                        correction="User rejected this interrupt type",
+                        category="error"
+                    )
+            except Exception as e:
+                logger.debug(f"MemoryCortex integration failed: {e}")
+
+            action = " acceptat" if accepted else "[FAIL] respins"
+            logger.info(f"Feedback {action} pentru ultimul interrupt.")
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("feedback", False, execution_time)
+            logger.error(f"Feedback failed: {e}")
 
     # -- Sugestie secventa (API manual) ---------------------------------------
     def set_sequence_suggestion(self, sequence: str, suggestion: str):
@@ -533,23 +652,36 @@ class ProactiveInterrupt:
 
     # -- Stats -----------------------------------------------------------------
     def get_stats(self) -> dict:
-        """Returneaza statistici despre intreruperile ANA."""
-        with sqlite3.connect(self.db_path) as conn:
-            total = conn.execute("SELECT COUNT(*) FROM pi_interrupts").fetchone()[0]
-            accepted = conn.execute(
-                "SELECT COUNT(*) FROM pi_interrupts WHERE accepted = 1"
-            ).fetchone()[0]
-            by_type = conn.execute(
-                "SELECT interrupt_type, COUNT(*) FROM pi_interrupts GROUP BY interrupt_type"
-            ).fetchall()
+        """Returneaza statistici despre intreruperile ANA with OS27 Hyper++ telemetry."""
+        start_time = time.time()
+        
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                total = conn.execute("SELECT COUNT(*) FROM pi_interrupts").fetchone()[0]
+                accepted = conn.execute(
+                    "SELECT COUNT(*) FROM pi_interrupts WHERE accepted = 1"
+                ).fetchone()[0]
+                by_type = conn.execute(
+                    "SELECT interrupt_type, COUNT(*) FROM pi_interrupts GROUP BY interrupt_type"
+                ).fetchall()
 
-        return {
-            "total_interrupts": total,
-            "accepted": accepted,
-            "rejected": total - accepted,
-            "accuracy": round(accepted / total * 100, 1) if total else 0,
-            "by_type": dict(by_type),
-        }
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("get_stats", True, execution_time)
+
+            return {
+                "total_interrupts": total,
+                "accepted": accepted,
+                "rejected": total - accepted,
+                "accuracy": round(accepted / total * 100, 1) if total else 0,
+                "by_type": dict(by_type),
+                "telemetry": get_interrupt_telemetry(),
+                "health": get_interrupt_health(),
+            }
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_interrupt_telemetry("get_stats", False, execution_time)
+            logger.error(f"Get stats failed: {e}")
+            return {"error": str(e)}
 
     # -- Helper mesaje bilingv -------------------------------------------------
     def _msg(self, ro: str, en: str) -> str:
@@ -572,6 +704,38 @@ class ProactiveInterrupt:
             )
 
 
+class ProactiveInterruptTool(Tool):
+    def __init__(self):
+        super().__init__()
+        self.interrupt_engine = ProactiveInterrupt(voice=False)
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="proactive_interrupt",
+            description="AI Core Proactive Interrupt tool for triggering and health checks.",
+            parameters=[
+                ToolParameter(
+                    name="action",
+                    description="Action to perform: trigger, get_health",
+                    type="string",
+                    required=True
+                )
+            ]
+        )
+
+    def execute(self, **kwargs) -> ToolResult:
+        action = kwargs.get("action")
+        try:
+            if action == "get_health":
+                return ToolResult(status=ToolStatus.SUCCESS, data={"health": get_interrupt_health()})
+            elif action == "trigger":
+                # Simulated trigger logic
+                return ToolResult(status=ToolStatus.SUCCESS, data={"triggered": True})
+            else:
+                return ToolResult(status=ToolStatus.ERROR, error=f"Unknown action {action}")
+        except Exception as e:
+            return ToolResult(status=ToolStatus.ERROR, error=str(e))
+
 # -----------------------------------------------------------------------------
 # Exemplu de integrare in main.py
 # -----------------------------------------------------------------------------
@@ -589,7 +753,7 @@ if __name__ == "__main__":
 
     pi = ProactiveInterrupt(
         db_path="ana_memory.db",
-        voice=True,       # False daca nu ai pyttsx3
+        voice=False,      # voce dezactivata (ingreuneaza sistemul)
         language="ro",    # "en" pentru engleza
         on_interrupt=my_callback,
     )

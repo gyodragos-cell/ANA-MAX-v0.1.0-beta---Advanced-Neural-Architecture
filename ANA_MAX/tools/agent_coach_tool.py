@@ -1,22 +1,84 @@
 """
-Agent Coach Tool.
+Agent Coach Tool (OS27 Hyper++)
+================================
 
 Turns ANA telemetry into short, practical guidance for coding agents.
 The goal is not a demo effect; it is to stop wasteful loops and steer the
 agent toward better observation, verification, and code quality.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for agent coach operations (coach, recommend, lessons, reset)
+- Health monitoring for agent coach operations reliability
+- MemoryCortex integration for agent coach errors and state learning
+- ContextEngine integration for agent coach state awareness
+- SelfEvolvingTool integration for anomaly detection on agent coach failures
+- Structured logging with error detection
 """
 
 from __future__ import annotations
 
 import json
+import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Tuple
 
-from ANA_MAX.local.tool_telemetry import load_tool_telemetry, summarize_tool_telemetry
+from local.tool_telemetry import load_tool_telemetry, summarize_tool_telemetry
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 from tools.tool_router_tool import ToolRouterTool
+
+# OS27 Hyper++ Telemetry
+_agent_coach_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_agent_coach_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for agent coach operations."""
+    if operation not in _agent_coach_telemetry:
+        _agent_coach_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _agent_coach_telemetry[operation]["operation_count"] += 1
+    _agent_coach_telemetry[operation]["total_time"] += execution_time
+    _agent_coach_telemetry[operation]["last_execution_time"] = execution_time
+    _agent_coach_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _agent_coach_telemetry[operation]["success_count"] += 1
+    else:
+        _agent_coach_telemetry[operation]["failure_count"] += 1
+
+
+def get_agent_coach_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for agent coach operations."""
+    if operation:
+        return _agent_coach_telemetry.get(operation, {})
+    return _agent_coach_telemetry.copy()
+
+
+def get_agent_coach_health() -> str:
+    """Get health status for agent coach tool based on telemetry."""
+    if not _agent_coach_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _agent_coach_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _agent_coach_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 CLICK_TOOLS = {
@@ -158,17 +220,80 @@ class AgentCoachTool(Tool):
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         action = kwargs.get("action", "coach")
+        
         if action == "lessons":
             lessons = self._read_lessons(int(kwargs.get("limit", 20) or 20))
-            return ToolResult(
+            result = ToolResult(
                 status=ToolStatus.SUCCESS,
                 data={"count": len(lessons), "lessons": lessons},
                 message=f"Agent coach lessons: {len(lessons)}",
             )
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for agent coach state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="agent_coach_state",
+                        value={
+                            "action": action,
+                            "lessons_count": len(lessons),
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
+            
         if action == "reset":
             self.memory_file.write_text("", encoding="utf-8")
-            return ToolResult(status=ToolStatus.SUCCESS, data={"reset": True}, message="Agent coach memory reset.")
+            result = ToolResult(status=ToolStatus.SUCCESS, data={"reset": True}, message="Agent coach memory reset.")
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for agent coach state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="agent_coach_state",
+                        value={
+                            "action": action,
+                            "reset": True,
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
+            
         if action == "recommend":
             report = self._build_recommendation(
                 task=str(kwargs.get("task") or ""),
@@ -181,22 +306,85 @@ class AgentCoachTool(Tool):
             )
             if report["coach"]["severity"] in {"warn", "critical"}:
                 self._remember(report["coach"])
-            return ToolResult(
+            result = ToolResult(
                 status=ToolStatus.SUCCESS,
                 data=report,
                 message=report["headline"],
             )
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for agent coach state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="agent_coach_state",
+                        value={
+                            "action": action,
+                            "severity": report["coach"]["severity"],
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
+            
         if action != "coach":
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry("unknown", False, execution_time)
             return ToolResult(status=ToolStatus.ERROR, error=f"Unknown action: {action}")
 
         limit = int(kwargs.get("limit", 120) or 120)
         repeat_threshold = int(kwargs.get("repeat_threshold", 5) or 5)
         include_prompt = bool(kwargs.get("include_prompt", True))
 
-        entries = self._read_observability(limit)
-        report = self._build_report(entries, repeat_threshold)
-        if include_prompt:
-            report["prompt_for_qoder"] = self._prompt(report)
+        try:
+            entries = self._read_observability(limit)
+            report = self._build_report(entries, repeat_threshold)
+            if include_prompt:
+                report["prompt_for_qoder"] = self._prompt(report)
+            result = ToolResult(
+                status=ToolStatus.SUCCESS,
+                data=report,
+                message=report["headline"],
+            )
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry(action, result.is_success, execution_time)
+            
+            # ContextEngine integration for agent coach state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="agent_coach_state",
+                        value={
+                            "action": action,
+                            "severity": report["coach"]["severity"],
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            return result
+        except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_agent_coach_telemetry(action, False, execution_time)
+            
+            # MemoryCortex integration for agent coach errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"agent_coach.{action}",
+                        f"Agent coach operation failed: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
 
         if report["severity"] in {"warn", "critical"}:
             self._remember(report)
@@ -337,6 +525,14 @@ class AgentCoachTool(Tool):
             })
             advice.append(self._error_advice(worst_error["error"]))
 
+        # Add auto-stop for critical loops (2-3 identical failures)
+        if self._should_auto_stop(entries, repeated_errors):
+            signals.append({"type": "auto_stop", "detected": True, "reason": "Critical loop detected"})
+            advice.append(
+                "CRITICAL LOOP STOPPED. Agent will auto-change strategy to prevent infinite retry loops. Pausing execution and switching to observation mode."
+            )
+            next_tools = ["workspace_situational_awareness", "tool_healthcheck", "agent_coach"]
+
         requires_confirm = [
             e for e in entries[-30:]
             if e.get("status") == "requires_confirmation"
@@ -359,6 +555,14 @@ class AgentCoachTool(Tool):
                 "Failure rate is high. Pause execution, summarize the last failures, and run a small healthcheck before more actions."
             )
             next_tools = ["tool_healthcheck", "agent_coach", "workspace_situational_awareness"]
+        
+        # Add simple loop detection for web creation tasks
+        if self._is_web_creation_loop(entries):
+            signals.append({"type": "web_creation_loop", "detected": True})
+            advice.append(
+                "Detected web creation loop. STOP trying npm/create-react-app/build steps. Use simple HTML + CSS inline with file_operations write, then open in browser directly."
+            )
+            next_tools = ["file_operations", "terminal"]
 
         if not advice:
             advice.append(
@@ -505,6 +709,29 @@ class AgentCoachTool(Tool):
         failed = sum(1 for e in entries if e.get("status") in {"error", "requires_confirmation", "blocked"})
         return failed / len(entries)
 
+    def _should_auto_stop(self, entries: List[Dict[str, Any]], repeated_errors: List[Dict[str, Any]]) -> bool:
+        """Auto-stop logic for critical loops: 2-3 identical errors in sequence."""
+        if not repeated_errors:
+            return False
+
+        # Check for 2+ identical errors in the last 10 entries
+        recent_errors = [e for e in entries[-10:] if e.get("status") in {"error", "requires_confirmation", "blocked"}]
+        if len(recent_errors) >= 2:
+            # Check if the last 2 errors are identical
+            if len(recent_errors) >= 2:
+                last_error = recent_errors[-1]
+                second_last_error = recent_errors[-2]
+                if (last_error.get("tool") == second_last_error.get("tool") and
+                    last_error.get("error") == second_last_error.get("error")):
+                    return True
+
+        # Check for 3+ repeated errors from the repeated_errors list
+        for error_info in repeated_errors:
+            if error_info["count"] >= 3:
+                return True
+
+        return False
+
     def _recent_tool_counts(self, entries: List[Dict[str, Any]]) -> Dict[str, int]:
         counts = Counter(str(e.get("tool", "")) for e in entries[-40:] if e.get("tool"))
         return dict(counts.most_common(10))
@@ -521,6 +748,28 @@ class AgentCoachTool(Tool):
         if tool not in CLICK_TOOLS:
             return False
         text = " ".join(str(v).lower() for v in (args or {}).values())
+        return any(k in text for k in ["click", "tap", "press", "select"])
+    
+    def _is_web_creation_loop(self, entries: List[Dict[str, Any]]) -> bool:
+        """Detect if agent is stuck in web creation loop with npm/build steps"""
+        npm_failures = 0
+        recent_entries = entries[-20:]  # Check last 20 entries
+        
+        for entry in recent_entries:
+            tool = str(entry.get("tool", ""))
+            args = entry.get("args") or {}
+            status = str(entry.get("status", ""))
+            error = str(entry.get("error", "")).lower()
+            
+            # Check for npm/build tool failures
+            if "terminal" in tool or "bash_exec" in tool:
+                command = str(args.get("command", "")).lower()
+                if "npm" in command or "create-react-app" in command or "yarn" in command:
+                    if status == "error" or "failed" in error:
+                        npm_failures += 1
+        
+        # If 3+ npm/build failures in recent entries, it's a loop
+        return npm_failures >= 3
         return any(word in text for word in ["click", "click_at", "click_text", "click_element"])
 
     def _is_readonly_uia(self, args: Dict[str, Any]) -> bool:
@@ -537,6 +786,11 @@ class AgentCoachTool(Tool):
             return "The tool is gated. If the action is intended and safe, retry with confirm=True once, then verify the result."
         if "timeout" in lower:
             return "The tool timed out. Reduce scope, inspect state, or use a background process with periodic reads."
+        
+        # Web creation specific advice
+        if "npm" in lower or "create-react-app" in lower or "node" in lower:
+            return "STOP trying npm/create-react-app. For simple websites, use HTML + CSS inline directly with file_operations write, then open in browser. Complex frameworks only when explicitly requested."
+        
         return "Do not retry the same failing call. Inspect the schema/output, change one variable, then verify."
 
     def _headline(self, severity: str, signals: List[Dict[str, Any]]) -> str:

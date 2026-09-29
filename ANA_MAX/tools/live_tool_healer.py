@@ -543,8 +543,21 @@ console.log('[Frida] Instrumentation complete');
             output_lines.append(f"   {key}: {value}")
         
         output_lines.extend(["", "RECOMMENDED FIXES:"])
-        for i, fix in enumerate(anomaly.fix_suggestions, 1):
-            output_lines.append(f"  {i}. {fix['description']} ({fix['confidence']}% confidence)")
+        
+        try:
+            from tools.os27_nervous_system import OS27NervousSystem
+            ns = OS27NervousSystem()
+            # Simulam un call ca sa obtinem un patch rapid
+            patch = ns.handle_tool_failure(tool_name, anomaly.description, "", target_file_path=anomaly.location.split(':')[0])
+            if patch and patch.get("recommended_patch"):
+                output_lines.append(f"  [OS27 Nervous System Auto-Patch]")
+                output_lines.append(f"  Inlocuieste linia {patch['recommended_patch']['StartLine']} cu:\n{patch['recommended_patch']['ReplacementContent']}")
+            else:
+                for i, fix in enumerate(anomaly.fix_suggestions, 1):
+                    output_lines.append(f"  {i}. {fix['description']} ({fix['confidence']}% confidence)")
+        except Exception:
+            for i, fix in enumerate(anomaly.fix_suggestions, 1):
+                output_lines.append(f"  {i}. {fix['description']} ({fix['confidence']}% confidence)")
         
         return ToolResult(
             status=ToolStatus.SUCCESS,

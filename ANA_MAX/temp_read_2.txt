@@ -1,0 +1,196 @@
+    def get_definition(self):
+        return ToolDefinition(
+            name="desktop_capture",
+            description=(
+                "OS27 Hyper++ Desktop Capture. Captureaza ecranul desktop cu ring-buffer, "
+                "delta-frame detection, threaded monitoring, si Nervous System auto-heal."
+            ),
+            parameters=[
+                ToolParameter(
+                    name="operation",
+                    description=(
+                        "Operatia: capture, capture_region, capture_window, get_windows, "
+                        "monitor, start_monitor, stop_monitor, get_buffer, get_stats, best_method"
+                    ),
+                    type="string",
+                    required=True,
+                    choices=[
+                        "capture", "capture_region", "capture_window", "get_windows",
+                        "monitor", "start_monitor", "stop_monitor",
+                        "get_buffer", "get_stats", "best_method",
+                    ]
+                ),
+                ToolParameter(
+                    name="output_file",
+                    description="Nume fisier output (default: auto-generat cu timestamp)",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="region",
+                    description="Regiune pentru capture_region: 'x,y,width,height' (ex: '0,0,1920,1080')",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="window_title",
+                    description="Titlu fereastra pentru capture_window (ex: 'Chrome', 'Visual Studio Code')",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="monitor_seconds",
+                    description="Interval monitorizare in secunde (default: 5)",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="monitor_count",
+                    description="Numar captur pentru monitorizare (default: 10)",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="delta_threshold",
+                    description="Threshold for delta-frame skip (0.0-1.0, default 0.005 = 0.5%%)",
+                    type="string",
+                    required=False
+                ),
+            ],
+            category="monitoring"
+        )
+
+    def execute(self, **kwargs) -> ToolResult:
+        start_time = time.time()
+        operation = kwargs.get("operation")
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
+        try:
+            if operation == "capture":
+                result = self._capture_full_screen(**kwargs)
+                execution_time = time.time() - start_time
+                success = result.status == ToolStatus.SUCCESS
+                method = result.data.get("method", "") if success else ""
+                _record_capture_telemetry(operation, success, execution_time, method)
+                
+                # ContextEngine integration for capture state
+                if context_engine and success:
+                    try:
+                        context_engine.update_context(
+                            key="desktop_capture",
+                            value={
+                                "last_file": result.data.get("file"),
+                                "method": method,
+                                "timestamp": time.time(),
+                            }
+                        )
+                    except Exception:
+                        pass
+                
+                return result
+            elif operation == "capture_region":
+                result = self._capture_region(**kwargs)
+                execution_time = time.time() - start_time
+                success = result.status == ToolStatus.SUCCESS
+                _record_capture_telemetry(operation, success, execution_time)
+                return result
+            elif operation == "capture_window":
+                result = self._capture_window(**kwargs)
+                execution_time = time.time() - start_time
+                success = result.status == ToolStatus.SUCCESS
+                _record_capture_telemetry(operation, success, execution_time)
+                
+                # MemoryCortex integration for window capture errors
+                if cortex and not success:
+                    try:
+                        cortex.remember(
+                            "error",
+                            f"capture.window.{kwargs.get('window_title')}",
+                            f"Window capture failed: {kwargs.get('window_title')}"
+                        )
+                    except Exception:
+                        pass
+                
+                return result
+            elif operation == "get_windows":
+                result = self._get_window_list()
+                execution_time = time.time() - start_time
+                success = result.status == ToolStatus.SUCCESS
+                _record_capture_telemetry(operation, success, execution_time)
+                
+                # ContextEngine integration for window list
+                if context_engine and success:
+                    try:
+                        context_engine.update_context(
+                            key="desktop_windows",
+                            value={
+                                "window_count": result.data.get("count", 0),
+                                "windows": result.data.get("windows", [])[:10],  # Limit to 10
+                                "timestamp": time.time(),
+                            }
+                        )
+                    except Exception:
+                        pass
+                
+                return result
+            elif operation == "monitor":
+                result = self._monitor_continuous(**kwargs)
+                execution_time = time.time() - start_time
+                success = result.status == ToolStatus.SUCCESS
+                _record_capture_telemetry(operation, success, execution_time)
+                return result
+            elif operation == "start_monitor":
+                result = self._start_monitor_daemon(**kwargs)
+                _record_capture_telemetry(operation, result.status == ToolStatus.SUCCESS, time.time() - start_time)
+                return result
+            elif operation == "stop_monitor":
+                result = self._stop_monitor_daemon()
+                _record_capture_telemetry(operation, result.status == ToolStatus.SUCCESS, time.time() - start_time)
+                return result
+            elif operation == "get_buffer":
+                with self._monitor_lock:
+                    frames = list(self._frame_buffer)
+                _record_capture_telemetry(operation, True, time.time() - start_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"frames_count": len(frames), "frames": frames},
+                    message=f"Retrieved {len(frames)} frames from buffer"
+                )
+            else:
+                _record_capture_telemetry(operation, False, time.time() - start_time)
+                return ToolResult(
+                    status=ToolStatus.ERROR,
+                    error=f"Operatie necunoscuta: {operation}"
+                )
+        except Exception as e:
+            logger.error(f"Desktop capture error: {e}")
+            _record_capture_telemetry(operation, False, time.time() - start_time)
+            return ToolResult(
+                status=ToolStatus.ERROR,
+                error=f"Eroare capturare ecran: {str(e)}"
+            )
+
+    def _capture_full_screen(self, **kwargs) -> ToolResult:
+        """Captureaza intregul ecran."""
+        output_file = self._get_output_path(kwargs.get("output_file"))
+        delta_threshold = float(kwargs.get("delta_threshold", "0.005"))
+        

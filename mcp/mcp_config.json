@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "os27-universal": {
+      "command": "python",
+      "args": ["c:/Users/billy/Desktop/ana-manus/mcp/os27_mcp_server.py"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONPATH": "c:/Users/billy/Desktop/ana-manus/ANA_MAX"
+      },
+      "alwaysAllow": [
+        "os27_tool_brain_discovery",
+        "os27_tool_brain_priority_map",
+        "os27_tool_brain_smoke_test",
+        "os27_tool_brain_graph",
+        "os27_context_engine_read_state",
+        "os27_context_engine_reflexes",
+        "os27_memory_cortex_save",
+        "os27_memory_cortex_load",
+        "os27_memory_cortex_reset",
+        "os27_memory_cortex_validate",
+        "os27_system_integrity_hyper_scan",
+        "os27_watchdog_bus_start",
+        "os27_watchdog_bus_stop",
+        "os27_watchdog_bus_read",
+        "os27_telemetry_engine_read",
+        "os27_telemetry_engine_save",
+        "os27_dashboard_feeder_snapshot",
+        "os27_error_radar_scan",
+        "os27_self_heal"
+      ]
+    }
+  }
+}

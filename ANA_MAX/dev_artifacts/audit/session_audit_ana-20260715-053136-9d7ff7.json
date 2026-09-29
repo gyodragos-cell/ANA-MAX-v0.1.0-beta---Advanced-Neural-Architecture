@@ -1,0 +1,1481 @@
+{
+  "schema": "ana.session_audit.v1",
+  "run_id": "ana-20260715-053136-9d7ff7",
+  "generated_at": "2026-07-15T05:31:37.013559Z",
+  "scope": {
+    "hours": 1,
+    "limit": 80,
+    "events": 36
+  },
+  "trust": {
+    "score": 44,
+    "weights": {
+      "context_found": 0.4,
+      "schema_validated": 0.3,
+      "verification_passed": 0.3
+    },
+    "signals": {
+      "context_found": 0.0,
+      "schema_validated": 0.917,
+      "verification_passed": 0.55,
+      "has_code_context_pack": false,
+      "has_ui_snapshot": false,
+      "has_code_map": false,
+      "has_error_radar": true,
+      "has_tool_healthcheck": true,
+      "recent_failures": 10,
+      "schema_errors": 3,
+      "identity_surface_status": "UNKNOWN",
+      "identity_surface_violations": null,
+      "identity_surface_missing_required": null,
+      "identity_cap_applied": false,
+      "has_conversation_audit": false,
+      "conversation_audit_events": 0,
+      "conversation_audit_spoken_events": 0
+    },
+    "message": "Gata cu 44% incredere."
+  },
+  "identity_surface": {
+    "schema": "ana.session_identity_surface.v1",
+    "available": false,
+    "status": "UNKNOWN",
+    "reason": "identity_check_script_missing"
+  },
+  "conversation_audit": {
+    "schema": "ana.conversation_audit.summary.v1",
+    "status": "WARN",
+    "available": false,
+    "path": "$WORKSPACE\\ANA_MAX\\memory\\conversation_audit.jsonl",
+    "hours": 1,
+    "events": 0,
+    "spoken_events": 0,
+    "sensitive_skipped": 0,
+    "sources": {},
+    "message": "Conversation audit WARN: no recent voice or chat evidence."
+  },
+  "trace": null,
+  "integrity": {
+    "algorithm": "sha256",
+    "chain_head": "e817df8cc6ff6659d658e1aa93d0e0be62c9fd65ea6e3f4c27e234473835fde5"
+  },
+  "events": [
+    {
+      "event_id": "d9bf2cbd-059",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 1,
+        "event_type": "tool_result",
+        "tool": "advanced_scanner",
+        "source": "advanced_scanner",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 1,
+        "tool_call": {
+          "tool": "advanced_scanner",
+          "args_hash": "4c51933d56955f7714c48f9cfde45ebbf851fcdc3c87daa1bfe586bbc5d66df8"
+        },
+        "result_hash": "f212f78475af619b9e54543af1edb7a653d8859edab3e0f18b610871f32bd693",
+        "files_touched": [
+          "'127.0.0.1'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.301350Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "c8974244fabb9e24fd8f67f517e9ccbe3b5f1a65bf178aeae0f4228cfaabf31f",
+        "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "chain_hash": "cbf4ff52d5c4ee3dc058de489e50772bbf0f586561027f93e5a6abaf10e77c58"
+      }
+    },
+    {
+      "event_id": "b347f5be-b93",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 2,
+        "event_type": "error",
+        "tool": "mitm_analyzer",
+        "source": "mitm_analyzer",
+        "status": "requires_confirmation",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 2,
+        "tool_call": {
+          "tool": "mitm_analyzer",
+          "args_hash": "2e4cef200be779d3ed285f3a5260201378393e18e248536090598c858fa34f98"
+        },
+        "result_hash": "367a2279b18406e0f622bac81567acc2c847c8fb2428c1ab627a0d81063127e4",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.313830Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "6026d351000b36bcb72f9a153043f88659d278a9d95361407b33334a25ae34de",
+        "prev_hash": "cbf4ff52d5c4ee3dc058de489e50772bbf0f586561027f93e5a6abaf10e77c58",
+        "chain_hash": "322ba480ce083852c85beee6c7a67bcc0b6ab6f17f588bc2e757a138c7a515a2"
+      }
+    },
+    {
+      "event_id": "03402b1d-8fb",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 3,
+        "event_type": "error",
+        "tool": "ana_memory",
+        "source": "ana_memory",
+        "status": "error",
+        "duration_sec": 0.0057
+      },
+      "replay": {
+        "step_id": 3,
+        "tool_call": {
+          "tool": "ana_memory",
+          "args_hash": "d220fc789f07521eb56d5b160bc7cac281bb4611e13f86bc0929dfcc723b8b44"
+        },
+        "result_hash": "b0118cbba91bf602795a42b133bc2a562137b050c4df389d2d6e463f5e10a0ed",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.323483Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "2c672eb559eba76af5c7292e9e11718b36970988c3c21b8388601d8df6246edb",
+        "prev_hash": "322ba480ce083852c85beee6c7a67bcc0b6ab6f17f588bc2e757a138c7a515a2",
+        "chain_hash": "bb1a3c5e4d8a4b27a48d7d4e9dc82fbb6136d4ee06f87332e30f708587014092"
+      }
+    },
+    {
+      "event_id": "8f89726a-8d7",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 4,
+        "event_type": "tool_result",
+        "tool": "agent_coach",
+        "source": "agent_coach",
+        "status": "success",
+        "duration_sec": 0.0163
+      },
+      "replay": {
+        "step_id": 4,
+        "tool_call": {
+          "tool": "agent_coach",
+          "args_hash": "95ad26112ffc7de7f911c770be184564fd7cfb8009679c8e7228f0db9f539de3"
+        },
+        "result_hash": "53961dd8a3a622224a571817a616120f0ccbdbcadf518ca745cc1942b075c740",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"agent_coach\", \"args\": {\"action\": \"'recommend'\", \"task\": \"'Tool mitm_analyzer failed'\", \"error\": \"<str len=66>\", \"limit\": \"80\", \"repeat_threshold\": \"2\", \"max_tools\": \"5\", \"include_prompt\": \"False\", \"timeout\": \"10\"}, \"status\": \"succ",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.339805Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "969087048c5bc28b19551821775ef0a5b25ed4c8270f7d352da4b4e740bb03da",
+        "prev_hash": "bb1a3c5e4d8a4b27a48d7d4e9dc82fbb6136d4ee06f87332e30f708587014092",
+        "chain_hash": "3faf4704879842d6a1e6c776dd3b259079f72acda9db121ae3e3a690f163f339"
+      }
+    },
+    {
+      "event_id": "7b03e9b8-b17",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 5,
+        "event_type": "tool_result",
+        "tool": "tool_router",
+        "source": "tool_router",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 5,
+        "tool_call": {
+          "tool": "tool_router",
+          "args_hash": "fe64eb622c71ac0ea7be7ac50c0a8ccf6ca56042fbbb09fbff5a32390dcb993b"
+        },
+        "result_hash": "34e7af8180b84845c628118f978e66cc27633160ff7578d04f26043e05ed1bf7",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"tool_router\", \"args\": {\"task\": \"'Tool mitm_analyzer failed'\", \"error\": \"<str len=66>\", \"mode\": \"'auto'\", \"max_tools\": \"5\", \"timeout\": \"10\"}, \"status\": \"success\", \"error\": null}",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.348814Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "32204e09e77f2ba51ad7f0874475e065615bbb9dad19336be9ff2906dafbb85d",
+        "prev_hash": "3faf4704879842d6a1e6c776dd3b259079f72acda9db121ae3e3a690f163f339",
+        "chain_hash": "222b9ab3bffa75a9e54cf47b1c04fd9899c95f8d06d58d29d4994c81aa2bcc0d"
+      }
+    },
+    {
+      "event_id": "07c945ea-4b0",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 6,
+        "event_type": "error",
+        "tool": "network_pentest",
+        "source": "network_pentest",
+        "status": "requires_confirmation",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 6,
+        "tool_call": {
+          "tool": "network_pentest",
+          "args_hash": "26e331775293ebb2f78dc8671d982a40f11cd49b818f66db8626c153b252b625"
+        },
+        "result_hash": "42d751ae9397adbe58aa588234fa12b869bf9b37fceabdc7e7175e9857a29c9d",
+        "files_touched": [
+          "'127.0.0.1'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.364539Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "eaee4a8e60313d6ce25e6a072853102708db2867ea6ded5224807e5178b5aea2",
+        "prev_hash": "222b9ab3bffa75a9e54cf47b1c04fd9899c95f8d06d58d29d4994c81aa2bcc0d",
+        "chain_hash": "e1539d7cbbeb714f5423de87425b8a2e2ef8945e08ea214668e3b1ec5d22b725"
+      }
+    },
+    {
+      "event_id": "b6fddf4b-a37",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 7,
+        "event_type": "error",
+        "tool": "ana_memory",
+        "source": "ana_memory",
+        "status": "error",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 7,
+        "tool_call": {
+          "tool": "ana_memory",
+          "args_hash": "fa69a8abdd58958e0633d779cbdc2362a6d3026bf564cc1e9ac555f625371af9"
+        },
+        "result_hash": "b0118cbba91bf602795a42b133bc2a562137b050c4df389d2d6e463f5e10a0ed",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.364539Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "1652266655b443c9b40fefa5b72fb2b53a72d8393c09f37546660541d10cda8c",
+        "prev_hash": "e1539d7cbbeb714f5423de87425b8a2e2ef8945e08ea214668e3b1ec5d22b725",
+        "chain_hash": "393a36ed4f0341b466556f57c8e27a74dc795e61ae6f54de21505da713463ab3"
+      }
+    },
+    {
+      "event_id": "36504ec8-d0d",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 8,
+        "event_type": "tool_result",
+        "tool": "agent_coach",
+        "source": "agent_coach",
+        "status": "success",
+        "duration_sec": 0.0158
+      },
+      "replay": {
+        "step_id": 8,
+        "tool_call": {
+          "tool": "agent_coach",
+          "args_hash": "1ac940fdbd04352821d76dc4b9869857273ac66433f53613c1ca5964015fa3d4"
+        },
+        "result_hash": "53961dd8a3a622224a571817a616120f0ccbdbcadf518ca745cc1942b075c740",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"agent_coach\", \"args\": {\"action\": \"'recommend'\", \"task\": \"'Tool network_pentest failed'\", \"error\": \"<str len=68>\", \"limit\": \"80\", \"repeat_threshold\": \"2\", \"max_tools\": \"5\", \"include_prompt\": \"False\", \"timeout\": \"10\"}, \"status\": \"su",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.380381Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "0d36b72e2ab31c4076d72b475f012db312c8cefa6c04b0a5edd28772be3b2e29",
+        "prev_hash": "393a36ed4f0341b466556f57c8e27a74dc795e61ae6f54de21505da713463ab3",
+        "chain_hash": "7df5c718e5329268138359b07e133702ab903b027052ba5d195809d329b9551a"
+      }
+    },
+    {
+      "event_id": "480d31c7-445",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 9,
+        "event_type": "tool_result",
+        "tool": "tool_router",
+        "source": "tool_router",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 9,
+        "tool_call": {
+          "tool": "tool_router",
+          "args_hash": "9e12a7a04e23f4fc0974b6d13bf1956f1b59d54e89b1d3a864107a6f3982e9d6"
+        },
+        "result_hash": "34e7af8180b84845c628118f978e66cc27633160ff7578d04f26043e05ed1bf7",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"tool_router\", \"args\": {\"task\": \"'Tool network_pentest failed'\", \"error\": \"<str len=68>\", \"mode\": \"'auto'\", \"max_tools\": \"5\", \"timeout\": \"10\"}, \"status\": \"success\", \"error\": null}",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.380381Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "29bba07c372fba967613cb16f3b442318d9027bc7f49923d57fb28758ed945f0",
+        "prev_hash": "7df5c718e5329268138359b07e133702ab903b027052ba5d195809d329b9551a",
+        "chain_hash": "5694d1214a82579d497db12b762d72cdbd7031eb56e4e6de2ecd5aa27fdb17ec"
+      }
+    },
+    {
+      "event_id": "6957881a-3cd",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 10,
+        "event_type": "error",
+        "tool": "hardware_scanner",
+        "source": "hardware_scanner",
+        "status": "error",
+        "duration_sec": 0.0072
+      },
+      "replay": {
+        "step_id": 10,
+        "tool_call": {
+          "tool": "hardware_scanner",
+          "args_hash": "1d804752d33b710009877535ea556b192b7c71686f8c11b05917667107407a4f"
+        },
+        "result_hash": "ae2522f8955fa494c00aa0d98d085b881b399b0b0e407f3e9c589e629f9b5534",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.421836Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "197b21eeb0112a0952beef09cbdc31547e301caded5ec5749e771caef1f0ba42",
+        "prev_hash": "5694d1214a82579d497db12b762d72cdbd7031eb56e4e6de2ecd5aa27fdb17ec",
+        "chain_hash": "2472a707d27a3653447cd0fc8bc1fc99e2cae0e88e780c0104741448611809f2"
+      }
+    },
+    {
+      "event_id": "7b4c9c59-4cf",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 11,
+        "event_type": "error",
+        "tool": "ana_memory",
+        "source": "ana_memory",
+        "status": "error",
+        "duration_sec": 0.0005
+      },
+      "replay": {
+        "step_id": 11,
+        "tool_call": {
+          "tool": "ana_memory",
+          "args_hash": "45d8fb31146541d9c9c062c61144153083831b4f222431010c164ead10fb997b"
+        },
+        "result_hash": "b0118cbba91bf602795a42b133bc2a562137b050c4df389d2d6e463f5e10a0ed",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.429474Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "3754cb64e99241bd499c266596ba10ce592d4fb4ec119d57dd2646d8d78177d7",
+        "prev_hash": "2472a707d27a3653447cd0fc8bc1fc99e2cae0e88e780c0104741448611809f2",
+        "chain_hash": "281df75618a77702811b6b0a5f0aace192c26dd562bed1c18261ae8c3298b511"
+      }
+    },
+    {
+      "event_id": "aa67e17a-32a",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 12,
+        "event_type": "tool_result",
+        "tool": "agent_coach",
+        "source": "agent_coach",
+        "status": "success",
+        "duration_sec": 0.0073
+      },
+      "replay": {
+        "step_id": 12,
+        "tool_call": {
+          "tool": "agent_coach",
+          "args_hash": "3a739d1af5d5263dedddb4d3b164cb5ec55e86fcdd54cb00a38c716d430269c5"
+        },
+        "result_hash": "53961dd8a3a622224a571817a616120f0ccbdbcadf518ca745cc1942b075c740",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"agent_coach\", \"args\": {\"action\": \"'recommend'\", \"task\": \"'Tool hardware_scanner failed'\", \"error\": \"<str len=81>\", \"limit\": \"80\", \"repeat_threshold\": \"2\", \"max_tools\": \"5\", \"include_prompt\": \"False\", \"timeout\": \"10\"}, \"status\": \"s",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.443818Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "687a3df254fb72aedebb686016b6a89fdb6d89725e1d2dde31e117694b89d6ce",
+        "prev_hash": "281df75618a77702811b6b0a5f0aace192c26dd562bed1c18261ae8c3298b511",
+        "chain_hash": "8d8dce58063ea29a0c52b494c65c5c49b07d65e4afe167f35a6f24619efe1444"
+      }
+    },
+    {
+      "event_id": "0972da9a-bad",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 13,
+        "event_type": "tool_result",
+        "tool": "tool_router",
+        "source": "tool_router",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 13,
+        "tool_call": {
+          "tool": "tool_router",
+          "args_hash": "09b9b2167083e0e37a018abe5bf28e3b02ced33a36858b88b1a98dfb4a031aad"
+        },
+        "result_hash": "34e7af8180b84845c628118f978e66cc27633160ff7578d04f26043e05ed1bf7",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"tool_router\", \"args\": {\"task\": \"'Tool hardware_scanner failed'\", \"error\": \"<str len=81>\", \"mode\": \"'auto'\", \"max_tools\": \"5\", \"timeout\": \"10\"}, \"status\": \"success\", \"error\": null}",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:19.447867Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "496225a9bb5f72dd0c854055d26962ccd3a0d0401d5745d2b9e81fe668004d27",
+        "prev_hash": "8d8dce58063ea29a0c52b494c65c5c49b07d65e4afe167f35a6f24619efe1444",
+        "chain_hash": "2833c72a98b8b2fe1a1f393944eb4a8b0764b507a4dce43f8808306324de4237"
+      }
+    },
+    {
+      "event_id": "20224539-b6f",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 14,
+        "event_type": "tool_result",
+        "tool": "bash_exec",
+        "source": "bash_exec",
+        "status": "success",
+        "duration_sec": 1.0906
+      },
+      "replay": {
+        "step_id": 14,
+        "tool_call": {
+          "tool": "bash_exec",
+          "args_hash": "7e1d0de31d7aa0dfd8267e321bd3de6d04324bfd93e61c4c6fdab8e2a73912f9"
+        },
+        "result_hash": "8c7b85b4f183790d62dcdf73740cb4a916481b4b7b3f1727c962045f32e0f2a2",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:20.550322Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "1dfc32400a4123e0ecbc217275fc24760bd5e32d11efa450e5f678f8813c6f52",
+        "prev_hash": "2833c72a98b8b2fe1a1f393944eb4a8b0764b507a4dce43f8808306324de4237",
+        "chain_hash": "b3a558094d78283f05ee331b2522762377515c811fec1b3c9d959285a5ac5bc0"
+      }
+    },
+    {
+      "event_id": "9aebe89d-474",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 15,
+        "event_type": "tool_result",
+        "tool": "glob_search",
+        "source": "glob_search",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 15,
+        "tool_call": {
+          "tool": "glob_search",
+          "args_hash": "c76cfd6f16aac0c5257388a17a0e9e35d7f9092f6d2d96b37b76a8011f6a823c"
+        },
+        "result_hash": "ba39d62f0e528d46dc660630657eb7e654a29303177276dd93e691364909cfeb",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:20.566381Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "dac2c0d949d4099296481a537054d87b4dd182d9631f28f627717050e0e16abd",
+        "prev_hash": "b3a558094d78283f05ee331b2522762377515c811fec1b3c9d959285a5ac5bc0",
+        "chain_hash": "146114d2ae201a58ac668168376eb2eec99fde83cdada69b4e6c4bc5224c4c65"
+      }
+    },
+    {
+      "event_id": "71c1df8e-e1e",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 16,
+        "event_type": "tool_result",
+        "tool": "grep_content",
+        "source": "grep_content",
+        "status": "success",
+        "duration_sec": 2.4251
+      },
+      "replay": {
+        "step_id": 16,
+        "tool_call": {
+          "tool": "grep_content",
+          "args_hash": "83f6a2b7e061d823677bbe9a50f856bbbbaf18691ca932426bde18039f798db0"
+        },
+        "result_hash": "3bffada88d54243f87a96acfe6febae5a2e610480c985f3212e511aaf77f16e3",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:23.007503Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "9a4a84432f04faff83f3c226ae0af8677b2d35ccb775e0cf450b36aaf47a39e2",
+        "prev_hash": "146114d2ae201a58ac668168376eb2eec99fde83cdada69b4e6c4bc5224c4c65",
+        "chain_hash": "f214cf0f397bb0d4c84feb592162522729c905c48ca48b2d0ddd971b77993414"
+      }
+    },
+    {
+      "event_id": "46e10210-e42",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 17,
+        "event_type": "tool_result",
+        "tool": "ana_identity",
+        "source": "ana_identity",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 17,
+        "tool_call": {
+          "tool": "ana_identity",
+          "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "result_hash": "6f0b218531d9707147b5b894ef9d67a55d4c639cdde8398b4f3b866709efdabf",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:34.113707Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "a005de5dcbcbfcff5206129bd05012deed540ca3e61b0d6a1b4a8772f001c3ff",
+        "prev_hash": "f214cf0f397bb0d4c84feb592162522729c905c48ca48b2d0ddd971b77993414",
+        "chain_hash": "7359bc3c68f641db2cc0f60e40484c5573ddc4a45164994365458b5c4dcea5de"
+      }
+    },
+    {
+      "event_id": "a67e5bab-031",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 18,
+        "event_type": "tool_result",
+        "tool": "file_operations",
+        "source": "file_operations",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 18,
+        "tool_call": {
+          "tool": "file_operations",
+          "args_hash": "0db4fba8a6feaae5a200525d660f1d7c67f5892582c4db4303a56461b909b39e"
+        },
+        "result_hash": "928b24b24f29a6166dafbcffb1f4fa8eb8597e651c7903f5bc0215e4986e321b",
+        "files_touched": [
+          "'.'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:34.132170Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "bab89f305209965e239fe5bc9dc348b4f13ee8bef21aa51e1f8c7fb87e1f00d6",
+        "prev_hash": "7359bc3c68f641db2cc0f60e40484c5573ddc4a45164994365458b5c4dcea5de",
+        "chain_hash": "0818eb9dc914f6df2057e6bb9f735da5bf62d34120bf81d7685cdffca28a2290"
+      }
+    },
+    {
+      "event_id": "a7944130-ad3",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 19,
+        "event_type": "tool_result",
+        "tool": "code_tools",
+        "source": "code_tools",
+        "status": "success",
+        "duration_sec": 0.0077
+      },
+      "replay": {
+        "step_id": 19,
+        "tool_call": {
+          "tool": "code_tools",
+          "args_hash": "880d6cb5f5770126b5ee3fdc665ffbfdbec196815f6612f498dd45c0ed37b056"
+        },
+        "result_hash": "7c5ce29d59ecf093807bafa580518f06bd5134d0bcf1c8037c2c840501e6490d",
+        "files_touched": [
+          "'main.py'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:34.147230Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "4687d09cde73c08f917cec1a7d8288842e95bff0bf8b0d248268b1ec768d8884",
+        "prev_hash": "0818eb9dc914f6df2057e6bb9f735da5bf62d34120bf81d7685cdffca28a2290",
+        "chain_hash": "37007e8658515f7d5149883da3ff73914462a3ce1e0066121623b6533f4614ca"
+      }
+    },
+    {
+      "event_id": "e3939bcb-ba4",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 20,
+        "event_type": "tool_result",
+        "tool": "web_search",
+        "source": "web_search",
+        "status": "success",
+        "duration_sec": 0.3858
+      },
+      "replay": {
+        "step_id": 20,
+        "tool_call": {
+          "tool": "web_search",
+          "args_hash": "99d10b01c2ca7b28844a4e2130479eb2ea24c6945d876821082878893c174ad3"
+        },
+        "result_hash": "808d9197c7834da17c024159faba4cb0eeb5aa2967bbab9ec7428f2bc3daa4c5",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:34.558901Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "782035b25811f244bfa5410a3de1ae7671b2c6fd281e64b2a182a8c3c77f3ee4",
+        "prev_hash": "37007e8658515f7d5149883da3ff73914462a3ce1e0066121623b6533f4614ca",
+        "chain_hash": "a69612e889dccea6540459d82fa533abb0ead813de11bed6790e37d419860ffb"
+      }
+    },
+    {
+      "event_id": "ee568a25-135",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 21,
+        "event_type": "tool_result",
+        "tool": "system_control",
+        "source": "system_control",
+        "status": "success",
+        "duration_sec": 1.0068
+      },
+      "replay": {
+        "step_id": 21,
+        "tool_call": {
+          "tool": "system_control",
+          "args_hash": "7759aa55d70d2a841989c2ca646399037f433c2364d285bf2dee19d2c3095907"
+        },
+        "result_hash": "2a747695930e650888241866b762b38160572f3846fcfbda7653a58a2feb1f6b",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:35.587349Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "e9a77ee464fae601d54f18a80c0cfd17a045a88c00a72c2a95cc614ef6e5fd93",
+        "prev_hash": "a69612e889dccea6540459d82fa533abb0ead813de11bed6790e37d419860ffb",
+        "chain_hash": "5ed9400330d0826f8ba2bf7e189ddafe7ab62803a790299dbbd53fbd01c41c75"
+      }
+    },
+    {
+      "event_id": "ceea9843-c5f",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 22,
+        "event_type": "tool_result",
+        "tool": "file_operations",
+        "source": "file_operations",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 22,
+        "tool_call": {
+          "tool": "file_operations",
+          "args_hash": "0db4fba8a6feaae5a200525d660f1d7c67f5892582c4db4303a56461b909b39e"
+        },
+        "result_hash": "928b24b24f29a6166dafbcffb1f4fa8eb8597e651c7903f5bc0215e4986e321b",
+        "files_touched": [
+          "'.'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:35.612989Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "01457a32d7243274a4c5519cf00faffb0c3a8682ceb911d1884e6930088497fe",
+        "prev_hash": "5ed9400330d0826f8ba2bf7e189ddafe7ab62803a790299dbbd53fbd01c41c75",
+        "chain_hash": "3233e6c0621d4c83a49daef98be6e21aa0554c7a2c3c9c674818a3a93dd5f3ca"
+      }
+    },
+    {
+      "event_id": "15243c20-cb3",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 23,
+        "event_type": "tool_result",
+        "tool": "system_control",
+        "source": "system_control",
+        "status": "success",
+        "duration_sec": 1.0093
+      },
+      "replay": {
+        "step_id": 23,
+        "tool_call": {
+          "tool": "system_control",
+          "args_hash": "7759aa55d70d2a841989c2ca646399037f433c2364d285bf2dee19d2c3095907"
+        },
+        "result_hash": "2a747695930e650888241866b762b38160572f3846fcfbda7653a58a2feb1f6b",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.629990Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "df0c6e28e6734fdb7d11f4b0cbacd3bc278743f49dd97f38b162876d776b2c83",
+        "prev_hash": "3233e6c0621d4c83a49daef98be6e21aa0554c7a2c3c9c674818a3a93dd5f3ca",
+        "chain_hash": "43ca2029aa527734a8c628e94395db91de19fa05355a26eb0ee771a399ff1da7"
+      }
+    },
+    {
+      "event_id": "707cf2af-942",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 24,
+        "event_type": "tool_result",
+        "tool": "smart_search",
+        "source": "smart_search",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 24,
+        "tool_call": {
+          "tool": "smart_search",
+          "args_hash": "9b3ac5f7d378f94cf8e4d17a602fc96f6fc5b8531abb9c6d6942d07d2559d6a4"
+        },
+        "result_hash": "76a5f328a50199d61716f69adbc3fdad42ebcfb706aa947ebd6053b10302e519",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.638674Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "d8412759df787f3cf8e64fd1462daa84b8bba25185535ffb282623dff82c0bc9",
+        "prev_hash": "43ca2029aa527734a8c628e94395db91de19fa05355a26eb0ee771a399ff1da7",
+        "chain_hash": "e9c9fb6e5201ddf81e780feb17d65085eed3bbd99af8086b8b3ce48fde7318e8"
+      }
+    },
+    {
+      "event_id": "b58f047f-f8a",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 25,
+        "event_type": "tool_result",
+        "tool": "workspace_situational_awareness",
+        "source": "workspace_situational_awareness",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 25,
+        "tool_call": {
+          "tool": "workspace_situational_awareness",
+          "args_hash": "6d96b411ed7af9b9814cf31754f27a559100616540d37cb94825a21e0ba37b72"
+        },
+        "result_hash": "725830d629307010183031b223bd056bc3755c983bd8ec4f47d7cc6775c2ed39",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.653321Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "9909a95a81667526c8040a340bd4f5c672ad1c3c65fcd299621403b75b38c112",
+        "prev_hash": "e9c9fb6e5201ddf81e780feb17d65085eed3bbd99af8086b8b3ce48fde7318e8",
+        "chain_hash": "93c7a0d01f7fa7f9d7406fe4bec42194ab68e6698759f01354c0787fab11e4b5"
+      }
+    },
+    {
+      "event_id": "1ede9926-a34",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 26,
+        "event_type": "tool_result",
+        "tool": "project_navigator",
+        "source": "project_navigator",
+        "status": "success",
+        "duration_sec": 0.0743
+      },
+      "replay": {
+        "step_id": 26,
+        "tool_call": {
+          "tool": "project_navigator",
+          "args_hash": "1d6a4d22aa66e0f7e7bd145431ef72bf2c2e7eae830e69d92ab528887941b207"
+        },
+        "result_hash": "e7a336a5600878e3477ae8f52ee52959bc57f957170b71cb9e2337958e0ebbbd",
+        "files_touched": [
+          "'tools'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.729726Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "6c26dad46e7a9b7e54e8b8915e490641ac8f28bda84c150f737ef273e38e489d",
+        "prev_hash": "93c7a0d01f7fa7f9d7406fe4bec42194ab68e6698759f01354c0787fab11e4b5",
+        "chain_hash": "9b776fe4ebb7d2888ea5fb460e4b33f013ee136e62c4f70c2222089fc0c6a23f"
+      }
+    },
+    {
+      "event_id": "e55b2cc9-574",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 27,
+        "event_type": "tool_result",
+        "tool": "error_radar",
+        "source": "error_radar",
+        "status": "success",
+        "duration_sec": 0.0242
+      },
+      "replay": {
+        "step_id": 27,
+        "tool_call": {
+          "tool": "error_radar",
+          "args_hash": "606a60f6e0db6e470642174a670994f74fb9c7f7d9e526983880df0927e80988"
+        },
+        "result_hash": "d3d425c4057fdfc32705d431a96f82a757fe0609e956691c8bac37c2089e8207",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.763264Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "4f87ef090c5e11e0d9502cef49d61f59ef9f88b9e9d58e22a9253457d9c3ff02",
+        "prev_hash": "9b776fe4ebb7d2888ea5fb460e4b33f013ee136e62c4f70c2222089fc0c6a23f",
+        "chain_hash": "bf12d40537665ef24a27161dd518c765b9871e1534cb48dd16b6f0de625a0b6f"
+      }
+    },
+    {
+      "event_id": "607db1d8-6f9",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 28,
+        "event_type": "tool_result",
+        "tool": "tool_router",
+        "source": "tool_router",
+        "status": "success",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 28,
+        "tool_call": {
+          "tool": "tool_router",
+          "args_hash": "49f7dd362ad0bb80b8b0743e6b7a18b2e3d554ee64f256181283a1904033359c"
+        },
+        "result_hash": "34e7af8180b84845c628118f978e66cc27633160ff7578d04f26043e05ed1bf7",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.771526Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "d6e5d83fbacd19e0db300d12cd342ef16b43bca4a1bc5e0acc4447035bc8fec6",
+        "prev_hash": "bf12d40537665ef24a27161dd518c765b9871e1534cb48dd16b6f0de625a0b6f",
+        "chain_hash": "d2c55d5d5afd0ed815b775b1e9110b974562c46f5fda6170468256503f94e6cb"
+      }
+    },
+    {
+      "event_id": "2d92dfbf-60d",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 29,
+        "event_type": "tool_result",
+        "tool": "tool_healthcheck",
+        "source": "tool_healthcheck",
+        "status": "success",
+        "duration_sec": 1.1669
+      },
+      "replay": {
+        "step_id": 29,
+        "tool_call": {
+          "tool": "tool_healthcheck",
+          "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "result_hash": "b3c0bd2887135e8280288c917dbd1c576070f25e1e0c2f449a68553e5250b253",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.779902Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "b7dfd0d8c0bd4378f5a629eb6dfe33fe4b0c883c142a0141f48908f6ebde70c1",
+        "prev_hash": "d2c55d5d5afd0ed815b775b1e9110b974562c46f5fda6170468256503f94e6cb",
+        "chain_hash": "0ff91bf75ed031f0725b4dd63cb1d3639dbf7b3f191cc5bee97770b12ca80a87"
+      }
+    },
+    {
+      "event_id": "d2e8db17-54b",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 30,
+        "event_type": "error",
+        "tool": "conversation_learning",
+        "source": "conversation_learning",
+        "status": "error",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 30,
+        "tool_call": {
+          "tool": "conversation_learning",
+          "args_hash": "d6ca699a0332860d01923febc58d4442837718319d4e20f963b49332a3234e25"
+        },
+        "result_hash": "f9e592a6d0755b01a440cf27ee0c2309b57ba16ac0f0fc099a4e7ec12d690341",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.805283Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "89cee2c5766776a1ef814a4d341402849e6af94968b58104c19671bfa3195451",
+        "prev_hash": "0ff91bf75ed031f0725b4dd63cb1d3639dbf7b3f191cc5bee97770b12ca80a87",
+        "chain_hash": "d5c7a53de244b5cbada6e5e912b0d349f127b0141fa3245f8f102240c3d9de50"
+      }
+    },
+    {
+      "event_id": "f978b193-c9e",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 31,
+        "event_type": "error",
+        "tool": "session_log_miner",
+        "source": "session_log_miner",
+        "status": "error",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 31,
+        "tool_call": {
+          "tool": "session_log_miner",
+          "args_hash": "854c26596d3a8e54781afbb1ca43bc870947e457b2541e1e1270ed8ad942ea7e"
+        },
+        "result_hash": "70618d2796df206e6b231f20c24c7f468cddd20bbbaf3b0d931ba16b7e19957b",
+        "files_touched": [
+          "'.'"
+        ],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.831268Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "f7f75c50c5dcf4ef17f0859f7b238286362bc202d8cd2227ea4a3f440d71edcd",
+        "prev_hash": "d5c7a53de244b5cbada6e5e912b0d349f127b0141fa3245f8f102240c3d9de50",
+        "chain_hash": "60ed0ea96c218a188ff4e1b18aaf28a01f2dbebfce6f00a865222cfc66fef8c6"
+      }
+    },
+    {
+      "event_id": "009a57ea-ff5",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 32,
+        "event_type": "error",
+        "tool": "ana_memory",
+        "source": "ana_memory",
+        "status": "error",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 32,
+        "tool_call": {
+          "tool": "ana_memory",
+          "args_hash": "29ac42c8ee1c2483dc9fe30e4e27af1d0b78371a34c491eb0ef1bf75482d2f3f"
+        },
+        "result_hash": "b0118cbba91bf602795a42b133bc2a562137b050c4df389d2d6e463f5e10a0ed",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.839176Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "36b0f62d973808eaeaed4662038aff28fe685f0735c094db03c7cd03132c6ef6",
+        "prev_hash": "60ed0ea96c218a188ff4e1b18aaf28a01f2dbebfce6f00a865222cfc66fef8c6",
+        "chain_hash": "fe12d27cad1f1808217be84a5f99d7bb9ce5ad2dd709a91698e34cc46b671d6d"
+      }
+    },
+    {
+      "event_id": "e9b347b1-01a",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 33,
+        "event_type": "tool_result",
+        "tool": "agent_coach",
+        "source": "agent_coach",
+        "status": "success",
+        "duration_sec": 0.0073
+      },
+      "replay": {
+        "step_id": 33,
+        "tool_call": {
+          "tool": "agent_coach",
+          "args_hash": "852e102cad4efdfc00e00e1379a09296ecfdf9a4701b885324b1aede93c9a0f0"
+        },
+        "result_hash": "53961dd8a3a622224a571817a616120f0ccbdbcadf518ca745cc1942b075c740",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"agent_coach\", \"args\": {\"action\": \"'recommend'\", \"task\": \"'Tool session_log_miner failed'\", \"error\": \"'Missing required parameter: action'\", \"limit\": \"80\", \"repeat_threshold\": \"2\", \"max_tools\": \"5\", \"include_prompt\": \"False\", \"time",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.854398Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "1fd8fcac906db8446d59ac6907d1cd4c9c0a0bf336da3ee72b999b9fa70072a9",
+        "prev_hash": "fe12d27cad1f1808217be84a5f99d7bb9ce5ad2dd709a91698e34cc46b671d6d",
+        "chain_hash": "c2917445a2bb95abde0d1cd33fd54ec034afb42753f67dbd023c08a06e0414d9"
+      }
+    },
+    {
+      "event_id": "b1167645-78d",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 34,
+        "event_type": "tool_result",
+        "tool": "tool_router",
+        "source": "tool_router",
+        "status": "success",
+        "duration_sec": 0.0057
+      },
+      "replay": {
+        "step_id": 34,
+        "tool_call": {
+          "tool": "tool_router",
+          "args_hash": "55c5c3630dd2abc7ee67fee403484121044be5298a3a6dc51fb8617a7cca81bd"
+        },
+        "result_hash": "34e7af8180b84845c628118f978e66cc27633160ff7578d04f26043e05ed1bf7",
+        "files_touched": [],
+        "test_output_summary": "{\"tool\": \"tool_router\", \"args\": {\"task\": \"'Tool session_log_miner failed'\", \"error\": \"'Missing required parameter: action'\", \"mode\": \"'auto'\", \"max_tools\": \"5\", \"timeout\": \"10\"}, \"status\": \"success\", \"error\": null}",
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.861762Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "76c0f115e1654daf12ec818134c40ac41efdc6be131ddfe5b57d6a39bff54236",
+        "prev_hash": "c2917445a2bb95abde0d1cd33fd54ec034afb42753f67dbd023c08a06e0414d9",
+        "chain_hash": "47a5d6c132aecdd1094baf92d7d3ebfba61e55cd2068124386bd8a3a958a7f0b"
+      }
+    },
+    {
+      "event_id": "a3bea71f-f16",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 35,
+        "event_type": "error",
+        "tool": "session_checkpoint",
+        "source": "session_checkpoint",
+        "status": "error",
+        "duration_sec": 0.0
+      },
+      "replay": {
+        "step_id": 35,
+        "tool_call": {
+          "tool": "session_checkpoint",
+          "args_hash": "21c3437d61bb9241598bd10dadc0f1140f630de3eb2c8de51c4057f723b9824e"
+        },
+        "result_hash": "1199281639fa582c97e55c43a12f200a87051db50a6774e0fabfb59434142b3e",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.880228Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "d2483cfcdd498687b4a279564b2d08b94d189bc40d435391e8d67efcc437f432",
+        "prev_hash": "47a5d6c132aecdd1094baf92d7d3ebfba61e55cd2068124386bd8a3a958a7f0b",
+        "chain_hash": "06b07cba27004a3b65206195f7cfb9a76ed0f5172353d1f2976626c364633439"
+      }
+    },
+    {
+      "event_id": "8954f484-6c8",
+      "run_id": "ana-20260715-053136-9d7ff7",
+      "actor": "ana_local_agent",
+      "policy": {
+        "mode": "local-dev",
+        "raw_private_payloads": false,
+        "redacted": true
+      },
+      "approval": "not_required_or_not_seen",
+      "dispatch": {
+        "step_id": 36,
+        "event_type": "tool_result",
+        "tool": "session_rem_sleep",
+        "source": "session_rem_sleep",
+        "status": "success",
+        "duration_sec": 0.025
+      },
+      "replay": {
+        "step_id": 36,
+        "tool_call": {
+          "tool": "session_rem_sleep",
+          "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+        },
+        "result_hash": "6182a9ba5c0f9acc119b6ee3160f7ace1deca1b65a30e7c64e4a0ecdf62e13bc",
+        "files_touched": [],
+        "test_output_summary": null,
+        "ui_snapshot_digest": null
+      },
+      "ts": "2026-07-15T05:31:36.935724Z",
+      "metadata": {
+        "observer": "tools.base.safe_execute"
+      },
+      "integrity": {
+        "payload_hash": "74cbef1f04e694f20438938445139e150c888cbeb7ac95ea4ecd6088edf07a1c",
+        "prev_hash": "06b07cba27004a3b65206195f7cfb9a76ed0f5172353d1f2976626c364633439",
+        "chain_hash": "e817df8cc6ff6659d658e1aa93d0e0be62c9fd65ea6e3f4c27e234473835fde5"
+      }
+    }
+  ]
+}

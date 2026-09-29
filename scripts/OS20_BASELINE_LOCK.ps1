@@ -99,7 +99,7 @@ if ($RunRuntimeChecks) {
     Add-Check "runtime_compileall" ($LASTEXITCODE -eq 0) (($CompileOutput | Out-String).Trim())
 
     try {
-        $BridgeOutput = & python (Join-Path $ProjectRoot "cascade_integration\direct_bridge.py") --health-check 2>&1
+        $BridgeOutput = & python (Join-Path $ProjectRoot "ANA_MAX\bridge\direct_bridge.py") --health-check 2>&1
         $BridgeData = $BridgeOutput | ConvertFrom-Json
         $BridgeOk = [bool]$BridgeData.success -and [int]$BridgeData.loaded_tools -eq 14 -and [int]$BridgeData.registered_tools -eq 14 -and -not [bool]$BridgeData.mcp_enabled
         Add-Check "runtime_direct_bridge_14_of_14" $BridgeOk "loaded=$($BridgeData.loaded_tools) registered=$($BridgeData.registered_tools) mcp_enabled=$($BridgeData.mcp_enabled)"

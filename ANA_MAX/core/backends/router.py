@@ -5,7 +5,7 @@ from typing import Any, Callable, Dict
 
 from core.backends import aimlapi_backend, gemini_backend, grok_backend, ollama_backend
 from core.backends import opencode_zen_backend, kimi_backend
-from core.backends import nemotron_openrouter_backend
+from core.backends import openrouter_backend
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +23,7 @@ def init_backend(agent: Any) -> None:
         "grok": lambda: grok_backend.init(agent),
         "opencode_zen": lambda: opencode_zen_backend.init(agent),
         "kimi": lambda: kimi_backend.init(agent),
-        "nemotron_openrouter": lambda: nemotron_openrouter_backend.init(agent),
+        "openrouter": lambda: openrouter_backend.init(agent),
     }
 
     if agent.backend not in initializers:

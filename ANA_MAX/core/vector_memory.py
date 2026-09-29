@@ -469,6 +469,36 @@ class VectorMemoryCortex:
             deleted = cursor.rowcount if cursor.rowcount is not None else 0
         return int(deleted)
 
+    # -- Error Solution Extensions (Backward Compatibility) -------------------
+    def save_error_solution(self, error_pattern: str, solution: str) -> bool:
+        """Store an error pattern and its solution semantically."""
+        try:
+            content = f"Error Pattern: {error_pattern}\nSolution: {solution}"
+            metadata = {"error_pattern": error_pattern, "solution": solution}
+            self.store(
+                content=content,
+                memory_type="error_log",
+                tags=["error_solution", "fix"],
+                importance=0.9,
+                metadata=metadata
+            )
+            return True
+        except Exception:
+            return False
+
+    def find_error_solution(self, error_text: str) -> Optional[str]:
+        """Find a solution for a given error text using semantic search."""
+        results = self.search(
+            query=error_text,
+            top_k=1,
+            memory_type="error_log",
+            tags=["error_solution"]
+        )
+        if results and results[0]["score"] > 0.6:
+            # Return the solution from metadata if available, otherwise content
+            return results[0].get("metadata", {}).get("solution", results[0]["content"])
+        return None
+
 
 VectorMemory = VectorMemoryCortex
 

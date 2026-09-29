@@ -532,7 +532,7 @@ class SelfEvolutionEngine:
             "self_optimization_init": (
                 self.workspace_root / "ANA_MAX" / "self_optimization" / "__init__.py"
             ).exists(),
-            "cascade_init": (self.workspace_root / "cascade_integration" / "__init__.py").exists(),
+            "cascade_init": (self.workspace_root / "ANA_MAX" / "bridge" / "__init__.py").exists(),
         }
         disk = shutil.disk_usage(self.workspace_root)
         report_exists = self.report_path.exists()
@@ -987,6 +987,60 @@ def main() -> int:
 
     _print_raw_json(engine.run_cycle(os5=args.os5))
     return 0
+# === Progress bar helper ===
+import sys
+import time
+
+def _progress_bar(phase: str, duration: float = 2.0, color: str = "\033[96m") -> None:
+    """Display a colored progress bar for a given phase."""
+    bar_length = 30
+    sys.stdout.write(f"{color}{phase:<20} [")
+    sys.stdout.flush()
+    for i in range(bar_length):
+        time.sleep(duration / bar_length)
+        sys.stdout.write("█")
+        sys.stdout.flush()
+    sys.stdout.write("] ✅\033[0m\n")
+    sys.stdout.flush()
+
+def _run_phase(self, cycle: Dict[str, Any], phase: str, callback) -> None:
+    try:
+        print(f"\033[94m▶ Starting phase: {phase}\033[0m")
+        _progress_bar(phase, duration=1.5, color="\033[92m")
+        result = callback()
+        cycle["phases"][phase] = result
+        self.evolution_history.append(
+            EvolutionStep(
+                phase=phase,
+                action="run_cycle",
+                result=result,
+                timestamp=datetime.now().isoformat(),
+                success="error" not in result,
+            )
+        )
+        if "error" in result:
+            print(f"\033[91m✖ Phase {phase} failed: {result['error']}\033[0m")
+        else:
+            print(f"\033[92m✔ Phase {phase} completed successfully\033[0m")
+    except Exception as exc:
+        error = {"error": str(exc)}
+        cycle["phases"][phase] = error
+        cycle["overall_success"] = False
+        self.evolution_history.append(
+            EvolutionStep(
+                phase=phase,
+                action="run_cycle",
+                result=error,
+                timestamp=datetime.now().isoformat(),
+                success=False,
+            )
+        )
+        print(f"\033[91m✖ Phase {phase} crashed: {exc}\033[0m")
+
+# <--- aici se termina progress bar-ul
+
+if __name__ == "__main__":
+    raise SystemExit(main())
 
 
 if __name__ == "__main__":

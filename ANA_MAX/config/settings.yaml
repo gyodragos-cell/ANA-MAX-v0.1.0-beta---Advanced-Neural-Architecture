@@ -1,13 +1,28 @@
-# ANA MAX - Configurare
-# =====================
-# Agent orchestrator local cu tool-uri si memorie persistenta.
-# Backend AI: Gemini (cloud) sau Ollama (local).
+# ANA MAX - Configurare Model 7B (Enterprise Performance)
+# ========================================================
+# Backend AI: Ollama local cu qwen2.5-coder:7b
+# GPU: GTX 1650 (4GB VRAM) - Model 7b cu offloading RAM (~4.5GB VRAM needed)
 
 ai:
   primary_backend: ollama
-  fallback_backend: ollama
+  fallback_backend: omniroute
+  system_prompt: |
+    You are ANA MAX, an advanced local AI system with 102 MCP tools for system control, development, and automation.
+
+    CRITICAL RULES:
+    1. ALWAYS use absolute paths: C:\Users\billy\Desktop\file.py
+    2. Save files on Desktop: C:\Users\billy\Desktop\
+    3. When creating scripts, ALWAYS execute them with terminal tool
+    4. Complete tasks fully - don't stop halfway
+    5. Use valid JSON format for tool arguments
+    6. Keep code content simple and properly escaped
+
+    TASK EXECUTION:
+    - Use file_operations to write files
+    - Use terminal to execute scripts
+    - Show actual results, not just descriptions
   routing:
-    enabled: true
+    enabled: false
     cooldown_seconds: 300
     max_failures: 3
     rotate_at_percent: 80
@@ -17,23 +32,48 @@ ai:
     prefer_free: true
     backends:
       - backend: ollama
-        model: qwen2.5:7b
+        model: qwen2.5-coder:7b
         max_requests: 50
+        enabled: true
+      - backend: omniroute
+        model: oc/deepseek-v4-flash-free
+        max_requests: 1000
+        enabled: false
+      - backend: openrouter
+        model: qwen/qwen3-coder
+        max_requests: 500
+        enabled: true
+      - backend: foundry
+        model: phi-4-mini
+        max_requests: 100
         enabled: true
   gemini:
     api_key_file: ../API_KEY.txt
     model: models/gemini-1.5-flash-latest
-  nemotron_openrouter:
+  openrouter:
     base_url: https://openrouter.ai/api/v1
-    model: nvidia/nemotron-3-super-120b-a12b:free
+    api_keys_file: ../../apikeys_openrouter.txt
+    model: qwen/qwen3-coder
+    rotation_threshold: 100000
+    token_budget_per_key: 1000000
+    latency_spike_threshold_ms: 200
+    heal_retest_interval: 300
+    fallback_to_ollama: true
   ollama:
     api_url: http://127.0.0.1:11434/api/chat
-    model: qwen2.5:7b
+    model: qwen2.5-coder:7b
+  foundry:
+    api_url: http://127.0.0.1:59641
+    model: phi-4-mini
+  omniroute:
+    base_url: http://localhost:20128/v1
+    model: oc/deepseek-v4-flash-free
+    api_key: sk-68d41781bd175781-48f687-31b4501a
   model_rotation:
     enabled: true
     prefer_free_models: true
     active_models:
-      - qwen2.5:7b
+      - qwen2.5-coder:7b
     reserve_models:
       - gemini-2.5-flash
       - gemini-2.0-flash
@@ -46,37 +86,37 @@ ai:
 
 memory:
   type: sqlite
-  database_path: memory/ana_max_brain.db
+  database_path: ../../memory/ana_max_brain.db
   max_conversation_history: 200
   max_error_entries: 1000
 
 security:
   shell:
     enabled: true
-    require_confirmation: true
-    allowed_commands: []
+    require_confirmation: false
+    allowed_commands: ["echo", "dir", "powershell", "python", "cd", "ls", "ps", "tasklist", "wmic", "systeminfo"]
     blocked_commands: []
   sandbox:
     enabled: false
-    timeout_seconds: 30
-    max_memory_mb: 512
+    timeout_seconds: 60
+    max_memory_mb: 1024
   self_modification:
-    enabled: false
-    require_confirmation: true
-    max_file_changes: 10
+    enabled: true
+    require_confirmation: false
+    max_file_changes: 20
   rate_limits:
     enabled: false
     requests_per_minute: null
 
 plugins:
   enabled: true
-  directory: plugins/
+  directory: ../../plugins/
   auto_load: true
   allow_unsigned: false
 
 logging:
   level: INFO
-  file: logs/ana_max.log
+  file: ../../logs/ana_max_7b.log
   max_size_mb: 15
   backup_count: 5
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -84,59 +124,86 @@ logging:
   log_to_stdout: true
 
 evolution:
-  enabled: false
-  mode: observe
-  self_healing: false
-  autonomous_study: false
-  autonomous_web_learning: false
+  enabled: true
+  mode: learn
+  self_healing: true
+  autonomous_study: true
+  autonomous_web_learning: true
   require_backup: true
-  backup_directory: backups/
-  max_changes_per_day: 10
-  evolution_log_path: logs/evolution.jsonl
-  auto_evolve_tools: false
+  backup_directory: ../../backups/
+  max_changes_per_day: 5
+  evolution_log_path: ../../logs/evolution_7b.jsonl
+  auto_evolve_tools: true
 
 ui:
-  language: ro
+  language: en
+  supported_languages: ['en', 'ro']
   colored_output: true
   show_tool_execution: true
-  dashboard_enabled: false
+  dashboard_enabled: true
   verbose_mode: false
 
 features:
   consensus: true
-  swarm: false
+  swarm: true
   critical_thinking: true
   game_bot_ai: false
   cascade_bridge: true
-  dashboard: false
-  auto_analysis: false
+  dashboard: true
+  auto_analysis: true
   full_project_repair_tool: true
 
 engineer:
   enabled: true
-  workspace_root: .
-  generated_projects_dir: generated_bots/
-  auto_execute_generated: false
+  workspace_root: ../..
+  generated_projects_dir: ../../generated_bots/
+  auto_execute_generated: true
   allow_system_commands: false
 
 mcp:
   port: 8766
   host: 127.0.0.1
   auth_required: false
-  auth_token: ""  # Seteaza un token daca vrei autentificare
-  stealth_mode: true  # ascunde banner-uri in response
-  fake_banner: "Microsoft-IIS/10.0"  # Fake server header
+  auth_token: ""
+  stealth_mode: true
+  fake_banner: "Microsoft-IIS/10.0"
 
 network:
-  port_scan: false
-  service_enum: false
-  vuln_scan: false
+  port_scan: true
+  service_enum: true
+  vuln_scan: true
   auto_brute: false
-  dns_enum: false
-  whois_lookup: false
+  dns_enum: true
+  whois_lookup: true
   masscan_enabled: false
 
 exports:
   loot_formats: ["json", "txt", "csv"]
   auto_export: false
   exfil_servers: []
+
+os26:
+  dry_run_default: true
+  allow_kill: false
+  rate_limit_seconds: 60
+  audit_log: "../../logs/os26_audit_7b.jsonl"
+
+planner:
+  enabled: true
+  max_steps: 20
+  max_retry_per_step: 2
+  prefer_tools_over_llm: true
+
+context_bridge:
+  enabled: true
+  include_metrics: true
+  include_recent_log_errors: true
+  include_memory_hits: true
+  max_context_size_chars: 12000
+
+memory_cortex:
+  enabled: true
+  write_episodic: true
+  use_vector_memory: true
+  use_knowledge_memory: true
+  task_state_file: ../../memory/tasks/task_states.json

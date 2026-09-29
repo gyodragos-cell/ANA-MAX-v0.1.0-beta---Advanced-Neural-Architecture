@@ -13,39 +13,11 @@ ALGORITM:
 3. Cautare semantica (nu doar cuvinte cheie)
 4. Cache inteligent
 5. RAG (Retrieval-Augmented Generation)
-TODO:
- Dar sa-l facem PENTEST-READY:
-python
 
-
-
-# ana_pentest.py - A.N.A. + Pentest mode
-from ana_v15 import get_search_engine
-
-def pentest_search(project_root):
-    engine = get_search_engine(project_root)
-    
-    # Index rapid
-    stats = engine.index_project()
-    print(f" Indexed: {stats['total_indexed']} files")
-    
-    # Cautari pentest clasice
-    pentest_queries = [
-        "admin.*password", "api_key", "secret", "private_key", 
-        "hardcoded.*password", "mysql.*password", "DATABASE_URL",
-        "setpassword", "rarfile", "reverse.*shell"
-    ]
-    
-    print("\n PENTEST SWEEP:")
-    for query in pentest_queries:
-        results = engine.search(query, limit=3)
-        if results:
-            print(f"\n '{query}'  {len(results)} hits")
-            for r in results:
-                print(f"   {r['file_path']}:{r['start_line']} - {r['language']}")
-
-# Ruleaza
-pentest_search("/path/to/target")
+FUTURE: PENTEST-READY MODE
+- Add pentest-specific search patterns (api_key, secret, private_key, hardcoded_password, etc.)
+- Implement security-focused vector search
+- Add vulnerability pattern detection
 """
 
 import os

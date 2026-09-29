@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "servers": [
+    {
+      "name": "ana-max-core",
+      "enabled": true,
+      "transport": {
+        "kind": "stdio",
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": [
+          "C:\\Users\\billy\\Desktop\\ana-manus\\mcp\\os27_mcp_server.py"
+        ]
+      },
+      "capabilities": [
+        "system_monitoring",
+        "file_operations",
+        "code_analysis",
+        "memory_management"
+      ]
+    },
+    {
+      "name": "ana-max-lab",
+      "enabled": true,
+      "transport": {
+        "kind": "stdio",
+        "command": "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\venv\\Scripts\\python.exe",
+        "args": [
+          "C:\\Users\\billy\\Desktop\\ana-manus\\ANA_MAX\\mcp_stdio.py"
+        ]
+      },
+      "capabilities": [
+        "frida_instrumentation",
+        "network_pentest",
+        "desktop_control",
+        "advanced_security"
+      ]
+    }
+  ],
+  "global_settings": {
+    "golden_rule": "Use large_file_reader for all file analysis",
+    "error_handling": "graceful_degradation",
+    "performance": "caching_enabled",
+    "logging": "professional"
+  }
+}

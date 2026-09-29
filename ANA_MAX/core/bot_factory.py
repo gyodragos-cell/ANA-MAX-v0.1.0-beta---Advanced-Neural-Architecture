@@ -13,7 +13,7 @@ from typing import Any, Dict, List, Optional
 class BotFactory:
     """Generate local Ollama-first CLI bot projects."""
 
-    def __init__(self, output_root: str, default_model: str = "qwen2.5:7b"):
+    def __init__(self, output_root: str, default_model: str = "qwen2.5-coder:7b"):
         self.output_root = Path(output_root).resolve()
         self.default_model = default_model
         self.output_root.mkdir(parents=True, exist_ok=True)

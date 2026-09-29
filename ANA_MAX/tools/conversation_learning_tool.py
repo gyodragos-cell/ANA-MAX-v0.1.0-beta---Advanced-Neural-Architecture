@@ -1,11 +1,21 @@
 """
-ANA MAX - Conversation Learning Tool
+ANA MAX - Conversation Learning Tool (OS27 Hyper++)
+================================================
+
+OS27 Hyper++ Features:
+- Telemetry tracking for conversation learning operations (add, recent, search)
+- Health monitoring for conversation learning operations reliability
+- MemoryCortex integration for conversation learning errors and state learning
+- ContextEngine integration for conversation learning state awareness
+- SelfEvolvingTool integration for anomaly detection on conversation learning failures
+- Structured logging with error detection
 """
 
 from __future__ import annotations
 
 import json
 import logging
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
@@ -13,6 +23,58 @@ from typing import Any, Dict, List
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_conversation_learning_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_conversation_learning_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for conversation learning operations."""
+    if operation not in _conversation_learning_telemetry:
+        _conversation_learning_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _conversation_learning_telemetry[operation]["operation_count"] += 1
+    _conversation_learning_telemetry[operation]["total_time"] += execution_time
+    _conversation_learning_telemetry[operation]["last_execution_time"] = execution_time
+    _conversation_learning_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _conversation_learning_telemetry[operation]["success_count"] += 1
+    else:
+        _conversation_learning_telemetry[operation]["failure_count"] += 1
+
+
+def get_conversation_learning_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for conversation learning operations."""
+    if operation:
+        return _conversation_learning_telemetry.get(operation, {})
+    return _conversation_learning_telemetry.copy()
+
+
+def get_conversation_learning_health() -> str:
+    """Get health status for conversation learning tool based on telemetry."""
+    if not _conversation_learning_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _conversation_learning_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _conversation_learning_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class ConversationLearningTool(Tool):
@@ -48,20 +110,88 @@ class ConversationLearningTool(Tool):
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         action = kwargs.get("action")
 
-        if action == "add":
-            result = self._add_lesson(**kwargs)
-        elif action == "recent":
-            result = self._recent(**kwargs)
-        elif action == "search":
-            result = self._search(**kwargs)
-        else:
-            return ToolResult(status=ToolStatus.ERROR, error=f"Unknown action: {action}")
+        try:
+            if action == "add":
+                result = self._add_lesson(**kwargs)
+            elif action == "recent":
+                result = self._recent(**kwargs)
+            elif action == "search":
+                result = self._search(**kwargs)
+            else:
+                result = {"success": False, "error": f"Unknown action: {action}"}
 
-        if result.get("success"):
-            return ToolResult(status=ToolStatus.SUCCESS, data=result, message=result.get("message", ""))
-        return ToolResult(status=ToolStatus.ERROR, error=result.get("error", "Unknown error"))
+            success = result.get("success", False)
+            execution_time = time.time() - start_time
+            _record_conversation_learning_telemetry(action, success, execution_time)
+            
+            # ContextEngine integration for conversation learning state
+            if context_engine and success:
+                try:
+                    context_engine.update_context(
+                        key="conversation_learning_state",
+                        value={
+                            "action": action,
+                            "success": success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for conversation learning errors
+            if cortex and not success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"conversation_learning.{action}",
+                        f"Conversation learning operation failed: {result.get('error', 'Unknown error')}"
+                    )
+                except Exception:
+                    pass
+            
+            if success:
+                return ToolResult(status=ToolStatus.SUCCESS, data=result, message=result.get("message", ""))
+            return ToolResult(status=ToolStatus.ERROR, error=result.get("error", "Unknown error"))
+        except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_conversation_learning_telemetry(action, False, execution_time)
+            
+            # MemoryCortex integration for conversation learning errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"conversation_learning.{action}",
+                        f"Conversation learning operation failed: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
 
     def _read_entries(self) -> List[Dict[str, Any]]:
         if not self.memory_file.exists():

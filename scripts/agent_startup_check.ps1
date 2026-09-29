@@ -5,6 +5,17 @@ param(
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+
+# --- AUTO-MAINTENANCE (runs every startup) ---
+Write-Host "[STARTUP] Running auto-maintenance..."
+try {
+    $MaintenanceResult = & python (Join-Path $ProjectRoot "scripts\ana_auto_maintenance.py") 2>&1
+    Write-Host "[STARTUP] Auto-maintenance complete."
+} catch {
+    Write-Host "[STARTUP] Auto-maintenance skipped: $($_.Exception.Message)"
+}
+# --- END AUTO-MAINTENANCE ---
+
 $RequiredDocs = @(
     "AGENTS.md",
     "docs\PROJECT_SUMMARY.md",
@@ -25,7 +36,7 @@ $BridgeOutput = ""
 $BridgeOk = $false
 $BridgeError = ""
 try {
-    $BridgeOutput = & python (Join-Path $ProjectRoot "cascade_integration\direct_bridge.py") --health-check
+    $BridgeOutput = & python (Join-Path $ProjectRoot "ANA_MAX\bridge\direct_bridge.py") --health-check
     $BridgeData = $BridgeOutput | ConvertFrom-Json
     $BridgeOk = [bool]$BridgeData.success -and $BridgeData.mode -eq "direct" -and -not [bool]$BridgeData.mcp_enabled
 }

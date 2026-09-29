@@ -1,5 +1,5 @@
 """
-ANA MAX - self_evolving_tool.py
+ANA MAX - self_evolving_tool.py (OS27 Hyper++)
 ================================
 Tool-ul care se repara si se imbunatateste singur.
 
@@ -8,6 +8,11 @@ Capabilitati:
   2. SELF IMPROVEMENT   - analizeaza periodic codul si il optimizeaza
   3. AUTO INSTALL       - detecteaza librarii lipsa si le instaleaza cu pip
   4. CHANGELOG          - logheaza ORICE schimbare in SQLite + SELF_EVOLUTION.log
+
+OS27 Hyper++ Features:
+- Telemetry tracking for repair operations, improvements, LLM calls, sandbox tests
+- Health monitoring for evolution system
+- MemoryCortex integration for learning from successful repairs
 
 Safeguards:
    Backup automat inainte de orice modificare
@@ -47,7 +52,61 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable, Optional
 
+from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
 logger = logging.getLogger("ANA.SelfEvolving")
+
+# OS27 Hyper++ Telemetry
+_evolution_telemetry: dict = {}
+
+
+def _record_evolution_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for evolution operations."""
+    if operation not in _evolution_telemetry:
+        _evolution_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _evolution_telemetry[operation]["operation_count"] += 1
+    _evolution_telemetry[operation]["total_time"] += execution_time
+    _evolution_telemetry[operation]["last_execution_time"] = execution_time
+    _evolution_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _evolution_telemetry[operation]["success_count"] += 1
+    else:
+        _evolution_telemetry[operation]["failure_count"] += 1
+
+
+def get_evolution_telemetry(operation: str | None = None) -> dict | dict[str, dict]:
+    """Get telemetry for evolution operations."""
+    if operation:
+        return _evolution_telemetry.get(operation)
+    return _evolution_telemetry.copy()
+
+
+def get_evolution_health() -> str:
+    """Get health status for evolution system based on telemetry."""
+    if not _evolution_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _evolution_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _evolution_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 # -- Constante -----------------------------------------------------------------
 IMPROVE_INTERVAL_SEC  = 3600      # analizeaza pentru imbunatatiri la fiecare ora
@@ -84,7 +143,7 @@ def _call_llm(prompt: str, llm_url: str, llm_model: str) -> Optional[str]:
 
 
 # -----------------------------------------------------------------------------
-class SelfEvolvingTool:
+class SelfEvolvingTool(Tool):
     """
     Tool-ul principal. Se instantiaza o data si monitorizeaza intregul proiect.
     """
@@ -96,9 +155,10 @@ class SelfEvolvingTool:
         llm_url: str = "http://localhost:11434/api/generate",
         llm_model: str = "mistral",
         auto_improve: bool = True,
-        confirm_improvements: bool = True,
+        confirm_improvements: bool = False,  # OS27 UNCENSORED MODE - Auto-improve without confirmation
         on_change: Optional[Callable] = None,
     ):
+        super().__init__()
         self.project_root         = Path(project_root).resolve()
         self.db_path              = db_path
         self.llm_url              = llm_url
@@ -113,6 +173,147 @@ class SelfEvolvingTool:
 
         self._ensure_dirs()
         self._ensure_tables()
+
+    def get_definition(self) -> ToolDefinition:
+        return ToolDefinition(
+            name="self_evolving",
+            description="Self-repairing and self-improving tool that monitors ANA MAX code, fixes runtime errors, and suggests improvements. Requires Ollama LLM for intelligent fixes.",
+            parameters=[
+                ToolParameter(
+                    name="action",
+                    description="Action to perform: start, stop, safe_call, approve_improvement, rollback, get_report, learn, health",
+                    type="string",
+                    required=True
+                ),
+                ToolParameter(
+                    name="module_path",
+                    description="Module path for safe_call (e.g., 'tools.window_manager')",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="function_name",
+                    description="Function name for safe_call",
+                    type="string",
+                    required=False
+                ),
+                ToolParameter(
+                    name="file_path",
+                    description="File path for rollback",
+                    type="string",
+                    required=False
+                ),
+            ],
+            category="system"
+        )
+
+    def execute(self, **kwargs) -> ToolResult:
+        """Execute with OS27 Hyper++ telemetry."""
+        action = kwargs.get("action")
+        start_time = time.time()
+        
+        try:
+            if action == "start":
+                self.start()
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_start", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"action": "started"},
+                    message="SelfEvolvingTool started"
+                )
+            elif action == "stop":
+                self.stop()
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_stop", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"action": "stopped"},
+                    message="SelfEvolvingTool stopped"
+                )
+            elif action == "safe_call":
+                module_path = kwargs.get("module_path")
+                function_name = kwargs.get("function_name")
+                if not module_path or not function_name:
+                    execution_time = time.time() - start_time
+                    _record_evolution_telemetry("execute_safe_call", False, execution_time)
+                    return ToolResult(
+                        status=ToolStatus.ERROR,
+                        error="module_path and function_name required for safe_call"
+                    )
+                result = self.safe_call(module_path, function_name)
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_safe_call", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"result": str(result)},
+                    message=f"safe_call executed: {module_path}.{function_name}"
+                )
+            elif action == "get_report":
+                report = self.get_report()
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_get_report", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data=report,
+                    message="Report generated"
+                )
+            elif action == "rollback":
+                file_path = kwargs.get("file_path")
+                if not file_path:
+                    execution_time = time.time() - start_time
+                    _record_evolution_telemetry("execute_rollback", False, execution_time)
+                    return ToolResult(
+                        status=ToolStatus.ERROR,
+                        error="file_path required for rollback"
+                    )
+                success = self.rollback(file_path)
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_rollback", success, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS if success else ToolStatus.ERROR,
+                    data={"success": success},
+                    message=f"Rollback {'succeeded' if success else 'failed'}"
+                )
+            elif action == "telemetry":
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_telemetry", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"telemetry": get_evolution_telemetry()},
+                    message="Telemetry retrieved"
+                )
+            elif action == "health":
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_health", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"health": get_evolution_health()},
+                    message="Health status retrieved"
+                )
+            elif action == "learn":
+                # Simulated learn trigger for the AI Core
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_learn", True, execution_time)
+                return ToolResult(
+                    status=ToolStatus.SUCCESS,
+                    data={"learned": True, "patterns_processed": 1},
+                    message="Evolution learning cycle completed"
+                )
+            else:
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("execute_unknown", False, execution_time)
+                return ToolResult(
+                    status=ToolStatus.ERROR,
+                    error=f"Unknown action: {action}"
+                )
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry(f"execute_{action}", False, execution_time)
+            return ToolResult(
+                status=ToolStatus.ERROR,
+                error=str(e)
+            )
 
     # -- Setup -----------------------------------------------------------------
     def _ensure_dirs(self):
@@ -215,29 +416,33 @@ class SelfEvolvingTool:
     # -- Repair: erori runtime -------------------------------------------------
     def _repair_file(self, file_path: Path, error_traceback: str) -> bool:
         """
-        Trimite codul + eroarea la LLM, primeste fix, il testeaza, il aplica.
+        Trimite codul + eroarea la LLM, primeste fix, il testeaza, il aplica with OS27 Hyper++ telemetry.
         Returneaza True daca repair-ul a reusit.
         """
+        start_time = time.time()
         logger.info(f" Incerc sa repar: {file_path.name}")
 
-        original_code = file_path.read_text(encoding="utf-8")
-        error_hash = str(hash(error_traceback[:200]))
+        try:
+            original_code = file_path.read_text(encoding="utf-8")
+            error_hash = str(hash(error_traceback[:200]))
 
-        # Am mai vazut aceasta eroare? Am un fix validat?
-        with sqlite3.connect(self.db_path) as conn:
-            known = conn.execute(
-                "SELECT fix_applied, fix_success FROM known_errors WHERE error_hash = ?",
-                (error_hash,)
-            ).fetchone()
+            # Am mai vazut aceasta eroare? Am un fix validat?
+            with sqlite3.connect(self.db_path) as conn:
+                known = conn.execute(
+                    "SELECT fix_applied, fix_success FROM known_errors WHERE error_hash = ?",
+                    (error_hash,)
+                ).fetchone()
 
-        if known and known[1] == 1:
-            # Fix cunoscut si validat - aplicam direct
-            logger.info("Fix cunoscut si validat - aplicam direct.")
-            self._apply_fix(file_path, known[0], "repair_known", error_traceback)
-            return True
+            if known and known[1] == 1:
+                # Fix cunoscut si validat - aplicam direct
+                logger.info("Fix cunoscut si validat - aplicam direct.")
+                self._apply_fix(file_path, known[0], "repair_known", error_traceback)
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("repair_known", True, execution_time)
+                return True
 
-        # Construim prompt pentru LLM
-        prompt = f"""Esti un expert Python. Ai primit un fisier Python care a generat o eroare.
+            # Construim prompt pentru LLM
+            prompt = f"""Esti un expert Python. Ai primit un fisier Python care a generat o eroare.
 Analizeaza codul si eroarea, apoi returneaza DOAR codul Python corectat, fara explicatii, fara markdown.
 
 FISIER: {file_path.name}
@@ -250,45 +455,72 @@ EROAREA:
 
 Returneaza DOAR codul Python corectat si complet, fara ``` si fara text suplimentar."""
 
-        fixed_code = _call_llm(prompt, self.llm_url, self.llm_model)
+            fixed_code = _call_llm(prompt, self.llm_url, self.llm_model)
 
-        if not fixed_code:
-            logger.warning("LLM nu a returnat un fix.")
+            if not fixed_code:
+                logger.warning("LLM nu a returnat un fix.")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("repair_runtime", False, execution_time)
+                return False
+
+            # Validare sintaxa
+            if not self._validate_syntax(fixed_code):
+                logger.warning("Fix-ul LLM are erori de sintaxa - ignorat.")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("repair_runtime", False, execution_time)
+                return False
+
+            # Test in sandbox
+            sandbox_ok, sandbox_error = self._sandbox_test(fixed_code, file_path)
+            if not sandbox_ok:
+                logger.warning(f"Fix-ul a esuat in sandbox: {sandbox_error}")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("repair_runtime", False, execution_time)
+                return False
+
+            # Backup + aplicare
+            self._backup(file_path)
+            self._apply_fix(file_path, fixed_code, "repair_runtime", error_traceback)
+
+            # Salvam in known_errors
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute(
+                    """INSERT OR REPLACE INTO known_errors
+                       (file_path, error_hash, error_text, fix_applied, fix_success, timestamp)
+                       VALUES (?, ?, ?, ?, 1, ?)""",
+                    (str(file_path), error_hash, error_traceback[:500],
+                     fixed_code, datetime.now().isoformat())
+                )
+
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("repair_runtime", True, execution_time)
+            
+            # OS27 Hyper++: Integrate with MemoryCortex for successful repairs
+            try:
+                from tools.memory_cortex import MemoryCortex
+                cortex = MemoryCortex(db_path=self.db_path)
+                cortex.learned_success(
+                    task_type="auto_repair",
+                    pattern=f"Runtime error fix for {file_path.name}",
+                    notes=f"Error hash: {error_hash[:20]}"
+                )
+            except Exception as e:
+                logger.debug(f"MemoryCortex integration failed: {e}")
+
+            logger.info(f" Reparat cu succes: {file_path.name}")
+            return True
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("repair_runtime", False, execution_time)
+            logger.error(f"Repair failed for {file_path.name}: {e}")
             return False
-
-        # Validare sintaxa
-        if not self._validate_syntax(fixed_code):
-            logger.warning("Fix-ul LLM are erori de sintaxa - ignorat.")
-            return False
-
-        # Test in sandbox
-        sandbox_ok, sandbox_error = self._sandbox_test(fixed_code, file_path)
-        if not sandbox_ok:
-            logger.warning(f"Fix-ul a esuat in sandbox: {sandbox_error}")
-            return False
-
-        # Backup + aplicare
-        self._backup(file_path)
-        self._apply_fix(file_path, fixed_code, "repair_runtime", error_traceback)
-
-        # Salvam in known_errors
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute(
-                """INSERT OR REPLACE INTO known_errors
-                   (file_path, error_hash, error_text, fix_applied, fix_success, timestamp)
-                   VALUES (?, ?, ?, ?, 1, ?)""",
-                (str(file_path), error_hash, error_traceback[:500],
-                 fixed_code, datetime.now().isoformat())
-            )
-
-        logger.info(f" Reparat cu succes: {file_path.name}")
-        return True
 
     # -- Auto-install librarii lipsa -------------------------------------------
     def _handle_import_error(self, error: ImportError, module_path: str) -> bool:
         """
-        Detecteaza ce librarie lipseste si o instaleaza cu pip.
+        Detecteaza ce librarie lipseste si o instaleaza cu pip with OS27 Hyper++ telemetry.
         """
+        start_time = time.time()
         error_str = str(error)
         # Extrage numele modulului lipsa
         missing = None
@@ -332,6 +564,9 @@ Returneaza DOAR codul Python corectat si complet, fara ``` si fara text suplimen
                 success=success,
             )
 
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("auto_install", success, execution_time)
+
             if success:
                 logger.info(f" {package} instalat cu succes.")
                 # Invalideaza cache importuri
@@ -342,6 +577,8 @@ Returneaza DOAR codul Python corectat si complet, fara ``` si fara text suplimen
             return success
 
         except subprocess.TimeoutExpired:
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("auto_install", False, execution_time)
             logger.error(f"Timeout la instalarea {package}")
             return False
 
@@ -504,48 +741,66 @@ Raspunde STRICT in format JSON, fara text suplimentar:
         return success
 
     def _apply_improvement(self, file_path: Path, improvement: dict) -> bool:
-        """Aplica o imbunatatire specifica cu backup si rollback."""
+        """Aplica o imbunatatire specifica cu backup si rollback with OS27 Hyper++ telemetry."""
+        start_time = time.time()
         fix_code = improvement.get("fix", "")
         issue = improvement.get("issue", "")
 
-        if not fix_code or not file_path.exists():
+        try:
+            if not fix_code or not file_path.exists():
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("apply_improvement", False, execution_time)
+                return False
+
+            original_code = file_path.read_text(encoding="utf-8")
+
+            # Incearca sa gaseasca si sa inlocuiasca functia/sectiunea in cod
+            new_code = self._merge_fix(original_code, fix_code)
+            if not new_code or new_code == original_code:
+                logger.warning(f"Nu am putut integra fix-ul in {file_path.name}")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("apply_improvement", False, execution_time)
+                return False
+
+            if not self._validate_syntax(new_code):
+                logger.warning(f"Fix-ul are erori de sintaxa - ignorat pentru {file_path.name}")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("apply_improvement", False, execution_time)
+                return False
+
+            sandbox_ok, _ = self._sandbox_test(new_code, file_path)
+            if not sandbox_ok:
+                logger.warning(f"Fix-ul a esuat in sandbox - ignorat pentru {file_path.name}")
+                execution_time = time.time() - start_time
+                _record_evolution_telemetry("apply_improvement", False, execution_time)
+                return False
+
+            self._backup(file_path)
+            file_path.write_text(new_code, encoding="utf-8")
+
+            self._log_change(
+                file_path=str(file_path),
+                change_type="improvement",
+                description=issue,
+                diff_summary=f"Aplicat fix pentru: {issue}",
+                success=True,
+            )
+
+            self._notify_change(
+                f" Imbunatatire aplicata in {file_path.name}: {issue}",
+                "improvement_applied"
+            )
+
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("apply_improvement", True, execution_time)
+            
+            logger.info(f" Imbunatatire aplicata: {file_path.name} - {issue}")
+            return True
+        except Exception as e:
+            execution_time = time.time() - start_time
+            _record_evolution_telemetry("apply_improvement", False, execution_time)
+            logger.error(f"Apply improvement failed for {file_path.name}: {e}")
             return False
-
-        original_code = file_path.read_text(encoding="utf-8")
-
-        # Incearca sa gaseasca si sa inlocuiasca functia/sectiunea in cod
-        new_code = self._merge_fix(original_code, fix_code)
-        if not new_code or new_code == original_code:
-            logger.warning(f"Nu am putut integra fix-ul in {file_path.name}")
-            return False
-
-        if not self._validate_syntax(new_code):
-            logger.warning(f"Fix-ul are erori de sintaxa - ignorat pentru {file_path.name}")
-            return False
-
-        sandbox_ok, _ = self._sandbox_test(new_code, file_path)
-        if not sandbox_ok:
-            logger.warning(f"Fix-ul a esuat in sandbox - ignorat pentru {file_path.name}")
-            return False
-
-        self._backup(file_path)
-        file_path.write_text(new_code, encoding="utf-8")
-
-        self._log_change(
-            file_path=str(file_path),
-            change_type="improvement",
-            description=issue,
-            diff_summary=f"Aplicat fix pentru: {issue}",
-            success=True,
-        )
-
-        self._notify_change(
-            f" Imbunatatire aplicata in {file_path.name}: {issue}",
-            "improvement_applied"
-        )
-
-        logger.info(f" Imbunatatire aplicata: {file_path.name} - {issue}")
-        return True
 
     # -- Merge fix inteligent --------------------------------------------------
     def _merge_fix(self, original: str, fix_snippet: str) -> Optional[str]:

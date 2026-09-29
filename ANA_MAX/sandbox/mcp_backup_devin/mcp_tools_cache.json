@@ -1,0 +1,1238 @@
+[
+  {
+    "name": "adb_operations",
+    "description": "Operatii ADB pentru control dispozitive Android: devices, shell, install/uninstall APK, push/pull...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "advanced_scanner",
+    "description": "Scanare avansata de securitate: Deep Recon, Service Fingerprinting, Exploit Lookup.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "advanced_swarm",
+    "description": "Stub for advanced_swarm operations. Currently a no-op.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "agent_coach",
+    "description": "Reads live ANA telemetry and gives the coding agent concise coaching. Call before acting, after e...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "ana_identity",
+    "description": "Explica cine este ANA, cum lucreaza cu OpenCode, cate tool-uri are active si care sunt punctele e...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "engineer_platform",
+    "description": "Stub for engineer_platform operations. Currently a no-op.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "apk_analyzer",
+    "description": "Reverse engineering APK: decompile, parse manifest, list permissions, extract DEX, cauta secrets.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "autonomous_engine",
+    "description": "Activeaza modul de lucru autonom (Plan -> Execute -> Verify)",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "bash_exec",
+    "description": "Executa o comanda shell si returneaza stdout+stderr. Suporta PowerShell pe Windows, bash pe Linux...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "binary_map",
+    "description": "Static-only binary analyzer for PE/ELF files. Extracts metadata, architecture, sections, imports,...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "black_box_recorder",
+    "description": "Query black box recorder for system observability, error tracking, and agent self-awareness.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "browser_control",
+    "description": "Deschide browserul local sau inspecteaza o pagina web cu screenshot si extras text.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "codebase_understanding",
+    "description": "Interogare semantica si analiza de arhitectura pentru codebase.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "code_context_pack",
+    "description": "Build a compact observation-first context pack by combining foreground UI state with ANA code map...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "code_search",
+    "description": "Cautare avansata in cod: grep cu regex, symbol lookup, find usages, semantic search, count.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "code_tools",
+    "description": "Instrumente pentru cod: analiza, executie, creare proiecte.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "conversation_learning",
+    "description": "Salveaza si cauta lectii invatate de ANA din conversatii, teste si self-healing.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "debugger",
+    "description": "Analiza de traceback si propuneri de reparatii automate.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "desktop_capture",
+    "description": "Captureaza ecranul desktop pentru monitoring live. Poate captura intregul ecran, o regiune specif...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "desktop_control",
+    "description": "Control avansat desktop: click pe text, tastare, screenshot, OCR.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "edge_tts_voice",
+    "description": "Natural voice feedback using Edge TTS or local pyttsx3.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "edit",
+    "description": "Editeaza punctual un fisier prin replace exact sau insertii in jurul unui anchor text. Poate si p...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "error_radar",
+    "description": "Detect likely blockers from recent logs, observability, and visible window titles.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "event_stream",
+    "description": "Query and analyze event stream for debugging. View timeline, statistics, and replay actions. Acti...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "file_patch",
+    "description": "Apply an exact text patch to a file with diff preview and safety checks.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "file_operations",
+    "description": "Operatii cu fisiere: citire, scriere, cautare, editare, listare.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "foreground_ui_snapshot",
+    "description": "Captureaza starea UI a ferestrei active: titlu, controale vizibile, erori detectate, actiuni suge...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "frida_instrument",
+    "description": "Instrumentare dinamica cu Frida: list procese, attach/spawn, inject JS, hook functii, enum modules.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "glob_search",
+    "description": "Cauta fisiere cu pattern glob. Suporta ** recursiv si {a,b} brace expansion. Exemple: **/*.py, sr...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "graph_context_pack",
+    "description": "Build/query a local Graphify-inspired knowledge graph over ANA Code Map. Read-only for source fil...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "grep_content",
+    "description": "Cauta un regex in fisiere si returneaza liniile care se potrivesc cu numere de linie. Suporta con...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "grep_file",
+    "description": "Returneaza lista de fisiere care contin cel putin un match pentru regex. Mai rapid decat grep_con...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "hardware_scanner",
+    "description": "Hardware security scanner (White Hat) - scan IoT, routers, detect vulns, check firmware.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "input_api_probe",
+    "description": "Lab-only authorized probe for Windows input API usage. Generates or executes short Frida aggregat...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "live_desktop_viewer",
+    "description": "Porneste un server web cu live desktop streaming. Accesibil in browser pentru a vedea desktop-ul ...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "ana_memory",
+    "description": "Acces curat la memoria persistenta ANA: knowledge, search, error patterns si stats.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "mitm_analyzer",
+    "description": "Analiza trafic MITM (Charles/Wireshark) pentru bug bounty - capture, analyze, export.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "network_pentest",
+    "description": "Network penetration testing (White Hat) - port scan, vuln detection, legal scope only.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "network_diag",
+    "description": "Diagnoza retea: ping, port scan, DNS, IP info.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "ocr_tool",
+    "description": "OCR on screen, region, file or clipboard using PaddleOCR or Tesseract.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "ollama_live_logger",
+    "description": "Start/Stop live tailing of the Ollama server log.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "privacy_shield",
+    "description": "Protejeaza anonimitatea Operatorului. Detecteaza, blocheaza sau curata servicii de telemetrie si ...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "procmon_monitor",
+    "description": "Control Sysinternals Procmon for continuous OS-level event monitoring. Operations: start, stop, s...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "project_navigator",
+    "description": "List, search, and open project files with compact, private-safe output.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "qa_testing",
+    "description": "Asigurarea calitatii: generare teste, edge-cases, mock data.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "remote_control",
+    "description": "Stub for remote_control operations. Currently a no-op.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "science_research",
+    "description": "Analiza statistica, procesare de date si simulari usoare.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "security_audit",
+    "description": "Audit securitate: scanare secrete (keys), vulnerabilitati statice, hash-uri.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "session_audit",
+    "description": "Generate public-safe session audit reports with hash-chain integrity, deterministic replay-lite s...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "session_checkpoint",
+    "description": "Save a compact session handoff into docs, conversation_learning, and ana_memory so the next agent...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "session_log_miner",
+    "description": "Extrage lectii utile din fisiere de sesiune, rapoarte, markdown, json sau jsonl si le poate salva...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "session_lifecycle",
+    "description": "Stub for session_lifecycle operations. Currently a no-op.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "session_rem_sleep",
+    "description": "Between-session retrospective for ANA MAX. Reads recent checkpoints, telemetry, and learned lesso...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "smart_search",
+    "description": "Cautare ultra-rapida in proiecte mari.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "swarm_orchestrator",
+    "description": "Orchestrare multi-agent swarm cu topologii adaptive. Descompune task-uri complexe in subtask-uri ...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "system_optimization",
+    "description": "Optimizeaza sistemul Windows: curata temp, recycle bin, DNS cache. Alternativa CCleaner Pro.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "system_control",
+    "description": "Monitorizare si control sistem: vitals, procese, comenzi shell.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "task",
+    "description": "Planifica sau executa un task multi-pas folosind motorul autonom ANA. Bun pentru modele locale ca...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "terminal",
+    "description": "Terminal persistent cu sesiune pastrata (cd, env, procese background). Poate rula npm run dev, se...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "todowrite",
+    "description": "Gestioneaza o lista persistenta de task-uri pentru sesiunea curenta. Util pentru modele locale ca...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "tool_healthcheck",
+    "description": "Verifica rapid starea tool-urilor ANA si raporteaza ce merge sau ce e problematic.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "tool_router",
+    "description": "Recommend a compact ANA MAX MCP tool stack for a task, error, or context. Read-only. Helps agents...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "uia_click",
+    "description": "Click a visible UI element using Microsoft UI Automation selectors.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "uia_type",
+    "description": "Focus a UIA element and type text using Microsoft UI Automation.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "vector_memory",
+    "description": "Vector Memory System cu search semantic ultra-rapid (150x+).  stocheaza si cauta memorii cu AI em...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "vision_fallback",
+    "description": "Stub for vision_fallback operations. Currently a no-op.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "vision_find_element",
+    "description": "Find a template image on screen or inside an image using OpenCV template matching.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "vision_region_capture",
+    "description": "Capture a desktop crop by x,y,width,height and return compact image metadata.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "watchdog",
+    "description": "Live log watchdog that prints new log lines to the console.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "web_ai_bridge",
+    "description": "Conecteaza ANA la provideri AI externi configurati prin variabile de mediu.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "web_fetch",
+    "description": "Descarca o pagina web si returneaza continutul text/markdown. Util pentru documentatie, API refer...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "web_scraper",
+    "description": "Web scraping: fetch URL, parse HTML, extrage linkuri/text/imagini, download fisiere.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "web_search",
+    "description": "Cauta informatii pe web folosind DuckDuckGo (anonim).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "window_manager",
+    "description": "Window management: list, snap, tile, focus, minimize, maximize, close windows.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "windows_deep_sight",
+    "description": "God View sub capota sistemului Windows (PREMIUM): procese, retea, fisiere deschise, CPU/RAM per p...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "windows_insight",
+    "description": "Monitorizare 'God View' a sistemului Windows: evenimente fisiere, procese noi, erori API.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "windows_uia_bridge",
+    "description": "Eyes and hands of ANA MAX (via Microsoft UI Automation). Reads window structure tree, clicks elem...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "large_file_reader",
+    "description": "Read large text/code files (10k+ lines) by splitting into chunks. Supports .py, .json, .md, .yaml...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "adal_integration",
+    "description": "Interfata cu AdaL CLI pentru executie de cod, debug tactic si browser automation.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "git_operations",
+    "description": "Controlul versiunilor folosind Git (status, commit, log, branch, diff).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "graph_metrics",
+    "description": "Update tool performance metrics in the graph (success/failure/latency).",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "live_debug_console",
+    "description": "Exposes a dummy tool interface for the live debug console script.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "name": "project_analyzer",
+    "description": "Analyze ANA project and detect patterns. 'Intelege magia' - detect patterns in code.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "self_evolving",
+    "description": "Self-repairing and self-improving tool that monitors ANA MAX code, fixes runtime errors, and sugg...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "system_inspector",
+    "description": "Inspecteaza complet sistemul ANA si afiseaza diagrama vizibila. 'Umplem tevile cu apa si vedem ca...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "text_to_speech",
+    "description": "Read text aloud using Windows text-to-speech. Citeste textul pe glas.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "unlimited_ocr",
+    "description": "Extract text from ANY file using Unlimited-OCR local server. Supports images (PNG, JPG, JPEG, WEB...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "windows_frida_telemetry",
+    "description": "Native Windows Telemetry using Frida to hook APIs like CreateFile, CreateProcess.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "name": "workspace_situational_awareness",
+    "description": "Returns a compact JSON state containing active app/window, UIA quality, visible error signals, re...",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "": {
+          "type": "string",
+          "description": ""
+        }
+      },
+      "required": []
+    }
+  }
+]

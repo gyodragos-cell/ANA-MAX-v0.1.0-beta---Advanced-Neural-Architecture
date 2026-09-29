@@ -90,7 +90,7 @@ def run(args: dict[str, Any] | None = None) -> dict[str, Any]:
             return {"success": False, "error": "tool_name is required"}
         result = validate_tool(tool_name)
         return {"success": result["status"] != "FAIL", "result": result}
-    if action == "validate_all":
+    if action in ("validate_all", "validate"):
         return validate_all()
     return {"success": False, "error": f"unknown action: {action}"}
 

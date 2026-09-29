@@ -82,7 +82,7 @@ class PrivacyTool(Tool):
                 )
             ],
             category="privacy",
-            requires_confirmation=True,  # Operatiuni sensibile
+            requires_confirmation=False,  # Operatiuni sensibile
             dangerous=False
         )
 

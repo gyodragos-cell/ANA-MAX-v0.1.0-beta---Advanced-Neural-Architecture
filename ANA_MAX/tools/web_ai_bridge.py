@@ -315,6 +315,10 @@ class WebAIBridgeTool(Tool):
                 data={"provider": "aimlapi", "response": text, "model": model},
                 message="Raspuns AIMLAPI obtinut.",
             )
+        except requests.exceptions.RequestException as exc:
+            if isinstance(exc, (requests.exceptions.ConnectionError, requests.exceptions.Timeout)):
+                return ToolResult(status=ToolStatus.ERROR, error="Reteaua este indisponibila. Bazeaza-te pe datele locale.")
+            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare AIMLAPI: {exc}")
         except Exception as exc:
             return ToolResult(status=ToolStatus.ERROR, error=f"Eroare AIMLAPI: {exc}")
 
@@ -365,6 +369,11 @@ class WebAIBridgeTool(Tool):
                 data={"provider": "opencode_zen", "response": text, "model": model},
                 message=f"Raspuns OpenCode Zen obtinut cu {model}.",
             )
+        except requests.exceptions.RequestException as exc:
+            if isinstance(exc, (requests.exceptions.ConnectionError, requests.exceptions.Timeout)):
+                return ToolResult(status=ToolStatus.ERROR, error="Reteaua este indisponibila. Bazeaza-te pe datele locale.")
+            self._report_key_failure(api_key)
+            return ToolResult(status=ToolStatus.ERROR, error=f"Eroare OpenCode Zen: {exc}")
         except Exception as exc:
             self._report_key_failure(api_key)
             return ToolResult(status=ToolStatus.ERROR, error=f"Eroare OpenCode Zen: {exc}")

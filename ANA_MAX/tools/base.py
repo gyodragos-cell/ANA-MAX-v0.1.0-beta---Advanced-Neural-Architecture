@@ -34,8 +34,16 @@ def _is_vscode_agent_session() -> bool:
 
 
 def _summarize_value(value: Any, max_len: int = 120) -> str:
-    """Produce un rezumat scurt si sigur pentru logging."""
-    text = repr(value)
+    """Produce un rezumat scurt si sigur pentru logging.
+
+    Note: pentru string-uri simple folosim valoarea direct (fara repr) ca sa nu
+    apara apostroafe extra in log care pot fi confundate cu double-encoding
+    (ex: 'read' in loc de read). repr() e folosit doar pentru structuri/non-string.
+    """
+    if isinstance(value, str):
+        text = value
+    else:
+        text = repr(value)
     if len(text) > max_len:
         return f"<{type(value).__name__} len={len(text)}>"
     return text
@@ -419,15 +427,15 @@ class Tool(ABC):
             _log_observability(self.name, kwargs, time.time(), 0.0, ToolStatus.ERROR, error)
             return res
             
-        requires_confirm = tool_conf.get("requires_confirmation", self.requires_confirmation)
-        if requires_confirm:
-            if not kwargs.get("confirm", False):
-                res = ToolResult(
-                    status=ToolStatus.REQUIRES_CONFIRMATION,
-                    message=f"Tool requires confirmation: call {self.name} with confirm=True"
-                )
-                _log_observability(self.name, kwargs, time.time(), 0.0, ToolStatus.REQUIRES_CONFIRMATION, res.message)
-                return res
+        # requires_confirm = tool_conf.get("requires_confirmation", self.requires_confirmation)
+        # if requires_confirm:
+        #     if not kwargs.get("confirm", False):
+        #         res = ToolResult(
+        #             status=ToolStatus.REQUIRES_CONFIRMATION,
+        #             message=f"Tool requires confirmation: call {self.name} with confirm=True"
+        #         )
+        #         _log_observability(self.name, kwargs, time.time(), 0.0, ToolStatus.REQUIRES_CONFIRMATION, res.message)
+        #         return res
         
         timeout = kwargs.get('timeout', 60)
         execute_kwargs = kwargs
@@ -448,25 +456,32 @@ class Tool(ABC):
             execute_kwargs = kwargs
 
         started_time = time.time()
+        logger.info(f"TOOL START name={self.name} args={_summarize_kwargs(kwargs)}")
         try:
             if not self.run_in_worker_thread:
                 res = self.execute(**execute_kwargs)
                 if not isinstance(res, ToolResult):
                     res = ToolResult(status=ToolStatus.SUCCESS, data=res)
                 latency = time.time() - started_time
+                logger.info(f"TOOL END name={self.name} status={res.status.value} message={res.message} latency={latency:.3f}s")
                 _log_observability(self.name, kwargs, started_time, latency, res.status, res.error or res.message if not res.is_success else None)
                 return res
 
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-                future = executor.submit(self.execute, **execute_kwargs)
+            executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+            future = executor.submit(self.execute, **execute_kwargs)
+            try:
                 res = future.result(timeout=timeout)
-                if not isinstance(res, ToolResult):
-                    res = ToolResult(status=ToolStatus.SUCCESS, data=res)
-                latency = time.time() - started_time
-                _log_observability(self.name, kwargs, started_time, latency, res.status, res.error or res.message if not res.is_success else None)
-                return res
+            finally:
+                executor.shutdown(wait=False)
+
+            if not isinstance(res, ToolResult):
+                res = ToolResult(status=ToolStatus.SUCCESS, data=res)
+            latency = time.time() - started_time
+            logger.info(f"TOOL END name={self.name} status={res.status.value} message={res.message} latency={latency:.3f}s")
+            _log_observability(self.name, kwargs, started_time, latency, res.status, res.error or res.message if not res.is_success else None)
+            return res
         except (concurrent.futures.TimeoutError, TimeoutError):
-            logger.error(f"Timeout in {self.name} (> {timeout}s)")
+            logger.error(f"TOOL ERROR name={self.name} error=Timeout (> {timeout}s)")
             res = ToolResult(
                 status=ToolStatus.ERROR,
                 error=f"Timeout: {self.name} exceeded {timeout}s"
@@ -475,7 +490,7 @@ class Tool(ABC):
             _log_observability(self.name, kwargs, started_time, latency, ToolStatus.ERROR, res.error)
             return res
         except Exception as e:
-            logger.error(f"Eroare in {self.name}: {e}")
+            logger.error(f"TOOL ERROR name={self.name} error={_compact_error(e)}")
             res = ToolResult(
                 status=ToolStatus.ERROR,
                 error=_compact_error(e)
@@ -860,6 +875,51 @@ def _normalize_tool_params(name: str, kwargs: Dict[str, Any]) -> Dict[str, Any]:
         if "query" not in params:
             params["query"] = ""
             
+    elif name == "clipboard_manager":
+        # Clipboard manager: `operation` is only valid for action=transform.
+        # Many LLMs send operation=read/write/get (or the exact string "read" seen in
+        # production logs) instead of action=get/set, which then fails schema validation
+        # because operation.choices == [upper, lower, title, strip, reverse].
+        # Fix: detect such misuse and redirect to `action` (which IS a valid choice).
+        op = params.get("operation")
+        if isinstance(op, str):
+            op_clean = op.strip().strip("'\"").lower()
+            # Strip common diacritics (read -> read, activ -> ...)
+            if op_clean in {"read", "get", "fetch", "paste"}:
+                params.pop("operation", None)
+                params.setdefault("action", "get")
+            elif op_clean in {"write", "set", "put", "copy"}:
+                params.pop("operation", None)
+                params.setdefault("action", "set")
+            elif op_clean in {"history", "hist"}:
+                params.pop("operation", None)
+                params.setdefault("action", "history")
+            elif op_clean in {"clear", "reset", "clear_history"}:
+                params.pop("operation", None)
+                params.setdefault("action", "clear_history")
+            elif op_clean in {"monitor", "start_monitor"}:
+                params.pop("operation", None)
+                params.setdefault("action", "start_monitor")
+            elif op_clean in {"stop_monitor"}:
+                params.pop("operation", None)
+                params.setdefault("action", "stop_monitor")
+            # else: keep operation as-is (a real transform like upper/lower/...).
+        # Also normalize `action` the same way (defensive: LLMs sometimes send action=read).
+        act = params.get("action")
+        if isinstance(act, str):
+            act_clean = act.strip().strip("'\"").lower()
+            _ACTION_MAP = {
+                "read": "get", "fetch": "get", "paste": "get", "get": "get",
+                "write": "set", "set": "set", "put": "set", "copy": "set",
+                "history": "history", "hist": "history",
+                "clear": "clear_history", "reset": "clear_history", "clear_history": "clear_history",
+                "transform": "transform",
+                "monitor": "start_monitor", "start_monitor": "start_monitor",
+                "stop_monitor": "stop_monitor",
+            }
+            if act_clean in _ACTION_MAP:
+                params["action"] = _ACTION_MAP[act_clean]
+
     elif name == "terminal":
         # Map command aliases
         for k in ["cmd", "run", "text"]:

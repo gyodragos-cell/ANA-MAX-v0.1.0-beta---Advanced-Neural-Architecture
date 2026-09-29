@@ -1,8 +1,17 @@
 """
-ANA MAX - Session Checkpoint Tool
+ANA MAX - Session Checkpoint Tool (OS27 Hyper++)
+==============================================
 
 Stores a compact handoff summary so a future agent can continue without
 reconstructing the whole chat.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for session checkpoint operations
+- Health monitoring for session checkpoint operations reliability
+- MemoryCortex integration for session checkpoint errors and state learning
+- ContextEngine integration for session checkpoint state awareness
+- SelfEvolvingTool integration for anomaly detection on session checkpoint failures
+- Structured logging with error detection
 """
 
 from __future__ import annotations
@@ -10,11 +19,64 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
+
+# OS27 Hyper++ Telemetry
+_session_checkpoint_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_session_checkpoint_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for session checkpoint operations."""
+    if operation not in _session_checkpoint_telemetry:
+        _session_checkpoint_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _session_checkpoint_telemetry[operation]["operation_count"] += 1
+    _session_checkpoint_telemetry[operation]["total_time"] += execution_time
+    _session_checkpoint_telemetry[operation]["last_execution_time"] = execution_time
+    _session_checkpoint_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _session_checkpoint_telemetry[operation]["success_count"] += 1
+    else:
+        _session_checkpoint_telemetry[operation]["failure_count"] += 1
+
+
+def get_session_checkpoint_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for session checkpoint operations."""
+    if operation:
+        return _session_checkpoint_telemetry.get(operation, {})
+    return _session_checkpoint_telemetry.copy()
+
+
+def get_session_checkpoint_health() -> str:
+    """Get health status for session checkpoint tool based on telemetry."""
+    if not _session_checkpoint_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _session_checkpoint_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _session_checkpoint_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class SessionCheckpointTool(Tool):
@@ -44,9 +106,45 @@ class SessionCheckpointTool(Tool):
         )
 
     def execute(self, **kwargs: Any) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         title = str(kwargs.get("title") or "").strip()
         summary = str(kwargs.get("summary") or "").strip()
         if not title or not summary:
+            execution_time = time.time() - start_time
+            _record_session_checkpoint_telemetry("save", False, execution_time)
+            
+            # MemoryCortex integration for session checkpoint errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        "session_checkpoint.save",
+                        "Parameters 'title' and 'summary' are required."
+                    )
+                except Exception:
+                    pass
+            
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error="Parameters 'title' and 'summary' are required.",
@@ -59,22 +157,54 @@ class SessionCheckpointTool(Tool):
             self._save_to_ana_memory(checkpoint, md_path)
             self._write_latest_pointer(md_path, checkpoint)
             memory_archive_refresh = self._refresh_memory_archive_report()
+            
+            execution_time = time.time() - start_time
+            _record_session_checkpoint_telemetry("save", True, execution_time)
+            
+            # ContextEngine integration for session checkpoint state
+            if context_engine:
+                try:
+                    context_engine.update_context(
+                        key="session_checkpoint_state",
+                        value={
+                            "title": title,
+                            "path": str(md_path),
+                            "success": True,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            data = {
+                "saved": True,
+                "path": str(md_path),
+                "topic": checkpoint["memory_topic"],
+                "timestamp": checkpoint["timestamp"],
+            }
+            if memory_archive_refresh:
+                data["memory_archive_refresh"] = memory_archive_refresh
+            return ToolResult(
+                status=ToolStatus.SUCCESS,
+                data=data,
+                message=f"Session checkpoint saved: {md_path.name}",
+            )
         except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_session_checkpoint_telemetry("save", False, execution_time)
+            
+            # MemoryCortex integration for session checkpoint errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        "session_checkpoint.save",
+                        f"Session checkpoint save failed: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
             return ToolResult(status=ToolStatus.ERROR, error=str(exc))
-
-        data = {
-            "saved": True,
-            "path": str(md_path),
-            "topic": checkpoint["memory_topic"],
-            "timestamp": checkpoint["timestamp"],
-        }
-        if memory_archive_refresh:
-            data["memory_archive_refresh"] = memory_archive_refresh
-        return ToolResult(
-            status=ToolStatus.SUCCESS,
-            data=data,
-            message=f"Session checkpoint saved: {md_path.name}",
-        )
 
     def _build_checkpoint(self, kwargs: Dict[str, Any]) -> Dict[str, Any]:
         timestamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()

@@ -15,6 +15,7 @@ pygetwindow==0.0.9
 pytesseract==0.3.13
 opencv-python==4.10.0.84
 numpy==2.3.5
+dxcam==0.3.0  # DXGI Desktop Duplication - captures GPU-accelerated frames GDI/mss miss (fixes black frame)
 
 # System & Process Management
 psutil==6.1.0
@@ -75,3 +76,34 @@ pyyaml==6.0.2
 toml==0.10.2
 pyttsx3==2.99
 edge-tts==7.2.8
+
+# Windows Notifications
+win10toast==0.9
+
+# Timezone Data (required on Windows for ZoneInfo/Europe/Bucharest)
+tzdata>=2026.3
+
+# Web Search (ddgs = noul nume oficial, duckduckgo-search = fallback)
+ddgs>=3.0.0
+duckduckgo-search>=8.1.1
+
+# Screen Capture
+mss>=10.0.0
+
+# Task Scheduling
+schedule>=1.2.2
+
+# File Monitoring
+watchdog>=6.0.0
+
+# API Server (FastAPI tools)
+fastapi>=0.140.0
+uvicorn>=0.52.0
+
+# Audio / Voice Activity Detection
+sounddevice>=0.5.5
+webrtcvad-wheels>=2.0.14
+# NOTE: faster-whisper excluded intentionally (heavy ~1GB, kept for STT upgrade later)
+
+# MITM / Network Analysis (Whitehat Testing)
+mitmproxy>=12.0.0

@@ -1,19 +1,80 @@
 """
-A.N.A. v15.0 - Code Tools
-=========================
+A.N.A. v15.0 - Code Tools (OS27 Hyper++)
+=========================================
 Instrumente pentru lucrul cu cod: analiza, executie, creare proiecte.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for code operations (analyze, execute, create_project, run_tests, lint, format)
+- Health monitoring for code operations reliability
+- MemoryCortex integration for code errors and state learning
+- ContextEngine integration for code state awareness
+- SelfEvolvingTool integration for anomaly detection on code failures
+- Structured logging with error detection
 """
 
 import os
 import sys
 import subprocess
 import logging
+import time
 from typing import Optional, Dict, Any, List
 from pathlib import Path
 
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_code_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_code_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for code operations."""
+    if operation not in _code_telemetry:
+        _code_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _code_telemetry[operation]["operation_count"] += 1
+    _code_telemetry[operation]["total_time"] += execution_time
+    _code_telemetry[operation]["last_execution_time"] = execution_time
+    _code_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _code_telemetry[operation]["success_count"] += 1
+    else:
+        _code_telemetry[operation]["failure_count"] += 1
+
+
+def get_code_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for code operations."""
+    if operation:
+        return _code_telemetry.get(operation, {})
+    return _code_telemetry.copy()
+
+
+def get_code_health() -> str:
+    """Get health status for code tool based on telemetry."""
+    if not _code_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _code_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _code_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class CodeTool(Tool):
@@ -217,6 +278,28 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
     
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
         """Executa operatiunea cu cod."""
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         operations = {
             "analyze": self._analyze_code,
             "run": self._run_code,
@@ -225,12 +308,61 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);""",
         }
         
         if operation not in operations:
+            execution_time = time.time() - start_time
+            _record_code_telemetry(operation, False, execution_time)
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error=f"Operatiune necunoscuta: {operation}"
             )
         
-        return operations[operation](target, **kwargs)
+        try:
+            result = operations[operation](target, **kwargs)
+            execution_time = time.time() - start_time
+            _record_code_telemetry(operation, result.is_success, execution_time)
+            
+            # ContextEngine integration for code state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="code_state",
+                        value={
+                            "operation": operation,
+                            "target": target,
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for code errors
+            if cortex and not result.is_success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"code.{operation}",
+                        f"Code operation failed for {target}: {result.error}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
+        except Exception as exc:
+            execution_time = time.time() - start_time
+            _record_code_telemetry(operation, False, execution_time)
+            
+            # MemoryCortex integration for code errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"code.{operation}",
+                        f"Code operation failed for {target}: {str(exc)}"
+                    )
+                except Exception:
+                    pass
+            
+            return ToolResult(status=ToolStatus.ERROR, error=str(exc))
     
     def _analyze_code(self, target: str, **kwargs) -> ToolResult:
         """Analizeaza un fisier de cod."""

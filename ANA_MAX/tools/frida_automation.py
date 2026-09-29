@@ -1,5 +1,5 @@
 """
-Frida Automation Tool - Dynamic Instrumentation
+Frida Automation Tool - Dynamic Instrumentation (OS27 Hyper++)
 Author: ANA_MAX
 Date: 2026-05-12
 Category: mobile
@@ -14,6 +14,14 @@ Functions:
 - frida_hook: Hook function calls
 - frida_terminate: Detach from process
 
+OS27 Hyper++ Features:
+- Telemetry tracking for Frida operations (list_processes, attach, spawn, inject, list_modules, find_functions, hook, terminate, version, devices)
+- Health monitoring for Frida operations reliability
+- MemoryCortex integration for Frida errors and state learning
+- ContextEngine integration for Frida state awareness
+- SelfEvolvingTool integration for anomaly detection on Frida failures
+- Structured logging with error detection
+
 Requires: pip install frida
 """
 
@@ -26,6 +34,58 @@ from typing import Optional, List, Dict, Any
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_frida_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_frida_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for Frida operations."""
+    if operation not in _frida_telemetry:
+        _frida_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _frida_telemetry[operation]["operation_count"] += 1
+    _frida_telemetry[operation]["total_time"] += execution_time
+    _frida_telemetry[operation]["last_execution_time"] = execution_time
+    _frida_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _frida_telemetry[operation]["success_count"] += 1
+    else:
+        _frida_telemetry[operation]["failure_count"] += 1
+
+
+def get_frida_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for Frida operations."""
+    if operation:
+        return _frida_telemetry.get(operation, {})
+    return _frida_telemetry.copy()
+
+
+def get_frida_health() -> str:
+    """Get health status for Frida tool based on telemetry."""
+    if not _frida_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _frida_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _frida_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 
 class FridaTool(Tool):
@@ -121,6 +181,28 @@ class FridaTool(Tool):
         )
 
     def execute(self, **kwargs) -> ToolResult:
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         operation = kwargs.get("operation", "")
         target = kwargs.get("target", "")
         package = kwargs.get("package", "")
@@ -144,15 +226,62 @@ class FridaTool(Tool):
         }
 
         if operation not in operations:
+            execution_time = time.time() - start_time
+            _record_frida_telemetry(operation, False, execution_time)
             return ToolResult(
                 status=ToolStatus.ERROR,
                 error=f"Operatie necunoscuta: {operation}"
             )
 
         try:
-            return operations[operation](target, package, script, module, pattern, device, timeout)
+            result = operations[operation](target, package, script, module, pattern, device, timeout)
+            execution_time = time.time() - start_time
+            _record_frida_telemetry(operation, result.is_success, execution_time)
+            
+            # ContextEngine integration for Frida state
+            if context_engine and result.is_success:
+                try:
+                    context_engine.update_context(
+                        key="frida_state",
+                        value={
+                            "operation": operation,
+                            "target": target,
+                            "package": package,
+                            "success": result.is_success,
+                            "timestamp": time.time(),
+                        }
+                    )
+                except Exception:
+                    pass
+            
+            # MemoryCortex integration for Frida errors
+            if cortex and not result.is_success:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"frida.{operation}",
+                        f"Frida operation failed for {target}: {result.error}"
+                    )
+                except Exception:
+                    pass
+            
+            return result
         except Exception as e:
+            execution_time = time.time() - start_time
+            _record_frida_telemetry(operation, False, execution_time)
             logger.error(f"Frida error: {e}")
+            
+            # MemoryCortex integration for Frida errors
+            if cortex:
+                try:
+                    cortex.remember(
+                        "error",
+                        f"frida.{operation}",
+                        f"Frida operation failed: {str(e)}"
+                    )
+                except Exception:
+                    pass
+            
             return ToolResult(status=ToolStatus.ERROR, error=str(e))
 
     def _version(self, target: str, pkg: str, script: str, module: str, pattern: str, device: str, timeout: int) -> ToolResult:

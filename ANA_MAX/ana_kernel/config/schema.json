@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "required": [
+    "mode",
+    "services",
+    "event_bus",
+    "fallback",
+    "sandbox",
+    "logging"
+  ],
+  "properties": {
+    "mode": { "type": "string" },
+    "services": { "type": "array" },
+    "event_bus": { "type": "object" },
+    "fallback": { "type": "object" },
+    "sandbox": { "type": "object" },
+    "logging": { "type": "object" },
+    "skills": { "type": "object" }
+  }
+}

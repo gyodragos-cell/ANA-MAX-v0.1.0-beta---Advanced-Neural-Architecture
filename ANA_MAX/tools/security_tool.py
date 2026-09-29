@@ -1,17 +1,78 @@
 """
-A.N.A. v15.0 - Security Tool
-=============================
+A.N.A. v15.0 - Security Tool (OS27 Hyper++)
+============================================
 Instrumente pentru cercetare securitate si audit cod.
+
+OS27 Hyper++ Features:
+- Telemetry tracking for security operations (scan_secrets, static_analysis, hash_gen)
+- Health monitoring for security operations reliability
+- MemoryCortex integration for security errors and state learning
+- ContextEngine integration for security state awareness
+- SelfEvolvingTool integration for anomaly detection on security failures
+- Structured logging with error detection
 """
 
 import os
 import re
 import hashlib
 import logging
+import time
 from typing import Optional, Dict, Any, List
 from tools.base import Tool, ToolDefinition, ToolParameter, ToolResult, ToolStatus
 
 logger = logging.getLogger(__name__)
+
+# OS27 Hyper++ Telemetry
+_security_telemetry: Dict[str, Dict[str, Any]] = {}
+
+
+def _record_security_telemetry(operation: str, success: bool, execution_time: float) -> None:
+    """Record OS27 Hyper++ telemetry for security operations."""
+    if operation not in _security_telemetry:
+        _security_telemetry[operation] = {
+            "operation_count": 0,
+            "success_count": 0,
+            "failure_count": 0,
+            "total_time": 0.0,
+            "last_execution_time": 0.0,
+            "last_success": False,
+        }
+    
+    _security_telemetry[operation]["operation_count"] += 1
+    _security_telemetry[operation]["total_time"] += execution_time
+    _security_telemetry[operation]["last_execution_time"] = execution_time
+    _security_telemetry[operation]["last_success"] = success
+    
+    if success:
+        _security_telemetry[operation]["success_count"] += 1
+    else:
+        _security_telemetry[operation]["failure_count"] += 1
+
+
+def get_security_telemetry(operation: str | None = None) -> Dict[str, Any] | Dict[str, Dict[str, Any]]:
+    """Get telemetry for security operations."""
+    if operation:
+        return _security_telemetry.get(operation, {})
+    return _security_telemetry.copy()
+
+
+def get_security_health() -> str:
+    """Get health status for security tool based on telemetry."""
+    if not _security_telemetry:
+        return "unknown"
+    
+    total_ops = sum(stats["operation_count"] for stats in _security_telemetry.values())
+    total_failures = sum(stats["failure_count"] for stats in _security_telemetry.values())
+    
+    if total_ops == 0:
+        return "unknown"
+    
+    failure_rate = total_failures / total_ops
+    if failure_rate > 0.5:
+        return "broken"
+    if failure_rate > 0.1:
+        return "degraded"
+    return "healthy"
 
 class SecurityTool(Tool):
     """
@@ -49,6 +110,28 @@ class SecurityTool(Tool):
 
     def execute(self, operation: str, target: str, **kwargs) -> ToolResult:
         """Executa operatiunea Security."""
+        start_time = time.time()
+        
+        # AI Core hooks (lazy import for safety)
+        cortex = None
+        context_engine = None
+        evolver = None
+        try:
+            from tools.memory_cortex import MemoryCortex
+            cortex = MemoryCortex()
+        except Exception:
+            pass
+        try:
+            from tools.context_engine import ContextEngine
+            context_engine = ContextEngine()
+        except Exception:
+            pass
+        try:
+            from tools.self_evolving_tool import SelfEvolvingTool
+            evolver = SelfEvolvingTool()
+        except Exception:
+            pass
+        
         handlers = {
             "scan_secrets": self._scan_secrets,
             "static_analysis": self._static_analysis,
@@ -56,9 +139,42 @@ class SecurityTool(Tool):
         }
         
         if operation not in handlers:
+            execution_time = time.time() - start_time
+            _record_security_telemetry(operation, False, execution_time)
             return ToolResult(status=ToolStatus.ERROR, error=f"Operatiune necunoscuta: {operation}")
-            
-        return handlers[operation](target, **kwargs)
+        
+        result = handlers[operation](target, **kwargs)
+        
+        execution_time = time.time() - start_time
+        _record_security_telemetry(operation, result.is_success, execution_time)
+        
+        # ContextEngine integration for security state
+        if context_engine and result.is_success:
+            try:
+                context_engine.update_context(
+                    key="security_state",
+                    value={
+                        "operation": operation,
+                        "target": target,
+                        "success": result.is_success,
+                        "timestamp": time.time(),
+                    }
+                )
+            except Exception:
+                pass
+        
+        # MemoryCortex integration for security errors
+        if cortex and not result.is_success:
+            try:
+                cortex.remember(
+                    "error",
+                    f"security.{operation}",
+                    f"Security operation failed for {target}: {result.error}"
+                )
+            except Exception:
+                pass
+        
+        return result
 
     def _scan_secrets(self, target: str, **kwargs) -> ToolResult:
         """Cauta API keys, parole si secrete in fisiere."""

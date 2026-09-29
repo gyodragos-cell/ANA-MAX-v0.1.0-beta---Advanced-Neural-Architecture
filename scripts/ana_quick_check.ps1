@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $ProjectRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
-$Bridge = Join-Path $ProjectRoot "cascade_integration\direct_bridge.py"
+$Bridge = Join-Path $ProjectRoot "ANA_MAX\bridge\direct_bridge.py"
 
 function Invoke-JsonCommand {
     param(

@@ -1,0 +1,80 @@
+                continue
+            try:
+                lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()[-300:]
+            except Exception as exc:
+                logger.debug("Skipping unreadable log %s: %s", path, exc)
+                continue
+            for lineno, line in enumerate(lines, 1):
+                text = self._redact(line.strip())
+                if not text:
+                    continue
+                if log_name.endswith(".jsonl"):
+                    text = self._observability_summary(text)
+                    if not text:
+                        continue
+                if self._is_monitor_noise(text):
+                    continue
+                for kind, pattern in ERROR_PATTERNS:
+                    if pattern.search(text):
+                        findings.append({
+                            "source": log_name,
+                            "kind": kind,
+                            "severity": "high" if kind in {"traceback", "syntax"} else "medium",
+                            "summary": text[:260],
+                            "line_hint": lineno,
+                        })
+                        break
+                if len(findings) >= limit:
+                    return findings[-limit:]
+        return findings[-limit:]
+
+    def _scan_windows(self) -> List[Dict[str, Any]]:
+        findings: List[Dict[str, Any]] = []
+        try:
+            import win32gui
+
+            def collect(hwnd, _extra):
+                if not win32gui.IsWindowVisible(hwnd):
+                    return
+                title = win32gui.GetWindowText(hwnd)
+                if re.search(r"error|failed|exception|warning|crash", title or "", re.IGNORECASE):
+                    findings.append({"source": "visible_window", "kind": "visible_error", "severity": "medium", "summary": title[:220]})
+
+            win32gui.EnumWindows(collect, None)
+        except Exception as exc:
+            findings.append({"source": "visible_window", "kind": "ui_scan_error", "severity": "low", "summary": str(exc)[:180]})
+        return findings[:5]
+
+    def _observability_summary(self, text: str) -> str:
+        try:
+            entry = json.loads(text)
+            if entry.get("status") in {"error", "blocked", "requires_confirmation"}:
+                return f"{entry.get('tool')}: {entry.get('status')} {entry.get('error') or ''}"
+        except Exception as exc:
+            logger.debug("Could not parse observability record: %s", exc)
+            return text
+        return ""
+
+    def _is_monitor_noise(self, text: str) -> bool:
+        markers = [
+            "MCP tool failed with schema mismatch action versus operation",
+            "Invalid value for operation",
+            "definitely_missing_tool_for_guidance",
+            "Tool tool_contract_validator failed",
+            "tool_contract_validator failed",
+            "HTTP /mcp tools/call start name=debugger",
+            "TOOL START name=debugger",
+        ]
+        if any(marker in text for marker in markers):
+            return True
+        if "traceback_text" in text and "name=debugger" in text:
+            return True
+        if " - INFO - " in text and "success=True" in text:
+            return True
+        if " - INFO - " in text and re.search(r"\bfailed\b|\bERROR\b", text, re.IGNORECASE):
+            return True
+        return False
+
+    def _redact(self, text: str) -> str:
+        return SECRET_RE.sub(lambda m: f"{m.group(1)}=********", text)
+

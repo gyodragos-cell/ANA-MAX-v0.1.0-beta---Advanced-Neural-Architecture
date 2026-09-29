@@ -101,8 +101,8 @@ def run_smoke(
     log_path: str | Path | None = None,
     profile: str = "os22_core",
     backend_name: str = "llama_cpp",
-    model_name: str = "phi3-medium",
-    fallback_model_name: str = "phi3-medium",
+    model_name: str = "qwen2.5-coder",
+    fallback_model_name: str = "qwen2.5-coder",
     model_path: str = "",
     n_ctx: int = 4096,
     n_threads: int = 6,
@@ -185,8 +185,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--profile", default="os22_core", help="Prompt profile to use.")
     parser.add_argument("--backend", default="llama_cpp", help="Local backend name.")
-    parser.add_argument("--model-name", default="phi3-medium", help="Primary model name.")
-    parser.add_argument("--fallback-model-name", default="phi3-medium", help="Fallback model name.")
+    parser.add_argument("--model-name", default="qwen2.5-coder", help="Primary model name.")
+    parser.add_argument("--fallback-model-name", default="qwen2.5-coder", help="Fallback model name.")
     parser.add_argument("--model-path", default="", help="Optional model path or directory.")
     parser.add_argument("--n-ctx", type=int, default=4096, help="Context window size.")
     parser.add_argument("--n-threads", type=int, default=6, help="CPU threads.")

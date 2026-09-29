@@ -1,0 +1,29 @@
+# ANA-MANUS — Cursor Agent Rules
+# ════════════════════════════════════════════════════════════
+# SURSA UNICĂ DE ADEVĂR: citește AGENTS.md din root ÎNAINTE de orice acțiune.
+# ════════════════════════════════════════════════════════════
+
+## STARTUP OBLIGATORIU
+1. Citește AGENTS.md — toate regulile complete
+2. Citește docs/ANA_MEMORY.md — ultimul checkpoint
+3. Citește docs/ROADMAP.md — starea proiectului
+
+## GOLDEN RULES
+- NO BLIND WORK: health-check înainte de orice schimbare
+- LOCAL FIRST: ANA + Ollama + shell înainte de cloud
+- PATCH ONLY: diff minim, nu rescrie fișiere întregi
+- REPORT FORMAT: ACTION → RESULT → NEXT STEP
+- LARGE FILES: folosește large_file_reader.py
+- SECURITY FIRST: scanează vulnerabilități înainte de features
+
+## ARHITECTURA
+- Bridge: ANA_MAX/bridge/direct_bridge.py
+- Kernel: ANA_MAX/ana_kernel/
+- Ollama: 127.0.0.1:11434 (qwen2.5-coder:7b)
+- NU atinge: ANA_MAX/venv/, ANA_MAX/archives/
+
+## DOCS CRITICE
+- AGENTS.md: sursa unică de adevăr
+- docs/ANA_MEMORY.md: memory & checkpoints
+- docs/ROADMAP.md: priorități curente
+- docs/CHANGELOG.md: istoricul schimbărilor
