@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANA MAX - Advanced Neural Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<!-- Vanilla Tilt pentru efect 3D pe carduri -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-base:    #030305;
+    --glass-bg:   rgba(10, 10, 15, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text:       #f8f8f2;
+    --muted:      #8b8b9e;
+    --neon-purple: #b366ff;
+    --neon-cyan:  #00f0ff;
+    --neon-pink:  #ff007f;
+    --glow-cyan:  rgba(0, 240, 255, 0.4);
+    --glow-purple: rgba(179, 102, 255, 0.4);
+  }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 24px 100px;
+    overflow-x: hidden;
+  }
+
+  /* 3D Canvas Background */
+  #canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 50%, #0a0a15 0%, #020203 100%);
+  }
+
+  /* Efect de Grid Digital pe fundal */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(var(--glass-border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
+    perspective: 1000px;
+    transform: rotateX(60deg) scale(2.5) translateY(-20%);
+    animation: gridMove 20s linear infinite;
+  }
+
+  @keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 40px; }
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 10px; }
+
+  /* -- HEADER -- */
+  header { text-align: center; margin-bottom: 60px; z-index: 10; position: relative; }
+  
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+    color: var(--neon-cyan);
+    border: 1px solid var(--neon-cyan);
+    padding: 6px 18px; border-radius: 30px; margin-bottom: 24px;
+    background: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 20px var(--glow-cyan), inset 0 0 10px var(--glow-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan);
+    animation: pulseBadge 2s infinite alternate;
+  }
+
+  @keyframes pulseBadge {
+    0% { box-shadow: 0 0 15px var(--glow-cyan), inset 0 0 5px var(--glow-cyan); }
+    100% { box-shadow: 0 0 30px var(--glow-cyan), inset 0 0 15px var(--glow-cyan); }
+  }
+
+  header h1 { 
+    font-size: clamp(40px, 6vw, 72px); 
+    font-weight: 800; 
+    letter-spacing: -0.03em; 
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  
+  header h1 span { 
+    background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-purple) 50%, var(--neon-pink) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(179, 102, 255, 0.5));
+  }
+
+  header p { 
+    margin-top: 16px; 
+    color: var(--muted); 
+    font-size: 15px; 
+    font-family: 'JetBrains Mono', monospace; 
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  /* -- STATS ROW (HUD Style) -- */
+  .stats {
+    display: flex; gap: 20px; margin-bottom: 60px; flex-wrap: wrap; justify-content: center;
+    width: 100%; max-width: 1000px;
+  }
+  
+  .stat {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-top: 2px solid var(--neon-cyan);
+    border-radius: 8px; 
+    padding: 20px 30px; 
+    text-align: center;
+    flex: 1;
+    min-width: 140px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .stat:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px var(--glow-cyan);
+    border-top-color: var(--neon-purple);
+  }
+
+  .stat .num { 
+    font-size: 32px; 
+    font-weight: 700; 
+    color: var(--text);
+    text-shadow: 0 0 15px rgba(255,255,255,0.4);
+    font-family: 'JetBrains Mono', monospace; 
+  }
+  
+  .stat .lbl { 
+    font-size: 11px; color: var(--neon-cyan); margin-top: 5px; 
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* -- DIAGRAM SECTIONS -- */
+  .diagram-section { display: none; width: 100%; max-width: 1000px; animation: fadeIn 0.5s ease-out forwards; }
+  .diagram-section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  .diagram-wrap { 
+    width: 100%; overflow-x: auto; 
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 20px 50px rgba(0,0,0,0.3);
+  }
+
+  /* -- SVG ANIMATION UPGRADES -- */
+  .node { cursor: pointer; transition: all 0.3s; }
+  .node rect { transition: all 0.3s; }
+  .node:hover { transform: scale(1.05); }
+  
+  .c-purple:hover rect { fill: rgba(179, 102, 255, 0.4); stroke: var(--neon-purple); filter: drop-shadow(0 0 15px var(--neon-purple)); }
+  .c-teal:hover rect { fill: rgba(0, 240, 255, 0.4); stroke: var(--neon-cyan); filter: drop-shadow(0 0 15px var(--neon-cyan)); }
+  .c-coral:hover rect { fill: rgba(255, 0, 127, 0.4); stroke: var(--neon-pink); filter: drop-shadow(0 0 15px var(--neon-pink)); }
+
+  /* Animate Data Flow Lines */
+  path[stroke-dasharray], line[stroke-dasharray] {
+    animation: dataFlow 20s linear infinite;
+  }
+  
+  @keyframes dataFlow {
+    to { stroke-dashoffset: -1000; }
+  }
+
+  /* -- AI CORE CARDS (Glassmorphism + 3D) -- */
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; width: 100%; max-width: 1000px; }
+  
+  .card {
+    background: var(--glass-bg); 
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px; 
+    padding: 24px; 
+    cursor: pointer; 
+    transition: all 0.3s;
+    transform-style: preserve-3d; /* Pentru Vanilla Tilt */
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s;
+    margin: -2px;
+  }
+
+  .card:hover::before { opacity: 0.5; filter: blur(10px); }
+  .card:hover { background: rgba(20, 20, 30, 0.8); }
+
+  .card h3 { font-size: 16px; font-weight: 700; color: var(--text); transform: translateZ(20px); }
+  .card .file { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--neon-cyan); margin-top: 4px; transform: translateZ(15px); }
+  .card-body p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-top:15px; transform: translateZ(10px); }
+
+  /* -- TABS -- */
+  .tabs { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; justify-content: center; }
+  .tab {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700;
+    padding: 10px 24px; border-radius: 30px;
+    border: 1px solid var(--glass-border); background: var(--glass-bg);
+    color: var(--muted); cursor: pointer; transition: all 0.3s; letter-spacing: 0.05em;
+    backdrop-filter: blur(5px);
+  }
+  .tab:hover { border-color: var(--neon-cyan); color: var(--text); box-shadow: 0 0 15px var(--glow-cyan); }
+  .tab.active { 
+    background: rgba(179, 102, 255, 0.2); 
+    border-color: var(--neon-purple); 
+    color: #fff; 
+    box-shadow: 0 0 20px var(--glow-purple);
+  }
+
+  /* -- REUSABLE BUTTON -- */
+  .btn-primary {
+    padding: 12px 28px; 
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan)); 
+    border: none; 
+    border-radius: 30px; 
+    color: white; 
+    font-family: 'JetBrains Mono', monospace; 
+    font-weight: 700;
+    font-size: 13px; 
+    cursor: pointer; 
+    transition: all 0.3s; 
+    box-shadow: 0 5px 20px rgba(179, 102, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 240, 255, 0.6);
+  }
+</style>
+</head>
+<body>
+
+<!-- 3D Background -->
+<div id="canvas-container"></div>
+
+<header>
+  <div class="badge">v2.0.0-RC // SYSTEM ACTIVE</div>
+  <h1>ANA <span>MAX</span></h1>
+  <p>Advanced Neural Architecture • MCP Bridge • Ollama • qwen2.5-coder:7b</p>
+  <div style="display: flex; gap: 16px; margin-top: 30px; justify-content: center; align-items: center;">
+    <button class="btn-primary" onclick="alert('Profil complet deschis!')">🧠 Initialize Core Profile</button>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="num">122</div><div class="lbl">MCP Tools</div></div>
+  <div class="stat"><div class="num">11</div><div class="lbl">Vision Node</div></div>
+  <div class="stat"><div class="num">4</div><div class="lbl">Sys Intel</div></div>
+  <div class="stat"><div class="num">39</div><div class="lbl">RAG Vectors</div></div>
+  <div class="stat"><div class="num">7B</div><div class="lbl">Parameters</div></div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('architecture')">/ARHITECTURA</button>
+  <button class="tab" onclick="switchTab('connection')">/MCP_LINK</button>
+  <button class="tab" onclick="switchTab('aicore')">/AI_MODULES</button>
+</div>
+
+<!-- TAB 1 - AI CORE MODULES (Mutat ca Demo Vizualizare 3D) -->
+<div class="diagram-section active" id="tab-architecture">
+  <div class="cards-grid">
+    <div class="card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+      <h3>Context Engine</h3>
+      <div class="file">context_engine.py</div>
+      <div class="card-body">
+        <p>Observă continuu mediul. Detectează ferestre, clipboard și procese. Prezice intenții cu scor de confidență.</p>
+      </div>
+    </div>
+
+    <div class="card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+      <h3>Proactive Interrupt</h3>
+      <div class="file">proactive_interrupt.py</div>
+      <div class="card-body">
+        <p>Reacționează înainte să întrebi. 5 detectori activi (STUCK, SEQUENCE, CLIPBOARD) alimentează sugestiile.</p>
+      </div>
+    </div>
+
+    <div class="card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+      <h3>Memory Cortex</h3>
+      <div class="file">memory_cortex.py</div>
+      <div class="card-body">
+        <p>Stocare Episodică, Semantică și Procedurală. Învață din greșeli și aplică măsuri preventive (Error Log).</p>
+      </div>
+    </div>
+
+    <div class="card" data-tilt data-tilt-glare data-tilt-max-glare="0.3">
+      <h3>ANA Orchestrator</h3>
+      <div class="file">ana_orchestrator.py</div>
+      <div class="card-body">
+        <p>Creierul executor. Ciclu complet: VEDE ➔ GÂNDEȘTE ➔ PLANIFICĂ ➔ EXECUTĂ ➔ VERIFICĂ.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Logică simplă de Tab-uri
+function switchTab(tabId) {
+  document.querySelectorAll('.diagram-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  // În codul complet, adaugi id-urile corecte pe secțiuni. Pentru demo am păstrat doar una activă.
+}
+
+// GSAP Animații de intrare
+gsap.from('header', { y: -50, opacity: 0, duration: 1.2, ease: 'expo.out' });
+gsap.from('.stat', { y: 40, opacity: 0, duration: 1, stagger: 0.1, ease: 'back.out(1.7)', delay: 0.3 });
+gsap.from('.tab', { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.6 });
+gsap.from('.card', { y: 50, opacity: 0, duration: 1, stagger: 0.15, ease: 'expo.out', delay: 0.8 });
+
+// Inițializare Vanilla Tilt pentru elementele 3D
+VanillaTilt.init(document.querySelectorAll(".card"), {
+    max: 10,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.2,
+});
+
+// --- MOTOR THREE.JS (Efectul "WOW" de fundal) ---
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+// Creare structură "Creier Artificial" folosind TorusKnot
+const geometry = new THREE.TorusKnotGeometry(12, 3, 200, 32);
+const material = new THREE.PointsMaterial({
+  size: 0.1,
+  color: 0x00f0ff,
+  transparent: true,
+  opacity: 0.6,
+  blending: THREE.AdditiveBlending
+});
+
+const neuralMesh = new THREE.Points(geometry, material);
+scene.add(neuralMesh);
+camera.position.z = 30;
+
+// Reacție la Mouse
+let mouseX = 0;
+let mouseY = 0;
+document.addEventListener('mousemove', (event) => {
+  mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+});
+
+function animate() {
+  requestAnimationFrame(animate);
+  
+  // Rotire organică
+  neuralMesh.rotation.y += 0.002;
+  neuralMesh.rotation.x += 0.001;
+  
+  // Parallax fin bazat pe mouse
+  neuralMesh.rotation.y += mouseX * 0.01;
+  neuralMesh.rotation.x += mouseY * 0.01;
+
+  // Pulsare culoare (Cyan către Purple)
+  const time = Date.now() * 0.001;
+  const hue = Math.abs(Math.sin(time * 0.5)) * 0.15 + 0.5; // Oscilează între nuanțe sci-fi
+  material.color.setHSL(hue, 1.0, 0.5);
+  
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

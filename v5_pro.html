@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ANA MAX OS-27 — Advanced Neural Architecture</title>
+<meta name="description" content="Un sistem AI local pentru Windows: viziune, control UI, automatizare browser/terminal, memorie semantică. 121+ MCP Tools. Runs local. God Mode.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<script>document.documentElement.className+=' js';</script>
+<style>
+:root{
+  --bg:#020208;
+  --surface:rgba(10,12,24,.72);
+  --surface-2:rgba(16,18,36,.78);
+  --border:rgba(255,255,255,.08);
+  --border-strong:rgba(89,242,255,.32);
+  --text:#f4f5ff;
+  --muted:#a7adc9;
+  --cyan:#59f2ff;
+  --violet:#8b5cf6;
+  --pink:#ff4fd8;
+  --emerald:#34d399;
+  --amber:#fbbf24;
+  --font-h:'Space Grotesk',system-ui,sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --radius:20px;
+  --max:1180px;
+}
+
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scroll-behavior:smooth}
+body{font-family:var(--font-h);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+::selection{background:var(--violet);color:#fff}
+
+/* ── Starfield Canvas ── */
+#starfield{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ── Grid Overlay ── */
+.grid-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse at 50% 0%,black 0%,transparent 72%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,black 0%,transparent 72%);opacity:.4}
+
+/* ── Bottom Glow ── */
+.bg-glow{position:fixed;left:50%;bottom:-28vh;width:120vw;height:55vh;transform:translateX(-50%);z-index:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(89,242,255,.14),rgba(139,92,246,.08) 35%,transparent 70%);filter:blur(10px)}
+
+/* ── Z-index layers ── */
+.nav,main,footer{position:relative;z-index:2}
+
+/* ── Skip Link ── */
+.skip{position:absolute;left:16px;top:-60px;z-index:100;background:var(--cyan);color:#02121a;padding:10px 14px;border-radius:10px;font-weight:700;text-decoration:none;transition:top .2s}
+.skip:focus{top:16px}
+
+/* ── Nav ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(18px,4vw,40px);border-bottom:1px solid transparent;transition:background .3s,border-color .3s,backdrop-filter .3s}
+.nav.scrolled{background:rgba(2,2,8,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom-color:var(--border)}
+.brand{display:inline-flex;align-items:center;gap:10px;font-size:18px;font-weight:700;letter-spacing:-.02em;text-decoration:none}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px rgba(89,242,255,.8);animation:pulse-dot 2.5s infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 18px rgba(89,242,255,.8)}50%{box-shadow:0 0 28px rgba(89,242,255,.4)}}
+.brand .grad{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-family:var(--font-m);font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.08em;transition:color .2s}
+.nav-links a:hover{color:var(--cyan)}
+.nav-badge{font-family:var(--font-m);font-size:11px;color:var(--cyan);border:1px solid rgba(89,242,255,.35);background:rgba(89,242,255,.08);padding:6px 12px;border-radius:999px;white-space:nowrap}
+
+/* ── Hero ── */
+.hero{min-height:100vh;min-height:100svh;display:grid;place-items:center;text-align:center;padding:120px 20px 80px}
+.hero-inner{max-width:920px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-m);font-size:12px;color:var(--cyan);border:1px solid rgba(89,242,255,.28);background:rgba(89,242,255,.07);padding:7px 14px;border-radius:999px;margin-bottom:26px;letter-spacing:.05em}
+.hero h1{margin:0 0 20px;font-size:clamp(46px,8vw,96px);line-height:.98;letter-spacing:-.04em;font-weight:700}
+.grad{background:linear-gradient(90deg,var(--cyan) 0%,#7dd3fc 35%,var(--violet) 65%,var(--pink) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:650px;margin:0 auto 34px;color:var(--muted);font-size:clamp(15px,2vw,18px);line-height:1.75}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:52px}
+
+/* ── Buttons ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:14px;font-weight:600;font-size:15px;text-decoration:none;border:none;cursor:pointer;font-family:var(--font-h);transition:transform .2s,box-shadow .3s,background .3s,border-color .3s}
+.btn-primary{background:linear-gradient(135deg,var(--violet),var(--cyan));color:#02121a;box-shadow:0 12px 40px -12px rgba(89,242,255,.45)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 50px -12px rgba(89,242,255,.6)}
+.btn-ghost{background:var(--surface);border:1px solid var(--border);color:var(--text);backdrop-filter:blur(10px)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06);transform:translateY(-1px)}
+.btn svg{width:18px;height:18px}
+
+/* ── Stats ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;max-width:780px;margin:0 auto}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 16px;text-align:center;transition:border-color .3s,transform .3s}
+.stat:hover{border-color:var(--border-strong);transform:translateY(-3px)}
+.stat-val{font-size:28px;font-weight:700;font-family:var(--font-m);line-height:1;margin-bottom:4px}
+.stat-val.cyan{color:var(--cyan)}
+.stat-val.violet{color:var(--violet)}
+.stat-val.emerald{color:var(--emerald)}
+.stat-val.amber{color:var(--amber)}
+.stat-val.pink{color:var(--pink)}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-family:var(--font-m)}
+
+/* ── Content Sections ── */
+.content{padding:100px 20px}
+.content-inner{max-width:var(--max);margin:0 auto}
+.section-label{font-family:var(--font-m);font-size:12px;color:var(--cyan);text-transform:uppercase;letter-spacing:.18em;margin-bottom:12px}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;margin-bottom:16px;line-height:1.1}
+.section-desc{color:var(--muted);font-size:16px;max-width:620px;margin-bottom:48px;line-height:1.7}
+
+/* ── Feature Cards ── */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s cubic-bezier(.2,.8,.2,1)}
+.feature-card:hover{border-color:var(--border-strong);transform:translateY(-5px)}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));opacity:0;transition:opacity .3s}
+.feature-card:hover::before{opacity:1}
+.feature-icon{font-size:28px;margin-bottom:14px;display:block}
+.feature-card h3{font-size:18px;font-weight:600;margin-bottom:8px}
+.feature-card p{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* ── Architecture ── */
+.arch-diagram{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:36px;overflow-x:auto}
+.arch-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.arch-row:last-child{margin-bottom:0}
+.arch-box{font-family:var(--font-m);font-size:12px;padding:12px 18px;border-radius:12px;text-align:center;white-space:nowrap;border:1px solid var(--border);transition:border-color .3s,transform .3s}
+.arch-box:hover{transform:scale(1.04)}
+.arch-box.mind{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.35);color:var(--violet)}
+.arch-box.body{background:rgba(89,242,255,.08);border-color:rgba(89,242,255,.3);color:var(--cyan)}
+.arch-box.sense{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3);color:var(--emerald)}
+.arch-box.hw{background:rgba(255,79,216,.08);border-color:rgba(255,79,216,.3);color:var(--pink)}
+.arch-arrow{font-size:16px;color:var(--muted);flex-shrink:0}
+.arch-divider{width:100%;height:1px;background:var(--border);margin:8px 0}
+.arch-label{font-family:var(--font-m);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px;text-align:center}
+
+/* ── Compare Table ── */
+.compare-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface)}
+.compare-table{width:100%;border-collapse:collapse;font-size:14px;min-width:600px}
+.compare-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.compare-table th{font-family:var(--font-m);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:16px 20px;text-align:left;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.compare-table th:last-child{color:var(--cyan)}
+.compare-table td{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04)}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(89,242,255,.03)}
+.compare-table .x{color:#ef4444;font-weight:600;font-family:var(--font-m)}
+.compare-table .check{color:var(--emerald);font-weight:600;font-family:var(--font-m)}
+
+/* ── Footer ── */
+footer{border-top:1px solid var(--border);padding:40px 20px;text-align:center}
+footer p{font-family:var(--font-m);font-size:12px;color:var(--muted);margin-bottom:6px}
+footer a{color:var(--cyan);text-decoration:none}
+footer a:hover{text-decoration:underline}
+footer .tagline{font-size:14px;color:var(--text);font-family:var(--font-h);font-weight:600;margin-top:12px;letter-spacing:.02em}
+
+/* ── Reveal ── */
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.visible{opacity:1;transform:none}
+
+/* ── Focus ── */
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .features-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .arch-row{flex-direction:column}
+  .arch-arrow{transform:rotate(90deg)}
+}
+
+/* ── Reduced Motion ── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .js .reveal{opacity:1;transform:none;transition:none}
+}
+</style>
+</head>
+
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="bg-glow" aria-hidden="true"></div>
+<a class="skip" href="#main">Sari la conținut</a>
+
+<!-- ── Nav ── -->
+<header class="nav">
+  <a class="brand" href="#">
+    <span class="brand-dot" aria-hidden="true"></span>
+    ANA <span class="grad">MAX</span>
+  </a>
+  <nav class="nav-links" aria-label="Main navigation">
+    <a href="#features">FEATURES</a>
+    <a href="#architecture">ARCHITECTURE</a>
+    <a href="#compare">COMPARE</a>
+    <a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noopener">GITHUB</a>
+  </nav>
+  <span class="nav-badge">OS-27 · ACTIVE</span>
+</header>
+
+<!-- ── Main ── -->
+<main id="main">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner reveal">
+      <span class="eyebrow">v0.1.0-beta · Windows AI Agent · MCP Bridge :8765</span>
+      <h1>ANA <span class="grad">MAX</span><br>OS-27</h1>
+      <p class="sub">Un sistem local pentru AI pe Windows: vede ecranul, controlează interfața, automatizează browser și terminal, și își amintește contextul semantic.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          View Source
+        </a>
+        <button class="btn btn-ghost" onclick="navigator.clipboard.writeText('git clone https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture.git');this.textContent='Copiat ✓';setTimeout(()=>{this.innerHTML='<span style=font-family:var(--font-m)>git clone</span>'},1500)">
+          <span style="font-family:var(--font-m)">git clone</span>
+        </button>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat-val cyan">121+</div><div class="stat-lbl">MCP Tools</div></div>
+        <div class="stat"><div class="stat-val violet">OS-27</div><div class="stat-lbl">Version</div></div>
+        <div class="stat"><div class="stat-val cyan">:8765</div><div class="stat-lbl">HTTP Port</div></div>
+        <div class="stat"><div class="stat-val emerald">95.7%</div><div class="stat-lbl">Test Pass</div></div>
+        <div class="stat"><div class="stat-val amber">&lt;50ms</div><div class="stat-lbl">Memory</div></div>
+        <div class="stat"><div class="stat-val pink">17.11</div><div class="stat-lbl">Frida</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="content" id="features">
+    <div class="content-inner">
+      <div class="section-label reveal">// Capabilities</div>
+      <h2 class="section-title reveal">Ce poate face ANA MAX</h2>
+      <p class="section-desc reveal">Un agent AI complet care vede, acționează, memorează și se repară singur — totul local, fără cloud.</p>
+      <div class="features-grid">
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">👁️</span>
+          <h3>Viziune reală</h3>
+          <p>OmniSense VLM + OCR, Windows Recall indexat în ChromaDB, screenshot cu delta-hash. Vede ce ai pe ecran și înțelege contextul.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">🤲</span>
+          <h3>Execuție reală</h3>
+          <p>UIA Bridge pentru click pe orice element UI, Browser Playwright cu CDP A11y tree, Terminal PowerShell persistent cu sesiuni.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">🧠</span>
+          <h3>Memorie durabilă</h3>
+          <p>ChromaDB semantic vector store cu recall sub 50ms. Memorie episodică + long-term, Context Engine, Session Checkpoints.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">🛡️</span>
+          <h3>Enterprise Intel</h3>
+          <p>DLL Injection via Frida 17.11, Memory Patching, Process Hollowing Detection, MITM Traffic Analysis, baseline anomaly scan.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">🌐</span>
+          <h3>Web &amp; Automatizare</h3>
+          <p>Ultrafast Web Executor v4, CDP A11y tree, self-healing selectors, exponential backoff, multi-URL scraper, DuckDuckGo anonymous.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <span class="feature-icon" aria-hidden="true">🔄</span>
+          <h3>Orchestrare &amp; Recovery</h3>
+          <p>Universal Task Orchestrator, Auto Recovery, Error Radar, Live Tool Healer, Swarm Router WiFi. Se repară singur fără restart.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="content" id="architecture">
+    <div class="content-inner">
+      <div class="section-label reveal">// Architecture</div>
+      <h2 class="section-title reveal">Cum funcționează</h2>
+      <p class="section-desc reveal">De la modelul AI la hardware — fiecare layer comunică prin MCP JSON-RPC.</p>
+      <div class="arch-diagram reveal">
+
+        <div class="arch-label">🧠 THE MIND — AI Models (MCP Clients)</div>
+        <div class="arch-row">
+          <div class="arch-box mind">Claude</div>
+          <div class="arch-box mind">Cursor</div>
+          <div class="arch-box mind">Windsurf</div>
+          <div class="arch-box mind">Antigravity IDE</div>
+        </div>
+
+        <div class="arch-row"><span class="arch-arrow">↓</span></div>
+        <div class="arch-label">MCP stdio / HTTP :8765</div>
+
+        <div class="arch-row"><span class="arch-arrow">↓</span></div>
+
+        <div class="arch-label">⚡ THE BODY — os27_mcp_server.py</div>
+        <div class="arch-row">
+          <div class="arch-box body">28 OS27 Tools</div>
+          <div class="arch-box body">HTTP Bridge</div>
+          <div class="arch-box body">121+ MCP Tools</div>
+        </div>
+
+        <div class="arch-row"><span class="arch-arrow">↓</span></div>
+
+        <div class="arch-label">🔌 SENSES</div>
+        <div class="arch-row">
+          <div class="arch-box sense">EYES — Vision</div>
+          <div class="arch-box sense">HANDS — UIA</div>
+          <div class="arch-box sense">MEMORY — ChromaDB</div>
+          <div class="arch-box sense">INTEL — Frida</div>
+        </div>
+
+        <div class="arch-row"><span class="arch-arrow">↓</span></div>
+
+        <div class="arch-label">💻 HARDWARE</div>
+        <div class="arch-row">
+          <div class="arch-box hw">Windows 11 x64</div>
+          <div class="arch-box hw">GTX 1650</div>
+          <div class="arch-box hw">Nox Player (ADB + Frida)</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Compare -->
+  <section class="content" id="compare">
+    <div class="content-inner">
+      <div class="section-label reveal">// Compare</div>
+      <h2 class="section-title reveal">ANA MAX vs. Agent AI Standard</h2>
+      <p class="section-desc reveal">Ce fac agenții obișnuiți vs. ce face ANA MAX pe aceeași mașină.</p>
+      <div class="compare-wrap reveal">
+        <table class="compare-table">
+          <caption>Comparație capabilități ANA MAX vs Agent AI standard</caption>
+          <thead>
+            <tr>
+              <th scope="col">Capabilitate</th>
+              <th scope="col">Agent AI Standard</th>
+              <th scope="col">ANA MAX OS-27</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Vede ecranul</td><td class="x">✗</td><td class="check">VLM + OCR</td></tr>
+            <tr><td>Click pe elemente UI</td><td class="x">✗</td><td class="check">UIA Bridge</td></tr>
+            <tr><td>DLL Injection la runtime</td><td class="x">✗</td><td class="check">Frida 17.11.0</td></tr>
+            <tr><td>Memory Patching proces</td><td class="x">✗</td><td class="check">read / write / NOP / JMP</td></tr>
+            <tr><td>Process Hollowing Detection</td><td class="x">✗</td><td class="check">241 baseline</td></tr>
+            <tr><td>MITM Traffic Detection</td><td class="x">✗</td><td class="check">7 interfețe</td></tr>
+            <tr><td>Memorie semantică long-term</td><td class="x">✗</td><td class="check">ChromaDB &lt;50ms</td></tr>
+            <tr><td>Auto Error Detection din logs</td><td class="x">✗</td><td class="check">Error Radar</td></tr>
+            <tr><td>Self-healing tool-uri</td><td class="x">✗</td><td class="check">fără restart</td></tr>
+            <tr><td>Orice model AI</td><td class="x">vendor-locked</td><td class="check">MCP universal</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <p><a href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noopener">github.com/gyodragos-cell/ANA-MAX</a></p>
+  <p>v0.1.0-beta · OS-27 · 121+ MCP Tools</p>
+  <div class="tagline">Built offline. Runs local. God Mode.</div>
+</footer>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+
+<script>
+/* ── Starfield ── */
+(function(){
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const palette = ['#59f2ff','#8b5cf6','#ff4fd8','#7dd3fc','#a5b4fc','#f4f5ff','#34d399'];
+  let w, h, dpr, stars = [], shooters = [], planets = [], nebulas = [], raf;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    generateStars();
+  }
+
+  function generateStars() {
+    const count = Math.min(Math.floor(w * h / 2000), 400);
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 0.8 + Math.random() * 2.2, // Bigger stars
+        baseAlpha: 0.3 + Math.random() * 0.7,
+        amp: 0.1 + Math.random() * 0.4,
+        twinkle: 0.5 + Math.random() * 2.0,
+        phase: Math.random() * Math.PI * 2,
+        drift: 0.05 + Math.random() * 0.2,
+        color: palette[Math.floor(Math.random() * palette.length)]
+      });
+    }
+
+    planets = [];
+    const numPlanets = 1 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < numPlanets; i++) {
+      planets.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 20 + Math.random() * 50,
+        color1: palette[Math.floor(Math.random() * palette.length)],
+        color2: palette[Math.floor(Math.random() * palette.length)],
+        driftX: (Math.random() - 0.5) * 0.1,
+        driftY: (Math.random() - 0.5) * 0.1,
+        hasRing: Math.random() > 0.5
+      });
+    }
+
+    nebulas = [];
+    const numNebulas = 2 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < numNebulas; i++) {
+      nebulas.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 300 + Math.random() * 500,
+        color: palette[Math.floor(Math.random() * palette.length)],
+        alpha: 0.02 + Math.random() * 0.04,
+        driftX: (Math.random() - 0.5) * 0.05,
+        driftY: (Math.random() - 0.5) * 0.05
+      });
+    }
+  }
+
+  function spawnShooter() {
+    const fromLeft = Math.random() > 0.5;
+    shooters.push({
+      x: fromLeft ? -100 : w + 100,
+      y: Math.random() * h * 0.6,
+      vx: (fromLeft ? 1 : -1) * (12 + Math.random() * 18),
+      vy: 2 + Math.random() * 6,
+      life: 0,
+      maxLife: 50 + Math.random() * 40
+    });
+  }
+
+  function frame(now) {
+    const t = now / 1000;
+    ctx.clearRect(0, 0, w, h);
+
+    // Nebulas
+    ctx.globalCompositeOperation = "lighter";
+    for (const n of nebulas) {
+      if (!reduce) {
+        n.x += n.driftX;
+        n.y += n.driftY;
+        if (n.x < -n.size) n.x = w + n.size;
+        if (n.x > w + n.size) n.x = -n.size;
+        if (n.y < -n.size) n.y = h + n.size;
+        if (n.y > h + n.size) n.y = -n.size;
+      }
+      const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.size);
+      grad.addColorStop(0, n.color);
+      grad.addColorStop(1, "transparent");
+      ctx.globalAlpha = n.alpha;
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+
+    // Stars
+    for (const s of stars) {
+      if (!reduce) {
+        s.y += s.drift;
+        if (s.y > h + 5) { s.y = -5; s.x = Math.random() * w; }
+      }
+      const alpha = s.baseAlpha + Math.sin(t * s.twinkle + s.phase) * s.amp;
+      ctx.globalAlpha = Math.max(0.1, Math.min(1, alpha));
+      ctx.fillStyle = s.color;
+      ctx.shadowBlur = s.size * 3;
+      ctx.shadowColor = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // Planets
+    ctx.globalAlpha = 0.85;
+    for (const p of planets) {
+      if (!reduce) {
+        p.x += p.driftX;
+        p.y += p.driftY;
+        if (p.x < -p.size * 2) p.x = w + p.size * 2;
+        if (p.x > w + p.size * 2) p.x = -p.size * 2;
+        if (p.y < -p.size * 2) p.y = h + p.size * 2;
+        if (p.y > h + p.size * 2) p.y = -p.size * 2;
+      }
+      
+      if (p.hasRing) {
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.size * 2.2, p.size * 0.4, Math.PI / 8, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
+        ctx.lineWidth = p.size * 0.15;
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.size * 2.8, p.size * 0.5, Math.PI / 8, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 255, 255, 0.08)`;
+        ctx.lineWidth = p.size * 0.05;
+        ctx.stroke();
+      }
+
+      const grad = ctx.createLinearGradient(p.x - p.size, p.y - p.size, p.x + p.size, p.y + p.size);
+      grad.addColorStop(0, p.color1);
+      grad.addColorStop(1, p.color2);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      
+      const shadowGrad = ctx.createRadialGradient(p.x + p.size*0.3, p.y + p.size*0.3, p.size*0.1, p.x, p.y, p.size*1.05);
+      shadowGrad.addColorStop(0, "transparent");
+      shadowGrad.addColorStop(1, "rgba(0,0,0,0.85)");
+      ctx.fillStyle = shadowGrad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Shooting stars
+    if (!reduce) {
+      if (Math.random() < 0.015 && shooters.length < 4) spawnShooter();
+      for (let i = shooters.length - 1; i >= 0; i--) {
+        const sh = shooters[i];
+        sh.x += sh.vx;
+        sh.y += sh.vy;
+        sh.life++;
+        const progress = sh.life / sh.maxLife;
+        const tailLen = 60 + progress * 80;
+        
+        ctx.globalAlpha = 1 - progress;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#59f2ff';
+        
+        const grad = ctx.createLinearGradient(sh.x, sh.y, sh.x - sh.vx * tailLen / 12, sh.y - sh.vy * tailLen / 12);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.1, '#59f2ff');
+        grad.addColorStop(1, 'rgba(89,242,255,0)');
+        
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 3 + (1 - progress) * 2;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(sh.x, sh.y);
+        ctx.lineTo(sh.x - sh.vx * tailLen / 12, sh.y - sh.vy * tailLen / 12);
+        ctx.stroke();
+        
+        ctx.shadowBlur = 0;
+
+        if (sh.life >= sh.maxLife) shooters.splice(i, 1);
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    if (!reduce) raf = requestAnimationFrame(frame);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  if (reduce) {
+    frame(0);
+  } else {
+    raf = requestAnimationFrame(frame);
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else raf = requestAnimationFrame(frame);
+    });
+  }
+})();
+
+/* ── Nav scroll ── */
+(function(){
+  const nav = document.querySelector('.nav');
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 8); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive: true});
+})();
+
+/* ── Reveal on scroll ── */
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, {threshold: 0.12});
+    els.forEach(function(el) { io.observe(el); });
+  } else {
+    els.forEach(function(el) { el.classList.add('visible'); });
+  }
+})();
+</script>
+</body>
+</html>

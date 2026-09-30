@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANA MAX v3.0 | Quantum Neural Architecture & Ambient Spatial Agent</title>
+
+<!-- Modern Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          display: ['"Space Grotesk"', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+        colors: {
+          quantum: {
+            bg: '#030308',
+            surface: 'rgba(13, 14, 27, 0.65)',
+            border: 'rgba(255, 255, 255, 0.08)',
+            cyan: '#00f2fe',
+            violet: '#7928ca',
+            pink: '#ff0080',
+            emerald: '#00dfa2',
+            amber: '#ffb800'
+          }
+        },
+        animation: {
+          'pulse-glow': 'pulseGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          'float': 'float 6s ease-in-out infinite',
+          'matrix-scan': 'matrixScan 3s linear infinite',
+        },
+        keyframes: {
+          pulseGlow: {
+            '0%, 100%': { opacity: '0.4', filter: 'blur(40px)' },
+            '50%': { opacity: '0.8', filter: 'blur(60px)' },
+          },
+          float: {
+            '0%, 100%': { transform: 'translateY(0px)' },
+            '50%': { transform: 'translateY(-10px)' },
+          },
+          matrixScan: {
+            '0%': { transform: 'translateY(-100%)' },
+            '100%': { transform: 'translateY(1000%)' }
+          }
+        }
+      }
+    }
+  }
+</script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- Three.js (WebGL Visuals) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+  /* Glassmorphism & Cyberpunk Backdrop */
+  .glass-panel {
+    background: rgba(13, 14, 27, 0.55);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .glass-card:hover {
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: 0 12px 40px -10px rgba(0, 242, 254, 0.15);
+    transform: translateY(-3px);
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 30%, #00dfa2 70%, #ff0080 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+  }
+  
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #030308; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00f2fe; }
+
+  /* Interactive Graph Nodes */
+  .node-active {
+    stroke: #00f2fe !important;
+    filter: drop-shadow(0px 0px 8px rgba(0, 242, 254, 0.8));
+  }
+</style>
+</head>
+<body class="bg-quantum-bg text-slate-100 font-sans min-h-screen overflow-x-hidden antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- Ambient background glow elements (Future 2028-2029 Aesthetic) -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-quantum-violet opacity-30 rounded-full animate-pulse-glow"></div>
+    <div class="absolute top-1/3 -right-20 w-[500px] h-[500px] bg-quantum-cyan opacity-20 rounded-full animate-pulse-glow" style="animation-delay: 2s;"></div>
+    <div class="absolute -bottom-40 left-1/3 w-[600px] h-[600px] bg-quantum-pink opacity-15 rounded-full animate-pulse-glow" style="animation-delay: 4s;"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px]"></div>
+  </div>
+
+  <!-- WebGL 3D Canvas -->
+  <div id="canvas-container" class="fixed inset-0 z-0 opacity-40 pointer-events-none"></div>
+
+  <!-- MAIN NAVIGATION BAR -->
+  <header class="sticky top-0 z-50 w-full glass-panel border-b border-white/10 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-quantum-violet to-quantum-cyan p-[1px]">
+          <div class="w-full h-full bg-quantum-bg rounded-[11px] flex items-center justify-center">
+            <i data-lucide="cpu" class="w-5 h-5 text-quantum-cyan animate-pulse"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-lg tracking-wider">ANA <span class="text-gradient font-black">MAX</span></span>
+            <span class="px-2 py-0.5 text-[10px] font-mono rounded-full bg-cyan-500/10 text-quantum-cyan border border-cyan-500/30">v3.0.0-NextGen</span>
+          </div>
+          <p class="text-[11px] font-mono text-slate-400">Autonomous Spatial Agent & Neural MCP OS Bridge</p>
+        </div>
+      </div>
+
+      <!-- Action Cluster -->
+      <div class="flex items-center gap-4">
+        <div class="hidden lg:flex items-center gap-6 text-xs font-mono text-slate-400 border-r border-white/10 pr-6">
+          <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Realtime Engine: Active</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i> Latency: 1.2ms</span>
+          <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-quantum-cyan"></i> Zero-Trust Sandbox</span>
+        </div>
+
+        <button onclick="openModal()" class="relative group px-5 py-2.5 rounded-xl font-mono text-xs font-semibold overflow-hidden transition-all duration-300 hover:shadow-[0_0_25px_rgba(0,242,254,0.4)]">
+          <div class="absolute inset-0 bg-gradient-to-r from-quantum-cyan via-quantum-violet to-quantum-pink opacity-80 group-hover:opacity-100 transition-opacity"></div>
+          <div class="relative flex items-center gap-2 text-black font-bold">
+            <i data-lucide="brain-circuit" class="w-4 h-4"></i>
+            <span data-i18n="btn-profile">Profil Neural Intel</span>
+          </div>
+        </button>
+
+        <button onclick="toggleLanguage()" id="lang-btn" class="glass-card px-3.5 py-2 rounded-xl text-xs font-mono font-medium hover:border-quantum-cyan transition-all flex items-center gap-1.5">
+          <i data-lucide="globe" class="w-3.5 h-3.5 text-quantum-cyan"></i>
+          <span>RO</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="relative z-10 max-w-7xl mx-auto px-6 py-8 flex flex-col gap-8">
+
+    <!-- HERO METRICS DASHBOARD -->
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-mcp">MCP Tools</span>
+          <i data-lucide="wrench" class="w-3.5 h-3.5 text-quantum-cyan"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-gradient">122+</div>
+        <div class="text-[10px] font-mono text-emerald-400 mt-1">↑ Direct API Core</div>
+      </div>
+
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-vision">Vision Telepathy</span>
+          <i data-lucide="eye" class="w-3.5 h-3.5 text-quantum-pink"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-white">11 <span class="text-xs font-mono font-normal text-slate-400">Node</span></div>
+        <div class="text-[10px] font-mono text-quantum-cyan mt-1">Spatial Computer</div>
+      </div>
+
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-system">Deep Optics</span>
+          <i data-lucide="binary" class="w-3.5 h-3.5 text-purple-400"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-white">4 <span class="text-xs font-mono font-normal text-slate-400">Core</span></div>
+        <div class="text-[10px] font-mono text-purple-400 mt-1">Kernel Driver Level</div>
+      </div>
+
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-rag">RAG Vectors</span>
+          <i data-lucide="database" class="w-3.5 h-3.5 text-amber-400"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-white">39 <span class="text-xs font-mono font-normal text-slate-400">DBs</span></div>
+        <div class="text-[10px] font-mono text-amber-400 mt-1">Sub-millisecond Retrieval</div>
+      </div>
+
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-model">Neural Engine</span>
+          <i data-lucide="cpu" class="w-3.5 h-3.5 text-emerald-400"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-white">qwen2.5-coder</div>
+        <div class="text-[10px] font-mono text-emerald-400 mt-1">7B Local Fine-tuned</div>
+      </div>
+
+      <div class="glass-card p-4 rounded-2xl relative overflow-hidden group">
+        <div class="text-xs font-mono text-slate-400 mb-1 flex items-center justify-between">
+          <span data-i18n="stat-port">Quantum Bridge</span>
+          <i data-lucide="network" class="w-3.5 h-3.5 text-quantum-cyan"></i>
+        </div>
+        <div class="text-2xl font-display font-bold text-white">:8766</div>
+        <div class="text-[10px] font-mono text-quantum-cyan mt-1">WebSocket / JSON-RPC 3.0</div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE TAB SYSTEM -->
+    <section class="flex flex-col gap-6">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+          <button class="tab-btn active glass-card px-5 py-2.5 rounded-xl text-xs font-mono font-semibold text-quantum-cyan border-cyan-500/50 flex items-center gap-2" onclick="switchTab('architecture')">
+            <i data-lucide="network" class="w-4 h-4"></i>
+            <span data-i18n="tab-architecture">Topologie & Harta Neurală</span>
+          </button>
+          <button class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs font-mono font-semibold text-slate-400 hover:text-white flex items-center gap-2" onclick="switchTab('connection')">
+            <i data-lucide="terminal" class="w-4 h-4"></i>
+            <span data-i18n="tab-connection">MCP Client Integration Hub</span>
+          </button>
+          <button class="tab-btn glass-card px-5 py-2.5 rounded-xl text-xs font-mono font-semibold text-slate-400 hover:text-white flex items-center gap-2" onclick="switchTab('aicore')">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            <span data-i18n="tab-aicore">Module Autonome AI Core</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 1: ARCHITECTURE MAP -->
+      <div id="tab-architecture" class="tab-content block">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="font-display text-lg font-bold text-white flex items-center gap-2">
+                <i data-lucide="workflow" class="w-5 h-5 text-quantum-cyan"></i>
+                Schemă Sinaptică Interactivă ANA MAX
+              </h2>
+              <p class="text-xs font-mono text-slate-400">Apasă pe oricare dintre noduri pentru mai multe specificații și interacțiuni în timp real.</p>
+            </div>
+            <span class="text-xs font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300">Live Visual Graph</span>
+          </div>
+
+          <div class="w-full overflow-x-auto rounded-2xl bg-slate-950/60 p-4 border border-white/5">
+            <svg width="100%" viewBox="0 0 900 850" class="min-w-[800px]">
+              <defs>
+                <linearGradient id="grad-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#7928ca" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#ff0080" stop-opacity="0.2"/>
+                </linearGradient>
+                <linearGradient id="grad-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#4facfe" stop-opacity="0.2"/>
+                </linearGradient>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(0,242,254,0.6)"/>
+                </marker>
+              </defs>
+
+              <!-- Layer 1: IDE Clients -->
+              <g class="cursor-pointer group" onclick="showInfo('clients')">
+                <rect x="250" y="20" width="400" height="55" rx="12" fill="url(#grad-purple)" stroke="#7928ca" stroke-width="1.5" class="transition-all duration-300 group-hover:stroke-quantum-pink"/>
+                <text x="450" y="42" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-weight="600" font-size="14">IDE-uri & Clienți Spatiali AI (Claude, Cursor, Windsurf, Antigravity)</text>
+                <text x="450" y="58" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="10">Prototipare JSON-RPC 3.0 Sync / Streaming Protocol</text>
+              </g>
+
+              <line x1="450" y1="75" x2="450" y2="105" stroke="rgba(0,242,254,0.4)" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="4"/>
+
+              <!-- Layer 2: MCP Core Bridge -->
+              <g class="cursor-pointer group" onclick="showInfo('mcp')">
+                <rect x="200" y="105" width="500" height="60" rx="12" fill="url(#grad-cyan)" stroke="#00f2fe" stroke-width="1.5"/>
+                <text x="450" y="132" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-weight="700" font-size="15">main.py — Quantum MCP Server Bridge (:8766)</text>
+                <text x="450" y="150" text-anchor="middle" fill="#00f2fe" font-family="JetBrains Mono" font-size="11">Rute Flask Async & Event Loop Multi-threaded Core</text>
+              </g>
+
+              <line x1="450" y1="165" x2="450" y2="195" stroke="rgba(0,242,254,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <!-- Layer 3: Adapters Registry -->
+              <g class="cursor-pointer group" onclick="showInfo('adapters')">
+                <rect x="280" y="195" width="340" height="50" rx="10" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="450" y="218" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-size="13">tool_adapters.py — Adaptor Registry Unified</text>
+                <text x="450" y="234" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="10">7 Clase Wrappers & Auto-reflection Tools</text>
+              </g>
+
+              <!-- Connectors to AI Core Modules -->
+              <path d="M 330 245 L 110 300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 370 245 L 245 300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 450 245 L 380 300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 520 245 L 515 300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arrow)"/>
+              <path d="M 580 245 L 650 300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+              <!-- Layer 4: AI Core Modules Cluster -->
+              <g class="cursor-pointer group" onclick="showInfo('context_engine')">
+                <rect x="40" y="300" width="130" height="70" rx="10" fill="rgba(0,242,254,0.1)" stroke="#00f2fe" stroke-width="1"/>
+                <text x="105" y="325" text-anchor="middle" fill="#00f2fe" font-family="Space Grotesk" font-weight="600" font-size="12">Context Engine</text>
+                <text x="105" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Predicție Intent</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="showInfo('proactive')">
+                <rect x="180" y="300" width="130" height="70" rx="10" fill="rgba(121,40,202,0.1)" stroke="#7928ca" stroke-width="1"/>
+                <text x="245" y="325" text-anchor="middle" fill="#ff0080" font-family="Space Grotesk" font-weight="600" font-size="12">Proactive Interrupt</text>
+                <text x="245" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">5 Detectori Live</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="showInfo('memory_cortex')">
+                <rect x="320" y="300" width="130" height="70" rx="10" fill="rgba(255,0,128,0.1)" stroke="#ff0080" stroke-width="1"/>
+                <text x="385" y="325" text-anchor="middle" fill="#ff0080" font-family="Space Grotesk" font-weight="600" font-size="12">Memory Cortex</text>
+                <text x="385" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">4 Tiers Persistență</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="showInfo('self_evolving')">
+                <rect x="460" y="300" width="130" height="70" rx="10" fill="rgba(255,184,0,0.1)" stroke="#ffb800" stroke-width="1"/>
+                <text x="525" y="325" text-anchor="middle" fill="#ffb800" font-family="Space Grotesk" font-weight="600" font-size="12">Self Evolving</text>
+                <text x="525" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Auto-repair Runtime</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="showInfo('orchestrator')">
+                <rect x="600" y="300" width="130" height="70" rx="10" fill="rgba(0,223,162,0.1)" stroke="#00dfa2" stroke-width="1"/>
+                <text x="665" y="325" text-anchor="middle" fill="#00dfa2" font-family="Space Grotesk" font-weight="600" font-size="12">ANA Orchestrator</text>
+                <text x="665" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Pipeline Execuție</text>
+              </g>
+
+              <g class="cursor-pointer group" onclick="showInfo('window_manager')">
+                <rect x="740" y="300" width="120" height="70" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                <text x="800" y="325" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-weight="600" font-size="12">Window Mgr</text>
+                <text x="800" y="345" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Spatial Control</text>
+              </g>
+
+              <!-- Layer 5: Execution Core & Tools -->
+              <line x1="450" y1="370" x2="450" y2="420" stroke="rgba(0,242,254,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <rect x="40" y="420" width="820" height="180" rx="16" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.1)" stroke-dasharray="6 6"/>
+              <text x="450" y="445" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="11">SISTEM EXECUȚIE TOOL-URI (122+ UNELTE ACTIVE)</text>
+
+              <!-- Tools Badges Inside Grid -->
+              <g class="cursor-pointer" onclick="showInfo('uia')">
+                <rect x="60" y="465" width="180" height="45" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+                <text x="150" y="485" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-size="12">windows_uia_bridge</text>
+                <text x="150" y="500" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Nativ API Windows UIA</text>
+              </g>
+
+              <g class="cursor-pointer" onclick="showInfo('desktop_capture')">
+                <rect x="250" y="465" width="180" height="45" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+                <text x="340" y="485" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-size="12">desktop_capture</text>
+                <text x="340" y="500" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Spatial Telepathy OCR</text>
+              </g>
+
+              <g class="cursor-pointer" onclick="showInfo('terminal')">
+                <rect x="440" y="465" width="180" height="45" rx="8" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.1)"/>
+                <text x="530" y="485" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-size="12">terminal_tool</text>
+                <text x="530" y="500" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">PowerShell Nativ Exec</text>
+              </g>
+
+              <g class="cursor-pointer" onclick="showInfo('deep_sight')">
+                <rect x="630" y="465" width="210" height="45" rx="8" fill="rgba(0,242,254,0.1)" stroke="#00f2fe"/>
+                <text x="735" y="485" text-anchor="middle" fill="#00f2fe" font-family="Space Grotesk" font-size="12">windows_deep_sight</text>
+                <text x="735" y="500" text-anchor="middle" fill="#8a8a95" font-family="JetBrains Mono" font-size="9">Kernel Mode Diagnostic</text>
+              </g>
+
+              <!-- Layer 6: Local Vector Database & Persistent Storage -->
+              <line x1="450" y1="600" x2="450" y2="650" stroke="rgba(0,242,254,0.4)" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <g class="cursor-pointer group" onclick="showInfo('sqlite')">
+                <rect x="200" y="650" width="500" height="65" rx="12" fill="rgba(13, 14, 27, 0.9)" stroke="#7928ca" stroke-width="1.5"/>
+                <text x="450" y="678" text-anchor="middle" fill="#fff" font-family="Space Grotesk" font-weight="700" font-size="15">ana_memory.db — Bază de Date Vectorială & SQLite Locală</text>
+                <text x="450" y="698" text-anchor="middle" fill="#ff0080" font-family="JetBrains Mono" font-size="11">Instanță Locală Izolată • Log-uri • Graph Memory • Zero Cloud Leaks</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: MCP CONNECTIONS HUB -->
+      <div id="tab-connection" class="tab-content hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-code" class="w-5 h-5 text-quantum-cyan"></i>
+                <h3 class="font-display font-semibold text-white">Claude Desktop Configuration</h3>
+              </div>
+              <button class="copy-btn glass-card px-3 py-1 rounded-lg text-xs font-mono text-slate-300 hover:text-quantum-cyan transition-colors" onclick="copyConfig('claude')">Copy Config</button>
+            </div>
+            <pre class="bg-black/60 p-4 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto border border-white/5 line-numbers"><code id="code-claude">// %APPDATA%\Claude\claude_desktop_config.json
+{
+  "mcpServers": {
+    "ana-max-v3": {
+      "url": "http://127.0.0.1:8766/mcp",
+      "transport": "streamable-http",
+      "features": ["vision", "telepathy", "system-intel"]
+    }
+  }
+}</code></pre>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="terminal" class="w-5 h-5 text-quantum-pink"></i>
+                <h3 class="font-display font-semibold text-white">Cursor / Windsurf / Devin Config</h3>
+              </div>
+              <button class="copy-btn glass-card px-3 py-1 rounded-lg text-xs font-mono text-slate-300 hover:text-quantum-pink transition-colors" onclick="copyConfig('cursor')">Copy Config</button>
+            </div>
+            <pre class="bg-black/60 p-4 rounded-xl font-mono text-xs text-slate-300 overflow-x-auto border border-white/5"><code id="code-cursor">Server Name:   ana-max-v3
+Server URL:    http://127.0.0.1:8766/mcp
+Transport:     HTTP / Server-Sent Events (SSE)
+Auth Key:      Disabled (Local IPC Channel)</code></pre>
+          </div>
+
+          <div class="glass-card p-6 rounded-2xl col-span-1 md:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <i data-lucide="play-circle" class="w-5 h-5 text-emerald-400"></i>
+                <h3 class="font-display font-semibold text-white">Comandă Pornire & Initializare Runtime Agent</h3>
+              </div>
+              <button class="copy-btn glass-card px-3 py-1 rounded-lg text-xs font-mono text-slate-300 hover:text-emerald-400 transition-colors" onclick="copyConfig('start')">Copy Shell</button>
+            </div>
+            <pre class="bg-black/60 p-4 rounded-xl font-mono text-xs text-emerald-400 overflow-x-auto border border-white/5"><code id="code-start"># Rulare în consolă cu drepturi elevate (Windows Terminal)
+python main.py --mode=spatial-agent --port=8766 --quant=q5_k_m
+
+[INFO] Initializing ANA MAX v3.0 Spatial Neural Engine...
+[OK] Registered 122 MCP Native Tools successfully.
+[OK] Local LLM Engine loaded: qwen2.5-coder:7b via Ollama API
+[OK] MCP Server operational on http://127.0.0.1:8766/mcp</code></pre>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 3: AI CORE MODULES CARDS -->
+      <div id="tab-aicore" class="tab-content hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Card 1 -->
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="p-2.5 rounded-xl bg-cyan-500/10 text-quantum-cyan border border-cyan-500/20">
+                  <i data-lucide="activity" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono bg-cyan-500/10 text-quantum-cyan border border-cyan-500/20">v3 Nativ</span>
+              </div>
+              <h3 class="font-display text-base font-bold text-white mb-1">context_engine.py</h3>
+              <p class="text-xs font-mono text-slate-400 mb-4">Sistem avansat de monitorizare comportamentală și predicție intent.</p>
+              <ul class="text-xs font-mono text-slate-300 space-y-2 border-t border-white/5 pt-3">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-cyan"></i> Classificator activitate UI în timp real</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-cyan"></i> Predicții cu scor de confidență Bayesian</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-cyan"></i> Bază de date locală de tip "Habit Matrix"</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="p-2.5 rounded-xl bg-pink-500/10 text-quantum-pink border border-pink-500/20">
+                  <i data-lucide="zap" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono bg-pink-500/10 text-quantum-pink border border-pink-500/20">Proactiv</span>
+              </div>
+              <h3 class="font-display text-base font-bold text-white mb-1">proactive_interrupt.py</h3>
+              <p class="text-xs font-mono text-slate-400 mb-4">Intervenție autonomă fără a fi întrebat când detectează blocaje.</p>
+              <ul class="text-xs font-mono text-slate-300 space-y-2 border-t border-white/5 pt-3">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-pink"></i> Detector STUCK: alertă la 3+ min de inacțiune</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-pink"></i> Detecție automată a erorilor din clipboard</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-quantum-pink"></i> Buclă de feedback RLHF autonom</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glass-card p-6 rounded-2xl flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                  <i data-lucide="brain" class="w-5 h-5"></i>
+                </div>
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-mono bg-purple-500/10 text-purple-400 border border-purple-500/20">Memorie 4D</span>
+              </div>
+              <h3 class="font-display text-base font-bold text-white mb-1">memory_cortex.py</h3>
+              <p class="text-xs font-mono text-slate-400 mb-4">Persistență pe termen lung structurată pe 4 nivele de memorie.</p>
+              <ul class="text-xs font-mono text-slate-300 space-y-2 border-t border-white/5 pt-3">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-purple-400"></i> Memorie Episodică, Semantică și Procedurală</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-purple-400"></i> Log automat al greșelilor cu prevenire la 3x</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-purple-400"></i> Injecție dinamică în prompt-ul LLM</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- INFO INTERACTIVE PANEL -->
+    <section id="info-panel" class="glass-panel p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+      <div class="p-3 rounded-xl bg-cyan-500/10 text-quantum-cyan border border-cyan-500/20">
+        <i data-lucide="info" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 id="info-panel-title" class="font-display font-bold text-white text-base">Centru Inspecție Componentă</h3>
+        <p id="info-panel-text" class="text-xs font-mono text-slate-400 mt-1">Apasă pe oricare element din schemă pentru a vizualiza datele de depanare, fișierele sursă și parametrii MCP disponibili.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL PROFILE OVERLAY -->
+  <div id="modal-panel" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="glass-panel w-full max-w-3xl max-h-[90vh] rounded-3xl p-8 overflow-y-auto border border-white/15 relative shadow-2xl">
+      <button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-quantum-cyan to-quantum-violet flex items-center justify-center text-black font-black text-2xl">
+          ANA
+        </div>
+        <div>
+          <h2 class="font-display text-2xl font-bold text-white">ANA MAX v3.0 Profile</h2>
+          <p class="text-xs font-mono text-quantum-cyan">Next-Gen Autonomous OS Intelligence Bridge</p>
+        </div>
+      </div>
+
+      <div class="space-y-6 text-xs font-mono">
+        <div class="glass-card p-4 rounded-xl">
+          <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-quantum-cyan"></i> Motor Local AI:</h4>
+          <p class="text-slate-300">Rulând pe <span class="text-quantum-cyan">qwen2.5-coder:7b</span> (Ollama v0.34.4). Antrenat special pentru scriere de cod, depanare nativă Windows API și execuție de sarcini autonome.</p>
+        </div>
+
+        <div class="glass-card p-4 rounded-xl">
+          <h4 class="font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> Arhitectură de Securitate:</h4>
+          <p class="text-slate-300">Toate cele 122 de tool-uri rulează în spațiu de memorie izolat, fără transmiteri de date externe. Zero dependețe de servicii cloud.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS & LOGIC -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // WebGL Three.js Interactive Particle Background
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BufferGeometry();
+    const count = 1000;
+    const positions = new Float32Array(count * 3);
+
+    for(let i = 0; i < count * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 10;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({ size: 0.02, color: 0x00f2fe });
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    camera.position.z = 3;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      points.rotation.y += 0.001;
+      points.rotation.x += 0.0005;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Tab Switch Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('text-quantum-cyan', 'border-cyan-500/50');
+        el.classList.add('text-slate-400');
+      });
+      
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      event.currentTarget.classList.add('text-quantum-cyan', 'border-cyan-500/50');
+      event.currentTarget.classList.remove('text-slate-400');
+    }
+
+    // Interactive Node Inspector
+    function showInfo(node) {
+      const title = document.getElementById('info-panel-title');
+      const text = document.getElementById('info-panel-text');
+
+      const data = {
+        'clients': { title: 'IDE-uri & Clienți Suprapuși', text: 'Permite conectarea în timp real a IDE-urilor moderne precum Claude, Cursor, Devin prin protocolul JSON-RPC.' },
+        'mcp': { title: 'MCP Server Core (:8766)', text: 'Punctul central de comunicație WebSocket și HTTP streaming al agentului ANA MAX.' },
+        'adapters': { title: 'Tool Adapters Engine', text: 'Mapează automat funcțiile din cod în specificații valide pentru MCP Protocol.' },
+        'context_engine': { title: 'Context Engine', text: 'Analizează screenshot-urile și comportamentul pentru a anticipa acțiunile necesare.' },
+        'memory_cortex': { title: 'Memory Cortex (4-Tier)', text: 'Stochează istoricul de execuție, vectorii de cunoștințe și previne repetarea erorilor.' },
+        'sqlite': { title: 'Baza de Date Locală SQLite', text: 'Memoria persistentă a agentului fără sincronizare externă.' }
+      };
+
+      if(data[node]) {
+        title.innerText = data[node].title;
+        text.innerText = data[node].text;
+      }
+    }
+
+    // Modal Control
+    function openModal() { document.getElementById('modal-panel').classList.remove('hidden'); document.getElementById('modal-panel').classList.add('flex'); }
+    function closeModal() { document.getElementById('modal-panel').classList.add('hidden'); document.getElementById('modal-panel').classList.remove('flex'); }
+
+    // Clipboard Copy Helper
+    function copyConfig(id) {
+      const code = document.getElementById('code-' + id).innerText;
+      navigator.clipboard.writeText(code);
+      alert('Configurație copiată în clipboard!');
+    }
+  </script>
+</body>
+</html>
