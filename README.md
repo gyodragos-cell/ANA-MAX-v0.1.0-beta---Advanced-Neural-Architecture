@@ -13,6 +13,7 @@ This repository evolves from the OS-28 foundation. OS-29 is the next engineering
 - **Website:** [ANA MAX — OS-28 → OS-29](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
 - **Live Profile demo:** [Open browser-native profile](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/live.html)
 - **Professional CV:** [View or print the CV](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/cv.html)
+- **LinkedIn:** [Professional profile](https://www.linkedin.com/in/gyodragos/)
 - **Recorded project status:** [Portfolio status and evidence, 20 Oct 2026](docs/PORTFOLIO_STATUS_2026-10-20.md)
 
 ## What this project focuses on
