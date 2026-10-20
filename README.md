@@ -6,7 +6,7 @@ OS29 is a local-first operational-intelligence layer for traceable diagnostics, 
 This repository is the clean OS29 source tree. It does not include the historical OS27/OS28 workspace, browser profiles, local runtime databases, private memory sources, cache trees, local logs or machine-specific MCP client configuration. Optional OS28 adapters are kept at the integration boundary; the OS28 implementation itself is not bundled here.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![OS29 local baseline](https://img.shields.io/badge/OS29-local%20baseline-37%20passed-2e8b57.svg)](docs/VERIFICATION.md)
+[![OS29 local baseline](https://img.shields.io/badge/OS29%20local%20baseline-37%20passed-2e8b57.svg)](docs/VERIFICATION.md)
 [![Portfolio](https://img.shields.io/badge/Portfolio-GitHub%20Pages-5468ff.svg)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
 
 ## What is included
