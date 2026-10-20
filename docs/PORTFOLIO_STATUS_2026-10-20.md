@@ -30,7 +30,7 @@ The local companion status and completion report record:
 - 375 documents in the local SQLite FTS5/BM25 lexical index at the recorded checkpoint.
 - A successful OS-28 → OS-29 end-to-end checkpoint with three linked persisted events and a subsequent memory search that retrieved both the validation event and the follow-up triage decision.
 
-**Current boundary:** OS-29 lives separately at C:\Users\billy\Desktop\OS29_LAB on the development PC. Its code is not yet published in this GitHub repository. The current memory path is lexical; vector embeddings, reranking and the full 30-module roadmap are not claimed as complete.
+**Current boundary:** OS-29 lives in a separate local workspace on the development PC. Its code is not yet published in this GitHub repository. The current memory path is lexical; vector embeddings, reranking and the full 30-module roadmap are not claimed as complete.
 
 ## Repository organization — conservative pass
 
