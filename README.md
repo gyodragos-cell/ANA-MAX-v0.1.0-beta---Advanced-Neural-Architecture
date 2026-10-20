@@ -72,6 +72,18 @@ Python is the primary implementation language, with PowerShell for Windows workf
 
 Use the project-specific setup instructions and the test scope relevant to the component you change. Because this repository contains historical and experimental directories, do not assume that every script, launcher or folder is part of the default runtime.
 
+### Browser tests for the public portfolio
+
+The Playwright suite checks the three static portfolio pages, key section links, mobile layout, Live Profile personalization, and uncaught JavaScript errors. Run it from the repository root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm run test:e2e
+```
+
+GitHub Actions runs the suite on pushes and pull requests. The tests serve the checked-out HTML locally on loopback; they do **not** connect to the operator's local MCP endpoint, control the desktop, or certify OS-28/OS-29 runtime behavior. Playwright reports, traces and failure screenshots are retained as workflow artifacts.
+
 A non-destructive inventory of the current root tree and a dependency-aware cleanup plan are documented in [the repository map](docs/REPOSITORY_MAP_2026-10-20.md).
 
 ## Engineering principle
