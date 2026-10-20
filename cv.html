@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="Professional engineering portfolio and printable CV: local AI tooling, Windows automation, MCP integration and QA evidence for ANA MAX OS-28 and OS-29.">
+<title>Professional CV | ANA MAX OS-28 → OS-29</title>
+<style>
+:root{--bg:#0b0f15;--paper:#101720;--line:#293643;--text:#eaf0f6;--muted:#9aa9b7;--accent:#79e4c4;--blue:#91b9ff;--sans:Inter,"Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",Consolas,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0,#1b2c40 0,transparent 40%),var(--bg);color:var(--text);font:14px/1.65 var(--sans)}a{color:var(--blue);text-decoration:none}a:hover{color:var(--accent)}button{font:inherit;cursor:pointer}.shell{width:min(1040px,100%);margin:auto;padding:25px 24px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:25px}.brand{display:flex;align-items:center;gap:11px;color:var(--text)}.mark{width:39px;height:39px;border:1px solid #416d66;border-radius:10px;background:#132c2c;display:grid;place-items:center;color:var(--accent);font-weight:900}.eyebrow{font:10px var(--mono);letter-spacing:.16em;color:var(--accent);text-transform:uppercase}.brand strong{font-size:15px;letter-spacing:.07em}.nav{display:flex;gap:8px;flex-wrap:wrap}.button{border:1px solid #344451;color:var(--text);background:#121d27;border-radius:9px;padding:9px 13px;font-size:12px}.button.primary{border-color:var(--accent);background:var(--accent);color:#071610;font-weight:750}.button:hover{filter:brightness(1.08)}button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.hero{padding:clamp(25px,5vw,52px);border:1px solid var(--line);border-radius:22px;background:linear-gradient(140deg,#16222f,#0d141c 76%);box-shadow:0 25px 65px #0003}
+.kicker{font:10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}h1{font-size:clamp(34px,6vw,63px);letter-spacing:-.055em;line-height:1.04;margin:15px 0 14px;max-width:800px}h1 span{color:var(--accent)}.subhead{color:#b7c4cf;font-size:17px;line-height:1.7;max-width:790px}.hero-bottom{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-top:27px;padding-top:20px;border-top:1px solid var(--line)}.role{font-size:13px;font-weight:650}.location{color:var(--muted);font-size:11px}
+.meta-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:13px}.meta{padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--paper)}.meta label{display:block;color:var(--muted);font:9px var(--mono);letter-spacing:.12em;text-transform:uppercase}.meta strong{display:block;margin-top:7px;font-size:13px;line-height:1.55}
+section{margin-top:32px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:13px}.section-head h2{font-size:19px;letter-spacing:-.02em;margin:0}.section-head p{margin:4px 0 0;color:var(--muted);font-size:11px}.no{font:10px var(--mono);letter-spacing:.1em;color:var(--accent)}
+.card{padding:22px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,#121b25,#0d131b)}.card+.card{margin-top:12px}.card-top{display:flex;justify-content:space-between;align-items:start;gap:14px;flex-wrap:wrap}.card h3{font-size:17px;margin:0}.label{font:9px var(--mono);text-transform:uppercase;letter-spacing:.13em;color:var(--accent)}.status{display:inline-block;border:1px solid #395347;border-radius:999px;padding:5px 9px;color:var(--accent);font:9px var(--mono)}.card p{color:#bdc9d4;font-size:13px;line-height:1.8;margin:13px 0}.card ul{padding-left:19px;margin:10px 0 0;color:#aebdca;font-size:12px;line-height:1.85}.card li{padding-left:3px;margin:4px 0}.card li::marker{color:var(--accent)}
+.skillgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.skill{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--paper)}.skill strong{display:block;font-size:13px}.skill span{display:block;margin-top:5px;font-size:11px;line-height:1.6;color:var(--muted)}
+.principle{border-left:3px solid var(--accent);border-radius:0 12px 12px 0;padding:17px 20px;background:#11201f;color:#c8d7d5;font-size:13px;line-height:1.8}
+.summary-copy{border:1px dashed #435365;background:#0c131a;border-radius:12px;padding:18px;color:#ced8e1;font-size:13px;line-height:1.9;white-space:pre-wrap}
+.endnote{font-size:11px;color:var(--muted);line-height:1.8}.source-link{font:11px var(--mono)}
+footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:37px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font:10px var(--mono)}
+@media(max-width:680px){.shell{padding:14px}.meta-grid,.skillgrid{grid-template-columns:1fr}.hero{padding:24px}.card{padding:17px}.hero-bottom{align-items:start;flex-direction:column}}
+@media print{
+ @page{size:A4;margin:14mm}
+ :root{--bg:#fff;--paper:#fff;--line:#d5dbe1;--text:#16212a;--muted:#4c5c69;--accent:#136b54;--blue:#214b8d}
+ body{background:white!important;color:#16212a!important;font-size:10.5pt;line-height:1.48}
+ .shell{width:100%;max-width:none;padding:0}
+ header{margin-bottom:12px}.hero,.card,.meta,.skill,.summary-copy{background:white!important;box-shadow:none;border:1px solid #d5dbe1}
+ .hero{padding:22px;border-radius:10px}h1{font-size:30pt;color:#16212a;margin:8px 0}.subhead{color:#334552;font-size:12pt}
+ .brand,.role,.card h3,.section-head h2,.meta strong,.skill strong{color:#16212a}.button,.nav,.no-print{display:none!important}
+ .meta-grid{gap:7px}.meta{padding:10px}.section-head{margin-bottom:8px}section{margin-top:20px}.card{padding:14px;break-inside:avoid}.card p,.card ul,.skill span,.endnote,.principle,.summary-copy{color:#334552!important;font-size:9.5pt}
+ .skillgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.skill{padding:9px}
+ .principle{background:#f1f7f4!important;border-left-color:#136b54}
+ a{color:#214b8d}footer{margin-top:20px}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+<a class="brand" href="./index.html"><span class="mark">A</span><span><span class="eyebrow">ANA MAX / OS-28 → OS-29</span><br><strong>ENGINEERING PROFILE</strong></span></a>
+<nav class="nav no-print"><a class="button" href="./index.html">← Portfolio</a><a class="button" href="./live.html">Live Profile</a><button class="button primary" id="printButton" type="button">Print / Save PDF</button></nav>
+</header>
+<main>
+<section class="hero" style="margin-top:0">
+<div class="kicker">Professional CV · Independent projects</div>
+<h1>Local AI tooling.<br><span>Real tests. Clear evidence.</span></h1>
+<p class="subhead">Self-directed developer focused on local-first AI tooling, Windows automation, MCP integration and quality assurance. Builds practical Python and PowerShell workflows, then verifies behavior with bounded tests, live checks and documented limitations.</p>
+<div class="hero-bottom"><div><div class="role">AI Tooling · Automation · QA &amp; Reliability</div><div class="location">Project-based engineering portfolio · ANA MAX OS-28 / OS-29</div></div><a class="source-link" href="https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture" target="_blank" rel="noopener noreferrer">PUBLIC ANA MAX REPOSITORY ↗</a></div>
+</section>
+
+<div class="meta-grid">
+<div class="meta"><label>Primary focus</label><strong>Local AI integration and Windows automation</strong></div>
+<div class="meta"><label>Engineering approach</label><strong>Evidence-first QA, scoped access and readable reports</strong></div>
+<div class="meta"><label>Current project line</label><strong>OS-28 foundation → OS-29 operational intelligence</strong></div>
+</div>
+
+<section>
+<div class="section-head"><div><h2>Professional summary</h2><p>Concise and factual; no inflated title or unverified employment history.</p></div><span class="no">01 / PROFILE</span></div>
+<div class="card"><p>I work on the layer between AI-driven intent and local software: tool contracts, MCP/JSON-RPC integration, Windows-side automation, health checks, persistent diagnostic evidence and regression tests. I am interested in making complex agent workflows more observable and easier to verify—not just making a demo appear successful.</p><p>My projects combine implementation with test design and operational review. I separate declared, configured, running, tested, degraded and unknown states; document environment-dependent skips; preserve backups before risky changes; and keep a clear line between validated behavior and the roadmap.</p></div>
+</section>
+
+<section>
+<div class="section-head"><div><h2>Selected engineering work</h2><p>Recorded results are labelled with their evidence date.</p></div><span class="no">02 / PROJECTS</span></div>
+<article class="card">
+<div class="card-top"><div><div class="label">OS-28 · FOUNDATION</div><h3>Local tool routing and access guardrails</h3></div><span class="status">Repair report · 19 Oct 2026</span></div>
+<p>Worked on the Windows-based ANA MAX tooling layer: authenticated local MCP access, catalog accuracy, launcher reliability and a restricted GPT-only profile designed around operation and path policy rather than tool-name filtering alone.</p>
+<ul>
+<li>Kept the broad operator catalog separate from the restricted client surface.</li>
+<li>Added fail-closed behavior for stale or unavailable capability sources rather than claiming unverified tools are present.</li>
+<li>Recorded a 14-tool GPT-only profile backed by a default-deny operation/path policy; the main catalog had 127 names, not all individually proven to work.</li>
+<li>Latest report snapshot: 324 tests passed and one environment-dependent check was explicitly skipped in that run. The report explains the missing authentication environment and records a successful authenticated rerun.</li>
+</ul>
+</article>
+<article class="card">
+<div class="card-top"><div><div class="label">OS-29 · EVOLUTION</div><h3>Operational intelligence and evidence-linked memory</h3></div><span class="status">Local suite · 19 Oct 2026</span></div>
+<p>Built out a separate local companion centred on normalized trace events and lineage, redaction before persistence, explicit target scope, incidents, mission capsules, candidate-versus-validated experience states, and bounded MCP STDIO tooling.</p>
+<ul>
+<li>37 tests passed in the recorded OS-29 suite; compile checks and the MCP STDIO initialize/list/memory-search smoke were reported as passing.</li>
+<li>The reported checkpoint exposed 14 STDIO tools and indexed 375 local documents for SQLite FTS5/BM25 retrieval.</li>
+<li>An end-to-end checkpoint verified three linked persisted events and retrieved both a validation event and a follow-up triage decision.</li>
+<li>Known boundary: lexical retrieval is implemented; vector embeddings, reranking, a full model reasoning loop and the entire 30-module roadmap are not claimed as complete.</li>
+</ul>
+</article>
+<article class="card">
+<div class="card-top"><div><div class="label">PORTFOLIO DEMO</div><h3>Privacy-first browser profile</h3></div><span class="status">Static site</span></div>
+<p>Created a browser-native live profile that personalizes the view using a display name chosen by the visitor, then renders the browser-exposed connection and device hints where supported. It makes no profile upload and does not pretend a static page can read Windows account names, full-system CPU/RAM or process lists.</p>
+</article>
+</section>
+
+<section>
+<div class="section-head"><div><h2>Technical toolkit</h2><p>Technologies grounded in the projects above.</p></div><span class="no">03 / SKILLS</span></div>
+<div class="skillgrid">
+<div class="skill"><strong>Python</strong><span>Local services, collectors, validation, scripts and unit tests.</span></div>
+<div class="skill"><strong>PowerShell / Windows</strong><span>Launchers, process/service diagnostics, safe file workflows and system checks.</span></div>
+<div class="skill"><strong>MCP / JSON-RPC</strong><span>Tool catalogs, STDIO and HTTP integration, narrow client profiles.</span></div>
+<div class="skill"><strong>QA &amp; test evidence</strong><span>pytest, regression checks, smoke tests, syntax checks and explicit skip reporting.</span></div>
+<div class="skill"><strong>SQLite / FTS5 / BM25</strong><span>Local persistence, event-linked records and lexical retrieval.</span></div>
+<div class="skill"><strong>HTML / CSS / JavaScript</strong><span>Responsive interfaces, browser APIs, input handling and static demos.</span></div>
+<div class="skill"><strong>HTTP APIs &amp; telemetry</strong><span>Health endpoints, timeouts, bounded payloads and observable status.</span></div>
+<div class="skill"><strong>Git / documentation</strong><span>Backups, scoped commits, repair reports, handoffs and working notes.</span></div>
+<div class="skill"><strong>Privacy &amp; scope</strong><span>Redaction, local-only checks, explicit targets and clear trust boundaries.</span></div>
+</div>
+</section>
+
+<section>
+<div class="section-head"><div><h2>Working principles</h2><p>The habits I want visible to a hiring manager or collaborator.</p></div><span class="no">04 / METHOD</span></div>
+<div class="principle">A tool appearing in a catalog is not proof that it works. A passing test suite validates the tested surface, not the entire product. A dashboard status is not security certification. I try to make each of those boundaries visible in the code, the tests and the documentation.</div>
+</section>
+
+<section>
+<div class="section-head"><div><h2>LinkedIn “About” draft</h2><p>Copy-ready summary for the profile page; edit to your preferred voice.</p></div><span class="no">05 / INTRO</span></div>
+<div id="linkedinSummary" class="summary-copy">I build local-first AI tooling and Windows automation, with a strong focus on QA, reliability and evidence-driven engineering.
+
+My independent project work centres on ANA MAX OS-28 and OS-29: MCP/JSON-RPC integration, Python and PowerShell workflows, local diagnostics, operation/path guardrails, persistent trace evidence, SQLite-based retrieval and reproducible test suites.
+
+I care about the difference between a feature being declared, connected, tested and genuinely verified. I document limitations, preserve rollback paths and prefer measurable evidence over inflated claims.
+
+Core tools: Python, PowerShell, MCP/JSON-RPC, pytest, SQLite FTS5/BM25, HTTP APIs, HTML/CSS/JavaScript and Git.
+
+Portfolio: https://github.com/gyodragos-cell/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture</div>
+<div class="nav no-print" style="margin-top:12px"><button class="button primary" id="copySummary" type="button">Copy LinkedIn summary</button><a class="button" href="./index.html#projects">View project evidence</a></div>
+</section>
+
+<section>
+<div class="section-head"><div><h2>Verification and scope notes</h2><p>Important context for responsible, accurate presentation.</p></div><span class="no">06 / NOTES</span></div>
+<div class="endnote">All test counts above come from local engineering reports dated 19 October 2026; they are historical report snapshots, not live counters on this public website. OS-29 remains a separate local project and is not yet presented as a published source repository. The examples are independent project work, not a claim of employment by a named company or of a completed commercial security product. No degree, employer, job dates or contact details have been invented.</div>
+</section>
+</main>
+<footer><span>ANA MAX · OS-28 → OS-29</span><span>ENGINEERING PORTFOLIO / FACTUAL EVIDENCE</span><a href="./index.html">Back to portfolio</a></footer>
+</div>
+<script>
+(function(){
+ var printButton=document.getElementById("printButton");
+ if(printButton)printButton.addEventListener("click",function(){window.print();});
+ var copyButton=document.getElementById("copySummary");
+ if(copyButton)copyButton.addEventListener("click",async function(){
+  var text=document.getElementById("linkedinSummary").innerText;
+  try{
+   await navigator.clipboard.writeText(text);
+   copyButton.textContent="Copied ✓";
+  }catch(err){
+   var box=document.createElement("textarea");box.value=text;box.setAttribute("readonly","");box.style.position="fixed";box.style.opacity="0";document.body.appendChild(box);box.select();
+   var ok=false;try{ok=document.execCommand("copy");}catch(e){}
+   box.remove();copyButton.textContent=ok?"Copied ✓":"Select the text above to copy";
+  }
+ });
+})();
+</script>
+</body>
+</html>
