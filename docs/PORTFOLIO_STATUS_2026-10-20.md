@@ -9,6 +9,16 @@
 - **live.html:** browser-native profile demo. The display name is chosen by the visitor and is not uploaded. It uses browser-exposed properties only.
 - **cv.html:** printable CV page and copy-ready LinkedIn “About” draft.
 - Root **README.md:** current entry point. It supersedes the older OS-27-oriented overview.
+- **LinkedIn:** [Professional profile](https://www.linkedin.com/in/gyodragos/).
+
+
+## Hosted demo and runtime prerequisites
+
+The public portfolio is a static GitHub Pages site. Its session panel is a scripted, operator-triggered replay with illustrative events; it does not start commands, connect to the local MCP endpoint, run a test suite or prove that recovery occurred. The replay remains idle until the visitor selects **Play**.
+
+The site now shows local readiness gates explicitly: the intended checkout and Python environment, a reachable loopback MCP service, the selected access profile and approval policy, a permitted diagnostic target, and evidence from a real controlled test. These items are **not checked by the public page**.
+
+The project includes Frida/MITM-oriented diagnostic paths for controlled failure visibility, but an active target hook, proxy interception or end-to-end diagnostic result is not implied by the portfolio. Such work remains dependent on a configured, authorized target and verifiable local evidence.
 
 ## OS-28 evidence on record
 
