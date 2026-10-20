@@ -103,3 +103,6 @@ ANA_MAX/nul
 *openrouter*
 *key*.txt
 apikeys*
+
+# Local browser profiles can contain login data, history and session state; never commit them.
+.duck_profile/
