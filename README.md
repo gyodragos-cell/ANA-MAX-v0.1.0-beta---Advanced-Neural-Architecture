@@ -7,7 +7,7 @@ This repository is the clean OS29 source tree. It does not include the historica
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![OS29 local baseline](https://img.shields.io/badge/OS29%20local%20baseline-37%20passed-2e8b57.svg)](docs/VERIFICATION.md)
-[![Portfolio](https://img.shields.io/badge/Portfolio-GitHub%20Pages-5468ff.svg)](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-GitHub%20Pages-5468ff.svg)](https://gyodragos-cell.github.io/ana-max-os29/)
 
 ## What is included
 
@@ -97,8 +97,8 @@ The local checkpoint dated **19 October 2026** recorded **37 passing tests**, **
 
 ## Public portfolio
 
-- [ANA MAX / OS29 portfolio](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/)
-- [Live Profile demo](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/live.html)
-- [Professional CV](https://gyodragos-cell.github.io/ANA-MAX-v0.1.0-beta---Advanced-Neural-Architecture/cv.html)
+- [ANA MAX / OS29 portfolio](https://gyodragos-cell.github.io/ana-max-os29/)
+- [Live Profile demo](https://gyodragos-cell.github.io/ana-max-os29/live.html)
+- [Professional CV](https://gyodragos-cell.github.io/ana-max-os29/cv.html)
 
 The static portfolio demonstrates the presentation layer only. It does not execute OS29 commands or inspect local runtime state.
