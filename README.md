@@ -4,9 +4,11 @@
 [![Protocol: MCP](https://img.shields.io/badge/Integration-MCP%20%2F%20JSON--RPC-5468ff.svg)](https://modelcontextprotocol.io/)
 [![Status: Active development](https://img.shields.io/badge/Status-Active%20development-2c8c72.svg)](docs/PORTFOLIO_STATUS_2026-10-20.md)
 
-**ANA MAX is an experimental, local-first tooling layer for connecting AI-assisted workflows to Windows development and automation tools.** The project prioritizes practical integrations, scoped operations, observable state and test evidence.
+**ANA MAX** is a local-first engineering project for connecting AI-assisted workflows to Windows development and automation tools through practical integrations, explicit access boundaries, observable behavior and reproducible test evidence.
 
-This repository evolves from the OS-28 foundation. OS-29 is the next engineering line and currently remains a separate local companion project; its source code is not published in this repository yet.
+**Advanced Neural Architecture** is the technical descriptor; ANA MAX is the project name. The portfolio is organized around three principles: make tool access explicit, make system state observable, and make results independently verifiable.
+
+The repository documents the OS-28 foundation. OS-29 is the next engineering line and remains a separate local companion project; its source code is not published in this repository yet. This is an active experimental project, not a claim of production certification.
 
 ## Portfolio links
 
