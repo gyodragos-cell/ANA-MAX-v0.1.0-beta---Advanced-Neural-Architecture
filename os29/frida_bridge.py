@@ -29,15 +29,19 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     args = build_parser().parse_args()
     policy = ScopePolicy(args.scope)
-    try:
-        import frida
-    except ImportError:
-        raise SystemExit("Frida Python bindings are unavailable in this interpreter.")
+    # Enforce target scope before checking optional runtime dependencies. A missing
+    # Frida installation must never mask a denied target or make policy tests flaky.
     device_decision = policy.check_device(args.device_id)
     if not device_decision["allowed"]:
         raise SystemExit(
             f"Frida device refused: {device_decision['reason']}; add the exact device ID to approved_device_ids first."
         )
+    if not args.trace_id or len(args.trace_id) > 128:
+        raise SystemExit("A non-empty trace ID of at most 128 characters is required.")
+    try:
+        import frida
+    except ImportError:
+        raise SystemExit("Frida Python bindings are unavailable in this interpreter.")
     try:
         device = frida.get_device_manager().get_device(args.device_id, timeout=5)
     except Exception as exc:
@@ -51,8 +55,6 @@ def main() -> None:
         raise SystemExit(
             f"Frida attach refused: process name {process.name!r} is not in approved_process_names in {args.scope}"
         )
-    if not args.trace_id or len(args.trace_id) > 128:
-        raise SystemExit("A non-empty trace ID of at most 128 characters is required.")
 
     store = Store(args.db)
     script_path = ROOT / "integrations" / "frida" / "os29_trace.js"
