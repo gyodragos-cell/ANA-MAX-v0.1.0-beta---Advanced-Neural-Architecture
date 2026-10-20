@@ -1,0 +1,40 @@
+name: OS29 Python and integration tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: os29-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install OS29 and test dependencies
+        run: python -m pip install -e ".[test]"
+      - name: Run OS29 test suite
+        run: python -m pytest -q
+      - name: Compile Python source
+        run: python -m compileall -q os29 integrations
+      - name: Check Frida JavaScript syntax
+        run: node --check integrations/frida/os29_trace.js

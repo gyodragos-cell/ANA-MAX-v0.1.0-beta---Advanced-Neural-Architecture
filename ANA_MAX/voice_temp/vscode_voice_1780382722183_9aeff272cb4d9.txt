@@ -1,1 +1,0 @@
-MCP call start graph_context_pack.. Tool start graph_context_pack.

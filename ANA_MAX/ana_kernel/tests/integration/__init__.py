@@ -1,1 +1,0 @@
-# ANA Integration Tests

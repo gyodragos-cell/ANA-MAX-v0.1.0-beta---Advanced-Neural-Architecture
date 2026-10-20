@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "os29-operational-intelligence": {
+      "command": "python",
+      "args": [
+        "-m",
+        "os29.mcp_stdio"
+      ],
+      "env": {
+        "PYTHONPATH": "<absolute-path-to-OS29-repository>",
+        "OS29_DB_PATH": "<absolute-path-to-OS29-repository>/data/os29.db",
+        "OS29_SCOPE_PATH": "<absolute-path-to-OS29-repository>/config/lab_scope.json"
+      }
+    }
+  }
+}

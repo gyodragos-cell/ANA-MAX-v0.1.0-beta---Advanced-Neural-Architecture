@@ -1,1 +1,0 @@
-[GOLDEN-RULE] ANA preflight start: Save a checkpoint only after ANA observes current lab state.

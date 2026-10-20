@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "description": "Explicitly approved UTF-8 text/Markdown sources for OS29 retrieval. The public default intentionally has no operator-specific paths; add local sources only after reviewing their contents.",
+  "limits": {
+    "max_file_bytes": 524288,
+    "max_total_source_bytes": 8388608,
+    "max_files": 200
+  },
+  "files": [],
+  "directories": []
+}

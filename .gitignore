@@ -1,108 +1,44 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.egg
-*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 dist/
 build/
-.eggs/
-*.spec
-
-# Virtual environments
-venv/
+*.egg-info/
 .venv/
-env/
-.env/
-ANA_MAX/venv/
+venv/
 
-# Environment variables
+# Secrets and operator-specific configuration
 .env
-*.env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 
-# Logs
-*.log
-logs/
-ANA_MAX/logs/
-ana_max.log
-errors.log
-
-# Database / Vector stores
+# Runtime and generated evidence
+data/*
+!data/.gitkeep
+logs/*
+!logs/.gitkeep
+artifacts/*
+!artifacts/.gitkeep
 *.db
 *.sqlite
 *.sqlite3
-chroma_db/
-chromadb/
-*.chroma/
-ANA_MAX/chromadb/
-ANA_MAX/chroma_db/
-
-# Screenshots / captures
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.webp
+*.db-shm
+*.db-wal
+*.pml
+*.pcap
+*.pcapng
+*.har
+*.flow
 screenshots/
-captures/
-desktop_*.png
+*.log
+*.jsonl
 
-# Models (too large)
-*.bin
-*.safetensors
-*.gguf
-*.ggml
-models/
-*.model
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# Temp
-tmp/
-temp/
-*.tmp
-*.bak
-
-# OS
-desktop.ini
-$RECYCLE.BIN/
-
-# Secrets / keys
-*.key
-*.pem
-*.p12
-*.pfx
-secrets/
-credentials/
-
-# Session files (private runtime data)
-ANA_MAX/docs/ANA_MEMORY.md
-docs/ANA_MEMORY.md
-
-# Large binary files
-*.zip
-*.tar.gz
-*.rar
-*.7z
-
-# Node (if any)
+# Browser/test output
 node_modules/
-
-nul
-ANA_MAX/nul
-
-*openrouter*
-*key*.txt
-apikeys*
-
-# Local browser profiles can contain login data, history and session state; never commit them.
-.duck_profile/
+playwright-report/
+test-results/

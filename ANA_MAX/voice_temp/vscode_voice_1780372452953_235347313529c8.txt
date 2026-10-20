@@ -1,1 +1,0 @@
-[AUTO-START] Extension activated; opening Live Console, voice bridge, and MCP runtime.

@@ -1,4 +1,0 @@
-kokoro-onnx
-sounddevice
-numpy
-scipy

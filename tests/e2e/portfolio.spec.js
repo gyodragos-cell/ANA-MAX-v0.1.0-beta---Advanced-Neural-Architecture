@@ -19,7 +19,7 @@ test("homepage navigation points to real sections and portfolio pages", async ({
 
   const response = await page.goto("/");
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveTitle(/ANA MAX OS-28.*OS-29/);
+  await expect(page).toHaveTitle(/ANA MAX OS29/);
   const mainHeading = page.getByRole("heading", { level: 1 });
   await expect(mainHeading).toContainText("Build local tools.");
   await expect(mainHeading).toContainText("Keep evidence.");

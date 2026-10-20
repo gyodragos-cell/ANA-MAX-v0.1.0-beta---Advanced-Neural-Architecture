@@ -1,1 +1,0 @@
-[GOLDEN-RULE] ANA preflight start: Generate session audit after ANA verifies current context and trust signals.

@@ -1,1 +1,0 @@
-# ANA MAX OS v2

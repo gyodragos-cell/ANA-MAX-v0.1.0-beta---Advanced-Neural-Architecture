@@ -1,2 +1,0 @@
-"""ANA MAX package."""
-

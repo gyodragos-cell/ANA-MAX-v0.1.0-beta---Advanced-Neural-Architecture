@@ -10,10 +10,7 @@ export default defineConfig({
   workers: isCI ? 2 : undefined,
   timeout: 30_000,
   expect: { timeout: 5_000 },
-  reporter: [
-    ["list"],
-    ["html", { outputFolder: "playwright-report", open: "never" }]
-  ],
+  reporter: [["list"], ["html", { outputFolder: "playwright-report", open: "never" }]],
   outputDir: "test-results",
   use: {
     baseURL: "http://127.0.0.1:4173",
@@ -21,11 +18,9 @@ export default defineConfig({
     screenshot: "only-on-failure",
     viewport: { width: 1280, height: 800 }
   },
-  projects: [
-    { name: "chromium", use: { browserName: "chromium" } }
-  ],
+  projects: [{ name: "chromium", use: { browserName: "chromium" } }],
   webServer: {
-    command: "python -m http.server 4173 --bind 127.0.0.1",
+    command: "python -m http.server 4173 --bind 127.0.0.1 --directory site/portfolio",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !isCI,
     timeout: 30_000

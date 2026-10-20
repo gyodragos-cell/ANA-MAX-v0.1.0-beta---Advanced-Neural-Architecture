@@ -1,4 +1,0 @@
-# Root convenience requirements shim for the ANA MAX lab.
-# Canonical dependency list lives in ANA_MAX/requirements.txt.
--r ANA_MAX/requirements.txt
-

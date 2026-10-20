@@ -1,1 +1,0 @@
-[GOLDEN-RULE] ANA preflight start: Package/check extension without reload after ANA confirms context and risks.

@@ -1,0 +1,39 @@
+{
+  "schema_version": "os29.scope.v1",
+  "mode": "dev_pentest",
+  "default_action": "deny",
+  "approved_hosts": [
+    "127.0.0.1",
+    "localhost",
+    "::1"
+  ],
+  "approved_networks": [
+    "127.0.0.1/32",
+    "::1/128"
+  ],
+  "approved_ports": [
+    8766,
+    8771,
+    8772
+  ],
+  "approved_device_ids": [],
+  "approved_process_names": [],
+  "capture": {
+    "enabled": true,
+    "record_request_bodies": false,
+    "record_response_bodies": false,
+    "record_header_values": false,
+    "store_full_urls": false,
+    "max_event_bytes": 1048576
+  },
+  "privacy": {
+    "redact_sensitive_values": true,
+    "max_text_length": 2000,
+    "retention_days": 30
+  },
+  "policy_notes": [
+    "Loopback-only by default. Explicitly approve any additional target and time window.",
+    "Frida requires exact approved device ID and process executable name.",
+    "HTTP bodies and raw header values are disabled by default."
+  ]
+}
