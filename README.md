@@ -69,6 +69,8 @@ Python is the primary implementation language, with PowerShell for Windows workf
 
 Use the project-specific setup instructions and the test scope relevant to the component you change. Because this repository contains historical and experimental directories, do not assume that every script, launcher or folder is part of the default runtime.
 
+A non-destructive inventory of the current root tree and a dependency-aware cleanup plan are documented in [the repository map](docs/REPOSITORY_MAP_2026-10-20.md).
+
 ## Engineering principle
 
 **Make the state observable. Make the scope explicit. Make the evidence reproducible.**
